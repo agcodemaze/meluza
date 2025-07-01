@@ -159,6 +159,10 @@
                            <i class="nav-icon mdi mdi-home"></i>
                            <p>Home</p>
                         </a>
+                        <a href="#" class="nav-link">
+                           <i class="nav-icon mdi mdi-home"></i>
+                           <p>Home</p>
+                        </a>
                      </li>
                   </ul>
                   <!--end::Sidebar Menu--> 
