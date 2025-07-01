@@ -159,9 +159,23 @@
                            <i class="nav-icon mdi mdi-home"></i>
                            <p>Home</p>
                         </a>
+                     </li>
+                     <li class="nav-item">
                         <a href="#" class="nav-link">
-                           <i class="nav-icon mdi mdi-home"></i>
-                           <p>Home</p>
+                           <i class="nav-icon mdi mdi-account-multiple"></i>
+                           <p>Clientes</p>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a href="#" class="nav-link">
+                           <i class="nav-icon mdi mdi-calendar-check"></i>
+                           <p>Agenda</p>
+                        </a>
+                     </li>
+                     <li class="nav-item">
+                        <a href="#" class="nav-link">
+                           <i class="nav-icon mdi mdi-file-chart"></i>
+                           <p>Relatório</p>
                         </a>
                      </li>
                   </ul>
