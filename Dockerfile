@@ -15,19 +15,15 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copia os arquivos do projeto para a pasta do Apache
 COPY . /var/www/html/
 
-# Instala dependências via Composer
+# Instala dependências do projeto (php-jwt, aws-sdk, etc)
 WORKDIR /var/www/html
 RUN composer install || true
 
-# Copia e dá permissão ao script de entrada
-COPY entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-
-# Define permissões corretas
+# Define permissões corretas para o Apache
 RUN chown -R www-data:www-data /var/www/html && \
     chmod -R 755 /var/www/html
 
-# Copia e ativa o crontab, se existir
+# Copia e ativa a crontab, se existir
 COPY crontab.txt /var/spool/cron/crontabs/root
 RUN chmod 600 /var/spool/cron/crontabs/root || true && \
     crontab /var/spool/cron/crontabs/root || true
@@ -35,23 +31,23 @@ RUN chmod 600 /var/spool/cron/crontabs/root || true && \
 # Habilita o módulo rewrite do Apache
 RUN a2enmod rewrite
 
-# Configura o PHP
+# Ajusta configurações do php.ini
 RUN echo "upload_max_filesize = 50M" >> /usr/local/etc/php/php.ini && \
     echo "post_max_size = 50M" >> /usr/local/etc/php/php.ini
 
-# Configura o Apache
+# Configura o Apache para servir a pasta /var/www/html
 RUN echo "DocumentRoot /var/www/html" > /etc/apache2/sites-available/000-default.conf && \
     echo "<Directory /var/www/html>" >> /etc/apache2/sites-available/000-default.conf && \
     echo "    AllowOverride All" >> /etc/apache2/sites-available/000-default.conf && \
     echo "    Require all granted" >> /etc/apache2/sites-available/000-default.conf && \
     echo "</Directory>" >> /etc/apache2/sites-available/000-default.conf
 
-# Timezone
+# Configura timezone
 RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
     echo "America/Sao_Paulo" > /etc/timezone
 
-# Expor a porta 80
+# Expõe a porta padrão do Apache
 EXPOSE 80
 
-# Usar o entrypoint customizado
-CMD ["/entrypoint.sh"]
+# Inicia o Apache no foreground (mantém o container rodando)
+CMD ["apache2-foreground"]
