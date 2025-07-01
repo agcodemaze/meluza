@@ -14,7 +14,7 @@
       <meta name="supported-color-schemes" content="light dark">  
       <link rel="preload" href="css/adminlte.css" as="style">
       <link rel="stylesheet" href="css/overlayscrollbars.min.css">
-      <link rel="stylesheet" href="css/materialdesignicons.min.css">
+      <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
       <link rel="stylesheet" href="css/adminlte.css">
    </head>
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
