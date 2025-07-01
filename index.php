@@ -22,15 +22,15 @@
       <!--begin::Accessibility Features-->
       <meta name="supported-color-schemes" content="light dark">     
      
-      <link rel="preload" href="./css/adminlte.css" as="style">
+      <link rel="preload" href="css/adminlte.css" as="style">
       <!--end::Accessibility Features--><!--begin::Fonts-->
-      <link rel="stylesheet" href="./css/index.css" media="print" onload="this.media='all'">
+      <link rel="stylesheet" href="css/index.css" media="print" onload="this.media='all'">
       <!--end::Fonts--><!--begin::Third Party Plugin(OverlayScrollbars)-->
-      <link rel="stylesheet" href="./css/overlayscrollbars.min.css">
+      <link rel="stylesheet" href="css/overlayscrollbars.min.css">
       <!--end::Third Party Plugin(OverlayScrollbars)--><!--begin::Third Party Plugin(Bootstrap Icons)-->
-      <link rel="stylesheet" href="./css/bootstrap-icons.min.css">
+      <link rel="stylesheet" href="css/bootstrap-icons.min.css">
       <!--end::Third Party Plugin(Bootstrap Icons)--><!--begin::Required Plugin(AdminLTE)-->
-      <link rel="stylesheet" href="./css/adminlte.css">
+      <link rel="stylesheet" href="css/adminlte.css">
    </head>
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
       <!--begin::App Wrapper--> 
