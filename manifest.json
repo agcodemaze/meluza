@@ -1,0 +1,21 @@
+{
+    "name": "Condomaze Admin",
+    "short_name": "Condomaze Admin",
+    "description": "Aplicação PWA para Condomaze",
+    "start_url": "https://admin.condomaze.com.br/login",
+    "display": "standalone",
+    "background_color": "#000000",
+    "theme_color": "#000000",
+    "icons": [
+      {
+        "src": "img_pwa/logo_icon.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      },
+      {
+        "src": "img_pwa/logo_icon.png",
+        "sizes": "128x128",
+        "type": "image/png"
+      }
+    ]
+  }
