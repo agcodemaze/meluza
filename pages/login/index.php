@@ -94,7 +94,7 @@ include_once BASE_PATH . "objects/objects.php";
                         .catch(error => console.error('Erro:', error));
                     });
 
-                    function enviarParaConciliar(condo, userinfo) {
+                    function enviarParaConciliar(userinfo) {
                         fetch('pages/login/genJwt.php', {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
