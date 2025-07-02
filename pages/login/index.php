@@ -13,7 +13,7 @@ $siteAdmin = new SITE_ADMIN();
 	<?php include_once BASE_PATH . "src/head.php"; ?>
 
    </head>
-   <body class="register-page bg-body-secondary">
+   <body class="register-page bg-light">
       <div class="register-box">
          <div class="register-logo"> <a href="#"><img src="/assets/img/meluza_logo_90.png" alt="Meluza" width="200" style="height:auto;"></div>
          <!-- /.register-logo --> 
@@ -42,7 +42,7 @@ $siteAdmin = new SITE_ADMIN();
                      </div>
                      <!-- /.col --> 
                      <div class="col-4">
-                        <div class="d-grid gap-2"> <button type="submit" class="btn btn-primary">Entrar</button> </div>
+                        <div class="d-grid gap-2"> <button type="submit" class="btn btn-success">Entrar</button> </div>
                      </div>
                      <!-- /.col --> 
                   </div>
