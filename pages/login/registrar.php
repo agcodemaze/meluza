@@ -69,12 +69,7 @@ $siteAdmin = new SITE_ADMIN();
       event.preventDefault(); // Impede o envio padrão do formulário
     
       var form = document.getElementById("form");
-    
-      if (!form.checkValidity()) {
-        form.reportValidity(); // Mostra o aviso nativo do navegador
-        return; // Para aqui se o formulário não for válido
-      }
-    
+       
       // Se o form estiver válido, continua o SweetAlert normalmente:
       Swal.fire({
         title: 'Formulário de Usuários',
