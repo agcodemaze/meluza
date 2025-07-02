@@ -39,7 +39,7 @@ include_once BASE_PATH . "objects/objects.php";
                      <div class="input-group-text"> <span class="bi bi-envelope"></span> </div>
                   </div>
                   <div class="input-group mb-3">
-                     <input id="senha" type="password" class="form-control" placeholder="Senha"> 
+                     <input id="password" type="password" class="form-control" placeholder="Senha"> 
                      <div class="input-group-text"> <span class="bi bi-lock-fill"></span> </div>
                   </div>
                   <!--begin::Row--> 
