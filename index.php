@@ -29,7 +29,7 @@
                </ul>
                <ul class="navbar-nav ms-auto">
                   <li class="nav-item dropdown user-menu">
-                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> <img src="/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User Image"> <span class="d-none d-md-inline">Alexander Pierce</span> </a> 
+                     <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown"> <img src="/assets/img/user2-160x160.jpg" class="user-image rounded-circle shadow" alt="User Image"> <span class="d-none d-md-inline">Terezinha de Jesus</span> </a> 
                      <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-end">
                         <li class="user-header text-bg-primary">
                            <img src="/assets/img/user2-160x160.jpg" class="rounded-circle shadow" alt="User Image"> 
@@ -43,26 +43,17 @@
                         </li>
                      </ul>
                   </li>
-                  <!--end::User Menu Dropdown--> 
                </ul>
-               <!--end::End Navbar Links--> 
             </div>
-            <!--end::Container--> 
          </nav>
-         <!--end::Header--> <!--begin::Sidebar-->
          <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
-            <!--begin::Sidebar Brand--> 
             <div class="sidebar-brand">
-               <!--begin::Brand Link--> 
                <a href="./index.html" class="brand-link">
-                  <!--begin::Brand Image--> <img src="/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow"> <!--end::Brand Image--> <!--begin::Brand Text--> <span class="brand-text fw-light">AdminLTE 4</span> <!--end::Brand Text--> 
+                  <img src="/assets/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow"> <!--end::Brand Image--> <!--begin::Brand Text--> <span class="brand-text fw-light">AdminLTE 4</span> <!--end::Brand Text--> 
                </a>
-               <!--end::Brand Link--> 
             </div>
-            <!--end::Sidebar Brand--> <!--begin::Sidebar Wrapper--> 
             <div class="sidebar-wrapper">
                <nav class="mt-2">
-                  <!--begin::Sidebar Menu--> 
                   <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
                      <li class="nav-header">NAVEGAÇÃO</li>
                      <li class="nav-item">
@@ -90,18 +81,12 @@
                         </a>
                      </li>
                   </ul>
-                  <!--end::Sidebar Menu--> 
                </nav>
             </div>
-            <!--end::Sidebar Wrapper--> 
          </aside>
-         <!--end::Sidebar--> <!--begin::App Main--> 
          <main class="app-main">
-            <!--begin::App Content Header--> 
             <div class="app-content-header">
-               <!--begin::Container--> 
                <div class="container-fluid">
-                  <!--begin::Row--> 
                   <div class="row">
                      <div class="col-sm-6">
                         <h3 class="mb-0">Dashboard v2</h3>
@@ -115,33 +100,21 @@
                         </ol>
                      </div>
                   </div>
-                  <!--end::Row--> 
                </div>
-               <!--end::Container--> 
             </div>
             <div class="app-content">
-               <!--begin::Container--> 
                <div class="container-fluid">
 
 aaa
                
                </div>
-               <!--end::Container--> 
             </div>
-            <!--end::App Content--> 
          </main>
-         <!--end::App Main--> <!--begin::Footer-->
          <footer class="app-footer">
-            <!--begin::To the end--> 
-            <div class="float-end d-none d-sm-inline">Anything you want</div>
-            <!--end::To the end--> <!--begin::Copyright--> <strong>
-            Copyright &copy; 2014-2025&nbsp;
-            <a href="https://adminlte.io" class="text-decoration-none">AdminLTE.io</a>.
-            </strong>
-            All rights reserved.
-            <!--end::Copyright--> 
+            <strong>
+            Meluza &copy; 2014-2025&nbsp;
+            <a href="https://codemaze.com.br" class="text-decoration-none">Codemaze</a>.
          </footer>
-         <!--end::Footer--> 
       </div>
       <script src="./js/overlayscrollbars.browser.es6.min.js"></script>
       <script src="./js/popper.min.js"></script>
