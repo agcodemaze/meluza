@@ -27,17 +27,17 @@ include_once BASE_PATH . "objects/objects.php";
 
    </head>
 <style>
-   .register-box {
-     width: 100%;
-     max-width: 400px;
-     margin: auto;
-   }
+  .register-box {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+  }
 
-   @media (max-width: 768px) {
-     .register-box {
-       width: 80%;
-     }
-   }
+  @media (max-width: 768px) {
+    .register-box {
+      width: 80vw !important; 
+    }
+  }
 </style>
    <body class="register-page bg-light">
       <div id="splash-screen" style="position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; display: flex; align-items: center; justify-content: center;">
