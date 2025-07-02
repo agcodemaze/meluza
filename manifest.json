@@ -2,7 +2,7 @@
     "name": "Meluza",
     "short_name": "Meluza",
     "description": "Aplicação PWA para Meluza",
-    "start_url": "https://cliente.meluza.com.br/login",
+    "start_url": "https://cliente.meluza.com.br",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#000000",
