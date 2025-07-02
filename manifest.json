@@ -1,8 +1,8 @@
 {
-    "name": "Condomaze Admin",
-    "short_name": "Condomaze Admin",
-    "description": "Aplicação PWA para Condomaze",
-    "start_url": "https://admin.condomaze.com.br/login",
+    "name": "Meluza",
+    "short_name": "Meluza",
+    "description": "Aplicação PWA para Meluza",
+    "start_url": "https://cliente.meluza.com.br/login",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#000000",
