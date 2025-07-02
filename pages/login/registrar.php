@@ -48,12 +48,6 @@ $siteAdmin = new SITE_ADMIN();
                   </div>
                   <!--end::Row--> 
                </form>
-               <div class="social-auth-links text-center mb-3 d-grid gap-2">
-                  <p>- OU -</p>
-                  <a href="#" class="btn btn-primary"> <i class="bi bi-facebook me-2"></i> Entre usando o Facebook
-                  </a> <a href="#" class="btn btn-danger"> <i class="bi bi-google me-2"></i> Entre usando o Google+
-                  </a> 
-               </div>
                <!-- /.social-auth-links --> 
                <p class="mb-0"> <a href="login.html" class="text-center">
                   Eu já sou cadastrado(a)
@@ -64,6 +58,9 @@ $siteAdmin = new SITE_ADMIN();
          </div>
       </div>
 
+      <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+
+      
   <script>
     function confirmAndSubmit(event) {
       event.preventDefault(); // Impede o envio padrão do formulário
