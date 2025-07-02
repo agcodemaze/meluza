@@ -107,7 +107,7 @@ $siteAdmin = new SITE_ADMIN();
           var formData = new FormData($("#form")[0]);
         
           $.ajax({
-            url: "registrarProc.php",
+            url: "/registrarProc",
             type: "POST",
             data: formData,
             processData: false,
