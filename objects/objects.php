@@ -43,7 +43,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
 
             if ($user && password_verify($USU_DCSENHA, $user['USU_DCSENHA'])) 
             {
-                return json_encode(["success" => true, "message" => "Credenciais válidas!", "userinfo" => $users]);
+                return json_encode(["success" => true, "message" => "Credenciais válidas!", "userinfo" => $user]);
             }
             else
                 {                
