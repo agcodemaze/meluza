@@ -43,20 +43,12 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
 
             if ($user && password_verify($USU_DCSENHA, $user['USU_DCSENHA'])) 
             {
-                $arrayCondominios = $this->getCondominiosByUserId($user['USU_IDUSUARIO']); //busca lista de condo  
-
-                if(count($arrayCondominios) == 0)
-                {
-                    return json_encode(["success" => false, "message" => "Usuário não está cadastrado em nenhum condomínio."]);
-                }
-
-                return json_encode(["success" => true, "message" => "Credenciais válidas!", "userinfo" => $user, "condominios" => $arrayCondominios]);
+                return json_encode(["success" => true, "message" => "Credenciais válidas!", "userinfo" => $users]);
             }
             else
                 {                
                     return json_encode(["success" => false, "message" => "Credenciais inválidas!"]);
                 }
-
         }
 
         public function notifyUsuarioEmail($SUBJECT, $MSG, $EMAIL, $anexo = "na")

@@ -1,8 +1,21 @@
 <?php
-//require BASE_PATH . "src/auth.php"; 
+$lifetime = 60 * 60 * 24 * 7; 
+session_set_cookie_params([
+    'lifetime' => $lifetime,
+    'path' => '/',
+    'domain' => 'condomaze.com.br', 
+    'secure' => isset($_SERVER['HTTPS']),
+    'httponly' => true, 
+    'samesite' => 'Lax' 
+]);
+
+ini_set('session.gc_maxlifetime', $lifetime);
+ini_set('session.cookie_lifetime', $lifetime);
+
+session_start();
+
 include_once BASE_PATH . "objects/objects.php";
 
-$siteAdmin = new SITE_ADMIN(); 
 
 ?>
 
@@ -20,13 +33,13 @@ $siteAdmin = new SITE_ADMIN();
          <div class="card">
             <div class="card-body login-card-body">
                <p class="login-box-msg">Seja bem vindo(a)</p>
-               <form action="../index3.html" method="post">
+               <form id="loginForm">
                   <div class="input-group mb-3">
-                     <input type="email" class="form-control" placeholder="E-mail"> 
+                     <input id="email" type="email" class="form-control" placeholder="E-mail"> 
                      <div class="input-group-text"> <span class="bi bi-envelope"></span> </div>
                   </div>
                   <div class="input-group mb-3">
-                     <input type="password" class="form-control" placeholder="Senha"> 
+                     <input id="senha" type="password" class="form-control" placeholder="Senha"> 
                      <div class="input-group-text"> <span class="bi bi-lock-fill"></span> </div>
                   </div>
                   <!--begin::Row--> 
@@ -55,6 +68,53 @@ $siteAdmin = new SITE_ADMIN();
             <!-- /.login-card-body --> 
          </div>
       </div>
+
+                  <script>
+                    document.getElementById('loginForm').addEventListener('submit', function(event) {
+                        event.preventDefault();
+
+                        const email = document.getElementById('email').value;
+                        const password = document.getElementById('password').value;
+
+                        fetch('pages/login/login.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email, senha: password })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                const userinfo = data.userinfo;                           
+                                 enviarParaConciliar(userinfo);                 
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => console.error('Erro:', error));
+                    });
+
+                    function enviarParaConciliar(condo, userinfo) {
+                        fetch('pages/login/genJwt.php', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                        userinfo: userinfo
+                                    })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                window.location.href = `/inicial`;
+                            } else {
+                                alert(data.message || 'Erro ao processar usuário.');
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Erro:', error);
+                            alert('Erro ao comunicar com o servidor.');
+                        });
+                    }
+                  </script>
 
       <script src="../../js/overlayscrollbars.browser.es6.min.js"></script>
       <script src="../../js/popper.min.js"></script>
