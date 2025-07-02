@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
-      
+
     <!-- HEAD META BASIC LOAD-->
-	<?php include_once BASE_PATH . "src/headMeta.php"; ?>
+	<?php include_once BASE_PATH . "src/head.php"; ?>
 	<!-- HEAD META BASIC LOAD -->
 
    </head>
