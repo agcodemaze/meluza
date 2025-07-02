@@ -16,7 +16,7 @@
       <link rel="stylesheet" href="css/overlayscrollbars.min.css">
       <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" crossorigin="anonymous">
-      <link rel="stylesheet" href="css/adminlte.css">
+      <link rel="stylesheet" href="../../css/adminlte.css">
    </head>
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
       <div class="app-wrapper">
@@ -116,10 +116,10 @@ aaa
             <a href="https://codemaze.com.br" class="text-decoration-none">Codemaze</a>.
          </footer>
       </div>
-      <script src="./js/overlayscrollbars.browser.es6.min.js"></script>
-      <script src="./js/popper.min.js"></script>
-      <script src="./js/bootstrap.min.js"></script>
-      <script src="./js/adminlte.js"></script>
+      <script src="../../js/overlayscrollbars.browser.es6.min.js"></script>
+      <script src="../../js/popper.min.js"></script>
+      <script src="../../js/bootstrap.min.js"></script>
+      <script src="../../js/adminlte.js"></script>
 
       <script>
         const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper"
@@ -147,13 +147,13 @@ aaa
    
       <script>
         document.addEventListener('DOMContentLoaded', () => {
-          const cssLink = document.querySelector('link[href*="css/adminlte.css"]');
+          const cssLink = document.querySelector('link[href*="../../css/adminlte.css"]');
           if (!cssLink) return;
       
           const cssHref = cssLink.getAttribute('href');
-          const deploymentPath = cssHref.slice(0, cssHref.indexOf('css/adminlte.css'));
+          const deploymentPath = cssHref.slice(0, cssHref.indexOf('../../css/adminlte.css'));
       
-          document.querySelectorAll('img[src^="/assets/"]').forEach(img => {
+          document.querySelectorAll('img[src^="../../assets/"]').forEach(img => {
             const originalSrc = img.getAttribute('src');
             if (originalSrc) {
               const relativeSrc = originalSrc.slice(1);
