@@ -18,47 +18,49 @@ $siteAdmin = new SITE_ADMIN();
          <div class="register-logo"> <a href="#"><img src="/assets/img/meluza_logo_90.png" alt="Meluza" width="200" style="height:auto;"></a></div>
          <!-- /.register-logo --> 
          <div class="card">
-            <div class="card-body login-card-body">
-               <p class="login-box-msg">Login</p>
+            <div class="card-body register-card-body">
+               <p class="register-box-msg">Registrar-se</p>
                <form action="../index3.html" method="post">
                   <div class="input-group mb-3">
-                     <input type="email" class="form-control" placeholder="Email"> 
+                     <input id="nome" type="text" class="form-control" placeholder="Nome Completo"> 
+                     <div class="input-group-text"> <span class="bi bi-person"></span> </div>
+                  </div>
+                  <div class="input-group mb-3">
+                     <input id="email" type="email" class="form-control" placeholder="E-mail"> 
                      <div class="input-group-text"> <span class="bi bi-envelope"></span> </div>
                   </div>
                   <div class="input-group mb-3">
-                     <input type="password" class="form-control" placeholder="Password"> 
+                     <input id="senha" type="password" class="form-control" placeholder="Senha"> 
                      <div class="input-group-text"> <span class="bi bi-lock-fill"></span> </div>
                   </div>
                   <!--begin::Row--> 
                   <div class="row">
                      <div class="col-8">
                         <div class="form-check"> <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"> <label class="form-check-label" for="flexCheckDefault">
-                           Manter conectado
-                           </label> 
+                           Eu aceito os <a href="#">termos</a> </label> 
                         </div>
                      </div>
                      <!-- /.col --> 
                      <div class="col-4">
-                        <div class="d-grid gap-2"> <button type="submit" class="btn btn-primary">Sign In</button> </div>
+                        <div class="d-grid gap-2"> <button type="submit" class="btn btn-success">Entrar</button> </div>
                      </div>
                      <!-- /.col --> 
                   </div>
                   <!--end::Row--> 
                </form>
                <div class="social-auth-links text-center mb-3 d-grid gap-2">
-                  <p>- OR -</p>
+                  <p>- OU -</p>
                   <a href="#" class="btn btn-primary"> <i class="bi bi-facebook me-2"></i> Entre usando o Facebook
                   </a> <a href="#" class="btn btn-danger"> <i class="bi bi-google me-2"></i> Entre usando o Google+
                   </a> 
                </div>
                <!-- /.social-auth-links --> 
-               <p class="mb-1"> <a href="forgot-password.html">Esqueci minha senha</a> </p>
-               <p class="mb-0"> <a href="register.html" class="text-center">
-                  Registrar-se
+               <p class="mb-0"> <a href="login.html" class="text-center">
+                  Eu já sou cadastrado(a)
                   </a> 
                </p>
             </div>
-            <!-- /.login-card-body --> 
+            <!-- /.register-card-body --> 
          </div>
       </div>
 
