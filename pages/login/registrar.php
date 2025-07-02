@@ -20,17 +20,17 @@ $siteAdmin = new SITE_ADMIN();
          <div class="card">
             <div class="card-body register-card-body">
                <p class="register-box-msg">Registrar-se</p>
-               <form action="../index3.html" method="post">
+               <form id="form" name="form" role="form" method="POST" enctype="multipart/form-data">
                   <div class="input-group mb-3">
                      <input id="nome" type="text" class="form-control" placeholder="Nome Completo"> 
                      <div class="input-group-text"> <span class="bi bi-person"></span> </div>
                   </div>
                   <div class="input-group mb-3">
-                     <input id="email" type="email" class="form-control" placeholder="E-mail"> 
+                     <input id="email_user" type="email" class="form-control" placeholder="E-mail"> 
                      <div class="input-group-text"> <span class="bi bi-envelope"></span> </div>
                   </div>
                   <div class="input-group mb-3">
-                     <input id="senha" type="password" class="form-control" placeholder="Senha"> 
+                     <input id="senha_user" type="password" class="form-control" placeholder="Senha"> 
                      <div class="input-group-text"> <span class="bi bi-lock-fill"></span> </div>
                   </div>
                   <!--begin::Row--> 
@@ -42,7 +42,7 @@ $siteAdmin = new SITE_ADMIN();
                      </div>
                      <!-- /.col --> 
                      <div class="col-4">
-                        <div class="d-grid gap-2"> <button type="submit" class="btn btn-success">Entrar</button> </div>
+                        <div class="d-grid gap-2"> <button id="botao" name="botao" type="submit" class="btn btn-success">Cadastra-se</button> </div>
                      </div>
                      <!-- /.col --> 
                   </div>
@@ -63,6 +63,142 @@ $siteAdmin = new SITE_ADMIN();
             <!-- /.register-card-body --> 
          </div>
       </div>
+
+  <script>
+    function confirmAndSubmit(event) {
+      event.preventDefault(); // Impede o envio padrão do formulário
+    
+      var form = document.getElementById("form");
+    
+      if (!form.checkValidity()) {
+        form.reportValidity(); // Mostra o aviso nativo do navegador
+        return; // Para aqui se o formulário não for válido
+      }
+    
+      // Se o form estiver válido, continua o SweetAlert normalmente:
+      Swal.fire({
+        title: 'Formulário de Usuários',
+        text: 'Tem certeza que deseja cadastrar-se?',
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonText: 'CONFIRMAR',
+        denyButtonText: 'CANCELAR',
+        confirmButtonColor: "#2be4c6",
+        denyButtonColor: "#8c52ff",
+        background: "#343a40",
+        color: "#a1b6c2",
+        width: '420px',
+        customClass: {
+          title: 'swal-title',
+          content: 'swal-content',
+          confirmButton: 'swal-confirm-btn',
+          denyButton: 'swal-deny-btn',
+          htmlContainer: 'swal-text'
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+        
+          // Mostra o alerta de carregamento
+          Swal.fire({
+            title: 'Enviando dados...',
+            text: 'Aguarde enquanto processamos o cadastro.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+            background: "#343a40",
+            color: "#a1b6c2",
+            width: '420px'
+          });
+        
+          var formData = new FormData($("#form")[0]);
+        
+          $.ajax({
+            url: "/registrarProc",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (response) {
+              Swal.close(); // Fecha o loading
+            
+              if (response.success) {
+                Swal.fire({
+                  title: 'Sucesso!',
+                  text: response.message,
+                  icon: 'success',
+                  width: '420px',
+                  confirmButtonColor: "#2be4c6",
+                  background: "#343a40",
+                  color: "#a1b6c2",
+                  customClass: {
+                    title: 'swal-title',
+                    content: 'swal-content',
+                    htmlContainer: 'swal-text',
+                    confirmButton: 'swal-confirm-btn'
+                  }
+                }).then(() => {
+                  window.location.href = "/login";
+                });
+              } else {
+                Swal.fire({
+                  title: 'Erro!',
+                  text: response.message,
+                  icon: 'error',
+                  width: '420px',
+                  confirmButtonColor: "#2be4c6",
+                  background: "#1e1e1e",
+                  color: "#a1b6c2",
+                  customClass: {
+                    title: 'swal-title',
+                    content: 'swal-content',
+                    htmlContainer: 'swal-text',
+                    confirmButton: 'swal-confirm-btn'
+                  }
+                });
+              }
+            },
+            error: function (xhr, status, error) {
+              Swal.close(); // Fecha o loading
+            
+              Swal.fire({
+                title: 'Erro!',
+                text: 'Erro ao cadastrar o usuário: ' + error,
+                icon: 'error',
+                width: '420px',
+                confirmButtonColor: "#2be4c6",
+                background: "#343a40",
+                color: "#a1b6c2",
+                customClass: {
+                  title: 'swal-title',
+                  content: 'swal-content',
+                  htmlContainer: 'swal-text',
+                  confirmButton: 'swal-confirm-btn'
+                }
+              });
+            }
+          });
+        
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          Swal.fire({
+            title: 'Cancelado',
+            text: 'Nenhuma alteração foi feita.',
+            icon: 'info',
+            width: '420px',
+            confirmButtonColor: "#8c52ff",
+            background: "#343a40",
+            color: "#a1b6c2"
+          });
+        }
+      });
+    }
+
+    $(document).ready(function () {
+      $("#botao").on("click", confirmAndSubmit);
+    });
+  </script>
 
       <script src="../../js/overlayscrollbars.browser.es6.min.js"></script>
       <script src="../../js/popper.min.js"></script>

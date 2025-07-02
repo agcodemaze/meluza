@@ -87,5 +87,36 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }
         }
 
+        public function insertUserInfo($USU_DCEMAIL, $USU_DCNOME, $USU_DCSENHA)
+        {       
+            if (!$this->pdo) {
+                $this->conexao();
+            } 
+
+            $now = new DateTime(); 
+            $DATA = $now->format('Y-m-d H:i:s');
+
+            try {
+                $sql = "INSERT INTO USU_USUARIO 
+                        (USU_DCEMAIL, USU_DCNOME, USU_DCSENHA) 
+                        VALUES (:USU_DCEMAIL, :USU_DCNOME, :USU_DCSENHA)";
+
+                $stmt = $this->pdo->prepare($sql);
+            
+                // Liga os parâmetros aos valores
+                $stmt->bindParam(':USU_DCEMAIL', $USU_DCEMAIL, PDO::PARAM_STR);
+                $stmt->bindParam(':USU_DCNOME', $USU_DCNOME, PDO::PARAM_STR);
+                $stmt->bindParam(':USU_DCSENHA', $USU_DCSENHA, PDO::PARAM_STR);
+                
+                $stmt->execute();   
+                
+                $response = array("success" => true, "message" => "Usuário cadastrado com sucesso.");
+                return json_encode($response); 
+
+            } catch (PDOException $e) {
+                return $e->getMessage();   
+            }            
+        }
+
     }
 ?>
