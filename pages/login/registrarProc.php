@@ -19,7 +19,7 @@ class registerUser extends SITE_ADMIN
                     WHERE 
                     USU_DCEMAIL = :USU_DCEMAIL";
         
-            $stmt = $this->pdoSistema->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':USU_DCEMAIL', $email, PDO::PARAM_STR);
             $stmt->execute();
             
