@@ -1,7 +1,5 @@
 <?php
-require BASE_PATH . "src/auth.php";
 include_once BASE_PATH . "objects/objects.php";   
-include_once BASE_PATH . "objects/objects_s3.php";  
 header('Content-Type: application/json');
 
 class registerUser extends SITE_ADMIN
