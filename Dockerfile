@@ -1,4 +1,4 @@
-# Usando a imagem oficial do PHP 8.1 com Apache
+# Usando a imagem oficial do PHP 8.1 com Apache 
 FROM php:8.1-apache
 
 # Atualiza pacotes e instala extensões necessárias
@@ -21,17 +21,14 @@ COPY composer.json composer.lock* ./
 # Instala dependências PHP com o Composer
 RUN composer install
 
-# Copia o restante dos arquivos do projeto para o container
-COPY . .
-
 # Define permissões corretas para o Apache
 RUN chown -R www-data:www-data /var/www/html && \
     chmod -R 755 /var/www/html
 
 # Copia e ativa a crontab, se existir
 COPY crontab.txt /var/spool/cron/crontabs/root
-RUN chmod 600 /var/spool/cron/crontabs/root && \
-    crontab /var/spool/cron/crontabs/root
+RUN chmod 600 /var/spool/cron/crontabs/root || true && \
+    crontab /var/spool/cron/crontabs/root || true
 
 # Habilita o módulo rewrite do Apache
 RUN a2enmod rewrite
@@ -47,12 +44,12 @@ RUN echo "DocumentRoot /var/www/html" > /etc/apache2/sites-available/000-default
     echo "    Require all granted" >> /etc/apache2/sites-available/000-default.conf && \
     echo "</Directory>" >> /etc/apache2/sites-available/000-default.conf
 
-# Configura o timezone
+# Configura timezone
 RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
     echo "America/Sao_Paulo" > /etc/timezone
 
 # Expõe a porta padrão do Apache
 EXPOSE 80
 
-# Inicia o Apache no foreground
+# Inicia o Apache no foreground (mantém o container rodando)
 CMD ["apache2-foreground"]
