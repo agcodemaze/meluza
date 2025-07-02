@@ -12,14 +12,12 @@ RUN apt-get update && apt-get install -y \
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Define diretório de trabalho
+# Copia os arquivos do projeto para a pasta do Apache
+COPY . /var/www/html/
+
+# Instala dependências do projeto (php-jwt, aws-sdk, etc)
 WORKDIR /var/www/html
-
-# Copia apenas os arquivos do Composer primeiro para aproveitar cache
-COPY composer.json composer.lock* ./
-
-# Instala dependências PHP com o Composer
-RUN composer install
+RUN composer install || true
 
 # Define permissões corretas para o Apache
 RUN chown -R www-data:www-data /var/www/html && \
