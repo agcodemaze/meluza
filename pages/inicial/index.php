@@ -10,22 +10,14 @@ $siteAdmin = new SITE_ADMIN();
 <html lang="en">
    <head>
 
-   <!-- HEAD META BASIC LOAD-->
 	<?php include_once BASE_PATH . "src/head.php"; ?>
-	<!-- HEAD META BASIC LOAD -->
 
    </head>
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
       <div class="app-wrapper">
                   
-         <!-- HEAD META BASIC LOAD-->
 	      <?php include_once BASE_PATH . "src/topbar.php"; ?>
-	      <!-- HEAD META BASIC LOAD -->
-
-         <!-- HEAD META BASIC LOAD-->
 	      <?php include_once BASE_PATH . "src/menu.php"; ?>
-	      <!-- HEAD META BASIC LOAD -->
-
 
          <main class="app-main">
             <div class="app-content-header">
@@ -54,9 +46,7 @@ $siteAdmin = new SITE_ADMIN();
             </div>
          </main>
 
-         <!-- HEAD META BASIC LOAD-->
 	      <?php include_once BASE_PATH . "src/footer.php"; ?>
-	      <!-- HEAD META BASIC LOAD -->
 
       </div>
       <script src="../../js/overlayscrollbars.browser.es6.min.js"></script>
@@ -64,29 +54,7 @@ $siteAdmin = new SITE_ADMIN();
       <script src="../../js/bootstrap.min.js"></script>
       <script src="../../js/adminlte.js"></script>
 
-      <script>
-        const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper"
-        const Default = {
-          scrollbarTheme: "os-theme-light",
-          scrollbarAutoHide: "leave",
-          scrollbarClickScroll: true
-        }
-        document.addEventListener("DOMContentLoaded", function () {
-          const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER)
-          if (
-            sidebarWrapper &&
-            OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined
-          ) {
-            OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-              scrollbars: {
-                theme: Default.scrollbarTheme,
-                autoHide: Default.scrollbarAutoHide,
-                clickScroll: Default.scrollbarClickScroll
-              }
-            })
-          }
-        })
-      </script>
+	   <?php include_once BASE_PATH . "src/config.php"; ?>
    
    </body>
 </html>

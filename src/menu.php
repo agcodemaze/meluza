@@ -1,7 +1,7 @@
 <aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
    <div class="sidebar-brand">
-      <a href="./index.html" class="brand-link">
-         <img src="/assets/img/logo_icone_128.png" alt="AdminLTE Logo" class="brand-image opacity-75 shadow"> 
+      <a href="#" class="brand-link">
+         <img src="/assets/img/logo_icone_128.png" alt="Meluza" class="brand-image opacity-75 shadow"> 
          <!--end::Brand Image--> <!--begin::Brand Text--> 
          <span class="brand-text fw-light">Meluza</span> 
          <!--end::Brand Text--> 
