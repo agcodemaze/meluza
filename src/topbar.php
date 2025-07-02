@@ -15,7 +15,7 @@
                   </p>
                </li>
                <li class="user-footer"> 
-                  <a href="#" class="btn btn-default btn-flat float-end">Sair</a> 
+                  <a href="/logoff" class="btn btn-default btn-flat float-end">Sair</a> 
                </li>
             </ul>
          </li>
