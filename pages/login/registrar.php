@@ -22,15 +22,15 @@ $siteAdmin = new SITE_ADMIN();
                <p class="register-box-msg">Registrar-se</p>
                <form id="form" name="form" role="form" method="POST" enctype="multipart/form-data">
                   <div class="input-group mb-3">
-                     <input id="nome" type="text" class="form-control" placeholder="Nome Completo"> 
+                     <input id="nome" name="nome" type="text" class="form-control" placeholder="Nome Completo"> 
                      <div class="input-group-text"> <span class="bi bi-person"></span> </div>
                   </div>
                   <div class="input-group mb-3">
-                     <input id="email_user" type="email" class="form-control" placeholder="E-mail"> 
+                     <input id="email_user" name="email_user" type="email" class="form-control" placeholder="E-mail"> 
                      <div class="input-group-text"> <span class="bi bi-envelope"></span> </div>
                   </div>
                   <div class="input-group mb-3">
-                     <input id="senha_user" type="password" class="form-control" placeholder="Senha"> 
+                     <input id="senha_user" name="senha_user" type="password" class="form-control" placeholder="Senha"> 
                      <div class="input-group-text"> <span class="bi bi-lock-fill"></span> </div>
                   </div>
                   <!--begin::Row--> 
