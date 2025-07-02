@@ -27,7 +27,12 @@ include_once BASE_PATH . "objects/objects.php";
 
    </head>
    <body class="register-page bg-light">
-      <div class="register-box">
+      <div id="splash-screen" style="position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background-color: #ffffff; display: flex; align-items: center; justify-content: center;">
+        <img src="/assets/img/meluza_logo_90.png" alt="Meluza" style="width: 150px; height: auto;">
+      </div>
+
+      <div id="main-content" style="display:none;">
+         <div class="register-box">
          <div class="register-logo"> <a href="#"><img src="/assets/img/meluza_logo_90.png" alt="Meluza" width="200" style="height:auto;"></a></div>
          <!-- /.register-logo --> 
          <div class="card">
@@ -68,7 +73,17 @@ include_once BASE_PATH . "objects/objects.php";
             </div>
             <!-- /.login-card-body --> 
          </div>
+         </div>
       </div>
+
+      <script>
+        window.addEventListener("load", function () {
+          setTimeout(() => {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+          }, 2000); 
+        });
+      </script>
 
                   <script>
                     document.getElementById('loginForm').addEventListener('submit', function(event) {
