@@ -22,11 +22,11 @@ $siteAdmin = new SITE_ADMIN();
                <p class="login-box-msg">Login</p>
                <form action="../index3.html" method="post">
                   <div class="input-group mb-3">
-                     <input type="email" class="form-control" placeholder="Email"> 
+                     <input type="email" class="form-control" placeholder="E-mail"> 
                      <div class="input-group-text"> <span class="bi bi-envelope"></span> </div>
                   </div>
                   <div class="input-group mb-3">
-                     <input type="password" class="form-control" placeholder="Password"> 
+                     <input type="password" class="form-control" placeholder="Senha"> 
                      <div class="input-group-text"> <span class="bi bi-lock-fill"></span> </div>
                   </div>
                   <!--begin::Row--> 
@@ -39,7 +39,7 @@ $siteAdmin = new SITE_ADMIN();
                      </div>
                      <!-- /.col --> 
                      <div class="col-4">
-                        <div class="d-grid gap-2"> <button type="submit" class="btn btn-primary">Sign In</button> </div>
+                        <div class="d-grid gap-2"> <button type="submit" class="btn" style="background-color: #7eda0d ; color: #000000;">Entrar</button> </div>
                      </div>
                      <!-- /.col --> 
                   </div>
