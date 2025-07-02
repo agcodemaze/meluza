@@ -132,7 +132,7 @@ $siteAdmin = new SITE_ADMIN();
                     confirmButton: 'swal-confirm-btn'
                   }
                 }).then(() => {
-                  window.location.href = "/login";
+                  //window.location.href = "/login";
                 });
               } else {
                 Swal.fire({
