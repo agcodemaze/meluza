@@ -1,5 +1,5 @@
 <footer class="app-footer">
    <strong>
-   Meluza &copy; 2014-2025&nbsp;
+   Meluza &copy; <script>document.write(new Date().getFullYear())</script>&nbsp;
    <a href="https://codemaze.com.br" class="text-decoration-none">Codemaze</a>.
 </footer>

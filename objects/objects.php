@@ -30,13 +30,13 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
 
         function loginSistema($USU_DCEMAIL, $USU_DCSENHA) 
         {
-            if (!$this->pdoSistema) {
-                $this->conexaoSistema();
+            if (!$this->pdo) {
+                $this->conexao();
             }
 
             // Prepara a consulta SQL para verificar o usuário
             $sql = "SELECT * FROM USU_USUARIO WHERE USU_DCEMAIL = :USU_DCEMAIL";
-            $stmt = $this->pdoSistema->prepare($sql);
+            $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':USU_DCEMAIL', $USU_DCEMAIL, PDO::PARAM_STR);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -57,6 +57,42 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
                     return json_encode(["success" => false, "message" => "Credenciais inválidas!"]);
                 }
 
+        }
+
+        public function notifyUsuarioEmail($SUBJECT, $MSG, $EMAIL, $anexo = "na")
+        {     
+            $mail = new PHPMailer(true);
+        
+            try {
+       
+                $mail->isSMTP();
+                $mail->Host = $_ENV['ENV_SMTP_HOST']; 
+                $mail->SMTPAuth = true;
+                $mail->Username = $_ENV['ENV_SMTP_USER']; 
+                $mail->Password = $_ENV['ENV_SMTP_PASS']; 
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+                $mail->Port = $_ENV['ENV_SMTP_PORT']; 
+        
+                $mail->CharSet = 'UTF-8';
+        
+                $mail->setFrom($_ENV['ENV_SMTP_USER'], "Suporte Codemaze");
+                $mail->addAddress($EMAIL);             
+        
+                $mail->isHTML(true);
+                $mail->Subject = $SUBJECT;
+                $mail->Body    = $MSG;
+                $mail->AltBody = $MSG;
+        
+                $mail->send();
+    
+                return 'Um link de recuperação de senha foi enviado para o seu e-mail.';
+                
+            } catch (Exception $e) {
+                echo "Erro ao tentar enviar: " . $e->getMessage();
+                echo "<br>PHPMailer Error: " . $mail->ErrorInfo;
+        
+                return "Erro ao enviar e-mail: " . $e->getMessage() . " - " . $mail->ErrorInfo;
+            }
         }
 
     }
