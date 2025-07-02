@@ -1,3 +1,11 @@
+<?php
+require BASE_PATH . "src/auth.php"; 
+include_once BASE_PATH . "objects/objects.php";
+
+$siteAdmin = new SITE_ADMIN(); 
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
    <head>
