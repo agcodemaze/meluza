@@ -1,0 +1,9 @@
+RewriteEngine On
+RewriteBase /
+
+# Ignora arquivos e pastas reais
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redireciona tudo para index.php
+RewriteRule ^(.+)$ index.php?route=$1 [QSA,L]
