@@ -1,0 +1,23 @@
+{
+  "name": "meluza/app",
+  "description": "Sistema MELUZA - Gerenciamento de diaristas e faxinas",
+  "type": "project",
+  "require": {
+    "firebase/php-jwt": "^6.10",
+    "aws/aws-sdk-php": "^3.298",
+    "intervention/image": "^2.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/",
+      "Core\\": "core/",
+      "Objects\\": "objects/"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "sort-packages": true
+  },
+  "minimum-stability": "stable",
+  "prefer-stable": true
+}
