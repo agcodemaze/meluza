@@ -15,7 +15,7 @@ $siteAdmin = new SITE_ADMIN();
    </head>
    <body class="register-page bg-body-secondary">
       <div class="register-box">
-         <div class="register-logo"> <a href="#"><img src="/assets/img/meluza_logo_90.png" alt="Meluza" class="brand-image opacity-75 shadow"></div>
+         <div class="register-logo"> <a href="#"><img src="/assets/img/meluza_logo_90.png" alt="Meluza" width="200" style="height:auto;"></div>
          <!-- /.register-logo --> 
          <div class="card">
             <div class="card-body register-card-body">
