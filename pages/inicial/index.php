@@ -145,25 +145,6 @@ aaa
         })
       </script>
    
-      <script>
-        document.addEventListener('DOMContentLoaded', () => {
-          const cssLink = document.querySelector('link[href*="../../css/adminlte.css"]');
-          if (!cssLink) return;
-      
-          const cssHref = cssLink.getAttribute('href');
-          const deploymentPath = cssHref.slice(0, cssHref.indexOf('../../css/adminlte.css'));
-      
-          document.querySelectorAll('img[src^="../../assets/"]').forEach(img => {
-            const originalSrc = img.getAttribute('src');
-            if (originalSrc) {
-              const relativeSrc = originalSrc.slice(1);
-              img.src = deploymentPath + relativeSrc;
-            }
-          });
-        });
-      </script>
-
-
    </body>
    <!--end::Body-->
 </html>
