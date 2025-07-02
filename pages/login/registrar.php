@@ -60,7 +60,7 @@ $siteAdmin = new SITE_ADMIN();
 
       <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
 
-      
+
   <script>
     function confirmAndSubmit(event) {
       event.preventDefault(); // Impede o envio padrão do formulário
@@ -107,7 +107,7 @@ $siteAdmin = new SITE_ADMIN();
           var formData = new FormData($("#form")[0]);
         
           $.ajax({
-            url: "/registrarProc",
+            url: "registrarProc.php",
             type: "POST",
             data: formData,
             processData: false,
