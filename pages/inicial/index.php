@@ -1,8 +1,8 @@
 <?php
 //require BASE_PATH . "src/auth.php"; 
-//include_once BASE_PATH . "objects/objects.php";
+include_once BASE_PATH . "objects/objects.php";
 
-//$siteAdmin = new SITE_ADMIN(); 
+$siteAdmin = new SITE_ADMIN(); 
 
 ?>
 
