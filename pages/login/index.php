@@ -60,7 +60,8 @@ include_once BASE_PATH . "objects/objects.php";
                </form>
                <!-- /.social-auth-links --> 
                <p class="mb-1"> <a href="forgot-password.html">Esqueci minha senha</a> </p>
-               <p class="mb-0"> <a href="register.html" class="text-center">
+               <p class="mb-0"> 
+                  <a href="/registrar" class="text-center">
                   Registrar-se
                   </a> 
                </p>
