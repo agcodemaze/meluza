@@ -6,7 +6,7 @@ date_default_timezone_set('America/Sao_Paulo');
 $rotas = include 'routes.php';
 
 // Pega a rota da URL amigável, caso contrário, usa a rota padrão 'login'
-$route = $_GET['route'] ?? 'login';  
+$route = $_GET['route'] ?? 'registrar';  
 
 // Verifica se a rota existe no array de rotas e inclui a página correspondente
 if (array_key_exists($route, $rotas)) {
