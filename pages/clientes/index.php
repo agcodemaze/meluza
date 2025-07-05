@@ -75,12 +75,12 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                 <?php foreach ($clientes as $cliente): ?>
 
                                     <?php
-                                        $uberLink = "#";
+                                        $uberLink = "javascript:void(0);";
                                         $uberRua     = $cliente['CLI_DCENDERECO'];
                                         $uberNumero  = $cliente['CLI_DCNUM_ENDERECO'];
                                         $uberCidade  = $cliente['CLI_DCCIDADE'];
                                         $uberEstado  = $cliente['CLI_DCESTADO'];
-                                        $uberBairro  = $cliente['CLI_DCBAIRRO']; // corrigido
+                                        $uberBairro  = $cliente['CLI_DCBAIRRO']; 
 
                                         $endereco = "$uberRua, $uberNumero, $uberCidade, $uberEstado";
                                         $url = "https://nominatim.openstreetmap.org/search?format=json&q=" . urlencode($endereco);
@@ -88,7 +88,6 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         // Inicializa cURL
                                         $ch = curl_init($url);
                                                                         
-                                        // Configura opções cURL para enviar User-Agent e retornar o conteúdo
                                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
                                         curl_setopt($ch, CURLOPT_USERAGENT, 'Codemaze/1.0 (suporte@codemaze.com.br)'); 
                                         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
