@@ -5,8 +5,7 @@ include_once BASE_PATH . "objects/objects.php";
 $siteAdmin = new SITE_ADMIN(); 
 
 $clientes = $siteAdmin->getClienteInfo(USER_ID);
-var_dump($clientes);
-die();
+
 ?>
 
 <!DOCTYPE html>
@@ -72,23 +71,26 @@ die();
                                     </tr>
                                 </thead>
                                 <tbody>
+                                <?php $contador = 1; ?>
+                                <?php foreach ($clientes as $cliente): ?>
                                     <tr class="align-middle">
-                                        <td>1</td>
-                                        <td>José Antonio Silva</td>
+                                        <td><?= $contador++; ?></td>
+                                        <td><?= htmlspecialchars(mb_strlen($cliente['CLI_DCNOME'], 'UTF-8') > 15 ? mb_substr($cliente['CLI_DCNOME'], 0, 15, 'UTF-8') . '...' : $cliente['CLI_DCNOME'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></td>
                                         <td>
-                                          <div style="display: flex; gap: 8px; align-items: center;">
-                                            <i class="mdi mdi-whatsapp" style="font-size: 28px; color: #25D366;" title="WhatsApp"></i>
-                                            <i class="mdi mdi-car" style="font-size: 28px; color: #000000;" title="Ir com Uber"></i>
-                                            <a href="javascript:void(0);"
-                                               class="action-icon"
-                                               data-id="1"
-                                               data-foto="foto"
-                                               onclick="confirmDeleteAttr(this)">
-                                               <i class="mdi mdi-delete" style="font-size: 28px; color:rgb(235, 73, 73);" title="Excluir Cliente"></i>
-                                            </a>
-                                          </div>
+                                            <div style="display: flex; gap: 8px; align-items: center;">
+                                                <i class="mdi mdi-whatsapp" style="font-size: 28px; color: #25D366;" title="WhatsApp"></i>
+                                                <i class="mdi mdi-car" style="font-size: 28px; color: #000000;" title="Ir com Uber"></i>
+                                                <a href="javascript:void(0);" 
+                                                   class="action-icon" 
+                                                   data-id="<?= htmlspecialchars($cliente['CLI_IDCLIENTE']); ?>" 
+                                                   data-foto="foto" 
+                                                   onclick="confirmDeleteAttr(this)">
+                                                   <i class="mdi mdi-delete" style="font-size: 28px; color:rgb(235, 73, 73);" title="Excluir Cliente"></i>
+                                                </a>
+                                            </div>
                                         </td>
-                                    </tr>                                    
+                                    </tr>
+                                <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
