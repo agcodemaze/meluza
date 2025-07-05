@@ -11,8 +11,10 @@ $siteAdmin = new SITE_ADMIN();
    <head>
 
 	<?php include_once BASE_PATH . "src/head.php"; ?>
-        <script src="../../js/jquery-3.6.0.min.js"></script>
+
+    <script src="../../js/jquery-3.6.0.min.js"></script>
     <link href="../../js/rateit.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
 
    </head>
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -62,8 +64,8 @@ $siteAdmin = new SITE_ADMIN();
                                     <tr>
                                         <th style="width: 10px;">#</th>
                                         <th>Nome</th>
-                                        <th>Telefone</th>
-                                        <th style="width: 40px;">Label</th>
+                                        <th>Nota</th>
+                                        <th style="width: 40px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -81,7 +83,18 @@ $siteAdmin = new SITE_ADMIN();
                                             data-id="1" 
                                         ></div>
                                         </td>
-                                        <td><span class="badge text-bg-danger">55%</span></td>
+                                        <td>
+                                            <a href="/viewEditFornecedor?id=1" target="_self" class="action-icon">
+                                            <i class="mdi mdi-eye-outline"></i>
+                                            </a>                                           
+                                            <a href="javascript:void(0);" 
+                                               class="action-icon" 
+                                               data-id="1" 
+                                               data-foto="foto"
+                                               onclick="confirmDeleteAttr(this)">
+                                               <i class="mdi mdi-delete" title="Excluir Prestador de Serviço"></i>
+                                            </a>                                                          
+                                        </td>
                                     </tr>                                    
                                 </tbody>
                             </table>
