@@ -124,7 +124,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
                 $this->conexao();
             }
 
-            $sql = "SELECT * FROM CLI_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO";
+            $sql = "SELECT * FROM CLI_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO ORDER BY CLI_DCNOME ASC";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_STR);
             $stmt->execute();
