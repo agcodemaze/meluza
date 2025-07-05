@@ -75,14 +75,14 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                 <?php foreach ($clientes as $cliente): ?>
 
                                     <?php
-                                        $uberLink = "";
+                                        $uberLink = "#";
                                         $uberRua     = $cliente['CLI_DCENDERECO'];
                                         $uberNumero  = $cliente['CLI_DCNUM_ENDERECO'];
                                         $uberCidade  = $cliente['CLI_DCCIDADE'];
                                         $uberEstado  = $cliente['CLI_DCESTADO'];
                                         $uberBairro  = $cliente['CLI_DCBAIRRO']; // corrigido
 
-                                        $endereco = "Rua dos Estudantes, 505, Hortolândia, SP";
+                                        $endereco = "$uberRua, $uberNumero, $uberCidade, $uberEstado";
                                         $url = "https://nominatim.openstreetmap.org/search?format=json&q=" . urlencode($endereco);
                                                                         
                                         // Inicializa cURL
@@ -90,7 +90,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                                                         
                                         // Configura opções cURL para enviar User-Agent e retornar o conteúdo
                                         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                        curl_setopt($ch, CURLOPT_USERAGENT, 'SeuAppNomeAqui/1.0 (seuemail@seudominio.com)'); // User-Agent obrigatório
+                                        curl_setopt($ch, CURLOPT_USERAGENT, 'Codemaze/1.0 (suporte@codemaze.com.br)'); 
                                         curl_setopt($ch, CURLOPT_TIMEOUT, 10);
                                                                         
                                         $response = curl_exec($ch);
@@ -102,9 +102,18 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                             if (!empty($data)) {
                                                 $lat = $data[0]['lat'];
                                                 $lon = $data[0]['lon'];
+                                                $colorIcon = " #000000";
                                                 $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=$lat&dropoff[longitude]=$lon&dropoff[nickname]=Cliente";
                                             } 
-                                        } 
+                                            else
+                                                {
+                                                    $colorIcon = " #797676";
+                                                }
+                                        }
+                                        else
+                                            {
+                                                $colorIcon = " #797676";
+                                            } 
                                                                     
                                         $telefone = $cliente['CLI_DCTELEFONE'];
                                         $mensagem = "Olá, tudo bem?";                                                                        
@@ -125,7 +134,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         <td>
                                             <div style="display: flex; gap: 8px; align-items: center;">
                                                 <a href="<?php echo $linkWhatsapp; ?>" target="_blank"><i class="mdi mdi-whatsapp" style="font-size: 28px; color: #25D366;" title="WhatsApp"></i></a>
-                                                <a href="<?php echo $uberLink; ?>" target="_blank"><i class="mdi mdi-car" style="font-size: 28px; color: #000000;" title="Ir com Uber"></i></a>
+                                                <a href="<?php echo $uberLink; ?>" target="_blank"><i class="mdi mdi-car" style="font-size: 28px; color:<?php echo $colorIcon; ?>;" title="Ir com Uber"></i></a>
                                                 <a href="javascript:void(0);" 
                                                    class="action-icon" 
                                                    data-id="<?= htmlspecialchars($cliente['CLI_IDCLIENTE']); ?>" 
