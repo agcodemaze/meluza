@@ -118,5 +118,19 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }            
         }
 
+        function getClienteInfo($USU_IDUSUARIO) 
+        {
+            if (!$this->pdo) {
+                $this->conexao();
+            }
+
+            $sql = "SELECT * FROM CLI_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
     }
 ?>
