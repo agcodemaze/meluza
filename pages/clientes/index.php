@@ -75,7 +75,7 @@ $siteAdmin = new SITE_ADMIN();
                                         <td>1</td>
                                         <td>José Antonio Silva</td>
                                         <td><i class="mdi mdi-whatsapp" style="font-size: 24px; color: #25D366;"></i></td>
-                                        <td><i class="mdi mdi-map-marker-distance" style="font-size: 24px; color: #000000;"></i></td>
+                                        <td><i class="mdi mdi-car" style="font-size: 24px; color: #000000;"></i></td>
                                         <td>                                          
                                             <a href="javascript:void(0);" 
                                                class="action-icon" 
