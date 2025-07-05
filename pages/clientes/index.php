@@ -77,8 +77,8 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         <td><?= $contador++; ?></td>
                                         <td>
                                             <?= htmlspecialchars(
-                                                mb_strlen($cliente['CLI_DCNOME'], 'UTF-8') > 18 
-                                                ? mb_substr(mb_convert_case($cliente['CLI_DCNOME'], MB_CASE_TITLE, 'UTF-8'), 0, 18, 'UTF-8') . '...' 
+                                                mb_strlen($cliente['CLI_DCNOME'], 'UTF-8') > 20 
+                                                ? mb_substr(mb_convert_case($cliente['CLI_DCNOME'], MB_CASE_TITLE, 'UTF-8'), 0, 20, 'UTF-8') . '...' 
                                                 : mb_convert_case($cliente['CLI_DCNOME'], MB_CASE_TITLE, 'UTF-8'), 
                                                 ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'
                                             ) ?>
