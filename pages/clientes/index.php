@@ -102,7 +102,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                             if (!empty($data)) {
                                                 $lat = $data[0]['lat'];
                                                 $lon = $data[0]['lon'];
-                                                $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=$lat&dropoff[longitude]=$lng&dropoff[nickname]=Cliente";
+                                                $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=$lat&dropoff[longitude]=$lon&dropoff[nickname]=Cliente";
                                             } 
                                         } 
                                                                     
