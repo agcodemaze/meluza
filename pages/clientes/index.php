@@ -74,14 +74,14 @@ $siteAdmin = new SITE_ADMIN();
                                         <td>José Antonio Silva</td>
                                         <td>
                                           <div style="display: flex; gap: 8px; align-items: center;">
-                                            <i class="mdi mdi-whatsapp" style="font-size: 24px; color: #25D366;" title="WhatsApp"></i>
-                                            <i class="mdi mdi-car" style="font-size: 24px; color: #000000;" title="Ir com Uber"></i>
+                                            <i class="mdi mdi-whatsapp" style="font-size: 36px; color: #25D366;" title="WhatsApp"></i>
+                                            <i class="mdi mdi-car" style="font-size: 36px; color: #000000;" title="Ir com Uber"></i>
                                             <a href="javascript:void(0);"
                                                class="action-icon"
                                                data-id="1"
                                                data-foto="foto"
                                                onclick="confirmDeleteAttr(this)">
-                                               <i class="mdi mdi-delete" style="font-size: 24px; color: #00c1fb;" title="Excluir Cliente"></i>
+                                               <i class="mdi mdi-delete" style="font-size: 36px; color:rgb(235, 73, 73);" title="Excluir Cliente"></i>
                                             </a>
                                           </div>
                                         </td>
