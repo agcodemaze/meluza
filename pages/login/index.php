@@ -149,6 +149,66 @@ include_once BASE_PATH . "objects/objects.php";
       <script src="../../js/popper.min.js"></script>
       <script src="../../js/bootstrap.min.js"></script>
       <script src="../../js/adminlte.js"></script>
+      <script>
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.register('../../pwaServiceWorker.js')
+            .then((reg) => {
+              console.log('Service Worker registrado!', reg.scope);
+            })
+            .catch((err) => {
+              console.error('Falha ao registrar o Service Worker:', err);
+            });
+        }
+      </script>
+
+    <!-- Botão para instalar o PWA -->
+    <button id="btnInstalarApp" style="display: none;">
+      📲 Instalar app
+    </button>
+        
+   <style>
+     #btnInstalarApp {
+       position: fixed;
+       bottom: 20px;
+       right: 20px;
+       background-color: #007bff;
+       color: white;
+       border: none;
+       padding: 12px 18px;
+       border-radius: 30px;
+       font-size: 16px;
+       cursor: pointer;
+       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+       transition: background-color 0.3s ease;
+       z-index: 10000;
+     }
+     #btnInstalarApp:hover {
+       background-color: #0056b3;
+     }
+   </style>
+   <script>
+      let deferredPrompt;
+  
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault(); // Impede o prompt automático
+        deferredPrompt = e;
+        document.querySelector('#btnInstalarApp').style.display = 'block';
+      });
+  
+      document.querySelector('#btnInstalarApp').addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const choiceResult = await deferredPrompt.userChoice;
+          if (choiceResult.outcome === 'accepted') {
+            console.log('Usuário aceitou instalar o app');
+          } else {
+            console.log('Usuário recusou instalar o app');
+          }
+          deferredPrompt = null;
+          document.querySelector('#btnInstalarApp').style.display = 'none';
+        }
+      });
+   </script>
 
 	   <?php include_once BASE_PATH . "src/config.php"; ?>
    
