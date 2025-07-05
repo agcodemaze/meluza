@@ -97,7 +97,13 @@ $siteAdmin = new SITE_ADMIN();
 
       
     <script>
-        function confirmDelete(id, fileName) {
+        function confirmDeleteAttr(element) {
+            const id = element.getAttribute('data-id');
+            const fileName = element.getAttribute('data-foto');
+            confirmDelete(id, fileName);
+        }
+
+       function confirmDelete(id, fileName) {
     Swal.fire({
         title: 'Lista de Prestadores de Serviço',
         text: "Tem certeza que deseja excluir o prestador de serviço?",
@@ -179,7 +185,6 @@ $siteAdmin = new SITE_ADMIN();
         }
     });
 }
-
     </script>
 
 
