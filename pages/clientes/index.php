@@ -44,10 +44,12 @@ $siteAdmin = new SITE_ADMIN();
                 <div class="container-fluid">
 
                     <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="card-title">Clientes Cadastrados</h3>
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <a href="/cliente" class="btn btn-sm" style="background-color: #00c1fb; color: black; font-weight: bold;">
+                                + Novo Cliente
+                            </a>
                             <div class="card-tools">
-                                <ul class="pagination pagination-sm float-end">
+                                <ul class="pagination pagination-sm float-end mb-0">
                                     <li class="page-item"><a class="page-link" href="#">&laquo;</a></li>
                                     <li class="page-item"><a class="page-link" href="#">1</a></li>
                                     <li class="page-item"><a class="page-link" href="#">2</a></li>
@@ -69,7 +71,7 @@ $siteAdmin = new SITE_ADMIN();
                                 </thead>
                                 <tbody>
                                     <tr class="align-middle">
-                                        <td>1.</td>
+                                        <td>1</td>
                                         <td>José Antonio Silva</td>
                                         <td>11982734350</td>
                                         <td>                                          
@@ -93,8 +95,6 @@ $siteAdmin = new SITE_ADMIN();
 
 	      <?php include_once BASE_PATH . "src/footer.php"; ?>
       </div>
-
-
       
     <script>
         function confirmDeleteAttr(element) {
@@ -103,90 +103,89 @@ $siteAdmin = new SITE_ADMIN();
             confirmDelete(id, fileName);
         }
 
-       function confirmDelete(id, fileName) {
-    Swal.fire({
-        title: 'Lista de Prestadores de Serviço',
-        text: "Tem certeza que deseja excluir o prestador de serviço?",
-        icon: 'warning',
-        showDenyButton: true,
-        confirmButtonText: 'CONFIRMAR',
-        denyButtonText: 'CANCELAR',
-        confirmButtonColor: "#4caf50",   // verde suave
-        denyButtonColor: "#9e9e9e",      // cinza
-        background: "#f9f9fb",           // fundo claro e moderno
-        color: "#333",                   // texto escuro para melhor legibilidade
-        width: '420px'
-    }).then((result) => {
-        if (result.isConfirmed) {
+        function confirmDelete(id, fileName) {
             Swal.fire({
-                title: 'Aguarde...',
-                text: 'Excluindo o prestador de serviço...',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                background: "#f9f9fb",
-                color: "#333",
-                didOpen: () => {
-                    Swal.showLoading();
-                }
-            });
-
-            $.ajax({
-                url: "/deleteFornecedorProc",
-                type: "POST",
-                data: { id: id, filename: fileName },
-                dataType: "json",
-                success: function (jsonResponse) {
-                    if (jsonResponse.success) {
-                        Swal.fire({
-                            title: 'Sucesso!',
-                            text: jsonResponse.message,
-                            icon: 'success',
-                            width: '420px',
-                            confirmButtonColor: "#4caf50",
-                            background: "#f9f9fb",
-                            color: "#333"
-                        }).then(() => {
-                            window.location.href = "/fornecedores";
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Erro!',
-                            text: jsonResponse.message || 'Erro ao excluir o prestador de serviço.',
-                            icon: 'error',
-                            width: '420px',
-                            confirmButtonColor: "#f44336",  // vermelho claro
-                            background: "#f9f9fb",
-                            color: "#333"
-                        });
-                    }
-                },
-                error: function () {
+                title: 'Lista de Clientes',
+                text: "Tem certeza que deseja excluir o cliente?",
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'CONFIRMAR',
+                denyButtonText: 'CANCELAR',
+                confirmButtonColor: "#4caf50",   
+                denyButtonColor: "#9e9e9e",      
+                background: "#f9f9fb",           
+                color: "#333",                   
+                width: '420px'
+            }).then((result) => {
+                if (result.isConfirmed) {
                     Swal.fire({
-                        title: 'Erro!',
-                        text: 'Erro ao excluir o prestador de serviço.',
-                        icon: 'error',
+                        title: 'Aguarde...',
+                        text: 'Excluindo o cliente...',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        background: "#f9f9fb",
+                        color: "#333",
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+                
+                    $.ajax({
+                        url: "/deleteFornecedorProc",
+                        type: "POST",
+                        data: { id: id, filename: fileName },
+                        dataType: "json",
+                        success: function (jsonResponse) {
+                            if (jsonResponse.success) {
+                                Swal.fire({
+                                    title: 'Sucesso!',
+                                    text: jsonResponse.message,
+                                    icon: 'success',
+                                    width: '420px',
+                                    confirmButtonColor: "#4caf50",
+                                    background: "#f9f9fb",
+                                    color: "#333"
+                                }).then(() => {
+                                    window.location.href = "/fornecedores";
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Erro!',
+                                    text: jsonResponse.message || 'Erro ao excluir o cliente.',
+                                    icon: 'error',
+                                    width: '420px',
+                                    confirmButtonColor: "#f44336",  
+                                    background: "#f9f9fb",
+                                    color: "#333"
+                                });
+                            }
+                        },
+                        error: function () {
+                            Swal.fire({
+                                title: 'Erro!',
+                                text: 'Erro ao excluir o cliente.',
+                                icon: 'error',
+                                width: '420px',
+                                confirmButtonColor: "#f44336",
+                                background: "#f9f9fb",
+                                color: "#333"
+                            });
+                        }
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        title: 'Cancelado',
+                        text: 'Nenhuma alteração foi feita.',
+                        icon: 'info',
                         width: '420px',
-                        confirmButtonColor: "#f44336",
+                        confirmButtonColor: "#9e9e9e",
                         background: "#f9f9fb",
                         color: "#333"
                     });
                 }
             });
-        } else if (result.isDenied) {
-            Swal.fire({
-                title: 'Cancelado',
-                text: 'Nenhuma alteração foi feita.',
-                icon: 'info',
-                width: '420px',
-                confirmButtonColor: "#9e9e9e",
-                background: "#f9f9fb",
-                color: "#333"
-            });
         }
-    });
-}
     </script>
-
 
     <script src="../../js/overlayscrollbars.browser.es6.min.js"></script>
     <script src="../../js/popper.min.js"></script>
