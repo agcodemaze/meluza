@@ -80,11 +80,16 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         $uberCidade  = $cliente['CLI_DCCIDADE'];
                                         $uberEstado  = $cliente['CLI_DCESTADO'];
                                         $uberBairro  = $cliente['CLI_DCBAIRRO']; // corrigido
-                                                                        
+
                                         $endereco = "$uberRua, $uberNumero, $uberCidade, $uberEstado";
                                         $enderecoFormado = rawurlencode($endereco);
-                                                                        
+
                                         $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[formatted_address]=$enderecoFormado";
+
+                                        $endereco = "Rua dos Estudantes, 505, Jardim Amanda, Hortolândia, São Paulo, Brasil";
+                                        $enderecoFormado = rawurlencode($endereco);
+                                        $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[formatted_address]=$enderecoFormado";
+
 
                                         $telefone = $cliente['CLI_DCTELEFONE'];
                                         $mensagem = "Olá, tudo bem?";                                                                        
