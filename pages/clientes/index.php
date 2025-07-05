@@ -13,8 +13,7 @@ $siteAdmin = new SITE_ADMIN();
 	<?php include_once BASE_PATH . "src/head.php"; ?>
 
     <script src="../../js/jquery-3.6.0.min.js"></script>
-    <link href="../../js/rateit.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/MaterialDesign-Webfont/7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
+    <link href="../../js/rateit.css" rel="stylesheet">   
 
    </head>
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -71,28 +70,15 @@ $siteAdmin = new SITE_ADMIN();
                                 <tbody>
                                     <tr class="align-middle">
                                         <td>1.</td>
-                                        <td>Update software</td>
-                                        <td>
-                                        <div 
-                                            class="rateit rateit-mdi" 
-                                            data-rateit-mode="font"
-                                            data-rateit-icon="󰓒"
-                                            data-rateit-value="5" 
-                                            data-rateit-ispreset="true" 
-                                            data-rateit-resetable="false"
-                                            data-id="1" 
-                                        ></div>
-                                        </td>
-                                        <td>
-                                            <a href="/viewEditFornecedor?id=1" target="_self" class="action-icon">
-                                            <i class="mdi mdi-eye-outline"></i>
-                                            </a>                                           
+                                        <td>José Antonio Silva</td>
+                                        <td>11982734350</td>
+                                        <td>                                          
                                             <a href="javascript:void(0);" 
                                                class="action-icon" 
                                                data-id="1" 
                                                data-foto="foto"
                                                onclick="confirmDeleteAttr(this)">
-                                               <i class="mdi mdi-delete" title="Excluir Prestador de Serviço"></i>
+                                               <i class="mdi mdi-delete" style="font-size: 24px; color: #00c1fb;" title="Excluir Cliente"></i>
                                             </a>                                                          
                                         </td>
                                     </tr>                                    
@@ -108,32 +94,131 @@ $siteAdmin = new SITE_ADMIN();
 	      <?php include_once BASE_PATH . "src/footer.php"; ?>
       </div>
 
+
+      
     <script>
-        $(document).ready(function() {
-            $('.rateit').on('rated', function(event) {
-                var rating = $(this).rateit('value');
-                var id = $(this).data('id');
-                $.ajax({
-                    url: '/insertFornecedorRateProc',
-                    type: 'POST',
-                    data: {
-                        id: id,
-                        nota: rating
-                    },
-                    success: function(response) {
-                        window.location.href = '/fornecedores';
-                    },
-                    error: function() {                    
-                    }
-                });
+        function confirmDeleteAttr(element) {
+            const id = element.getAttribute('data-id');
+            const fileName = element.getAttribute('data-foto');
+            confirmDelete(id, fileName);
+        }
+
+        function confirmDelete(id, fileName) {
+            Swal.fire({
+                title: 'Lista de Prestadores de Serviço',
+                text: "Tem certeza que deseja excluir o prestador de serviço?",
+                icon: 'warning',
+                showDenyButton: true,
+                confirmButtonText: 'CONFIRMAR',
+                denyButtonText: 'CANCELAR',
+                confirmButtonColor: "#2be4c6",
+                denyButtonColor: "#8c52ff",
+                background: "#343a40",
+                color: "#a1b6c2",
+                width: '420px',
+                customClass: {
+                    title: 'swal-title',
+                    content: 'swal-content',
+                    confirmButton: 'swal-confirm-btn',
+                    denyButton: 'swal-deny-btn',
+                    htmlContainer: 'swal-text'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    // Mostrar carregando antes do AJAX
+                    Swal.fire({
+                        title: 'Aguarde...',
+                        text: 'Excluindo o prestador de serviço...',
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        background: "#343a40",
+                        color: "#a1b6c2",
+                        didOpen: () => {
+                            Swal.showLoading();
+                        }
+                    });
+
+                    $.ajax({
+                        url: "/deleteFornecedorProc",
+                        type: "POST",
+                        data: { id: id, filename: fileName },
+                        dataType: "json", // já espera JSON
+                        success: function (jsonResponse) {
+                            if (jsonResponse.success) {
+                                Swal.fire({
+                                    title: 'Sucesso!',
+                                    text: jsonResponse.message,
+                                    icon: 'success',
+                                    width: '420px',
+                                    confirmButtonColor: "#2be4c6",
+                                    background: "#343a40",
+                                    color: "#a1b6c2",
+                                    customClass: {
+                                        title: 'swal-title',
+                                        content: 'swal-content',
+                                        htmlContainer: 'swal-text',
+                                        confirmButton: 'swal-confirm-btn'
+                                    }
+                                }).then(() => {
+                                    window.location.href = "/fornecedores";
+                                });
+                            } else {
+                                Swal.fire({
+                                    title: 'Erro!',
+                                    text: jsonResponse.message || 'Erro ao excluir o prestador de serviço.',
+                                    icon: 'error',
+                                    width: '420px',
+                                    confirmButtonColor: "#2be4c6",
+                                    background: "#343a40",
+                                    color: "#a1b6c2",
+                                    customClass: {
+                                        title: 'swal-title',
+                                        content: 'swal-content',
+                                        htmlContainer: 'swal-text',
+                                        confirmButton: 'swal-confirm-btn'
+                                    }
+                                });
+                            }
+                        },
+                        error: function (xhr, status, error) {
+                            Swal.fire({
+                                title: 'Erro!',
+                                text: 'Erro ao excluir o prestador de serviço.',
+                                icon: 'error',
+                                width: '420px',
+                                confirmButtonColor: "#2be4c6",
+                                background: "#343a40",
+                                color: "#a1b6c2",
+                                customClass: {
+                                    title: 'swal-title',
+                                    content: 'swal-content',
+                                    htmlContainer: 'swal-text',
+                                    confirmButton: 'swal-confirm-btn'
+                                }
+                            });
+                        }
+                    });
+                } else if (result.isDenied) {
+                    Swal.fire({
+                        title: 'Cancelado',
+                        text: 'Nenhuma alteração foi feita.',
+                        icon: 'info',
+                        width: '420px',
+                        confirmButtonColor: "#8c52ff",
+                        background: "#343a40",
+                        color: "#a1b6c2"
+                    });
+                }
             });
-        });
+        }
     </script>
+
+
     <script src="../../js/overlayscrollbars.browser.es6.min.js"></script>
     <script src="../../js/popper.min.js"></script>
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/adminlte.js"></script>
-    <script src="../../vendor/jquery.rateit/scripts/jquery.rateit.min.js"></script>
 	<?php include_once BASE_PATH . "src/config.php"; ?>
    
    </body>
