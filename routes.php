@@ -9,12 +9,8 @@ return [
     'registrar' => 'pages/login/registrar.php', 
     'registrarProc' => 'pages/login/registrarProc.php',
 
-    
-    
-
-    
-
-
+    //clientes
+    'clientes' => 'pages/clientes/index.php', 
 
 
 ];
