@@ -65,18 +65,16 @@ $siteAdmin = new SITE_ADMIN();
                                     <tr>
                                         <th style="width: 10px;">#</th>
                                         <th>Nome</th>
-                                        <th>Whatsapp</th>
-                                        <th>Uber</th>
-                                        <th style="width: 40px;"></th>
+                                        <th style="width: 50px;"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr class="align-middle">
                                         <td>1</td>
                                         <td>José Antonio Silva</td>
-                                        <td><i class="mdi mdi-whatsapp" style="font-size: 24px; color: #25D366;"></i></td>
-                                        <td><i class="mdi mdi-car" style="font-size: 24px; color: #000000;"></i></td>
-                                        <td>                                          
+                                        <td>     
+                                            <i class="mdi mdi-whatsapp" style="font-size: 24px; color: #25D366;"></i>
+                                            <i class="mdi mdi-car" style="font-size: 24px; color: #000000;"></i>                                    
                                             <a href="javascript:void(0);" 
                                                class="action-icon" 
                                                data-id="1" 
