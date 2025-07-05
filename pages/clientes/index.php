@@ -84,17 +84,28 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 
                                         $endereco = "Rua dos Estudantes, 505, Hortolândia, SP";
                                         $url = "https://nominatim.openstreetmap.org/search?format=json&q=" . urlencode($endereco);
-                                        var_dump($url);                                
-                                        $response = file_get_contents($url);
-                                        $data = json_decode($response, true);
                                                                         
-                                        if (!empty($data)) {
-                                            $latitude = $data[0]['lat'];
-                                            $longitude = $data[0]['lon'];
-
-                                            $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=$lat&dropoff[longitude]=$lng&dropoff[nickname]=Cliente";
-                                        }
-
+                                        // Inicializa cURL
+                                        $ch = curl_init($url);
+                                                                        
+                                        // Configura opções cURL para enviar User-Agent e retornar o conteúdo
+                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+                                        curl_setopt($ch, CURLOPT_USERAGENT, 'SeuAppNomeAqui/1.0 (seuemail@seudominio.com)'); // User-Agent obrigatório
+                                        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+                                                                        
+                                        $response = curl_exec($ch);
+                                        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                                        curl_close($ch);
+                                                                        
+                                        if ($httpCode == 200 && $response) {
+                                            $data = json_decode($response, true);
+                                            if (!empty($data)) {
+                                                $lat = $data[0]['lat'];
+                                                $lon = $data[0]['lon'];
+                                                $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=$lat&dropoff[longitude]=$lng&dropoff[nickname]=Cliente";
+                                            } 
+                                        } 
+                                                                    
                                         $telefone = $cliente['CLI_DCTELEFONE'];
                                         $mensagem = "Olá, tudo bem?";                                                                        
                                         $linkWhatsapp = "https://wa.me/55{$telefone}?text=" . rawurlencode($mensagem);
