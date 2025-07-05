@@ -129,7 +129,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_STR);
             $stmt->execute();
 
-            return = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
     }
