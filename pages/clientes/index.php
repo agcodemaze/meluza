@@ -81,15 +81,18 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         $uberEstado  = $cliente['CLI_DCESTADO'];
                                         $uberBairro  = $cliente['CLI_DCBAIRRO']; // corrigido
 
-                                        $endereco = "$uberRua, $uberNumero, $uberCidade, $uberEstado";
-                                        $enderecoFormado = rawurlencode($endereco);
+                                        $endereco = "Rua dos Estudantes, 505, Hortolândia, SP";
+                                        $url = "https://nominatim.openstreetmap.org/search?format=json&q=" . urlencode($endereco);
+                                                                        
+                                        $response = file_get_contents($url);
+                                        $data = json_decode($response, true);
+                                                                        
+                                        if (!empty($data)) {
+                                            $latitude = $data[0]['lat'];
+                                            $longitude = $data[0]['lon'];
 
-                                        $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[formatted_address]=$enderecoFormado";
-
-                                        $endereco = "Rua dos Estudantes, 505, Jardim Amanda, Hortolândia, São Paulo, Brasil";
-                                        $enderecoFormado = rawurlencode($endereco);
-                                        $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[formatted_address]=$enderecoFormado";
-
+                                            $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=$lat&dropoff[longitude]=$lng&dropoff[nickname]=Cliente";
+                                        }
 
                                         $telefone = $cliente['CLI_DCTELEFONE'];
                                         $mensagem = "Olá, tudo bem?";                                                                        
