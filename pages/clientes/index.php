@@ -63,7 +63,7 @@ $siteAdmin = new SITE_ADMIN();
                                     <tr>
                                         <th style="width: 10px;">#</th>
                                         <th>Nome</th>
-                                        <th>Nota</th>
+                                        <th>Telefone</th>
                                         <th style="width: 40px;"></th>
                                     </tr>
                                 </thead>
@@ -97,121 +97,89 @@ $siteAdmin = new SITE_ADMIN();
 
       
     <script>
-        function confirmDeleteAttr(element) {
-            const id = element.getAttribute('data-id');
-            const fileName = element.getAttribute('data-foto');
-            confirmDelete(id, fileName);
-        }
-
         function confirmDelete(id, fileName) {
+    Swal.fire({
+        title: 'Lista de Prestadores de Serviço',
+        text: "Tem certeza que deseja excluir o prestador de serviço?",
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonText: 'CONFIRMAR',
+        denyButtonText: 'CANCELAR',
+        confirmButtonColor: "#4caf50",   // verde suave
+        denyButtonColor: "#9e9e9e",      // cinza
+        background: "#f9f9fb",           // fundo claro e moderno
+        color: "#333",                   // texto escuro para melhor legibilidade
+        width: '420px'
+    }).then((result) => {
+        if (result.isConfirmed) {
             Swal.fire({
-                title: 'Lista de Prestadores de Serviço',
-                text: "Tem certeza que deseja excluir o prestador de serviço?",
-                icon: 'warning',
-                showDenyButton: true,
-                confirmButtonText: 'CONFIRMAR',
-                denyButtonText: 'CANCELAR',
-                confirmButtonColor: "#2be4c6",
-                denyButtonColor: "#8c52ff",
-                background: "#343a40",
-                color: "#a1b6c2",
-                width: '420px',
-                customClass: {
-                    title: 'swal-title',
-                    content: 'swal-content',
-                    confirmButton: 'swal-confirm-btn',
-                    denyButton: 'swal-deny-btn',
-                    htmlContainer: 'swal-text'
+                title: 'Aguarde...',
+                text: 'Excluindo o prestador de serviço...',
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                background: "#f9f9fb",
+                color: "#333",
+                didOpen: () => {
+                    Swal.showLoading();
                 }
-            }).then((result) => {
-                if (result.isConfirmed) {
+            });
 
-                    // Mostrar carregando antes do AJAX
+            $.ajax({
+                url: "/deleteFornecedorProc",
+                type: "POST",
+                data: { id: id, filename: fileName },
+                dataType: "json",
+                success: function (jsonResponse) {
+                    if (jsonResponse.success) {
+                        Swal.fire({
+                            title: 'Sucesso!',
+                            text: jsonResponse.message,
+                            icon: 'success',
+                            width: '420px',
+                            confirmButtonColor: "#4caf50",
+                            background: "#f9f9fb",
+                            color: "#333"
+                        }).then(() => {
+                            window.location.href = "/fornecedores";
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: jsonResponse.message || 'Erro ao excluir o prestador de serviço.',
+                            icon: 'error',
+                            width: '420px',
+                            confirmButtonColor: "#f44336",  // vermelho claro
+                            background: "#f9f9fb",
+                            color: "#333"
+                        });
+                    }
+                },
+                error: function () {
                     Swal.fire({
-                        title: 'Aguarde...',
-                        text: 'Excluindo o prestador de serviço...',
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
-                        background: "#343a40",
-                        color: "#a1b6c2",
-                        didOpen: () => {
-                            Swal.showLoading();
-                        }
-                    });
-
-                    $.ajax({
-                        url: "/deleteFornecedorProc",
-                        type: "POST",
-                        data: { id: id, filename: fileName },
-                        dataType: "json", // já espera JSON
-                        success: function (jsonResponse) {
-                            if (jsonResponse.success) {
-                                Swal.fire({
-                                    title: 'Sucesso!',
-                                    text: jsonResponse.message,
-                                    icon: 'success',
-                                    width: '420px',
-                                    confirmButtonColor: "#2be4c6",
-                                    background: "#343a40",
-                                    color: "#a1b6c2",
-                                    customClass: {
-                                        title: 'swal-title',
-                                        content: 'swal-content',
-                                        htmlContainer: 'swal-text',
-                                        confirmButton: 'swal-confirm-btn'
-                                    }
-                                }).then(() => {
-                                    window.location.href = "/fornecedores";
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: 'Erro!',
-                                    text: jsonResponse.message || 'Erro ao excluir o prestador de serviço.',
-                                    icon: 'error',
-                                    width: '420px',
-                                    confirmButtonColor: "#2be4c6",
-                                    background: "#343a40",
-                                    color: "#a1b6c2",
-                                    customClass: {
-                                        title: 'swal-title',
-                                        content: 'swal-content',
-                                        htmlContainer: 'swal-text',
-                                        confirmButton: 'swal-confirm-btn'
-                                    }
-                                });
-                            }
-                        },
-                        error: function (xhr, status, error) {
-                            Swal.fire({
-                                title: 'Erro!',
-                                text: 'Erro ao excluir o prestador de serviço.',
-                                icon: 'error',
-                                width: '420px',
-                                confirmButtonColor: "#2be4c6",
-                                background: "#343a40",
-                                color: "#a1b6c2",
-                                customClass: {
-                                    title: 'swal-title',
-                                    content: 'swal-content',
-                                    htmlContainer: 'swal-text',
-                                    confirmButton: 'swal-confirm-btn'
-                                }
-                            });
-                        }
-                    });
-                } else if (result.isDenied) {
-                    Swal.fire({
-                        title: 'Cancelado',
-                        text: 'Nenhuma alteração foi feita.',
-                        icon: 'info',
+                        title: 'Erro!',
+                        text: 'Erro ao excluir o prestador de serviço.',
+                        icon: 'error',
                         width: '420px',
-                        confirmButtonColor: "#8c52ff",
-                        background: "#343a40",
-                        color: "#a1b6c2"
+                        confirmButtonColor: "#f44336",
+                        background: "#f9f9fb",
+                        color: "#333"
                     });
                 }
             });
+        } else if (result.isDenied) {
+            Swal.fire({
+                title: 'Cancelado',
+                text: 'Nenhuma alteração foi feita.',
+                icon: 'info',
+                width: '420px',
+                confirmButtonColor: "#9e9e9e",
+                background: "#f9f9fb",
+                color: "#333"
+            });
         }
+    });
+}
+
     </script>
 
 
