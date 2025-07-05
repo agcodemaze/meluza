@@ -75,13 +75,15 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                 <?php foreach ($clientes as $cliente): ?>
 
                                     <?php
-                                        $uberRua = $cliente['CLI_DCENDERECO'];
-                                        $uberCidade = $cliente['CLI_DCCIDADE'];
-                                        $uberEstado = $cliente['CLI_DCESTADO'];
-                                        $uberNumero = $cliente['CLI_DCNUM_ENDERECO'];
-                                        $uberBairro = $cliente['CLI_DCBAIRRRO'];
-                                        $endereco = "$uberRua, $uberNumero,$uberCidade,$uberEstado";
+                                        $uberRua     = $cliente['CLI_DCENDERECO'];
+                                        $uberNumero  = $cliente['CLI_DCNUM_ENDERECO'];
+                                        $uberCidade  = $cliente['CLI_DCCIDADE'];
+                                        $uberEstado  = $cliente['CLI_DCESTADO'];
+                                        $uberBairro  = $cliente['CLI_DCBAIRRO']; // corrigido
+                                                                        
+                                        $endereco = "$uberRua, $uberNumero, $uberCidade, $uberEstado";
                                         $enderecoFormado = rawurlencode($endereco);
+                                                                        
                                         $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[formatted_address]=$enderecoFormado";
 
                                         $telefone = $cliente['CLI_DCTELEFONE'];
