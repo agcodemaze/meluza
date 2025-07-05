@@ -83,8 +83,6 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         $endereco = "$uberRua, $uberNumero,$uberCidade,$uberEstado";
                                         $enderecoFormado = rawurlencode($endereco);
                                         $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[formatted_address]=$enderecoFormado";
-                                    
-                                        var_dump($uberLink);
 
                                         $telefone = $cliente['CLI_DCTELEFONE'];
                                         $mensagem = "Olá, tudo bem?";                                                                        
