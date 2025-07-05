@@ -72,16 +72,18 @@ $siteAdmin = new SITE_ADMIN();
                                     <tr class="align-middle">
                                         <td>1</td>
                                         <td>José Antonio Silva</td>
-                                        <td>     
-                                            <i class="mdi mdi-whatsapp" style="font-size: 24px; color: #25D366;"></i>
-                                            <i class="mdi mdi-car" style="font-size: 24px; color: #000000;"></i>                                    
-                                            <a href="javascript:void(0);" 
-                                               class="action-icon" 
-                                               data-id="1" 
+                                        <td>
+                                          <div style="display: flex; gap: 8px; align-items: center;">
+                                            <i class="mdi mdi-whatsapp" style="font-size: 24px; color: #25D366;" title="WhatsApp"></i>
+                                            <i class="mdi mdi-car" style="font-size: 24px; color: #000000;" title="Ir com Uber"></i>
+                                            <a href="javascript:void(0);"
+                                               class="action-icon"
+                                               data-id="1"
                                                data-foto="foto"
                                                onclick="confirmDeleteAttr(this)">
                                                <i class="mdi mdi-delete" style="font-size: 24px; color: #00c1fb;" title="Excluir Cliente"></i>
-                                            </a>                                                          
+                                            </a>
+                                          </div>
                                         </td>
                                     </tr>                                    
                                 </tbody>
