@@ -75,6 +75,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                 <?php foreach ($clientes as $cliente): ?>
 
                                     <?php
+                                        $uberLink = "";
                                         $uberRua     = $cliente['CLI_DCENDERECO'];
                                         $uberNumero  = $cliente['CLI_DCNUM_ENDERECO'];
                                         $uberCidade  = $cliente['CLI_DCCIDADE'];
@@ -83,7 +84,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 
                                         $endereco = "Rua dos Estudantes, 505, Hortolândia, SP";
                                         $url = "https://nominatim.openstreetmap.org/search?format=json&q=" . urlencode($endereco);
-                                                                        
+                                        var_dump($url);                                
                                         $response = file_get_contents($url);
                                         $data = json_decode($response, true);
                                                                         
@@ -97,7 +98,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         $telefone = $cliente['CLI_DCTELEFONE'];
                                         $mensagem = "Olá, tudo bem?";                                                                        
                                         $linkWhatsapp = "https://wa.me/55{$telefone}?text=" . rawurlencode($mensagem);
-                                        var_dump($uberLink);
+                            
                                     ?>
 
                                     <tr class="align-middle">
