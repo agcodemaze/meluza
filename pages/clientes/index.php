@@ -75,7 +75,14 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                 <?php foreach ($clientes as $cliente): ?>
                                     <tr class="align-middle">
                                         <td><?= $contador++; ?></td>
-                                        <td><?= htmlspecialchars(mb_strlen($cliente['CLI_DCNOME'], 'UTF-8') > 15 ? mb_substr($cliente['CLI_DCNOME'], 0, 15, 'UTF-8') . '...' : $cliente['CLI_DCNOME'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?></td>
+                                        <td>
+                                            <?= htmlspecialchars(
+                                                mb_strlen($cliente['CLI_DCNOME'], 'UTF-8') > 18 
+                                                ? mb_substr(mb_convert_case($cliente['CLI_DCNOME'], MB_CASE_TITLE, 'UTF-8'), 0, 18, 'UTF-8') . '...' 
+                                                : mb_convert_case($cliente['CLI_DCNOME'], MB_CASE_TITLE, 'UTF-8'), 
+                                                ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'
+                                            ) ?>
+                                        </td>
                                         <td>
                                             <div style="display: flex; gap: 8px; align-items: center;">
                                                 <i class="mdi mdi-whatsapp" style="font-size: 28px; color: #25D366;" title="WhatsApp"></i>
