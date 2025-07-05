@@ -73,6 +73,23 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                 <tbody>
                                 <?php $contador = 1; ?>
                                 <?php foreach ($clientes as $cliente): ?>
+
+                                    <?php
+                                        $uberRua = $cliente['CLI_DCENDERECO'];
+                                        $uberCidade = $cliente['CLI_DCCIDADE'];
+                                        $uberEstado = $cliente['CLI_DCESTADO'];
+                                        $uberNumero = $cliente['CLI_DCNUM_ENDERECO'];
+                                        $uberBairro = $cliente['CLI_DCBAIRRRO'];
+                                        $endereco = "$uberRua, $uberNumero,$uberCidade,$uberEstado";
+                                        $enderecoFormado = rawurlencode($endereco);
+                                        $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[formatted_address]=$enderecoFormado";
+                                    
+                                        $telefone = $cliente['CLI_DCTELEFONE'];
+                                        $mensagem = "Olá, tudo bem?";                                                                        
+                                        $linkWhatsapp = "https://wa.me/55{$telefone}?text=" . rawurlencode($mensagem);
+                                    
+                                    ?>
+
                                     <tr class="align-middle">
                                         <td><?= $contador++; ?></td>
                                         <td>
@@ -85,8 +102,8 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         </td>
                                         <td>
                                             <div style="display: flex; gap: 8px; align-items: center;">
-                                                <i class="mdi mdi-whatsapp" style="font-size: 28px; color: #25D366;" title="WhatsApp"></i>
-                                                <i class="mdi mdi-car" style="font-size: 28px; color: #000000;" title="Ir com Uber"></i>
+                                                <a href="<?php echo $linkWhatsapp; ?>" target="_blank"><i class="mdi mdi-whatsapp" style="font-size: 28px; color: #25D366;" title="WhatsApp"></i></a>
+                                                <a href="<?php echo $uberLink; ?>" target="_blank"><i class="mdi mdi-car" style="font-size: 28px; color: #000000;" title="Ir com Uber"></i></a>
                                                 <a href="javascript:void(0);" 
                                                    class="action-icon" 
                                                    data-id="<?= htmlspecialchars($cliente['CLI_IDCLIENTE']); ?>" 
@@ -109,6 +126,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 
 	      <?php include_once BASE_PATH . "src/footer.php"; ?>
       </div>
+      
       
     <script>
         function confirmDeleteAttr(element) {
