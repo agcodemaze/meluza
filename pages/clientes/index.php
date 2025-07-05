@@ -87,7 +87,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         $telefone = $cliente['CLI_DCTELEFONE'];
                                         $mensagem = "Olá, tudo bem?";                                                                        
                                         $linkWhatsapp = "https://wa.me/55{$telefone}?text=" . rawurlencode($mensagem);
-                                    
+                                        var_dump($uberLink);
                                     ?>
 
                                     <tr class="align-middle">
