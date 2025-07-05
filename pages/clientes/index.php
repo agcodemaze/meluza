@@ -107,12 +107,12 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                             } 
                                             else
                                                 {
-                                                    $colorIcon = " #797676";
+                                                    $colorIcon = " #c7c1c1";
                                                 }
                                         }
                                         else
                                             {
-                                                $colorIcon = " #797676";
+                                                $colorIcon = " #c7c1c1";
                                             } 
                                                                     
                                         $telefone = $cliente['CLI_DCTELEFONE'];
