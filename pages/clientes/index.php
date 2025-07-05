@@ -75,6 +75,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                 <?php foreach ($clientes as $cliente): ?>
 
                                     <?php
+                                    /*
                                         $uberLink = "javascript:void(0);";
                                         $uberRua     = $cliente['CLI_DCENDERECO'];
                                         $uberNumero  = $cliente['CLI_DCNUM_ENDERECO'];
@@ -113,7 +114,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                             {
                                                 $colorIcon = " #c7c1c1";
                                             } 
-                                                                    
+                                        */                           
                                         $telefone = $cliente['CLI_DCTELEFONE'];
                                         $mensagem = "Olá, tudo bem?";                                                                        
                                         $linkWhatsapp = "https://wa.me/55{$telefone}?text=" . rawurlencode($mensagem);
@@ -133,7 +134,6 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                         <td>
                                             <div style="display: flex; gap: 8px; align-items: center;">
                                                 <a href="<?php echo $linkWhatsapp; ?>" target="_blank"><i class="mdi mdi-whatsapp" style="font-size: 28px; color: #25D366;" title="WhatsApp"></i></a>
-                                                <a href="<?php echo $uberLink; ?>" target="_blank"><i class="mdi mdi-car" style="font-size: 28px; color:<?php echo $colorIcon; ?>;" title="Ir com Uber"></i></a>
                                                 <a href="javascript:void(0);" 
                                                    class="action-icon" 
                                                    data-id="<?= htmlspecialchars($cliente['CLI_IDCLIENTE']); ?>" 
