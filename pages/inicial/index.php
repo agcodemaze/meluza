@@ -140,8 +140,7 @@ $siteAdmin = new SITE_ADMIN();
         <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
 
         <!-- OPTIONAL SCRIPTS -->
-        <!-- apexcharts -->
-       <script src="../../vendor/apexcharts/apexcharts.min.js"></script>
+  
 
         <!--end::Script-->
    
