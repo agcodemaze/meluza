@@ -12,9 +12,9 @@
          <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview" role="navigation" aria-label="Main navigation" data-accordion="false" id="navigation">
             <li class="nav-header">NAVEGAÇÃO</li>
             <li class="nav-item">
-               <a href="#" class="nav-link">
+               <a href="/inicial" class="nav-link">
                   <i class="nav-icon mdi mdi-home"></i>
-                  <p>Home</p>
+                  <p>Inicial</p>
                </a>
             </li>
             <li class="nav-item">
