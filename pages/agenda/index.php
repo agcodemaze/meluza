@@ -75,21 +75,15 @@ $siteAdmin = new SITE_ADMIN();
             </div>
             <div class="app-content">
                 <div class="container-fluid">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <h4 class="header-title">Agenda</h4>
-                        <div class="dropdown">
-                            <a href="#" class="dropdown-toggle arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false"> </a>
-                        </div>
-                    </div>
-                                            <div class="row">
+                        <div class="row">
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon text-bg-primary shadow-sm"> <i class="bi bi-gear-fill"></i> </span>
                                     <div class="info-box-content">
-                                        <span class="info-box-text">CPU Traffic</span>
+                                        <span class="info-box-text">Serviços Agendados</span>
                                         <span class="info-box-number">
                                             10
-                                            <small>%</small>
+                                            <small></small>
                                         </span>
                                     </div>
                                     <!-- /.info-box-content -->
@@ -100,7 +94,7 @@ $siteAdmin = new SITE_ADMIN();
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon text-bg-danger shadow-sm"> <i class="bi bi-hand-thumbs-up-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Likes</span> <span class="info-box-number">41,410</span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Serviços Concluídos</span> <span class="info-box-number">41,410</span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -111,7 +105,7 @@ $siteAdmin = new SITE_ADMIN();
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon text-bg-success shadow-sm"> <i class="bi bi-cart-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Sales</span> <span class="info-box-number">760</span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">760</span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -120,7 +114,7 @@ $siteAdmin = new SITE_ADMIN();
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon text-bg-warning shadow-sm"> <i class="bi bi-people-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">New Members</span> <span class="info-box-number">2,000</span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Clientes Cadastrados</span> <span class="info-box-number">2,000</span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
