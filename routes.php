@@ -11,6 +11,7 @@ return [
 
     //clientes
     'clientes' => 'pages/clientes/index.php', 
+    'inserClient' => 'pages/clientes/inserClient.php',
 
     //agenda
     'agenda' => 'pages/agenda/index.php', 

@@ -47,7 +47,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 
                     <div class="card mb-4">
                         <div class="card-header d-flex justify-content-between align-items-center">
-                            <a href="/cliente" class="btn btn-sm" style="background-color: #00c1fb; color: black; font-weight: bold;">
+                            <a href="/inserClient" class="btn btn-sm" style="background-color: #00c1fb; color: black; font-weight: bold;">
                                 + Novo Cliente
                             </a>
                             <div class="col-auto">
