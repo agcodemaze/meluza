@@ -166,12 +166,8 @@ $siteAdmin = new SITE_ADMIN();
             const sales_chart_options = {
                 series: [
                     {
-                        name: "Digital Goods",
+                        name: "Total de Faxinas",
                         data: [28, 48, 40, 19, 86, 27, 90],
-                    },
-                    {
-                        name: "Electronics",
-                        data: [65, 59, 80, 81, 56, 55, 40],
                     },
                 ],
                 chart: {
