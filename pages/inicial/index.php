@@ -73,8 +73,8 @@ $siteAdmin = new SITE_ADMIN();
                          <div class="col-12">
                             <div class="card">
                               <!-- Info Boxes Style 2 -->
-                              <div class="info-box mb-3" style="background-color: #7eda0d; color: #fff;">
-                                  <span class="info-box-icon" style="background-color: rgba(0, 0, 0, 0.15); color: #fff;">
+                              <div class="info-box mb-3" style="background-color: #7eda0d; color: #000000;">
+                                  <span class="info-box-icon" style="background-color: rgba(0, 0, 0, 0.15); color: #000000;">
                                       <i class="bi bi-tag-fill"></i>
                                   </span>
                                   <div class="info-box-content">
@@ -83,8 +83,8 @@ $siteAdmin = new SITE_ADMIN();
                                   </div>
                               </div>
                              <!-- /.info-box -->
-                           <div class="info-box mb-3" style="background-color: #7eda0d; color: #fff;">
-                               <span class="info-box-icon" style="background-color: rgba(0, 0, 0, 0.15); color: #fff;">
+                           <div class="info-box mb-3" style="background-color: #7eda0d; color: #000000;">
+                               <span class="info-box-icon" style="background-color: rgba(0, 0, 0, 0.15); color: #000000;">
                                    <i class="bi bi-tag-fill"></i>
                                </span>
                                <div class="info-box-content">
