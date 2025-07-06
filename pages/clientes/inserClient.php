@@ -189,19 +189,13 @@ $siteAdmin = new SITE_ADMIN();
 
     <script>
         function confirmAndSubmit(event) {
-          event.preventDefault(); // Impede o envio padrão do formulário
+          event.preventDefault(); 
         
-          var form = document.getElementById("form");
-        
-          if (!form.checkValidity()) {
-            form.reportValidity(); // Mostra o aviso nativo do navegador
-            return; // Para aqui se o formulário não for válido
-          }
+          var form = document.getElementById("form");    
       
-          // Se o form estiver válido, continua o SweetAlert normalmente:
           Swal.fire({
-            title: 'Formulário de Moradores',
-            text: 'Tem certeza que deseja cadastrar o usuário?',
+            title: 'Formulário de Clientes',
+            text: 'Tem certeza que deseja cadastrar o cliente?',
             icon: 'warning',
             showDenyButton: true,
             confirmButtonText: 'CONFIRMAR',
@@ -238,7 +232,7 @@ $siteAdmin = new SITE_ADMIN();
               var formData = new FormData($("#form")[0]);
           
               $.ajax({
-                url: "/insertUsuarioProc",
+                url: "/inserClientProc",
                 type: "POST",
                 data: formData,
                 processData: false,
@@ -263,7 +257,7 @@ $siteAdmin = new SITE_ADMIN();
                         confirmButton: 'swal-confirm-btn'
                       }
                     }).then(() => {
-                      window.location.href = "/listaMoradores";
+                      window.location.href = "/clientes";
                     });
                   } else {
                     Swal.fire({
@@ -288,7 +282,7 @@ $siteAdmin = new SITE_ADMIN();
                 
                   Swal.fire({
                     title: 'Erro!',
-                    text: 'Erro ao cadastrar o usuário: ' + error,
+                    text: 'Erro ao cadastrar o cliente: ' + error,
                     icon: 'error',
                     width: '420px',
                     confirmButtonColor: "#2be4c6",

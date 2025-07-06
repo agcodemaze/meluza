@@ -12,6 +12,7 @@ return [
     //clientes
     'clientes' => 'pages/clientes/index.php', 
     'inserClient' => 'pages/clientes/inserClient.php',
+    'inserClientProc' => 'pages/clientes/inserClientProc.php',    
 
     //agenda
     'agenda' => 'pages/agenda/index.php', 
