@@ -67,9 +67,9 @@ $siteAdmin = new SITE_ADMIN();
                                                   <input id="nome" name="nome" autocomplete="new-nome" style="text-transform: uppercase;" type="text" class="form-control" placeholder="" maxlength="50"  oninput="this.value = this.value.replace(/[^\p{L} ]/gu, '')" required/>
                                                 </div>
 
-                                                <div class="position-relative mb-3" id="campo-telefone">
+                                                <div class="position-relative mb-3" id="campo-telefone">                                                    
                                                   <label class="form-label" for="telefone">DDD + Telefone (Whatsapp)</label>
-                                                  <input id="telefone" name="telefone" autocomplete="new-telefone" type="text" class="form-control" placeholder="Ex.: 11982734359" pattern="^\d{11}$" minlength="11" maxlength="11" oninput="this.value = this.value.replace(/[^0-9]/g, '')" required />
+                                                  <input type="text" id="telefone" name="telefone" class="form-control" data-toggle="input-mask" data-mask-format="00000-0000">
                                                 </div> 
 
                                                 <!-- Campos de endereço -->
@@ -85,7 +85,12 @@ $siteAdmin = new SITE_ADMIN();
 
                                                 <div class="position-relative position-relative mb-3">
                                                     <label for="numero" class="form-label">Número</label>
-                                                    <input type="text" id="numero" name="numero" class="form-control" style="text-transform: uppercase;" placeholder="Digite o número">
+                                                    <input type="text" id="numero" name="numero" class="form-control" style="text-transform: uppercase;" placeholder="Digite o número" required>
+                                                </div>
+
+                                                <div class="position-relative mb-3" id="campo-complemento">
+                                                  <label class="form-label" for="Complemento">Complemento</label>
+                                                  <input id="Complemento" name="Complemento" autocomplete="new-Complemento" style="text-transform: uppercase;" type="text" class="form-control" placeholder="" maxlength="20"/>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
