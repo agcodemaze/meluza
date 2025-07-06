@@ -69,8 +69,8 @@ $siteAdmin = new SITE_ADMIN();
                                                 </div>
 
                                                 <div class="position-relative mb-3" id="campo-telefone">                                                    
-                                                  <label class="form-label" for="telefone">DDD + Telefone (Whatsapp)</label>
-                                                  <input type="text" id="telefone" name="telefone" class="form-control" data-toggle="input-mask" data-mask-format="00000-0000">
+                                                  <label class="form-label" for="telefone">Telefone</label>
+                                                  <input type="text" id="telefone" name="telefone" class="form-control" placeholder="(00) 00000-0000">
                                                 </div> 
 
                                                 <!-- Campos de endereço -->
@@ -138,8 +138,18 @@ $siteAdmin = new SITE_ADMIN();
 	<?php include_once BASE_PATH . "src/config.php"; ?>
 
     <script>
-        $(document).ready(function(){
-            $('#telefone').mask('(00) 00000-0000');
+        $(document).ready(function() {
+          var telefoneMask = function(val) {
+            return val.replace(/\D/g, '').length === 11 ? '(00) 00000-0000' : '(00) 0000-0000';
+          };
+      
+          var telefoneOptions = {
+            onKeyPress: function(val, e, field, options) {
+              field.mask(telefoneMask.apply({}, arguments), options);
+            }
+          };
+      
+          $('#telefone').mask(telefoneMask, telefoneOptions);
         });
     </script>
 
