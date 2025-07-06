@@ -90,29 +90,8 @@ $siteAdmin = new SITE_ADMIN();
                     </div>
                     <div class="card-body pt-0">
                         <div class="row">
-                            <div class="col-md-7">
+                            <div class="col-md-12">
                                 <div id="calendario" class="calendar-widget"></div>
-                            </div>
-                            <!-- end col-->
-                            <div class="col-md-5">
-                                <h5 style="color: #2be4c6;">Faxinas Para Hoje</h5>
-                                <div style="max-height: 300px; overflow-y: auto;">
-                                    <ul class="list-unstyled mt-1">
-                                        <li
-                                            class="mb-4 border rounded p-3"
-                                            style="cursor: pointer;"
-                                        >
-                                            <p class="text-muted mb-1 font-13">
-                                                <i class="mdi mdi-calendar"></i>
-                                                00:00:00
-                                            </p>
-                                            <h4 class="mb-1">Faxina cliente 1</h4>
-                                            <span class="font-13">
-                                                descrição
-                                            </span>
-                                        </li>                                   
-                                    </ul>
-                                </div>
                             </div>
                         </div>
                         <!-- end row -->
