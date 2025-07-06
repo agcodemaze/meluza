@@ -10,7 +10,15 @@
       <meta name="description" content="O MELUZA é um sistema completo para diaristas autônomas gerenciarem agendamentos, clientes e histórico de faxinas com praticidade e tecnologia.">
       <meta name="keywords" content="meluza, diarista, faxina, sistema de agendamento, diaristas autônomas, controle de faxinas, agenda, clientes, painel de diarista">
       <meta name="supported-color-schemes" content="light dark">  
-      <script src="https://code.jquery.com/jquery-3.7.0.min.js" integrity="sha256-3fpZf+ReeQJ6qqk1z7p2+QXe9zXdV8QLPJ+3uj4aIkM=" crossorigin="anonymous"></script>
+     
+      <!-- jQuery  -->
+      <script src="../../vendor/ad_sweetalert/jquery-3.7.0.min.js"></script>    
+     
+      <!-- SWEETALERT -->
+      <script src="../../vendor/ad_sweetalert/sweetalert2@11.js"></script>
+      <link href="../../vendor/ad_sweetalert/sweetalert2.min.css" rel="stylesheet">
+      <script src="../../vendor/ad_sweetalert/sweetalert2.all.min.js"></script>     
+      
       <link rel="preload" href="css/adminlte.css" as="style">
       <link rel="stylesheet" href="css/overlayscrollbars.min.css">
       <link href="https://cdn.jsdelivr.net/npm/@mdi/font@7.4.47/css/materialdesignicons.min.css" rel="stylesheet">
