@@ -87,7 +87,7 @@ $siteAdmin = new SITE_ADMIN();
                     <div class="row">
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon text-bg-primary shadow-sm"> <i class="bi bi-gear-fill"></i> </span>
+                                   <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"><i class="bi bi-gear-fill"></i></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Serviços Agendados</span>
                                         <span class="info-box-number">
@@ -102,7 +102,7 @@ $siteAdmin = new SITE_ADMIN();
                             <!-- /.col -->
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon text-bg-danger shadow-sm"> <i class="bi bi-hand-thumbs-up-fill"></i> </span>
+                                    <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-hand-thumbs-up-fill"></i> </span>
                                     <div class="info-box-content"><span class="info-box-text">Serviços Concluídos</span> <span class="info-box-number">41,410</span></div>
                                     <!-- /.info-box-content -->
                                 </div>
@@ -113,7 +113,7 @@ $siteAdmin = new SITE_ADMIN();
                             <!-- <div class="clearfix hidden-md-up"></div> -->
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon text-bg-success shadow-sm"> <i class="bi bi-cart-fill"></i> </span>
+                                    <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-cart-fill"></i> </span>
                                     <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">760</span></div>
                                     <!-- /.info-box-content -->
                                 </div>
@@ -122,7 +122,7 @@ $siteAdmin = new SITE_ADMIN();
                             <!-- /.col -->
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon text-bg-warning shadow-sm"> <i class="bi bi-people-fill"></i> </span>
+                                    <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-people-fill"></i> </span>
                                     <div class="info-box-content"><span class="info-box-text">Clientes Cadastrados</span> <span class="info-box-number">2,000</span></div>
                                     <!-- /.info-box-content -->
                                 </div>

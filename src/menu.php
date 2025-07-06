@@ -30,9 +30,9 @@
                </a>
             </li>
             <li class="nav-item">
-               <a href="#" class="nav-link">
+               <a href="/minhaconta" class="nav-link">
                   <i class="nav-icon mdi mdi-file-chart"></i>
-                  <p>Relatório</p>
+                  <p>Minha Conta</p>
                </a>
             </li>
          </ul>
