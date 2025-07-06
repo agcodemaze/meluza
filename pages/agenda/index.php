@@ -67,9 +67,7 @@ $siteAdmin = new SITE_ADMIN();
                      <div class="col-sm-6">
                         <ol class="breadcrumb float-sm-end">
                            <li class="breadcrumb-item"><a href="/inicial">Inicial</a></li>
-                           <li class="breadcrumb-item active" aria-current="page">
-                              
-                           </li>
+                           <li class="breadcrumb-item active" aria-current="page"></li>
                         </ol>
                      </div>
                   </div>
@@ -80,12 +78,13 @@ $siteAdmin = new SITE_ADMIN();
 
                     <div class="row">
                       <div class="col-md-6">
-                        <label>Data Início</label>
+                        <label>Selecione o Intervalo</label>
                         <input type="text" class="form-control" id="intervaloDatas" placeholder="Selecione o intervalo">
                       </div>
                     </div>
+                    <br>
 
-                        <div class="row">
+                    <div class="row">
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon text-bg-primary shadow-sm"> <i class="bi bi-gear-fill"></i> </span>
@@ -130,17 +129,19 @@ $siteAdmin = new SITE_ADMIN();
                                 <!-- /.info-box -->
                             </div>
                             <!-- /.col -->
-                        </div>
-                        <!-- /.row -->
+                    </div>
+                    <!-- /.row -->
                   
-                        <div class="row">
+                    <div class="row">
                             <div class="col-12">
                                 <div id="calendario" class="calendar-widget"></div>
                             </div>
-                        </div>
-                        <!-- end row -->        
-                        <br>               
-                        <div class="row">
+                    </div>
+                    <!-- end row -->  
+
+                    <br>     
+                              
+                    <div class="row">
                             <div class="col-12">
                                <div class="card">
                                     <div class="card-header">
@@ -198,8 +199,8 @@ $siteAdmin = new SITE_ADMIN();
                                 </div>
                                 <!-- /.card -->
                             </div>
-                        </div>
-                        <!-- end row -->
+                    </div>
+                    <!-- end row -->
 
                 </div>
             </div>
