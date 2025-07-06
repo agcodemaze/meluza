@@ -58,13 +58,17 @@ $siteAdmin = new SITE_ADMIN();
                            <div class="progress-group">
                                Clientes cadastrados
                                <span class="float-end"><b>160</b>/200</span>
-                               <div class="progress progress-sm"><div class="progress-bar text-bg-primary" style="width: 80%;"></div></div>
+                               <div class="progress progress-sm">
+                                   <div class="progress-bar" style="width: 45%; background-color: #00c1fb;"></div>
+                               </div>
                            </div>
                            <!-- /.progress-group -->
                            <div class="progress-group">
                                Serviços Executados (mês)
                                <span class="float-end"><b>5</b>/12</span>
-                               <div class="progress progress-sm"><div class="progress-bar text-bg-danger" style="width: 45%;"></div></div>
+                               <div class="progress progress-sm">
+                                   <div class="progress-bar" style="width: 45%; background-color: #00c1fb;"></div>
+                               </div>
                            </div>
                         </div>
                      </div>
