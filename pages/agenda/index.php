@@ -122,22 +122,21 @@ $siteAdmin = new SITE_ADMIN();
                             <!-- /.col -->
                         </div>
                         <!-- /.row -->
-                    <div class="card-body pt-0">
+                  
                         <div class="row">
                             <div class="col-12">
                                 <div id="calendario" class="calendar-widget"></div>
                             </div>
                         </div>
                         <!-- end row -->
-                    </div>
-                    <!-- end card body-->
+        
 
-                    <div class="card-body pt-0">
+               
                         <div class="row">
                             <div class="col-12">
                                <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Recently Added Products</h3>
+                                        <h3 class="card-title">Serviços (próximos 3 meses)</h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"><i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i></button>
                                             <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"><i class="bi bi-x-lg"></i></button>
@@ -220,8 +219,7 @@ $siteAdmin = new SITE_ADMIN();
                             </div>
                         </div>
                         <!-- end row -->
-                    </div>
-                    <!-- end card body-->
+
                 </div>
             </div>
 
