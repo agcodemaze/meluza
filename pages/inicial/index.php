@@ -45,30 +45,7 @@ $siteAdmin = new SITE_ADMIN();
                             <div class="col-12">
                                <div class="card">
 
-                                 <!-- Info Boxes Style 2 -->
-                                 <div class="info-box mb-3 text-bg-warning">
-                                     <span class="info-box-icon"> <i class="bi bi-tag-fill"></i> </span>
-                                     <div class="info-box-content"><span class="info-box-text">Inventory</span> <span class="info-box-number">5,200</span></div>
-                                     <!-- /.info-box-content -->
-                                 </div>
-                                 <!-- /.info-box -->
-                                 <div class="info-box mb-3 text-bg-success">
-                                     <span class="info-box-icon"> <i class="bi bi-heart-fill"></i> </span>
-                                     <div class="info-box-content"><span class="info-box-text">Mentions</span> <span class="info-box-number">92,050</span></div>
-                                     <!-- /.info-box-content -->
-                                 </div>
-                                 <!-- /.info-box -->
-                                 <div class="info-box mb-3 text-bg-danger">
-                                     <span class="info-box-icon"> <i class="bi bi-cloud-download"></i> </span>
-                                     <div class="info-box-content"><span class="info-box-text">Downloads</span> <span class="info-box-number">114,381</span></div>
-                                     <!-- /.info-box-content -->
-                                 </div>
-                                 <!-- /.info-box -->
-                                 <div class="info-box mb-3 text-bg-info">
-                                     <span class="info-box-icon"> <i class="bi bi-chat-fill"></i> </span>
-                                     <div class="info-box-content"><span class="info-box-text">Direct Messages</span> <span class="info-box-number">163,921</span></div>
-                                     <!-- /.info-box-content -->
-                                 </div>
+                              
 
                                 </div>
                                 <!-- /.card -->
