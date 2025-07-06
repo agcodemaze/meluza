@@ -75,6 +75,17 @@ $siteAdmin = new SITE_ADMIN();
             </div>
             <div class="app-content">
                 <div class="container-fluid">
+
+                    <div class="row">
+                        <div class="col-12 col-md-3 mb-3">
+                            <!-- Date Range Picker -->
+                            <label class="form-label" for="daterangetime">Escolha o Intervalo</label>
+                            <input type="text" class="form-control" id="daterangetime" 
+                                   data-toggle="date-picker" data-time-picker="true" 
+                                   data-locale="{'format': 'DD/MM hh:mm A'}">
+                        </div>
+                    </div>
+
                         <div class="row">
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
