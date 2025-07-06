@@ -80,7 +80,7 @@ $siteAdmin = new SITE_ADMIN();
 
                                                 <div class="position-relative mb-3">
                                                     <label for="endereco" class="form-label">Endereço</label>
-                                                    <input type="text" id="endereco" name="endereco" class="form-control" style="text-transform: uppercase;" placeholder="" readonly>
+                                                    <input type="text" id="endereco" name="endereco" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
                                                 </div>
 
                                                 <div class="position-relative position-relative mb-3">
@@ -90,22 +90,21 @@ $siteAdmin = new SITE_ADMIN();
 
                                                 <div class="position-relative mb-3">
                                                     <label for="bairro" class="form-label">Bairro</label>
-                                                    <input type="text" id="bairro" name="bairro" class="form-control" style="text-transform: uppercase;" placeholder="" readonly>
+                                                    <input type="text" id="bairro" name="bairro" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
                                                     <label for="cidade" class="form-label">Cidade</label>
-                                                    <input type="text" id="cidade" name="cidade" class="form-control" style="text-transform: uppercase;" placeholder="" readonly>
+                                                    <input type="text" id="cidade" name="cidade" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
                                                     <label for="estado" class="form-label">Estado</label>
-                                                    <input type="text" id="estado" name="estado" class="form-control" style="text-transform: uppercase;" placeholder="" readonly>
+                                                    <input type="text" id="estado" name="estado" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
                                                   <label for="observacao" class="form-label">Observações</label>
-                                                  <p class="text-muted font-13">Observações</p>
                                                   <textarea class="form-control" maxlength="300" rows="3" id="observacao" name="observacao" placeholder=""></textarea>
                                                 </div> 
                                             
