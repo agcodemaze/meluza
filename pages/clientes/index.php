@@ -50,12 +50,16 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                             <a href="/cliente" class="btn btn-sm" style="background-color: #00c1fb; color: black; font-weight: bold;">
                                 + Novo Cliente
                             </a>
+                            <div class="col-auto">
+                                <label for="searchField" class="visually-hidden">Procurar</label>
+                                <input type="search" class="form-control" id="searchField" placeholder="Procurar...">
+                            </div>
                             <div class="card-tools">
                             </div>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body p-0">
-                            <table class="table">
+                            <table class="table" id="tabela">
                                 <thead>
                                     <tr>
                                         <th style="width: 10px;">#</th>
@@ -149,7 +153,18 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 
 	      <?php include_once BASE_PATH . "src/footer.php"; ?>
       </div>
-      
+
+    <script>
+        document.getElementById('searchField').addEventListener('keyup', function() {
+            var search = this.value.toLowerCase();
+            var rows = document.querySelectorAll("#tabela tbody tr");
+        
+            rows.forEach(function(row) {
+                var texto = row.innerText.toLowerCase();
+                row.style.display = texto.includes(search) ? "" : "none";
+            });
+        });
+    </script>
       
     <script>
         function confirmDeleteAttr(element) {
