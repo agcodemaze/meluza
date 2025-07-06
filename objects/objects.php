@@ -132,5 +132,48 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        public function insertClienteInfo($CLI_DCNOME, $CLI_DCOBS, $CLI_DCTELEFONE, $CLI_DCCEP, $CLI_DCENDERECO, $CLI_DCNUM_ENDERECO, $CLI_DCBAIRRO, $CLI_DCCIDADE, $CLI_DCESTADO, $CLI_DCCOMPLEMENTO)
+        {       
+            if (!$this->pdo) {
+                $this->conexao();
+            } 
+
+            $now = new DateTime(); 
+            $CLI_DTULTIMA_ATUALIZACAO = $now->format('Y-m-d H:i:s');
+            $CLI_DTCADASTRO = $now->format('Y-m-d H:i:s');
+            $CLI_STATIVO = "ATIVO";
+
+            try {
+                $sql = "INSERT INTO CLI_CLIENTE 
+                        (CLI_DCNOME, CLI_DCOBS, CLI_DCTELEFONE, CLI_DCCEP, CLI_DCENDERECO, CLI_DCNUM_ENDERECO, CLI_DCBAIRRO, CLI_DCCIDADE, CLI_DCESTADO, CLI_DCCOMPLEMENTO, CLI_DTULTIMA_ATUALIZACAO, CLI_DTCADASTRO, CLI_STATIVO) 
+                        VALUES (:CLI_DCNOME, CLI_DCOBS, :CLI_DCTELEFONE, :CLI_DCCEP, :CLI_DCENDERECO, :CLI_DCNUM_ENDERECO, :CLI_DCBAIRRO, :CLI_DCCIDADE, :CLI_DCESTADO, :CLI_DCCOMPLEMENTO, :CLI_DTULTIMA_ATUALIZACAO, :CLI_DTCADASTRO, :CLI_STATIVO)";
+
+                $stmt = $this->pdo->prepare($sql);
+            
+                $stmt->bindParam(':CLI_DCNOME', $CLI_DCNOME, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCTELEFONE', $CLI_DCTELEFONE, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCCEP', $CLI_DCCEP, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCENDERECO', $CLI_DCENDERECO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCNUM_ENDERECO', $CLI_DCNUM_ENDERECO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCBAIRRO', $CLI_DCBAIRRO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCCIDADE', $CLI_DCCIDADE, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCESTADO', $CLI_DCESTADO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCCOMPLEMENTO', $CLI_DCCOMPLEMENTO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DTULTIMA_ATUALIZACAO', $CLI_DTULTIMA_ATUALIZACAO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DTCADASTRO', $CLI_DTCADASTRO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_STATIVO', $CLI_STATIVO, PDO::PARAM_STR);
+                
+                $stmt->execute();   
+                
+                $response = array("success" => true, "message" => "Cliente cadastrado com sucesso.");
+                return json_encode($response); 
+
+            } catch (PDOException $e) {
+                $error =  $e->getMessage();   
+                $response = array("success" => false, "message" => "Houve um erro: $error");
+                return json_encode($response);
+            }            
+        }
+
     }
 ?>
