@@ -113,22 +113,19 @@ $siteAdmin = new SITE_ADMIN();
                      </div>
                      <br>
                      <div class="card-body">
-                                    <div class="card-header">
-                                        <h3 class="card-title">Browser Usage</h3>
-                                        <div class="card-tools">
-                                            <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"><i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i></button>
-                                            <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"><i class="bi bi-x-lg"></i></button>
-                                        </div>
-                                    </div>
-                                    <!-- /.card-header -->
-                                    <div class="card-body">
-                                        <!--begin::Row-->
-                                        <div class="row">
-                                            <div class="col-12"><div id="pie-chart"></div></div>
-                                            <!-- /.col -->
-                                        </div>
-                                        <!--end::Row-->
-                                    </div>
+                         <div class="card-header">
+                             <h3 class="card-title">Faxinas Realizadas por Tipo</h3>
+                             <div class="card-tools">
+                             </div>
+                         </div>
+                         <!-- /.card-header -->
+                         <div class="card-body">
+                             <div class="row justify-content-center">
+                                 <div class="col-12 col-md-8">
+                                     <div id="pie-chart"></div>
+                                 </div>
+                             </div>
+                         </div>
                      </div>
                
                </div>
@@ -276,7 +273,7 @@ $siteAdmin = new SITE_ADMIN();
                 chart: {
                     type: "donut",
                 },
-                labels: ["Chrome", "Edge", "FireFox", "Safari", "Opera", "IE"],
+                labels: ["Casa", "Casa Grande", "Apartamento", "Comércio", "Chácara", "Outros"],
                 dataLabels: {
                     enabled: false,
                 },
