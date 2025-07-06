@@ -1,2 +1,3 @@
 cor verde: #7eda0d
 cor azul: #00c1fb
+cor botao voltar: #6e6c72
