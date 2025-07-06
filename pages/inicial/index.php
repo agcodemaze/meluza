@@ -111,6 +111,15 @@ $siteAdmin = new SITE_ADMIN();
                          </div>
                          <!--end::Row-->
                      </div>
+                     <br>
+                     <div class="card-body">
+                         <!--begin::Row-->
+                         <div class="row">
+                           <div class="col-12"><div id="pie-chart"></div></div>
+                           <!-- /.col -->
+                           </div>
+                         <!--end::Row-->
+                     </div>
                
                </div>
             </div>
