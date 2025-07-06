@@ -75,7 +75,7 @@ $siteAdmin = new SITE_ADMIN();
                               <!-- Info Boxes Style 2 -->
                              <div class="info-box mb-3 text-bg-info">
                                  <span class="info-box-icon"> <i class="bi bi-tag-fill"></i> </span>
-                                 <div class="info-box-content"><span class="info-box-text">Próxima Faxina</span> <span class="info-box-number">Carlos Almeida Prado<br>Tipo: Apartamento<br>Data e Hora: 25/08/2025 08:30</span></div>
+                                 <div class="info-box-content"><span class="info-box-text">Próxima Faxina</span> <span class="info-box-number">Carlos Almeida Prado 25/08/2025 08:30</span></div>
                                  <!-- /.info-box-content -->
                              </div>
                              <!-- /.info-box -->
