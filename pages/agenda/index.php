@@ -19,42 +19,20 @@ $siteAdmin = new SITE_ADMIN();
 
    </head>
 
-   <style>
-    /* Destaques no calendário */
-    .highlight {
-        background-color: rgb(30, 35, 41) !important; 
-        border-radius: 50% !important; 
-        color: rgb(228, 194, 43) !important; 
-    }
+    <style>
+        #calendario .datepicker {
+            width: 100% !important;
+        }
 
-    .calendar-widget td.highlight {
-        background-color: rgb(30, 35, 41) !important;
-        border-radius: 50% !important;
-        color: rgb(228, 154, 43) !important;
-    }
-
-    /* Destaque personalizado para datepicker */
-    .datepicker table tr td.highlight {
-        position: relative;
-        color: white !important;
-        font-weight: bold;
-        z-index: 1;
-    }
-
-    .datepicker table tr td.highlight::before {
-        content: "";
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        width: 32px;
-        height: 32px;
-        background-color: #007bff;
-        border-radius: 50%;
-        transform: translate(-50%, -50%);
-        z-index: -1;
-    }
-
-</style>
+        #calendario {
+            width: 100%;
+            max-width: 100%;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
 
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
       <div class="app-wrapper">
@@ -90,7 +68,7 @@ $siteAdmin = new SITE_ADMIN();
                     </div>
                     <div class="card-body pt-0">
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-12">
                                 <div id="calendario" class="calendar-widget"></div>
                             </div>
                         </div>
