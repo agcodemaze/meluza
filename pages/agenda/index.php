@@ -80,9 +80,7 @@ $siteAdmin = new SITE_ADMIN();
                         <div class="col-12 col-md-3 mb-3">
                             <!-- Date Range Picker -->
                             <label class="form-label" for="daterangetime">Escolha o Intervalo</label>
-                            <input type="text" class="form-control" id="daterangetime" 
-                                   data-toggle="date-picker" data-time-picker="true" 
-                                   data-locale="{'format': 'DD/MM hh:mm A'}">
+                            <input type="text" class="form-control" id="daterangetime" placeholder="Selecione uma data">
                         </div>
                     </div>
 
@@ -216,15 +214,26 @@ $siteAdmin = new SITE_ADMIN();
         <script src="../../js/adminlte.js"></script>
         <script src="https://cdn.datatables.net/plug-ins/1.13.4/sorting/datetime-moment.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#calendario').datepicker({
-            format: "dd/mm/yyyy",
-            language: "pt-BR",
-            todayHighlight: true
-        });
-    });
-</script>
+        <script>
+            $(document).ready(function () {
+                $('#calendario').datepicker({
+                    format: "dd/mm/yyyy",
+                    language: "pt-BR",
+                    todayHighlight: true
+                });
+            });
+        </script>
+        
+        <script>
+          $(document).ready(function () {
+            $('#daterangetime').datepicker({
+              format: "dd/mm/yyyy",
+              language: "pt-BR",
+              todayHighlight: true,
+              autoclose: true
+            });
+          });
+        </script>
 
 	   <?php include_once BASE_PATH . "src/config.php"; ?>
 
