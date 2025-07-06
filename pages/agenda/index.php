@@ -12,12 +12,14 @@ $siteAdmin = new SITE_ADMIN();
 
 	<?php include_once BASE_PATH . "src/head.php"; ?>
 
-
     <link href="../../vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
-
-   </head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+   
+</head>
 
     <style>
         #calendario .datepicker {
@@ -79,11 +81,7 @@ $siteAdmin = new SITE_ADMIN();
                     <div class="row">
                       <div class="col-md-6">
                         <label>Data Início</label>
-                        <input type="text" class="form-control" id="dataInicio">
-                      </div>
-                      <div class="col-md-6">
-                        <label>Data Fim</label>
-                        <input type="text" class="form-control" id="dataFim">
+                        <input type="text" class="form-control" id="intervaloDatas" placeholder="Selecione o intervalo">
                       </div>
                     </div>
 
@@ -228,14 +226,18 @@ $siteAdmin = new SITE_ADMIN();
         </script>
 
         <script>
-          $(document).ready(function () {
-            $('#dataInicio, #dataFim').datepicker({
-              format: "dd/mm/yyyy",
-              language: "pt-BR",
-              todayHighlight: true,
-              autoclose: true
+            $(function() {
+              $('#intervaloDatas').daterangepicker({
+                locale: {
+                  format: 'DD/MM/YYYY',
+                  applyLabel: 'Aplicar',
+                  cancelLabel: 'Cancelar',
+                  daysOfWeek: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+                  monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+                  firstDay: 0
+                }
+              });
             });
-          });
         </script>
 
 	   <?php include_once BASE_PATH . "src/config.php"; ?>
