@@ -128,15 +128,13 @@ $siteAdmin = new SITE_ADMIN();
                                 <div id="calendario" class="calendar-widget"></div>
                             </div>
                         </div>
-                        <!-- end row -->
-        
-
-               
+                        <!-- end row -->        
+                        <br>               
                         <div class="row">
                             <div class="col-12">
                                <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Serviços (próximos 3 meses)</h3>
+                                        <h3 class="card-title">Serviços</h3>
                                         <div class="card-tools">
                                             <button type="button" class="btn btn-tool" data-lte-toggle="card-collapse"><i data-lte-icon="expand" class="bi bi-plus-lg"></i> <i data-lte-icon="collapse" class="bi bi-dash-lg"></i></button>
                                             <button type="button" class="btn btn-tool" data-lte-toggle="card-remove"><i class="bi bi-x-lg"></i></button>
@@ -149,13 +147,16 @@ $siteAdmin = new SITE_ADMIN();
                                                 <div class="col-2"><img src="/assets/img/default-150x150.png" alt="Product Image" class="img-size-50" /></div>
                                                 <div class="col-10">
                                                     <a href="javascript:void(0)" class="fw-bold">
-                                                        Samsung TV
+                                                        Samira Neves Orlando
                                                         <span class="badge text-bg-warning float-end">
-                                                            $1800
+                                                            R$180,00
                                                         </span>
                                                     </a>
                                                     <div class="text-truncate">
-                                                        Samsung 32" 1080p 60Hz LED Smart HDTV.
+                                                        12/01/2025 08:00 Tipo: Apartamento.
+                                                    </div>
+                                                    <div class="text-truncate">
+                                                        Bairro: Jd Campos Verdes
                                                     </div>
                                                 </div>
                                             </div>
@@ -164,47 +165,19 @@ $siteAdmin = new SITE_ADMIN();
                                                 <div class="col-2"><img src="/assets/img/default-150x150.png" alt="Product Image" class="img-size-50" /></div>
                                                 <div class="col-10">
                                                     <a href="javascript:void(0)" class="fw-bold">
-                                                        Bicycle
+                                                        Juvenal Candido Motta
                                                         <span class="badge text-bg-info float-end">
-                                                            $700
+                                                            R$220,00
                                                         </span>
                                                     </a>
                                                     <div class="text-truncate">
-                                                        26" Mongoose Dolomite Men's 7-speed, Navy Blue.
+                                                        12/01/2025 08:00 Tipo: Casa.
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <!-- /.item -->
-                                            <div class="d-flex border-top py-2 px-1">
-                                                <div class="col-2"><img src="/assets/img/default-150x150.png" alt="Product Image" class="img-size-50" /></div>
-                                                <div class="col-10">
-                                                    <a href="javascript:void(0)" class="fw-bold">
-                                                        Xbox One
-                                                        <span class="badge text-bg-danger float-end">
-                                                            $350
-                                                        </span>
-                                                    </a>
                                                     <div class="text-truncate">
-                                                        Xbox One Console Bundle with Halo Master Chief Collection.
+                                                        Bairro: Jd Campos Verdes
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- /.item -->
-                                            <div class="d-flex border-top py-2 px-1">
-                                                <div class="col-2"><img src="/assets/img/default-150x150.png" alt="Product Image" class="img-size-50" /></div>
-                                                <div class="col-10">
-                                                    <a href="javascript:void(0)" class="fw-bold">
-                                                        PlayStation 4
-                                                        <span class="badge text-bg-success float-end">
-                                                            $399
-                                                        </span>
-                                                    </a>
-                                                    <div class="text-truncate">
-                                                        PlayStation 4 500GB Console (PS4)
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- /.item -->
                                         </div>
                                     </div>
                                     <!-- /.card-body -->
