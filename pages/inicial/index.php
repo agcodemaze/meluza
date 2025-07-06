@@ -73,17 +73,25 @@ $siteAdmin = new SITE_ADMIN();
                          <div class="col-12">
                             <div class="card">
                               <!-- Info Boxes Style 2 -->
-                             <div class="info-box mb-3 text-bg-info">
-                                 <span class="info-box-icon"> <i class="bi bi-tag-fill"></i> </span>
-                                 <div class="info-box-content"><span class="info-box-text">Próxima Faxina</span> <span class="info-box-number">Quarta-feira 25/08 08:30</span></div>
-                                 <!-- /.info-box-content -->
-                             </div>
+                              <div class="info-box mb-3" style="background-color: #7eda0d; color: #fff;">
+                                  <span class="info-box-icon" style="background-color: rgba(0, 0, 0, 0.15); color: #fff;">
+                                      <i class="bi bi-tag-fill"></i>
+                                  </span>
+                                  <div class="info-box-content">
+                                      <span class="info-box-text">Próxima Faxina</span>
+                                      <span class="info-box-number">Quarta-feira 25/08 08:30</span>
+                                  </div>
+                              </div>
                              <!-- /.info-box -->
-                             <div class="info-box mb-3 text-bg-info">
-                                 <span class="info-box-icon"> <i class="bi bi-heart-fill"></i> </span>
-                                 <div class="info-box-content"><span class="info-box-text">Média Duração </span> <span class="info-box-number">5 horas e 32 minutos</span></div>
-                                 <!-- /.info-box-content -->
-                             </div>
+                           <div class="info-box mb-3" style="background-color: #7eda0d; color: #fff;">
+                               <span class="info-box-icon" style="background-color: rgba(0, 0, 0, 0.15); color: #fff;">
+                                   <i class="bi bi-tag-fill"></i>
+                               </span>
+                               <div class="info-box-content">
+                                   <span class="info-box-text">Duração Média</span>
+                                   <span class="info-box-number">04 horas e 32 minutos</span>
+                               </div>
+                           </div>
                            </div><!-- /.card -->                                
                         </div>
                      </div>
