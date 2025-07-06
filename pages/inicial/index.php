@@ -114,7 +114,7 @@ $siteAdmin = new SITE_ADMIN();
                      <br>
                      <div class="card-body">
                          <div class="card-header">
-                             <h3 class="card-title">Faxinas Tipo (últimos 12 meses)</h3>
+                             <h3 class="card-title">Faxinas Por Tipo (últimos 12 meses)</h3>
                              <div class="card-tools">
                              </div>
                          </div>
