@@ -89,7 +89,7 @@ $siteAdmin = new SITE_ADMIN();
                                 <div class="info-box">
                                    <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"><i class="bi bi-gear-fill"></i></span>
                                     <div class="info-box-content">
-                                        <span class="info-box-text">Serviços Agendados</span>
+                                        <span class="info-box-text">Faxinas Agendadas</span>
                                         <span class="info-box-number">
                                             10
                                             <small></small>
@@ -103,7 +103,7 @@ $siteAdmin = new SITE_ADMIN();
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-hand-thumbs-up-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Serviços Concluídos</span> <span class="info-box-number">41,410</span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Faxinas Concluídas</span> <span class="info-box-number">41,410</span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -145,7 +145,7 @@ $siteAdmin = new SITE_ADMIN();
                             <div class="col-12">
                                <div class="card">
                                     <div class="card-header">
-                                        <h3 class="card-title">Serviços</h3>
+                                        <h3 class="card-title">Faxinas</h3>
                                         <div class="card-tools">
                                         </div>
                                     </div>
