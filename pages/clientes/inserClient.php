@@ -76,7 +76,7 @@ $siteAdmin = new SITE_ADMIN();
                                                 <!-- Campos de endereço -->
                                                 <div class="position-relative mb-3">
                                                     <label for="cep" class="form-label">CEP</label>
-                                                    <input type="text" id="cep" name="cep" class="form-control" data-toggle="input-mask" data-mask-format="00000-000" placeholder="Digite o CEP" maxlength="9" onblur="buscarEndereco()">
+                                                    <input type="text" id="cep" name="cep" class="form-control" placeholder="Digite o CEP" maxlength="9" onblur="buscarEndereco()">
                                                 </div>
 
                                                 <div class="position-relative mb-3">
@@ -150,6 +150,12 @@ $siteAdmin = new SITE_ADMIN();
           };
       
           $('#telefone').mask(telefoneMask, telefoneOptions);
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+          $('#cep').mask('00000-000');
         });
     </script>
 
