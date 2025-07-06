@@ -128,7 +128,7 @@ $siteAdmin = new SITE_ADMIN();
 
         <!-- OPTIONAL SCRIPTS -->
         <!-- apexcharts -->
-        <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js" integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
+       <script src="../../vendor/apexcharts/apexcharts.min.js"></script>
         <script>
             // NOTICE!! DO NOT USE ANY OF THIS JAVASCRIPT
             // IT'S ALL JUST JUNK FOR DEMO
