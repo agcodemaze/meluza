@@ -77,11 +77,14 @@ $siteAdmin = new SITE_ADMIN();
                 <div class="container-fluid">
 
                     <div class="row">
-                        <div class="col-12 col-md-3 mb-3">
-                            <!-- Date Range Picker -->
-                            <label class="form-label" for="daterangetime">Escolha o Intervalo</label>
-                            <input type="text" class="form-control" id="daterangetime" placeholder="Selecione uma data">
-                        </div>
+                      <div class="col-md-6">
+                        <label>Data Início</label>
+                        <input type="text" class="form-control" id="dataInicio">
+                      </div>
+                      <div class="col-md-6">
+                        <label>Data Fim</label>
+                        <input type="text" class="form-control" id="dataFim">
+                      </div>
                     </div>
 
                         <div class="row">
@@ -223,10 +226,10 @@ $siteAdmin = new SITE_ADMIN();
                 });
             });
         </script>
-        
+
         <script>
           $(document).ready(function () {
-            $('#daterangetime').datepicker({
+            $('#dataInicio, #dataFim').datepicker({
               format: "dd/mm/yyyy",
               language: "pt-BR",
               todayHighlight: true,
