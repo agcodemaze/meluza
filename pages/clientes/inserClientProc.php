@@ -29,7 +29,7 @@ class registerCliente extends SITE_ADMIN
                 exit;
             }        
             
-            $result = $this->insertClienteInfo($nome, $observacao, $telefone, $cep, $endereco, $numero, $bairro, $cidade, $estado, $complemento);
+            $result = $this->insertClienteInfo($nome, $observacao, $telefone, $cep, $endereco, $numero, $bairro, $cidade, $estado, $complemento, USER_ID);
             echo $result;                   
 
         } catch (PDOException $e) {  

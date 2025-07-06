@@ -132,7 +132,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
-        public function insertClienteInfo($CLI_DCNOME, $CLI_DCOBS, $CLI_DCTELEFONE, $CLI_DCCEP, $CLI_DCENDERECO, $CLI_DCNUM_ENDERECO, $CLI_DCBAIRRO, $CLI_DCCIDADE, $CLI_DCESTADO, $CLI_DCCOMPLEMENTO)
+        public function insertClienteInfo($CLI_DCNOME, $CLI_DCOBS, $CLI_DCTELEFONE, $CLI_DCCEP, $CLI_DCENDERECO, $CLI_DCNUM_ENDERECO, $CLI_DCBAIRRO, $CLI_DCCIDADE, $CLI_DCESTADO, $CLI_DCCOMPLEMENTO, $USU_IDUSUARIO)
         {       
             if (!$this->pdo) {
                 $this->conexao();
@@ -145,8 +145,8 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
 
             try {
                 $sql = "INSERT INTO CLI_CLIENTE 
-                        (CLI_DCNOME, CLI_DCOBS, CLI_DCTELEFONE, CLI_DCCEP, CLI_DCENDERECO, CLI_DCNUM_ENDERECO, CLI_DCBAIRRO, CLI_DCCIDADE, CLI_DCESTADO, CLI_DCCOMPLEMENTO, CLI_DTULTIMA_ATUALIZACAO, CLI_DTCADASTRO, CLI_STATIVO) 
-                        VALUES (:CLI_DCNOME, CLI_DCOBS, :CLI_DCTELEFONE, :CLI_DCCEP, :CLI_DCENDERECO, :CLI_DCNUM_ENDERECO, :CLI_DCBAIRRO, :CLI_DCCIDADE, :CLI_DCESTADO, :CLI_DCCOMPLEMENTO, :CLI_DTULTIMA_ATUALIZACAO, :CLI_DTCADASTRO, :CLI_STATIVO)";
+                        (CLI_DCNOME, CLI_DCOBS, CLI_DCTELEFONE, CLI_DCCEP, CLI_DCENDERECO, CLI_DCNUM_ENDERECO, CLI_DCBAIRRO, CLI_DCCIDADE, CLI_DCESTADO, CLI_DCCOMPLEMENTO, CLI_DTULTIMA_ATUALIZACAO, CLI_DTCADASTRO, CLI_STATIVO, USU_IDUSUARIO) 
+                        VALUES (:CLI_DCNOME, CLI_DCOBS, :CLI_DCTELEFONE, :CLI_DCCEP, :CLI_DCENDERECO, :CLI_DCNUM_ENDERECO, :CLI_DCBAIRRO, :CLI_DCCIDADE, :CLI_DCESTADO, :CLI_DCCOMPLEMENTO, :CLI_DTULTIMA_ATUALIZACAO, :CLI_DTCADASTRO, :CLI_STATIVO, :USU_IDUSUARIO)";
 
                 $stmt = $this->pdo->prepare($sql);
             
@@ -161,7 +161,8 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
                 $stmt->bindParam(':CLI_DCCOMPLEMENTO', $CLI_DCCOMPLEMENTO, PDO::PARAM_STR);
                 $stmt->bindParam(':CLI_DTULTIMA_ATUALIZACAO', $CLI_DTULTIMA_ATUALIZACAO, PDO::PARAM_STR);
                 $stmt->bindParam(':CLI_DTCADASTRO', $CLI_DTCADASTRO, PDO::PARAM_STR);
-                $stmt->bindParam(':CLI_STATIVO', $CLI_STATIVO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_STATIVO', $CLI_STATIVO, PDO::PARAM_STR); 
+                $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_STR);
                 
                 $stmt->execute();   
                 
