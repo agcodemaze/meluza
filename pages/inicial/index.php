@@ -45,7 +45,30 @@ $siteAdmin = new SITE_ADMIN();
                             <div class="col-12">
                                <div class="card">
 
-                              
+                                 <!-- Info Boxes Style 2 -->
+                                <div class="info-box mb-3 text-bg-warning">
+                                    <span class="info-box-icon"> <i class="bi bi-tag-fill"></i> </span>
+                                    <div class="info-box-content"><span class="info-box-text">Inventory</span> <span class="info-box-number">5,200</span></div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                                <div class="info-box mb-3 text-bg-success">
+                                    <span class="info-box-icon"> <i class="bi bi-heart-fill"></i> </span>
+                                    <div class="info-box-content"><span class="info-box-text">Mentions</span> <span class="info-box-number">92,050</span></div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                                <div class="info-box mb-3 text-bg-danger">
+                                    <span class="info-box-icon"> <i class="bi bi-cloud-download"></i> </span>
+                                    <div class="info-box-content"><span class="info-box-text">Downloads</span> <span class="info-box-number">114,381</span></div>
+                                    <!-- /.info-box-content -->
+                                </div>
+                                <!-- /.info-box -->
+                                <div class="info-box mb-3 text-bg-info">
+                                    <span class="info-box-icon"> <i class="bi bi-chat-fill"></i> </span>
+                                    <div class="info-box-content"><span class="info-box-text">Direct Messages</span> <span class="info-box-number">163,921</span></div>
+                                    <!-- /.info-box-content -->
+                                </div>
 
                                 </div>
                                 <!-- /.card -->
@@ -102,51 +125,7 @@ $siteAdmin = new SITE_ADMIN();
         <!--end::Required Plugin(Bootstrap 5)--><!--begin::Required Plugin(AdminLTE)-->
         <script src="./js/adminlte.js"></script>
         <!--end::Required Plugin(AdminLTE)--><!--begin::OverlayScrollbars Configure-->
-        <script>
-            const SELECTOR_SIDEBAR_WRAPPER = ".sidebar-wrapper";
-            const Default = {
-                scrollbarTheme: "os-theme-light",
-                scrollbarAutoHide: "leave",
-                scrollbarClickScroll: true,
-            };
-            document.addEventListener("DOMContentLoaded", function () {
-                const sidebarWrapper = document.querySelector(SELECTOR_SIDEBAR_WRAPPER);
-                if (sidebarWrapper && OverlayScrollbarsGlobal?.OverlayScrollbars !== undefined) {
-                    OverlayScrollbarsGlobal.OverlayScrollbars(sidebarWrapper, {
-                        scrollbars: {
-                            theme: Default.scrollbarTheme,
-                            autoHide: Default.scrollbarAutoHide,
-                            clickScroll: Default.scrollbarClickScroll,
-                        },
-                    });
-                }
-            });
-        </script>
-        <!--end::OverlayScrollbars Configure--><!-- Image path runtime fix -->
-        <script>
-            document.addEventListener("DOMContentLoaded", () => {
-                // Find the link tag for the main AdminLTE CSS file.
-                const cssLink = document.querySelector('link[href*="css/adminlte.css"]');
-                if (!cssLink) {
-                    return; // Exit if the link isn't found
-                }
 
-                // Extract the base path from the CSS href.
-                // e.g., from "../css/adminlte.css", we get "../"
-                // e.g., from "./css/adminlte.css", we get "./"
-                const cssHref = cssLink.getAttribute("href");
-                const deploymentPath = cssHref.slice(0, cssHref.indexOf("css/adminlte.css"));
-
-                // Find all images with absolute paths and fix them.
-                document.querySelectorAll('img[src^="/assets/"]').forEach((img) => {
-                    const originalSrc = img.getAttribute("src");
-                    if (originalSrc) {
-                        const relativeSrc = originalSrc.slice(1); // Remove leading '/'
-                        img.src = deploymentPath + relativeSrc;
-                    }
-                });
-            });
-        </script>
         <!-- OPTIONAL SCRIPTS -->
         <!-- apexcharts -->
         <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.37.1/dist/apexcharts.min.js" integrity="sha256-+vh8GkaU7C9/wbSLIcwq82tQ2wTf44aOHA8HlBMwRI8=" crossorigin="anonymous"></script>
