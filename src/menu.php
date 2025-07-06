@@ -24,7 +24,7 @@
                </a>
             </li>
             <li class="nav-item">
-               <a href="#" class="nav-link">
+               <a href="/agenda" class="nav-link">
                   <i class="nav-icon mdi mdi-calendar-check"></i>
                   <p>Agenda</p>
                </a>

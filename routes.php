@@ -12,6 +12,9 @@ return [
     //clientes
     'clientes' => 'pages/clientes/index.php', 
 
+    //agenda
+    'agenda' => 'pages/agenda/index.php', 
+
 
 ];
 ?>
