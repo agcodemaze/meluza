@@ -32,6 +32,21 @@ $siteAdmin = new SITE_ADMIN();
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
+        .datepicker-inline {
+        width: 100% !important;
+        }
+
+        .datepicker table {
+            width: 100% !important;
+            table-layout: fixed;
+            font-size: 1.2rem;
+        }
+
+        .datepicker td, .datepicker th {
+            width: 14.28% !important; /* 100 / 7 dias */
+            text-align: center;
+            padding: 1rem;
+        }
     </style>
 
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
