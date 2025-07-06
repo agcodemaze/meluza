@@ -105,7 +105,7 @@ $siteAdmin = new SITE_ADMIN();
                          <!--begin::Row-->
                          <div class="row"> 
                               <div class="col-md-12">
-                                 <p class="text-center"><strong>Faxinas Executadas x Ganhos (últimos 12 meses)</strong></p>
+                                 <p class="text-center"><strong>Total de Faxinas (últimos 12 meses)</strong></p>
                                  <div id="sales-chart"></div>
                              </div>
                          </div>
@@ -114,7 +114,7 @@ $siteAdmin = new SITE_ADMIN();
                      <br>
                      <div class="card-body">
                          <div class="card-header">
-                             <h3 class="card-title">Faxinas Realizadas por Tipo</h3>
+                             <h3 class="card-title">Faxinas Tipo (últimos 12 meses)</h3>
                              <div class="card-tools">
                              </div>
                          </div>
