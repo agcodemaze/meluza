@@ -151,10 +151,13 @@ $siteAdmin = new SITE_ADMIN();
                                                         </span>
                                                     </a>
                                                     <div class="text-truncate">
-                                                        12/01/2025 08:00 Tipo: Apartamento.
+                                                        <strong>Data:</strong> 12/01/2025 ás 08:00
                                                     </div>
                                                     <div class="text-truncate">
-                                                        Bairro: Jd Campos Verdes
+                                                        <strong>Tipo de Faxina:</strong> Apartamento
+                                                    </div>
+                                                    <div class="text-truncate">
+                                                        Bairro Jd Campos Verdes
                                                     </div>
                                                 </div>
                                             </div>
@@ -169,10 +172,13 @@ $siteAdmin = new SITE_ADMIN();
                                                         </span>
                                                     </a>
                                                     <div class="text-truncate">
-                                                        12/01/2025 08:00 Tipo: Casa.
+                                                        <strong>Data:</strong> 12/01/2025 ás 08:00
                                                     </div>
                                                     <div class="text-truncate">
-                                                        Bairro: Jd Campos Verdes
+                                                        <strong>Tipo de Faxina:</strong> Casa Grande
+                                                    </div>
+                                                    <div class="text-truncate">
+                                                        Bairro Jd Campos Verdes
                                                     </div>
                                                 </div>
                                             </div>
