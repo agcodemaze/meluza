@@ -12,7 +12,9 @@
       <meta name="supported-color-schemes" content="light dark">  
      
       <!-- jQuery  -->
-      <script src="../../vendor/ad_sweetalert/jquery-3.7.0.min.js"></script>    
+      <script src="../../vendor/ad_sweetalert/jquery-3.7.0.min.js"></script>  
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>  
      
       <!-- SWEETALERT -->
       <script src="../../vendor/ad_sweetalert/sweetalert2@11.js"></script>

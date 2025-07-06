@@ -11,6 +11,8 @@ $siteAdmin = new SITE_ADMIN();
    <head>
 
 	<?php include_once BASE_PATH . "src/head.php"; ?>
+
+
     <link href="../../vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
@@ -130,23 +132,15 @@ $siteAdmin = new SITE_ADMIN();
         <script src="../../js/adminlte.js"></script>
         <script src="https://cdn.datatables.net/plug-ins/1.13.4/sorting/datetime-moment.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $.fn.dataTable.moment('DD/MM/YYYY HH:mm:ss');
-                $.fn.dataTable.moment('DD/MM/YYYY');
-
-                $('#tabela-os').DataTable({
-                    "language": {
-                        "url": "../../assets/js/pt-BR.json"
-                    },
-                    "pageLength": 20,
-                    "ordering": true,
-                    "searching": false,
-                    "lengthChange": false,
-                    "order": [[2, "asc"]] 
-                });
-            });
-        </script>
+<script>
+    $(document).ready(function () {
+        $('#calendario').datepicker({
+            format: "dd/mm/yyyy",
+            language: "pt-BR",
+            todayHighlight: true
+        });
+    });
+</script>
 
 	   <?php include_once BASE_PATH . "src/config.php"; ?>
 
