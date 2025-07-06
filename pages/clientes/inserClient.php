@@ -11,6 +11,7 @@ $siteAdmin = new SITE_ADMIN();
    <head>
 
 	<?php include_once BASE_PATH . "src/head.php"; ?>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
    </head>
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
@@ -135,6 +136,12 @@ $siteAdmin = new SITE_ADMIN();
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/adminlte.js"></script>
 	<?php include_once BASE_PATH . "src/config.php"; ?>
+
+    <script>
+        $(document).ready(function(){
+            $('#telefone').mask('(00) 00000-0000');
+        });
+    </script>
 
     <script>
         function buscarEndereco() {
