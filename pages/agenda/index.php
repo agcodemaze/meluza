@@ -134,7 +134,13 @@ $siteAdmin = new SITE_ADMIN();
                             <!-- /.col -->
                     </div>
                     <!-- /.row -->
-                  
+                     <br>
+                    <div class="row">
+                        <div class="toll-free-box text-center" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#modalAgendamento">
+                            <h4 class="text-reset"><i class="mdi mdi-deskphone"></i> Agendar Uma Nova Faxina</h4>
+                        </div>
+                    </div>
+                    <br>  
                     <div class="row">
                         <div class="col-12">
                             <div id="calendario" class="calendar-widget"></div>
@@ -210,7 +216,7 @@ $siteAdmin = new SITE_ADMIN();
 
 
     <!-- Modal Criar faxina-->
-    <div id="modalCriarFaxina" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div id="modalAgendamento" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #8c52ff;">
@@ -283,20 +289,7 @@ $siteAdmin = new SITE_ADMIN();
             language: "pt-BR",
             todayHighlight: true,
             autoclose: true
-        }).on('changeDate', function (e) {
-            // Data no formato dd/mm/yyyy
-            const dataBr = $('#calendario').datepicker('getFormattedDate');
-
-            // Converte para formato yyyy-mm-dd
-            const partes = dataBr.split('/');
-            const dataIso = `${partes[2]}-${partes[1]}-${partes[0]}`;
-
-            // Define a data no input type="date"
-            $('#data').val(dataIso);
-
-            // Abre o modal
-            $('#modalCriarFaxina').modal('show');
-        });
+        })
     });
 </script>
 
@@ -306,13 +299,13 @@ $siteAdmin = new SITE_ADMIN();
 <!-- Inicialização -->
 <script>
     flatpickr("#dataHora", {
-        enableTime: true,              // Habilita hora
-        dateFormat: "d/m/Y H:i",       // Formato brasileiro com hora
-        time_24hr: true,               // Relógio 24h
-        locale: "pt",                  // Localização em português (precisa de extensão se quiser nomes traduzidos)
-        defaultHour: 12,               // Hora padrão
-        defaultMinute: 0,              // Minuto padrão
-        minuteIncrement: 5             // Incremento de 5 min 
+        enableTime: true,              
+        dateFormat: "d/m/Y H:i",       
+        time_24hr: true,               
+        locale: "pt",                  
+        defaultHour: 12,               
+        defaultMinute: 0,              
+        minuteIncrement: 5             
     });
 </script>
 
