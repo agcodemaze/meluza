@@ -152,7 +152,7 @@ foreach ($faxinas as $item) {
                                         <span class="info-box-text">Faxinas Agendadas</span>
                                         <span class="info-box-number">
                                             <?php echo $faxinasAgendadas; ?> 
-                                            <small></small>
+                                            <small>sss</small>
                                         </span>
                                     </div>
                                     <!-- /.info-box-content -->
