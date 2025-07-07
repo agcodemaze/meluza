@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 class registerCliente extends SITE_ADMIN
 {
-    public function insertCliente($nome, $observacao, $telefone, $cep, $endereco, $numero, $bairro, $cidade, $estado, $complemento)
+    public function insertCliente($id, $nome, $observacao, $telefone, $cep, $endereco, $numero, $bairro, $cidade, $estado, $complemento)
     {
         try {
 
@@ -13,12 +13,16 @@ class registerCliente extends SITE_ADMIN
                 $this->conexao();
             }
 
+            $IDUSER = USER_ID;
+
             $sql = "SELECT COUNT(*) as total FROM CLI_CLIENTE 
                     WHERE 
-                    CLI_DCNOME = :CLI_DCNOME";
+                    CLI_DCNOME = :CLI_DCNOME AND USU_IDUSUARIO = :USU_IDUSUARIO AND CLI_IDCLIENTE != :CLI_IDCLIENTE";
         
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':CLI_DCNOME', $nome, PDO::PARAM_STR);
+            $stmt->bindParam(':USU_IDUSUARIO', $IDUSER, PDO::PARAM_STR);
+            $stmt->bindParam(':CLI_IDCLIENTE', $id, PDO::PARAM_STR);
             $stmt->execute();
         
             $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -29,11 +33,11 @@ class registerCliente extends SITE_ADMIN
                 exit;
             }        
             
-            $result = $this->insertClienteInfo($nome, $observacao, $telefone, $cep, $endereco, $numero, $bairro, $cidade, $estado, $complemento, USER_ID);
+            $result = $this->updateClienteInfo($id, $nome, $observacao, $telefone, $cep, $endereco, $numero, $bairro, $cidade, $estado, $complemento, USER_ID);
             echo $result;                   
 
         } catch (PDOException $e) {  
-            $response = array("success" => true, "message" => "Erro ao cadastrar o cliente.");
+            $response = array("success" => true, "message" => "Erro ao atualizar o(a) cliente.");
             echo json_encode($response); 
         } 
     }
@@ -41,6 +45,7 @@ class registerCliente extends SITE_ADMIN
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
+    $id = mb_strtoupper(trim($_POST['id']), 'UTF-8');   
     $nome = mb_strtoupper(trim($_POST['nome']), 'UTF-8');    
     $observacao = !empty($_POST['observacao']) ? trim($_POST['observacao'], 'UTF-8') : null;
     $telefone = mb_strtoupper(trim($_POST['telefone']), 'UTF-8'); 
@@ -53,6 +58,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $estado = !empty($_POST['estado']) ? mb_strtoupper(trim($_POST['estado']), 'UTF-8') : null;
 
     $registerCliente = new registerCliente();
-    $registerCliente->insertCliente($nome, $observacao, $telefone, $cep, $endereco, $numero, $bairro, $cidade, $estado, $complemento);
+    $registerCliente->insertCliente($id, $nome, $observacao, $telefone, $cep, $endereco, $numero, $bairro, $cidade, $estado, $complemento);
 }
  ?>

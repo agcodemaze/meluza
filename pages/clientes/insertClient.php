@@ -225,7 +225,7 @@ $siteAdmin = new SITE_ADMIN();
           var formData = new FormData($("#form")[0]);
       
           $.ajax({
-            url: "/inserClientProc",
+            url: "/insertClientProc",
             type: "POST",
             data: formData,
             processData: false,

@@ -11,10 +11,13 @@ return [
 
     //clientes
     'clientes' => 'pages/clientes/index.php', 
-    'inserClient' => 'pages/clientes/inserClient.php',
-    'inserClientProc' => 'pages/clientes/inserClientProc.php',  
+    'insertClient' => 'pages/clientes/insertClient.php',
+    'insertClientProc' => 'pages/clientes/insertClientProc.php',  
     'deleteClientProc' => 'pages/clientes/deleteClientProc.php', 
     'updateClient' => 'pages/clientes/updateClient.php', 
+    'updateClientProc' => 'pages/clientes/updateClientProc.php', 
+
+    
     
     
 

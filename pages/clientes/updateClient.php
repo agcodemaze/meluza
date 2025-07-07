@@ -78,52 +78,52 @@ $cliente = $siteAdmin->getClienteInfoById($id, USER_ID);
 
                                                 <div class="position-relative mb-3" id="campo-telefone">                                                    
                                                   <label class="form-label" for="telefone">Telefone</label>
-                                                  <input type="text" id="telefone" name="telefone" class="form-control" placeholder="(00) 00000-0000">
+                                                  <input value="<?php echo $cliente["CLI_DCTELEFONE"]; ?>" type="text" id="telefone" name="telefone" class="form-control" placeholder="(00) 00000-0000">
                                                 </div> 
 
                                                 <!-- Campos de endereço -->
                                                 <div class="position-relative mb-3">
                                                     <label for="cep" class="form-label">CEP</label>
-                                                    <input type="text" id="cep" name="cep" class="form-control" placeholder="Digite o CEP" maxlength="9" onblur="buscarEndereco()">
+                                                    <input value="<?php echo $cliente["CLI_DCCEP"]; ?>" type="text" id="cep" name="cep" class="form-control" placeholder="Digite o CEP" maxlength="9" onblur="buscarEndereco()">
                                                 </div>
 
                                                 <div class="position-relative mb-3">
                                                     <label for="endereco" class="form-label">Endereço</label>
-                                                    <input type="text" id="endereco" name="endereco" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
+                                                    <input value="<?php echo $cliente["CLI_DCENDERECO"]; ?>" type="text" id="endereco" name="endereco" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
                                                 </div>
 
                                                 <div class="position-relative position-relative mb-3">
                                                     <label for="numero" class="form-label">Número</label>
-                                                    <input type="text" id="numero" name="numero" class="form-control" style="text-transform: uppercase;" placeholder="Digite o número" required>
+                                                    <input value="<?php echo $cliente["CLI_DCNUM_ENDERECO"]; ?>" type="text" id="numero" name="numero" class="form-control" style="text-transform: uppercase;" placeholder="Digite o número" required>
                                                 </div>
 
                                                 <div class="position-relative mb-3" id="campo-complemento">
                                                   <label class="form-label" for="Complemento">Complemento</label>
-                                                  <input id="Complemento" name="Complemento" autocomplete="new-Complemento" style="text-transform: uppercase;" type="text" class="form-control" placeholder="" maxlength="20"/>
+                                                  <input value="<?php echo $cliente["CLI_DCCOMPLEMENTO"]; ?>" id="Complemento" name="Complemento" autocomplete="new-Complemento" style="text-transform: uppercase;" type="text" class="form-control" placeholder="" maxlength="20"/>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
                                                     <label for="bairro" class="form-label">Bairro</label>
-                                                    <input type="text" id="bairro" name="bairro" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
+                                                    <input value="<?php echo $cliente["CLI_DCBAIRRO"]; ?>" type="text" id="bairro" name="bairro" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
                                                     <label for="cidade" class="form-label">Cidade</label>
-                                                    <input type="text" id="cidade" name="cidade" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
+                                                    <input value="<?php echo $cliente["CLI_DCCIDADE"]; ?>" type="text" id="cidade" name="cidade" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
                                                     <label for="estado" class="form-label">Estado</label>
-                                                    <input type="text" id="estado" name="estado" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
+                                                    <input value="<?php echo $cliente["CLI_DCCLI_DCESTADOCIDADE"]; ?>" type="text" id="estado" name="estado" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
                                                   <label for="observacao" class="form-label">Observações</label>
-                                                  <textarea class="form-control" maxlength="300" rows="3" id="observacao" name="observacao" placeholder=""></textarea>
+                                                  <textarea class="form-control" maxlength="300" rows="3" id="observacao" name="observacao" placeholder=""><?php echo $cliente["CLI_DCOBS"]; ?></textarea>
                                                 </div> 
                                             
                                                 <button class="btn" style="background-color: #6e6c72; color: white;" onclick="window.history.back()" type="button">Voltar</button>         
-                                                <button class="btn" style="background-color: #7eda0d; color: black;" type="submit" id="botao" name="botao">Salvar</button>                                            
+                                                <button class="btn" style="background-color: #7eda0d; color: black;" type="submit" id="botao" name="botao">Atualizar</button>                                            
                                             </form>
                                         </div> <!-- end preview-->                                        
                                     </div> <!-- end tab-content-->
@@ -203,7 +203,7 @@ $cliente = $siteAdmin->getClienteInfoById($id, USER_ID);
     
       Swal.fire({
         title: 'Formulário de Clientes',
-        text: 'Tem certeza que deseja cadastrar o cliente?',
+        text: 'Tem certeza que deseja atualizar o cliente?',
         icon: 'warning',
         showDenyButton: true,
         confirmButtonText: 'CONFIRMAR',
@@ -233,7 +233,7 @@ $cliente = $siteAdmin->getClienteInfoById($id, USER_ID);
           var formData = new FormData($("#form")[0]);
       
           $.ajax({
-            url: "/inserClientProc",
+            url: "/updateClientProc",
             type: "POST",
             data: formData,
             processData: false,
@@ -271,7 +271,7 @@ $cliente = $siteAdmin->getClienteInfoById($id, USER_ID);
             
               Swal.fire({
                 title: 'Erro!',
-                text: 'Erro ao cadastrar o cliente: ' + error,
+                text: 'Erro ao atualizar o cliente: ' + error,
                 icon: 'error',
                 width: '420px',
                 confirmButtonColor: "#f44336",

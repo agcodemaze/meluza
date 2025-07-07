@@ -225,5 +225,59 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }            
         }
 
-    }
+        public function updateClienteInfo($CLI_IDCLIENTE, $CLI_DCNOME, $CLI_DCOBS, $CLI_DCTELEFONE, $CLI_DCCEP, $CLI_DCENDERECO, $CLI_DCNUM_ENDERECO, $CLI_DCBAIRRO, $CLI_DCCIDADE, $CLI_DCESTADO, $CLI_DCCOMPLEMENTO, $USU_IDUSUARIO)
+        {
+            if (!$this->pdo) {
+                $this->conexao();
+            }
+        
+            $now = new DateTime();
+            $CLI_DTULTIMA_ATUALIZACAO = $now->format('Y-m-d H:i:s');
+        
+            try {
+                $sql = "UPDATE CLI_CLIENTE SET 
+                            CLI_DCNOME = :CLI_DCNOME,
+                            CLI_DCOBS = :CLI_DCOBS,
+                            CLI_DCTELEFONE = :CLI_DCTELEFONE,
+                            CLI_DCCEP = :CLI_DCCEP,
+                            CLI_DCENDERECO = :CLI_DCENDERECO,
+                            CLI_DCNUM_ENDERECO = :CLI_DCNUM_ENDERECO,
+                            CLI_DCBAIRRO = :CLI_DCBAIRRO,
+                            CLI_DCCIDADE = :CLI_DCCIDADE,
+                            CLI_DCESTADO = :CLI_DCESTADO,
+                            CLI_DCCOMPLEMENTO = :CLI_DCCOMPLEMENTO,
+                            CLI_DTULTIMA_ATUALIZACAO = :CLI_DTULTIMA_ATUALIZACAO,
+                            USU_IDUSUARIO = :USU_IDUSUARIO
+                        WHERE CLI_IDCLIENTE = :CLI_IDCLIENTE AND USU_IDUSUARIO = :USU_IDUSUARIO";
+
+                $stmt = $this->pdo->prepare($sql);
+            
+                $stmt->bindParam(':CLI_DCNOME', $CLI_DCNOME, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCOBS', $CLI_DCOBS, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCTELEFONE', $CLI_DCTELEFONE, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCCEP', $CLI_DCCEP, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCENDERECO', $CLI_DCENDERECO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCNUM_ENDERECO', $CLI_DCNUM_ENDERECO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCBAIRRO', $CLI_DCBAIRRO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCCIDADE', $CLI_DCCIDADE, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCESTADO', $CLI_DCESTADO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DCCOMPLEMENTO', $CLI_DCCOMPLEMENTO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DTULTIMA_ATUALIZACAO', $CLI_DTULTIMA_ATUALIZACAO, PDO::PARAM_STR);
+                $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_INT);
+                $stmt->bindParam(':CLI_IDCLIENTE', $CLI_IDCLIENTE, PDO::PARAM_INT);
+            
+                $stmt->execute();
+            
+                $response = array("success" => true, "message" => "Cliente atualizado com sucesso.");
+                return json_encode($response);
+            
+            } catch (PDOException $e) {
+                $error = $e->getMessage();
+                $response = array("success" => false, "message" => "Erro ao atualizar cliente: $error");
+                return json_encode($response);
+            }
+        }
+
+
+        }
 ?>
