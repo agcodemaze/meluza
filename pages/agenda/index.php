@@ -318,7 +318,7 @@ foreach ($faxinas as $item) {
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #086683; color: #000000;">
-              <h4 class="modal-title text-white mb-0">faxina</h4>
+              <h4 class="modal-title text-white mb-0">Faxina</h4>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div> 
                 <div class="modal-body">
