@@ -164,23 +164,29 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                                     <div class="card-body p-0">
                                         <div class="px-2">
                                              <?php foreach ($faxinas as $item): ?>
+
+                                                <?php
+                                                    $dataOriginal = $item["FXA_DTDATA"];
+                                                    $dataConvertida = DateTime::createFromFormat('Y-m-d H:i:s', $dataOriginal)->format('d/m/Y H:i:s');
+
+                                                ?>
                                                 <div class="d-flex border-top py-2 px-1">
                                                     <div class="col-2"><img src="/assets/img/default-150x150.png" alt="Product Image" class="img-size-50" /></div>
                                                     <div class="col-10">
                                                         <a href="javascript:void(0)" class="fw-bold">
-                                                            <?php echo $item["CLI_DCNOME"] ?>
+                                                            <?php echo mb_convert_case($item["CLI_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>
                                                             <span class="badge text-bg-warning float-end">
-                                                                R$<?php echo $item["FXA_NMPRECO_COMBINADO"] ?>
+                                                                R$<?php echo $item["FXA_NMPRECO_COMBINADO"]; ?>
                                                             </span>
                                                         </a>
                                                         <div class="text-truncate">
-                                                            <strong>Data: </strong> <?php echo $item["FXA_DTDATA"] ?>
+                                                            <strong>Data: </strong> <?php echo $dataConvertida; ?>
                                                         </div>
                                                         <div class="text-truncate">
-                                                            <strong>Tipo de Faxina:</strong> </strong> <?php echo $item["TLO_DCNOME"] ?>
+                                                            <strong>Tipo de Faxina:</strong> </strong> <?php echo mb_convert_case($item["TLO_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>
                                                         </div>
                                                         <div class="text-truncate">
-                                                            <?php echo $item["CLI_DCBAIRRO"] ?>
+                                                            <?php echo $item["CLI_DCBAIRRO"]; ?>
                                                         </div>
                                                     </div>
                                                 </div>
