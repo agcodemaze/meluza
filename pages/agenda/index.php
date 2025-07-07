@@ -237,7 +237,7 @@ $siteAdmin = new SITE_ADMIN();
 
                                                 <div class="position-relative mb-3">
                                                     <label for="data" class="form-label">Data</label>
-                                                    <input type="date" id="data" name="data" class="form-control" style="text-transform: uppercase;" placeholder="">
+                                                    <input type="text" class="form-control" id="data" name="data" placeholder="Selecione a data" autocomplete="off">
                                                 </div>                                           
                                             </form>
                                         </div> <!-- end preview-->                                        
@@ -291,6 +291,23 @@ $siteAdmin = new SITE_ADMIN();
 
             // Abre o modal
             $('#modalCriarFaxina').modal('show');
+        });
+    });
+</script>
+
+<script>
+    $(document).ready(function () {
+        $('#data').datepicker({
+            format: "dd/mm/yyyy",          // Formato brasileiro
+            language: "pt-BR",             // Idioma
+            todayHighlight: true,          // Destaca o dia atual
+            autoclose: true,               // Fecha ao selecionar
+            clearBtn: true,                // Botão limpar
+        });
+
+        // Força mostrar o calendário ao focar ou clicar
+        $('#data').on('focus click', function () {
+            $(this).datepicker('show');
         });
     });
 </script>
