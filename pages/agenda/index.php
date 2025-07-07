@@ -287,9 +287,13 @@ foreach ($faxinas as $item) {
                                                         <div class="small text-muted">
                                                             <strong>Tipo de Faxina:</strong> <?php echo mb_convert_case($item["TLO_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>
                                                         </div>
-                                                        <div class="mt-1">
+                                                        <div class="mt-1 d-flex justify-content-between align-items-center flex-wrap">
                                                             <span class="badge text-bg-<?php echo $badgeColor; ?>">
                                                                 <?php echo mb_convert_case($item["FXA_STSTATUS"], MB_CASE_TITLE, "UTF-8"); ?>
+                                                            </span>
+                                                                                                          
+                                                            <span class="badge text-bg-warning">
+                                                                R$<?php echo number_format($item["FXA_NMPRECO_COMBINADO"], 2, ',', '.'); ?>
                                                             </span>
                                                         </div>
                                                     </div>
@@ -675,8 +679,8 @@ foreach ($faxinas as $item) {
         const dataInicioUrl = getQueryParam('data_inicio');
         const dataFimUrl = getQueryParam('data_fim');
 
-const start = dataInicioUrl ? moment(dataInicioUrl, 'YYYY-MM-DD HH:mm:ss') : moment().startOf('day');
-const end = dataFimUrl ? moment(dataFimUrl, 'YYYY-MM-DD HH:mm:ss') : moment().add(6, 'days').endOf('day');
+        const start = dataInicioUrl ? moment(dataInicioUrl, 'YYYY-MM-DD HH:mm:ss') : moment().startOf('day');
+        const end = dataFimUrl ? moment(dataFimUrl, 'YYYY-MM-DD HH:mm:ss') : moment().add(6, 'days').endOf('day');
 
         // Inicializa o date range picker
         input.daterangepicker({
