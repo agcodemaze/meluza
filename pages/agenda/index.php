@@ -5,7 +5,6 @@ include_once BASE_PATH . "objects/objects.php";
 $siteAdmin = new SITE_ADMIN(); 
 $clientes = $siteAdmin->getClienteInfo(USER_ID);
 $tipos = $siteAdmin->getTiposLocalInfo();
-$faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
 // Verifica se recebeu intervalo via GET
 if (isset($_GET['data_inicio']) && isset($_GET['data_fim'])) {
