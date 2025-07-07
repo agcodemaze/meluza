@@ -231,14 +231,14 @@ foreach ($faxinas as $item) {
                                             
                                                 ?>
                                                 <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center faxina-item"
-     data-idcliente="<?= $item['CLI_IDCLIENTE'] ?>"
-     data-idtipo="<?= $item['FXA_DCTIPO'] ?>"
-     data-duracao="<?= $item['FXA_DCDURACAO_ESTIMADA'] ?>"
-     data-preco="<?= $item['FXA_NMPRECO_COMBINADO'] ?>"
-     data-data="<?= $item['FXA_DTDATA'] ?>"
-     data-observacao="<?= htmlspecialchars($item['FXA_DCOBS'] ?? '') ?>"
-     data-bs-toggle="modal" data-bs-target="#modalAgendamentoEditar"
-     style="cursor: pointer;">
+                                                  data-idcliente="<?= $item['CLI_IDCLIENTE'] ?>"
+                                                  data-idtipo="<?= $item['FXA_DCTIPO'] ?>"
+                                                  data-duracao="<?= $item['FXA_DCDURACAO_ESTIMADA'] ?>"
+                                                  data-preco="<?= $item['FXA_NMPRECO_COMBINADO'] ?>"
+                                                  data-data="<?= $item['FXA_DTDATA'] ?>"
+                                                  data-observacao="<?= htmlspecialchars($item['FXA_DCOBS'] ?? '') ?>"                                                 
+                                                  style="cursor: pointer;"
+                                                >
                                                     <div class="me-3 mb-2" style="flex: 0 0 50px;">
                                                         <img src="../../assets/img/avatarAgenda.png" alt="Imagem" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
                                                     </div>
@@ -729,13 +729,17 @@ foreach ($faxinas as $item) {
         document.getElementById('preco').value = preco;
         document.getElementById('dataHora').value = formatarDataHora(data);
         document.getElementById('observacao').value = observacao;
+
+        // Agora sim, abre o modal depois de preencher
+        const modal = new bootstrap.Modal(document.getElementById('modalAgendamentoEditar'));
+        modal.show();
       });
     });
 
     function formatarDataHora(dataISO) {
       if (!dataISO) return '';
       const dataObj = new Date(dataISO);
-      if (isNaN(dataObj.getTime())) return dataISO; // se falhar, retorna original
+      if (isNaN(dataObj.getTime())) return dataISO;
 
       const dia = String(dataObj.getDate()).padStart(2, '0');
       const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
@@ -747,6 +751,7 @@ foreach ($faxinas as $item) {
     }
   });
 </script>
+
 
 
 
