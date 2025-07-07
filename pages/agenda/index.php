@@ -168,7 +168,10 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                                                 <?php
                                                     $dataOriginal = $item["FXA_DTDATA"];
                                                     $dataConvertida = DateTime::createFromFormat('Y-m-d H:i:s', $dataOriginal)->format('d/m/Y H:i:s');
-
+                                                    
+                                                    if($item["FXA_STSTATUS"] == "PROGRAMADA"){$badgeColor = "info";}
+                                                    if($item["FXA_STSTATUS"] == "CONCLUÍDA"){$badgeColor = "success";}
+                                                    if($item["FXA_STSTATUS"] == "ATRASADA"){$badgeColor = "warning";}
                                                 ?>
                                                 <div class="d-flex border-top py-2 px-1">
                                                     <div class="col-2"><img src="../../assets/img/avatarAgenda.png" alt="Product Image" class="img-size-50" /></div>
@@ -186,7 +189,9 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                                                             <strong>Tipo de Faxina:</strong> </strong> <?php echo mb_convert_case($item["TLO_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>
                                                         </div>
                                                         <div class="text-truncate">
-                                                            <?php echo mb_convert_case($item["CLI_DCBAIRRO"], MB_CASE_TITLE, "UTF-8"); ?>
+                                                            <span class="badge text-bg-<?php echo $badgeColor; ?> float-end">
+                                                            <?php echo mb_convert_case($item["FXA_STSTATUS"], MB_CASE_TITLE, "UTF-8"); ?>
+                                                            </span>
                                                         </div>
                                                     </div>
                                                 </div>
