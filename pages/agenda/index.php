@@ -343,29 +343,29 @@ $tipos = $siteAdmin->getTiposLocalInfo();
     });
 </script>
 <script>
-// Inicializa o Select2 ao abrir o modal
-document.addEventListener('DOMContentLoaded', function () {
-  // Caso o modal já esteja visível ou o select esteja fora do modal
-  $('#cliente').select2({
-    dropdownParent: $('#modalAgendamento'),
-    placeholder: "Selecione um cliente",
-    width: '100%',
-    allowClear: true
-  });
+    // Inicializa o Select2 ao abrir o modal
+    document.addEventListener('DOMContentLoaded', function () {
+      // Caso o modal já esteja visível ou o select esteja fora do modal
+      $('#cliente').select2({
+        dropdownParent: $('#modalAgendamento'),
+        placeholder: "Selecione um cliente",
+        width: '100%',
+        allowClear: true
+      });
 
-  // Garante que ao abrir o modal novamente, o Select2 será inicializado corretamente
-  $('#modalAgendamento').on('shown.bs.modal', function () {
-    $('#cliente').select2({
-      dropdownParent: $('#modalAgendamento'),
-      placeholder: "Selecione um cliente",
-      width: '100%',
-      allowClear: true
+      // Garante que ao abrir o modal novamente, o Select2 será inicializado corretamente
+      $('#modalAgendamento').on('shown.bs.modal', function () {
+        $('#cliente').select2({
+          dropdownParent: $('#modalAgendamento'),
+          placeholder: "Selecione um cliente",
+          width: '100%',
+          allowClear: true
+        });
+      });
     });
-  });
-});
 </script>
 
-        <script>
+<script>
             $(function() {
               $('#intervaloDatas').daterangepicker({
                 locale: {
@@ -378,7 +378,112 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
               });
             });
-        </script>
+</script>
+
+  <script>
+    function confirmAndSubmit(event) {
+      event.preventDefault(); 
+    
+      var form = document.getElementById("form");    
+    
+      Swal.fire({
+        title: 'Agendamento de Faxina',
+        text: 'Tem certeza que deseja agendar a faxina?',
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonText: 'CONFIRMAR',
+        denyButtonText: 'CANCELAR',
+        confirmButtonColor: "#4caf50",  // verde
+        denyButtonColor: "#9e9e9e",     // cinza
+        background: "#f9f9fb",          // fundo claro
+        color: "#333",                  // texto escuro
+        width: '420px'
+      }).then((result) => {
+        if (result.isConfirmed) {
+        
+          // Mostra o alerta de carregamento
+          Swal.fire({
+            title: 'Enviando dados...',
+            text: 'Aguarde enquanto processamos o cadastro.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+            background: "#f9f9fb",
+            color: "#333",
+            width: '420px'
+          });
+      
+          var formData = new FormData($("#form")[0]);
+      
+          $.ajax({
+            url: "/insertFaxinaProc",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (response) {
+              Swal.close(); // Fecha o loading
+            
+              if (response.success) {
+                Swal.fire({
+                  title: 'Sucesso!',
+                  text: response.message,
+                  icon: 'success',
+                  width: '420px',
+                  confirmButtonColor: "#4caf50",
+                  background: "#f9f9fb",
+                  color: "#333"
+                }).then(() => {
+                  window.location.href = "/agenda";
+                });
+              } else {
+                Swal.fire({
+                  title: 'Erro!',
+                  text: response.message,
+                  icon: 'error',
+                  width: '420px',
+                  confirmButtonColor: "#f44336",
+                  background: "#f9f9fb",
+                  color: "#333"
+                });
+              }
+            },
+            error: function (xhr, status, error) {
+              Swal.close(); // Fecha o loading
+            
+              Swal.fire({
+                title: 'Erro!',
+                text: 'Erro ao cadastrar o cliente: ' + error,
+                icon: 'error',
+                width: '420px',
+                confirmButtonColor: "#f44336",
+                background: "#f9f9fb",
+                color: "#333"
+              });
+            }
+          });
+      
+        } else if (result.dismiss === Swal.DismissReason.cancel || result.isDenied) {
+          Swal.fire({
+            title: 'Cancelado',
+            text: 'Nenhuma alteração foi feita.',
+            icon: 'info',
+            width: '420px',
+            confirmButtonColor: "#9e9e9e",
+            background: "#f9f9fb",
+            color: "#333"
+          });
+        }
+      });
+    }
+
+    $(document).ready(function () {
+      $("#botao").on("click", confirmAndSubmit);
+    });
+  </script>
 
 	   <?php include_once BASE_PATH . "src/config.php"; ?>
    </body>

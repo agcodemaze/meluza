@@ -187,7 +187,7 @@ $siteAdmin = new SITE_ADMIN();
         }
     </script>
 
-    <script>
+  <script>
     function confirmAndSubmit(event) {
       event.preventDefault(); 
     
@@ -290,7 +290,7 @@ $siteAdmin = new SITE_ADMIN();
     $(document).ready(function () {
       $("#botao").on("click", confirmAndSubmit);
     });
-    </script>
+  </script>
 
    
    </body>

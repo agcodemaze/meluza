@@ -290,6 +290,45 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }
         }
 
+        public function inserFaxinaInfo($CLI_IDCLIENTE, $FXA_DCTIPO, $FXA_DCDURACAO_ESTIMADA, $FXA_NMPRECO_COMBINADO, $FXA_DTDATA, $FXA_DCOBS)
+        {       
+            if (!$this->pdo) {
+                $this->conexao();
+            } 
+
+            $now = new DateTime(); 
+            $FXA_DTDATA_CADASTRO = $now->format('Y-m-d H:i:s');
+            $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
+            $FXA_STATIVO = "ATIVO";
+
+            try {
+                $sql = "INSERT INTO FXA_FAXINA 
+                        (CLI_IDCLIENTE, FXA_DCTIPO, FXA_DCDURACAO_ESTIMADA, FXA_NMPRECO_COMBINADO, FXA_DTDATA, FXA_DCOBS, FXA_DTULTIMAATUALIZACAO, FXA_STATIVO, FXA_DTDATA_CADASTRO) 
+                        VALUES (:CLI_IDCLIENTE, :FXA_DCTIPO, :FXA_DCDURACAO_ESTIMADA, :FXA_NMPRECO_COMBINADO, :FXA_DTDATA, :FXA_DCOBS, :FXA_DTULTIMAATUALIZACAO, :FXA_STATIVO, :FXA_DTDATA_CADASTRO)";
+
+                $stmt = $this->pdo->prepare($sql);
+            
+                $stmt->bindParam(':CLI_IDCLIENTE', $CLI_IDCLIENTE, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DCDURACAO_ESTIMADA', $FXA_DCDURACAO_ESTIMADA, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_NMPRECO_COMBINADO', $FXA_NMPRECO_COMBINADO, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DTDATA', $FXA_DTDATA, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DCOBS', $FXA_DCOBS, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DTULTIMAATUALIZACAO', $FXA_DTULTIMAATUALIZACAO, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_STATIVO', $FXA_STATIVO, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DTDATA_CADASTRO', $FXA_DTDATA_CADASTRO, PDO::PARAM_STR);
+                
+                $stmt->execute();   
+                
+                $response = array("success" => true, "message" => "Faxina agendada com sucesso.");
+                return json_encode($response); 
+
+            } catch (PDOException $e) {
+                $error =  $e->getMessage();   
+                $response = array("success" => false, "message" => "Houve um erro: $error");
+                return json_encode($response);
+            }            
+        }
+
 
         }
 ?>

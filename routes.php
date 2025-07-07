@@ -17,12 +17,14 @@ return [
     'updateClient' => 'pages/clientes/updateClient.php', 
     'updateClientProc' => 'pages/clientes/updateClientProc.php', 
 
-    
-    
+ 
     
 
     //agenda
     'agenda' => 'pages/agenda/index.php', 
+    'insertFaxinaProc' => 'pages/agenda/insertFaxinaProc.php', 
+
+    
 
 
 ];
