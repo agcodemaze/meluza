@@ -134,7 +134,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                                 <a href="javascript:void(0);" 
                                                    class="action-icon" 
                                                    data-id="<?= htmlspecialchars($cliente['CLI_IDCLIENTE']); ?>" 
-                                                   data-foto="foto" 
+                                                   data-nome="<?= htmlspecialchars($cliente['CLI_DCNOME']); ?>" 
                                                    onclick="confirmDeleteAttr(this)">
                                                    <i class="mdi mdi-delete" style="font-size: 28px; color:rgb(235, 73, 73);" title="Excluir Cliente"></i>
                                                 </a>
@@ -169,14 +169,14 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
     <script>
         function confirmDeleteAttr(element) {
             const id = element.getAttribute('data-id');
-            const fileName = element.getAttribute('data-foto');
+            const nome = element.getAttribute('data-nome');
             confirmDelete(id, fileName);
         }
 
-        function confirmDelete(id, fileName) {
+        function confirmDelete(id, nome) {
             Swal.fire({
                 title: 'Lista de Clientes',
-                text: "Tem certeza que deseja excluir o cliente?",
+                text: `Tem certeza que deseja excluir o cliente "${nome}"?`,
                 icon: 'warning',
                 showDenyButton: true,
                 confirmButtonText: 'CONFIRMAR',
@@ -201,9 +201,9 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                     });
                 
                     $.ajax({
-                        url: "/deleteFornecedorProc",
+                        url: "/deleteClientProc",
                         type: "POST",
-                        data: { id: id, filename: fileName },
+                        data: { id: id, nome: nome },
                         dataType: "json",
                         success: function (jsonResponse) {
                             if (jsonResponse.success) {
@@ -216,7 +216,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                     background: "#f9f9fb",
                                     color: "#333"
                                 }).then(() => {
-                                    window.location.href = "/fornecedores";
+                                    window.location.href = "/clientes";
                                 });
                             } else {
                                 Swal.fire({
