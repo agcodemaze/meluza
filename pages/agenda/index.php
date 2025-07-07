@@ -367,7 +367,7 @@ foreach ($faxinas as $item) {
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #086683; color: #000000;">
-              <h4 class="modal-title text-white mb-0">Agendar uma faxina</h4>
+              <h4 class="modal-title text-white mb-0">Editar uma faxina</h4>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div> 
                 <div class="modal-body">
@@ -709,6 +709,17 @@ foreach ($faxinas as $item) {
 </script>
 
 <script>
+  document.addEventListener("DOMContentLoaded", function () {
+  const faxinaItens = document.querySelectorAll('.faxina-item');
+  console.log("Faxinas encontradas:", faxinaItens.length);
+
+  faxinaItens.forEach(item => {
+    item.addEventListener('click', function () {
+      alert("Clique detectado!");
+    });
+  });
+});
+
   document.addEventListener("DOMContentLoaded", function () {
     const faxinaItens = document.querySelectorAll('.faxina-item');
 
