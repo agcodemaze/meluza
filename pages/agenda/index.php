@@ -320,7 +320,7 @@ foreach ($faxinas as $item) {
                                             </div>
 
                                             <div class="row">
-                                              <div class="col-md-6">
+                                              <div class="col-md-3">
                                                 <div class="position-relative mb-3" id="campo-tipo">
                                                   <label class="form-label" for="tipo">Tipo de Local</label>
                                                   <select id="tipo" name="tipo" class="form-control select2" required>
@@ -334,7 +334,7 @@ foreach ($faxinas as $item) {
                                                 </div>
                                               </div>
                                                     
-                                              <div class="col-md-6">
+                                              <div class="col-md-3">
                                                 <div class="position-relative mb-3" id="campo-preco">
                                                   <label class="form-label" for="preco">Preço</label>
                                                   <input type="text" id="preco" name="preco" class="form-control" placeholder="R$ 0,00">
