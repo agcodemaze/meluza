@@ -13,7 +13,7 @@ class registerFaxina extends SITE_ADMIN
                 $this->conexao();
             }
 
-            if($id == "Cadastrar")
+            if(empty($id))
             {
                 $result = $this->inserFaxinaInfo($cliente, $tipo, $duracao, $preco, $data, $observacao);
                 echo $result;
@@ -35,7 +35,7 @@ class registerFaxina extends SITE_ADMIN
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $id = isset($_POST['faxinaId']) && !empty($_POST['faxinaId']) ? $_POST['faxinaId'] : 'Cadastrar';   
+    $id = $_POST['faxinaId'];   
     $cliente = mb_strtoupper(trim($_POST['cliente']), 'UTF-8');    
     $tipo = mb_strtoupper(trim($_POST['tipo']), 'UTF-8');  
     $duracao = mb_strtoupper(trim($_POST['duracao']), 'UTF-8');  
