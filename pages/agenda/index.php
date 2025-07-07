@@ -114,13 +114,13 @@ foreach ($faxinas as $item) {
             font-size: 30px; /* Ajuste o tamanho do ícone */
             padding: 10px;
         }
-        
+
         .info-box-text {
             font-size: 14px; /* Ajuste o tamanho do texto */
         }
-        
+
         .info-box-number {
-            font-size: 16px; /* Ajuste o tamanho do número */
+            font-size: 24px; /* Ajuste o tamanho do número */
         }
     </style>
 
