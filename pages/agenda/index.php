@@ -522,44 +522,47 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
     });
 </script>
 
-<script>
+
+  <script>
     document.addEventListener("DOMContentLoaded", function () {
-        const input = document.getElementById("intervaloDatas");
+      const input = document.getElementById("intervaloDatas");
 
-        const now = moment();
-        const start = moment().subtract(1, 'months').startOf('day');
-        const end = moment().add(1, 'months').endOf('day');
+      const now = moment();
+      const start = moment().subtract(1, 'months').startOf('day');
+      const end = moment().add(1, 'months').endOf('day');
 
-        $(input).daterangepicker({
-            timePicker: true,
-            timePicker24Hour: true,
-            startDate: start,
-            endDate: end,
-            locale: {
-                format: 'DD/MM/YYYY HH:mm', // <-- CORRIGIDO
-                applyLabel: 'Aplicar',
-                cancelLabel: 'Cancelar',
-                fromLabel: 'De',
-                toLabel: 'Até',
-                customRangeLabel: 'Personalizado',
-                weekLabel: 'S',
-                daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-                monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
-                             'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
-                firstDay: 1
-            }
-        });
+      $(input).daterangepicker({
+        timePicker: true,
+        timePicker24Hour: true,
+        startDate: start,
+        endDate: end,
+        locale: {
+          format: 'DD/MM/YYYY HH:mm',
+          applyLabel: 'Aplicar',
+          cancelLabel: 'Cancelar',
+          fromLabel: 'De',
+          toLabel: 'Até',
+          customRangeLabel: 'Personalizado',
+          weekLabel: 'S',
+          daysOfWeek: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+          monthNames: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho',
+                       'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+          firstDay: 1
+        }
+      });
 
-        $(input).on('apply.daterangepicker', function (ev, picker) {
-            const dataInicio = picker.startDate.format('YYYY-MM-DD HH:mm:ss');
-            const dataFim = picker.endDate.format('YYYY-MM-DD HH:mm:ss');
+      $(input).on('apply.daterangepicker', function (ev, picker) {
+        console.log("Evento apply disparado");
+        const dataInicio = picker.startDate.format('YYYY-MM-DD HH:mm:ss');
+        const dataFim = picker.endDate.format('YYYY-MM-DD HH:mm:ss');
 
-            const baseUrl = window.location.href.split('?')[0];
-            const novaUrl = baseUrl + '?data_inicio=' + encodeURIComponent(dataInicio) + '&data_fim=' + encodeURIComponent(dataFim);
-            window.location.href = novaUrl;
-        });
+        const baseUrl = window.location.href.split('?')[0];
+        const novaUrl = baseUrl + '?data_inicio=' + encodeURIComponent(dataInicio) + '&data_fim=' + encodeURIComponent(dataFim);
+        console.log("Nova URL:", novaUrl);
+        window.location.href = novaUrl;
+      });
     });
-</script>
+  </script>
 
 
 	   <?php include_once BASE_PATH . "src/config.php"; ?>
