@@ -60,6 +60,17 @@ die();
             padding: 1rem;
         }
     </style>
+    <style>
+        .dia-ocupado.day::after {
+            content: "";
+            display: block;
+            width: 6px;
+            height: 6px;
+            background-color: #007bff;
+            border-radius: 50%;
+            margin: 2px auto 0;
+        }
+    </style>
 
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
       <div class="app-wrapper">
@@ -314,14 +325,37 @@ die();
         <script src="https://cdn.datatables.net/plug-ins/1.13.4/sorting/datetime-moment.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         
+
+<script>
+    const datasOcupadas = [
+        <?php foreach ($faxinas as $item): ?>
+            '<?= date('d/m/Y', strtotime($item["FXA_DTDATA"])) ?>',
+        <?php endforeach; ?>
+    ];
+</script>
 <script>
     $(document).ready(function () {
         $('#calendario').datepicker({
             format: "dd/mm/yyyy",
             language: "pt-BR",
             todayHighlight: true,
-            autoclose: true
-        })
+            autoclose: true,
+            beforeShowDay: function (date) {
+                const dia = String(date.getDate()).padStart(2, '0');
+                const mes = String(date.getMonth() + 1).padStart(2, '0');
+                const ano = date.getFullYear();
+                const dataFormatada = `${dia}/${mes}/${ano}`;
+
+                if (datasOcupadas.includes(dataFormatada)) {
+                    return {
+                        classes: 'dia-ocupado',
+                        tooltip: 'Dia com faxina'
+                    };
+                }
+
+                return;
+            }
+        });
     });
 </script>
 
@@ -371,18 +405,18 @@ die();
 </script>
 
 <script>
-            $(function() {
-              $('#intervaloDatas').daterangepicker({
-                locale: {
-                  format: 'DD/MM/YYYY',
-                  applyLabel: 'Aplicar',
-                  cancelLabel: 'Cancelar',
-                  daysOfWeek: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
-                  monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
-                  firstDay: 0
-                }
-              });
-            });
+    $(function() {
+      $('#intervaloDatas').daterangepicker({
+        locale: {
+          format: 'DD/MM/YYYY',
+          applyLabel: 'Aplicar',
+          cancelLabel: 'Cancelar',
+          daysOfWeek: ['Dom','Seg','Ter','Qua','Qui','Sex','Sab'],
+          monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+          firstDay: 0
+        }
+      });
+    });
 </script>
 
   <script>
