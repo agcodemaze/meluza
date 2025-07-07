@@ -57,27 +57,17 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
             padding: 1rem;
         }
     </style>
-<style>
-    .dia-ocupado.programada::after {
-        content: "";
-        display: block;
-        width: 10px;
-        height: 10px;
-        background-color: rgb(255, 0, 0); /* vermelho */
-        border-radius: 50%;
-        margin: 2px auto 0;
-    }
-
-    .dia-ocupado.concluida::after {
-        content: "";
-        display: block;
-        width: 10px;
-        height: 10px;
-        background-color: rgb(0, 255, 0); /* verde */
-        border-radius: 50%;
-        margin: 2px auto 0;
-    }
-</style>
+    <style>
+        .dia-ocupado.day::after {
+            content: "";
+            display: block;
+            width: 12px;
+            height: 12px;
+            background-color:rgb(98, 0, 255);
+            border-radius: 50%;
+            margin: 2px auto 0;
+        }
+    </style>
 
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
       <div class="app-wrapper">
@@ -340,17 +330,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
         <?php endforeach; ?>
     ];
 </script>
-<script>
-  const datasStatus = {
-    <?php
-    foreach ($faxinas as $faxina) {
-        $data = date('d/m/Y', strtotime($faxina['FXA_DTDIA'])); // ajuste o campo da data aqui
-        $status = strtolower($faxina['FXA_STSTATUS']); // programada, concluida, etc.
-        echo "\"$data\": \"$status\",";
-    }
-    ?>
-  };
-</script>
+
 <script>
     $(document).ready(function () {
         $('#calendario').datepicker({
@@ -364,12 +344,10 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                 const ano = date.getFullYear();
                 const dataFormatada = `${dia}/${mes}/${ano}`;
 
-                if (datasStatus[dataFormatada]) {
-                    let status = datasStatus[dataFormatada];
+                if (datasOcupadas.includes(dataFormatada)) {
                     return {
-                        classes: status === 'programada' ? 'dia-ocupado programada' :
-                                 status === 'concluida' ? 'dia-ocupado concluida' : '',
-                        tooltip: `Faxina ${status}`
+                        classes: 'dia-ocupado',
+                        tooltip: 'Dia com faxina'
                     };
                 }
 
