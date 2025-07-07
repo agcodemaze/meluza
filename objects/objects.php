@@ -300,6 +300,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             $FXA_DTDATA_CADASTRO = $now->format('Y-m-d H:i:s');
             $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
             $FXA_STATIVO = "ATIVO";
+            $FXA_NMPRECO_COMBINADO = str_replace(['R$', '.', ','], ['', '', '.'], $FXA_NMPRECO_COMBINADO);
 
             try {
                 $sql = "INSERT INTO FXA_FAXINA 
