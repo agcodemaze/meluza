@@ -114,7 +114,7 @@ $cliente = $siteAdmin->getClienteInfoById($id, USER_ID);
 
                                                 <div class="position-relative mb-3">
                                                     <label for="estado" class="form-label">Estado</label>
-                                                    <input value="<?php echo $cliente["CLI_DCCLI_DCESTADOCIDADE"]; ?>" type="text" id="estado" name="estado" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
+                                                    <input value="<?php echo $cliente["CLI_DCESTADO"]; ?>" type="text" id="estado" name="estado" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
