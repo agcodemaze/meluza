@@ -384,7 +384,7 @@ foreach ($faxinas as $item) {
                                             
                                             <div class="position-relative mb-3">
                                                 <label for="data" class="form-label">Data</label>
-                                                <input type="text" class="form-control" id="dataHora" name="dataHora" placeholder="Selecione data e hora">
+                                                <input type="text" class="form-control" id="dataHora" name="dataHora" placeholder="Selecione uma ou mais datas e horários">
                                             </div>   
                                             
                                             <div class="position-relative mb-3">
@@ -507,13 +507,14 @@ foreach ($faxinas as $item) {
 <!-- Inicialização -->
 <script>
     flatpickr("#dataHora", {
-        enableTime: true,              
-        dateFormat: "d/m/Y H:i",       
-        time_24hr: true,               
-        locale: "pt",                  
-        defaultHour: 12,               
-        defaultMinute: 0,              
-        minuteIncrement: 5             
+        enableTime: true,
+        dateFormat: "d/m/Y H:i",
+        time_24hr: true,
+        locale: "pt",
+        defaultHour: 12,
+        defaultMinute: 0,
+        minuteIncrement: 5,
+        mode: "multiple"  // permite seleção de múltiplas datas/horas
     });
 </script>
 <script>
