@@ -14,12 +14,12 @@ if (isset($_GET['data_inicio']) && isset($_GET['data_fim'])) {
     } catch (Exception $e) {
         // Em caso de erro no formato da data, define intervalo padrão (hoje até 2 mes a frente)
         $dataInicio = (new DateTime())->setTime(0, 0)->format('Y-m-d H:i:s');
-        $dataFim = (new DateTime())->modify('+2 month')->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+        $dataFim = (new DateTime())->modify('+1 month')->setTime(23, 59, 59)->format('Y-m-d H:i:s');
     }
 } else {
     // Intervalo padrão: (hoje até 2 mes a frente)
     $dataInicio = (new DateTime())->setTime(0, 0)->format('Y-m-d H:i:s');
-    $dataFim = (new DateTime())->modify('+2 month')->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+    $dataFim = (new DateTime())->modify('+1 month')->setTime(23, 59, 59)->format('Y-m-d H:i:s');
 }
 
 $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
