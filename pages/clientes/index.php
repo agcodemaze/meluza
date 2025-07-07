@@ -170,7 +170,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
         function confirmDeleteAttr(element) {
             const id = element.getAttribute('data-id');
             const nome = element.getAttribute('data-nome');
-            confirmDelete(id, fileName);
+            confirmDelete(id, nome);
         }
 
         function confirmDelete(id, nome) {
