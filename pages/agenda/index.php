@@ -236,6 +236,13 @@ foreach ($faxinas as $item) {
                                                   data-duracao="<?= $item['FXA_DCDURACAO_ESTIMADA'] ?>"
                                                   data-preco="<?= $item['FXA_NMPRECO_COMBINADO'] ?>"
                                                   data-data="<?= $item['FXA_DTDATA'] ?>"
+                                                  data-endereco="<?= $item['CLI_DCENDERECO'] ?>"
+                                                  data-bairro="<?= $item['CLI_DCBAIRRO'] ?>"
+                                                  data-numero="<?= $item['CLI_DCNUM_ENDERECO'] ?>"
+                                                  data-cidade="<?= $item['CLI_DCCIDADE'] ?>"
+                                                  data-telefone="<?= $item['CLI_DCTELEFONE'] ?>"
+                                                  data-estado="<?= $item['CLI_DCESTADO'] ?>"
+                                                  data-complemento="<?= $item['CLI_DCCOMPLEMENTO'] ?>"
                                                   data-observacao="<?= htmlspecialchars($item['FXA_DCOBS'] ?? '') ?>"                                                 
                                                   style="cursor: pointer;"
                                                 >
@@ -297,7 +304,9 @@ foreach ($faxinas as $item) {
                                 <div class="tab-content">
                                     <div class="tab-pane show active" id="tooltips-validation-preview">
                                         <form id="form" name="form" role="form" method="POST" enctype="multipart/form-data">                                       
-                                            <input type="hidden" id="faxinaId" name="faxinaId" value="">
+                                            
+                                          <input type="hidden" id="faxinaId" name="faxinaId" value="">
+
                                             <div class="position-relative mb-3" id="campo-nome">
                                               <label class="form-label" for="cliente">Cliente</label>
                                               <select id="cliente" name="cliente" class="form-control select2" required>
@@ -310,16 +319,27 @@ foreach ($faxinas as $item) {
                                               </select>
                                             </div>
 
-                                            <div class="position-relative mb-3" id="campo-tipo">
-                                              <label class="form-label" for="cliente">Tipo de Local</label>
-                                              <select id="tipo" name="tipo" class="form-control select2" required>
-                                                <option value="">Selecione o tipo</option>
-                                                <?php foreach ($tipos as $tipo): ?>
-                                                  <option value="<?= $tipo['TLO_IDTIPOLOCAL'] ?>">
-                                                    <?= htmlspecialchars(mb_convert_case($tipo['PLO_DCNOME'], MB_CASE_TITLE, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
-                                                  </option>
-                                                <?php endforeach; ?>
-                                              </select>
+                                            <div class="row">
+                                              <div class="col-md-6">
+                                                <div class="position-relative mb-3" id="campo-tipo">
+                                                  <label class="form-label" for="tipo">Tipo de Local</label>
+                                                  <select id="tipo" name="tipo" class="form-control select2" required>
+                                                    <option value="">Selecione o tipo</option>
+                                                    <?php foreach ($tipos as $tipo): ?>
+                                                      <option value="<?= $tipo['TLO_IDTIPOLOCAL'] ?>">
+                                                        <?= htmlspecialchars(mb_convert_case($tipo['PLO_DCNOME'], MB_CASE_TITLE, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
+                                                      </option>
+                                                    <?php endforeach; ?>
+                                                  </select>
+                                                </div>
+                                              </div>
+                                                    
+                                              <div class="col-md-6">
+                                                <div class="position-relative mb-3" id="campo-preco">
+                                                  <label class="form-label" for="preco">Preço</label>
+                                                  <input type="text" id="preco" name="preco" class="form-control" placeholder="R$ 0,00">
+                                                </div>
+                                              </div>
                                             </div>
 
                                             <div class="position-relative mb-3" id="campo-duracao">                                                    
@@ -327,11 +347,6 @@ foreach ($faxinas as $item) {
                                               <input type="text" id="duracao" name="duracao" class="form-control" maxlength="2"
                                                      oninput="this.value = this.value.replace(/\D/g, '').slice(0,2); if (parseInt(this.value) > 99) this.value = '99';"
                                                      placeholder="0 a 99">
-                                            </div>
-
-                                            <div class="position-relative mb-3" id="campo-preco">                                                    
-                                              <label class="form-label" for="preco">Preço</label>
-                                              <input type="text" id="preco" name="preco" class="form-control" placeholder="R$ 0,00">
                                             </div>
                                             
                                             <div class="position-relative mb-3">
@@ -342,7 +357,21 @@ foreach ($faxinas as $item) {
                                             <div class="position-relative mb-3">
                                               <label for="observacao" class="form-label">Observações</label>
                                               <textarea class="form-control" maxlength="300" rows="3" id="observacao" name="observacao" placeholder=""></textarea>
-                                            </div> 
+                                            </div>  
+                                            
+                                            <div class="position-relative mb-3 text-center">
+  <small class="d-block mb-2 text-muted" id="texto-endereco">Rua Exemplo, 123 - Bairro Central</small>
+  
+  <div class="d-flex justify-content-center gap-3">
+    <a href="#" target="_blank">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="Uber" style="height: 40px;">
+    </a>
+    <a href="#" target="_blank">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/99app_logo.png" alt="99" style="height: 40px;">
+    </a>
+  </div>
+</div>
+                                            
                                         </form>
                                     </div> <!-- end preview-->                                        
                                 </div> <!-- end tab-content-->                            
@@ -651,65 +680,64 @@ foreach ($faxinas as $item) {
 </script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-  const faxinaItens = document.querySelectorAll('.faxina-item');
-  const modalEl = document.getElementById('modalAgendamento');
-  const modal = new bootstrap.Modal(modalEl);
+    document.addEventListener("DOMContentLoaded", function () {
+    const faxinaItens = document.querySelectorAll('.faxina-item');
+    const modalEl = document.getElementById('modalAgendamento');
+    const modal = new bootstrap.Modal(modalEl);
 
-  // Abrir modal para editar preenchendo os campos
-  faxinaItens.forEach(item => {
-    item.addEventListener('click', function () {
-      // Preenche com dados da faxina selecionada
-      document.getElementById('faxinaId').value = this.dataset.faxinaid || ''; // se tiver ID da faxina
+    // Abrir modal para editar preenchendo os campos
+    faxinaItens.forEach(item => {
+      item.addEventListener('click', function () {
+        // Preenche com dados da faxina selecionada
+        document.getElementById('faxinaId').value = this.dataset.faxinaid || '';
 
-      $('#cliente').val(this.dataset.idcliente).trigger('change');
-      $('#tipo').val(this.dataset.idtipo).trigger('change');
-      document.getElementById('duracao').value = this.dataset.duracao || '';
-      document.getElementById('preco').value = formatarPreco(this.dataset.preco) || '';
-      document.getElementById('dataHora').value = formatarDataHora(this.dataset.data) || '';
-      document.getElementById('observacao').value = this.dataset.observacao || '';
+        $('#cliente').val(this.dataset.idcliente).trigger('change');
+        $('#tipo').val(this.dataset.idtipo).trigger('change');
+        document.getElementById('duracao').value = this.dataset.duracao || '';
+        document.getElementById('preco').value = formatarPreco(this.dataset.preco) || '';
+        document.getElementById('dataHora').value = formatarDataHora(this.dataset.data) || '';
+        document.getElementById('observacao').value = this.dataset.observacao || '';
 
+        modal.show();
+      });
+    });
+
+    // Função para abrir modal em modo "novo"
+    window.abrirModalNovo = function () {
+      document.getElementById('faxinaId').value = '';
+      $('#cliente').val('').trigger('change');
+      $('#tipo').val('').trigger('change');
+      document.getElementById('duracao').value = '';
+      document.getElementById('preco').value = '';
+      document.getElementById('dataHora').value = '';
+      document.getElementById('observacao').value = '';
       modal.show();
-    });
-  });
+    };
 
-  // Função para abrir modal em modo "novo"
-  window.abrirModalNovo = function () {
-    document.getElementById('faxinaId').value = '';
-    $('#cliente').val('').trigger('change');
-    $('#tipo').val('').trigger('change');
-    document.getElementById('duracao').value = '';
-    document.getElementById('preco').value = '';
-    document.getElementById('dataHora').value = '';
-    document.getElementById('observacao').value = '';
-    modal.show();
-  };
+  function formatarDataHora(dataISO) {
+    if (!dataISO) return '';
+    const dataCorrigida = dataISO.replace(' ', 'T');
+    const dataObj = new Date(dataCorrigida);
+    if (isNaN(dataObj.getTime())) return dataISO;
 
-function formatarDataHora(dataISO) {
-  if (!dataISO) return '';
-  // Substitui espaço por 'T' para ser formato ISO válido para JS
-  const dataCorrigida = dataISO.replace(' ', 'T');
-  const dataObj = new Date(dataCorrigida);
-  if (isNaN(dataObj.getTime())) return dataISO;
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+    const ano = dataObj.getFullYear();
+    const hora = String(dataObj.getHours()).padStart(2, '0');
+    const minuto = String(dataObj.getMinutes()).padStart(2, '0');
 
-  const dia = String(dataObj.getDate()).padStart(2, '0');
-  const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-  const ano = dataObj.getFullYear();
-  const hora = String(dataObj.getHours()).padStart(2, '0');
-  const minuto = String(dataObj.getMinutes()).padStart(2, '0');
-
-  return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
-}
-
-  function formatarPreco(valor) {
-    const numero = parseFloat(valor);
-    if (isNaN(numero)) return '';
-    return numero.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    });
+    return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
   }
-});
+
+    function formatarPreco(valor) {
+      const numero = parseFloat(valor);
+      if (isNaN(numero)) return '';
+      return numero.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      });
+    }
+  });
 
 </script>
 
