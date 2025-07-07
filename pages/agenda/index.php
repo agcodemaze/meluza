@@ -162,7 +162,7 @@ foreach ($faxinas as $item) {
                             <!-- /.col -->
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-check-lg text-success"></i> </span>
+                                    <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-check-lg"></i> </span>
                                     <div class="info-box-content"><span class="info-box-text">Faxinas Concluídas</span> <span class="info-box-number"><?php echo $faxinasConcluidas; ?><small>Concluídas</small></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
