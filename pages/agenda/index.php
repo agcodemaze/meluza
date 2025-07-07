@@ -211,10 +211,10 @@ foreach ($faxinas as $item) {
                                     <div class="card-header">
                                         <h3 class="card-title">Faxinas</h3>
                                         <div class="card-tools">
-                                                                      <div class="col-auto">
-                                <label for="searchField" class="visually-hidden">Procurar</label>
-                                <input type="search" class="form-control" id="searchField" placeholder="Procurar...">
-                            </div>
+                                            <div class="col-auto">
+                                              <label for="searchField" class="visually-hidden">Procurar</label>
+                                              <input type="search" class="form-control" id="searchField" placeholder="Procurar...">
+                                          </div>
                                         </div>
                                     </div>
 
@@ -226,11 +226,18 @@ foreach ($faxinas as $item) {
                                                     $dataOriginal = $item["FXA_DTDATA"];
                                                     $dataConvertida = DateTime::createFromFormat('Y-m-d H:i:s', $dataOriginal)->format('d/m/Y H:i:s');
                                             
-                                                    $dataOriginal = $item["FXA_DTDATA"]; // Ex: '2025-07-07 14:30:00'
-                                                    setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'Portuguese_Brazil');
+                                                    $dataOriginal = $item["FXA_DTDATA"]; 
+                                                    $data = new DateTime($dataOriginal);
+                                                  
+                                                    $fmt = new IntlDateFormatter(
+                                                        'pt_BR',               
+                                                        IntlDateFormatter::FULL, 
+                                                        IntlDateFormatter::NONE // Não exibe hora
+                                                    );
 
-                                                    $diaSemana = strftime('%A', strtotime($dataOriginal));
-                                                    $diaSemana = ucfirst($diaSemana); 
+                                                    $fmt->setPattern('EEEE'); // Apenas o dia da semana por extenso
+                                                    $diaSemana = ucfirst($fmt->format($data)); // Ex: Segunda-feira
+
 
                                                     if ($item["FXA_STSTATUS"] == "PROGRAMADA")   $badgeColor = "info";
                                                     if ($item["FXA_STSTATUS"] == "CONCLUÍDA")    $badgeColor = "success";
@@ -412,6 +419,17 @@ foreach ($faxinas as $item) {
         <script src="https://cdn.datatables.net/plug-ins/1.13.4/sorting/datetime-moment.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         
+<script>
+  document.getElementById('searchField').addEventListener('keyup', function() {
+    var search = this.value.toLowerCase();
+    var items = document.querySelectorAll(".faxina-item");
+
+    items.forEach(function(item) {
+      var texto = item.innerText.toLowerCase();
+      item.style.display = texto.includes(search) ? "" : "none";
+    });
+  });
+</script>
 
 <script>
     const datasOcupadas = [
