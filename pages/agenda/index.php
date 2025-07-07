@@ -57,17 +57,19 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
             padding: 1rem;
         }
     </style>
-    <style>
-        .dia-ocupado.day::after {
-            content: "";
-            display: block;
-            width: 10px;
-            height: 10px;
-            background-color:rgb(255, 0, 0);
-            border-radius: 50%;
-            margin: 2px auto 0;
-        }
-    </style>
+<style>
+.dia-ocupado-bolinha {
+    background-color: #007bff !important;
+    color: white !important;
+    border-radius: 50% !important;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    display: inline-block;
+    margin: auto;
+}
+</style>
 
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
       <div class="app-wrapper">
@@ -345,7 +347,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
                 if (datasOcupadas.includes(dataFormatada)) {
                     return {
-                        classes: 'dia-ocupado',
+                        classes: 'dia-ocupado-bolinha',
                         tooltip: 'Dia com faxina'
                     };
                 }
