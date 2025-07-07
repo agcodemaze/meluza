@@ -715,25 +715,39 @@ document.addEventListener("DOMContentLoaded", function () {
   // Atualiza os ícones no modal com os links corretos
   async function atualizarIconesUber99(rua, numero, bairro, cidade, estado) {
     const enderecoCompleto = `${rua}, ${numero}, ${bairro}, ${cidade}, ${estado}`;
-    const coords = await buscarCoordenadas(enderecoCompleto);
     const uberIcon = document.getElementById('iconeUber');
     const noventaENoveIcon = document.getElementById('icone99');
-
-    if (coords) {
-      uberIcon.href = gerarLinkUber(coords.lat, coords.lon);
-      uberIcon.style.opacity = '1';
-      uberIcon.title = 'Chamar Uber para ' + enderecoCompleto;
-    } else {
+  
+    // Coloca ícone Uber como opaco e sem link enquanto busca
+    uberIcon.href = 'javascript:void(0);';
+    uberIcon.style.opacity = '0.3';
+    uberIcon.title = 'Buscando endereço...';
+  
+    try {
+      const coords = await buscarCoordenadas(enderecoCompleto);
+      if (coords) {
+        uberIcon.href = gerarLinkUber(coords.lat, coords.lon);
+        uberIcon.style.opacity = '1';
+        uberIcon.title = 'Chamar Uber para ' + enderecoCompleto;
+      } else {
+        // Sem coords válidas, deixa opaco
+        uberIcon.href = 'javascript:void(0);';
+        uberIcon.style.opacity = '0.3';
+        uberIcon.title = 'Endereço inválido para Uber';
+      }
+    } catch (error) {
+      console.error('Erro ao buscar coordenadas:', error);
       uberIcon.href = 'javascript:void(0);';
       uberIcon.style.opacity = '0.3';
-      uberIcon.title = 'Endereço inválido para Uber';
+      uberIcon.title = 'Erro ao buscar endereço';
     }
-
-    // Link estático do 99 (você pode personalizar esse link)
-    noventaENoveIcon.href = 'https://99app.com/'; 
+  
+    // Link estático do 99 (pode modificar se quiser)
+    noventaENoveIcon.href = 'https://99app.com/';
     noventaENoveIcon.style.opacity = '1';
     noventaENoveIcon.title = 'Chamar 99';
   }
+
 
   // Abrir modal para editar preenchendo os campos e atualizando ícones
   faxinaItens.forEach(item => {
