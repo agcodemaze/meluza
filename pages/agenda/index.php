@@ -232,11 +232,11 @@ foreach ($faxinas as $item) {
                                                 ?>
                                                 <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center faxina-item"
      data-idcliente="<?= $item['CLI_IDCLIENTE'] ?>"
-     data-idtipo="<?= $item['TLO_IDTIPOLOCAL'] ?>"
+     data-idtipo="<?= $item['FXA_DCTIPO'] ?>"
      data-duracao="<?= $item['FXA_DCDURACAO_ESTIMADA'] ?>"
      data-preco="<?= $item['FXA_NMPRECO_COMBINADO'] ?>"
      data-data="<?= $item['FXA_DTDATA'] ?>"
-     data-observacao="<?= htmlspecialchars($item['FXA_DCOBSERVACAO'] ?? '') ?>"
+     data-observacao="<?= htmlspecialchars($item['FXA_DCOBS'] ?? '') ?>"
      data-bs-toggle="modal" data-bs-target="#modalAgendamentoEditar"
      style="cursor: pointer;">
                                                     <div class="me-3 mb-2" style="flex: 0 0 50px;">
