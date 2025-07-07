@@ -35,7 +35,7 @@ class registerFaxina extends SITE_ADMIN
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    $id = isset($_POST['cliente']) && !empty($_POST['cliente']) ? $_POST['cliente'] : 'Cadastrar';   
+    $id = isset($_POST['faxinaId']) && !empty($_POST['faxinaId']) ? $_POST['faxinaId'] : 'Cadastrar';   
     $cliente = mb_strtoupper(trim($_POST['cliente']), 'UTF-8');    
     $tipo = mb_strtoupper(trim($_POST['tipo']), 'UTF-8');  
     $duracao = mb_strtoupper(trim($_POST['duracao']), 'UTF-8');  
