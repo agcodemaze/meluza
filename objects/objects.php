@@ -337,6 +337,19 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }            
         }
 
+        function getFaxinasInfo($USU_IDUSUARIO) 
+        {
+            if (!$this->pdo) {
+                $this->conexao();
+            }
 
+            $sql = "SELECT * FROM VW_FAXINA_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO AND CLI_STATIVO = 'ATIVO' ORDER BY FXA_DTDATA DESC";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+    }
 ?>

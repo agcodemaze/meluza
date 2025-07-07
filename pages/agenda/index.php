@@ -5,6 +5,7 @@ include_once BASE_PATH . "objects/objects.php";
 $siteAdmin = new SITE_ADMIN(); 
 $clientes = $siteAdmin->getClienteInfo(USER_ID);
 $tipos = $siteAdmin->getTiposLocalInfo();
+$faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
 ?>
 
@@ -162,47 +163,28 @@ $tipos = $siteAdmin->getTiposLocalInfo();
                                     <!-- /.card-header -->
                                     <div class="card-body p-0">
                                         <div class="px-2">
-                                            <div class="d-flex border-top py-2 px-1">
-                                                <div class="col-2"><img src="/assets/img/default-150x150.png" alt="Product Image" class="img-size-50" /></div>
-                                                <div class="col-10">
-                                                    <a href="javascript:void(0)" class="fw-bold">
-                                                        Samira Neves Orlando
-                                                        <span class="badge text-bg-warning float-end">
-                                                            R$180,00
-                                                        </span>
-                                                    </a>
-                                                    <div class="text-truncate">
-                                                        <strong>Data:</strong> 12/01/2025 ás 08:00
-                                                    </div>
-                                                    <div class="text-truncate">
-                                                        <strong>Tipo de Faxina:</strong> Apartamento
-                                                    </div>
-                                                    <div class="text-truncate">
-                                                        Bairro Jd Campos Verdes
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- /.item -->
-                                            <div class="d-flex border-top py-2 px-1">
-                                                <div class="col-2"><img src="/assets/img/default-150x150.png" alt="Product Image" class="img-size-50" /></div>
-                                                <div class="col-10">
-                                                    <a href="javascript:void(0)" class="fw-bold">
-                                                        Juvenal Candido Motta
-                                                        <span class="badge text-bg-info float-end">
-                                                            R$220,00
-                                                        </span>
-                                                    </a>
-                                                    <div class="text-truncate">
-                                                        <strong>Data:</strong> 12/01/2025 ás 08:00
-                                                    </div>
-                                                    <div class="text-truncate">
-                                                        <strong>Tipo de Faxina:</strong> Casa Grande
-                                                    </div>
-                                                    <div class="text-truncate">
-                                                        Bairro Jd Campos Verdes
+                                             <?php foreach ($faxinas as $item): ?>
+                                                <div class="d-flex border-top py-2 px-1">
+                                                    <div class="col-2"><img src="/assets/img/default-150x150.png" alt="Product Image" class="img-size-50" /></div>
+                                                    <div class="col-10">
+                                                        <a href="javascript:void(0)" class="fw-bold">
+                                                            <?php echo $item["CLI_DCNOME"] ?>
+                                                            <span class="badge text-bg-warning float-end">
+                                                                R$<?php echo $item["FXA_NMPRECO_COMBINADO"] ?>
+                                                            </span>
+                                                        </a>
+                                                        <div class="text-truncate">
+                                                            <strong>Data: </strong> <?php echo $item["FXA_DTDATA"] ?>
+                                                        </div>
+                                                        <div class="text-truncate">
+                                                            <strong>Tipo de Faxina:</strong> </strong> <?php echo $item["TLO_DCNOME"] ?>
+                                                        </div>
+                                                        <div class="text-truncate">
+                                                            <?php echo $item["CLI_DCBAIRRO"] ?>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            <?php endforeach; ?>
                                         </div>
                                     </div>
                                     <!-- /.card-body -->
