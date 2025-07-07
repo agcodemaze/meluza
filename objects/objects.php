@@ -426,5 +426,39 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        public function deleteFaxinaById($FXA_IDFAXINA)
+        {       
+            if (!$this->pdo) {
+                $this->conexao();
+            } 
+
+            $now = new DateTime(); 
+            $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
+            $FXA_STATIVO = "INATIVO";
+
+            try {
+                $sql = "UPDATE CLI_CLIENTE 
+                        SET FXA_STATIVO = :FXA_STATIVO,
+                            FXA_DTULTIMAATUALIZACAO = :FXA_DTULTIMAATUALIZACAO
+                        WHERE FXA_IDFAXINA = :FXA_IDFAXINA";
+
+                $stmt = $this->pdo->prepare($sql);
+            
+                $stmt->bindParam(':FXA_IDFAXINA', $FXA_IDFAXINA, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DTULTIMAATUALIZACAO', $FXA_DTULTIMAATUALIZACAO, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_STATIVO', $FXA_STATIVO, PDO::PARAM_STR);
+
+                $stmt->execute();   
+                
+                $response = array("success" => true, "message" => "A faxina foi apagada com sucesso.");
+                return json_encode($response); 
+
+            } catch (PDOException $e) {
+                $error =  $e->getMessage();   
+                $response = array("success" => false, "message" => "Houve um erro: $error");
+                return json_encode($response);
+            }            
+        }
+
     }
 ?>
