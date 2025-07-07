@@ -58,15 +58,30 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
         }
     </style>
     <style>
-        .dia-ocupado.day::after {
-            content: "";
-            display: block;
-            width: 10px;
-            height: 10px;
-            background-color:rgb(255, 0, 0);
-            border-radius: 50%;
-            margin: 2px auto 0;
-        }
+td.day.dia-ocupado {
+    position: relative;
+    z-index: 1;
+}
+
+td.day.dia-ocupado span {
+    position: relative;
+    z-index: 2;
+    color: white !important;
+    font-weight: bold;
+}
+
+td.day.dia-ocupado::before {
+    content: "";
+    background-color: rgb(255, 0, 0);
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+}
     </style>
 
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
