@@ -4,8 +4,6 @@ include_once BASE_PATH . "objects/objects.php";
 
 $siteAdmin = new SITE_ADMIN(); 
 $clientes = $siteAdmin->getClienteInfo(USER_ID);
-var_dump($clientes);
-die();
 
 ?>
 
