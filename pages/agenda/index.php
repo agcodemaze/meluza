@@ -171,7 +171,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                                                     
                                                     if($item["FXA_STSTATUS"] == "PROGRAMADA"){$badgeColor = "info";}
                                                     if($item["FXA_STSTATUS"] == "CONCLUÍDA"){$badgeColor = "success";}
-                                                    if($item["FXA_STSTATUS"] == "ATRASADA"){$badgeColor = "warning";}
+                                                    if($item["FXA_STSTATUS"] == "ATRASADA"){$badgeColor = "danger";}
                                                 ?>
                                                 <div class="d-flex border-top py-2 px-1">
                                                     <div class="col-2"><img src="../../assets/img/avatarAgenda.png" alt="Product Image" class="img-size-50" /></div>
