@@ -39,11 +39,10 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
     <!-- Flatpickr CSS -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-<!-- Tema opcional para estilo Bootstrap -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">  
-<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Tema opcional para estilo Bootstrap -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">  
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> 
 </head>
 
     <style>
@@ -371,9 +370,25 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
 
                 return;
             }
+        }).on('changeDate', function (e) {
+            const date = e.date;
+
+            const dia = String(date.getDate()).padStart(2, '0');
+            const mes = String(date.getMonth() + 1).padStart(2, '0');
+            const ano = date.getFullYear();
+
+            // Monta as datas início e fim para o mesmo dia
+            const dataInicio = `${ano}-${mes}-${dia} 00:00:00`;
+            const dataFim = `${ano}-${mes}-${dia} 23:59:59`;
+
+            // Redireciona com os parâmetros na URL
+            const baseUrl = window.location.href.split('?')[0];
+            const novaUrl = baseUrl + '?data_inicio=' + encodeURIComponent(dataInicio) + '&data_fim=' + encodeURIComponent(dataFim);
+            window.location.href = novaUrl;
         });
     });
 </script>
+
 
 <script>
   $(document).ready(function() {
