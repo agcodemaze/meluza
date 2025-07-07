@@ -1,5 +1,5 @@
 <?php
-//require BASE_PATH . "src/auth.php"; 
+require BASE_PATH . "src/auth.php"; 
 include_once BASE_PATH . "objects/objects.php";
 
 $siteAdmin = new SITE_ADMIN(); 
@@ -8,17 +8,15 @@ $siteAdmin = new SITE_ADMIN();
 
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-
+<head>
 	<?php include_once BASE_PATH . "src/head.php"; ?>
-
     <link href="../../vendor/bootstrap-datepicker/css/bootstrap-datepicker.min.css" rel="stylesheet" type="text/css" />  
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/locales/bootstrap-datepicker.pt-BR.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>   
 </head>
 
     <style>
@@ -133,14 +131,12 @@ $siteAdmin = new SITE_ADMIN();
                     <!-- /.row -->
                   
                     <div class="row">
-                            <div class="col-12">
-                                <div id="calendario" class="calendar-widget"></div>
-                            </div>
+                        <div class="col-12">
+                            <div id="calendario" class="calendar-widget"></div>
+                        </div>
                     </div>
-                    <!-- end row -->  
-
-                    <br>     
-                              
+                    <!-- end row -->
+                    <br>          
                     <div class="row">
                             <div class="col-12">
                                <div class="card">
@@ -201,30 +197,105 @@ $siteAdmin = new SITE_ADMIN();
                             </div>
                     </div>
                     <!-- end row -->
-
                 </div>
             </div>
-
          </main>
-
 	      <?php include_once BASE_PATH . "src/footer.php"; ?>
-
       </div>
+
+
+    <!-- Modal Criar faxina-->
+    <div id="modalCriarOS" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #8c52ff;">
+              <h4 class="modal-title text-white mb-0">Agendar uma faxina</h4>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div> 
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+
+
+                                    <div class="tab-content">
+                                        <div class="tab-pane show active" id="tooltips-validation-preview">
+                                            <form id="form" name="form" role="form" method="POST" enctype="multipart/form-data">                                       
+
+                                                <div class="position-relative mb-3" id="campo-nome">
+                                                  <label class="form-label" for="nome">Nome Completo</label>
+                                                  <input id="nome" name="nome" autocomplete="new-nome" style="text-transform: uppercase;" type="text" class="form-control" placeholder="" maxlength="50"  oninput="this.value = this.value.replace(/[^\p{L} ]/gu, '')" required/>
+                                                </div>
+
+                                                <div class="position-relative mb-3" id="campo-telefone">                                                    
+                                                  <label class="form-label" for="telefone">Telefone</label>
+                                                  <input type="text" id="telefone" name="telefone" class="form-control" placeholder="(00) 00000-0000">
+                                                </div> 
+
+                                                
+
+                                                <div class="position-relative mb-3">
+                                                    <label for="data" class="form-label">Data</label>
+                                                    <input type="text" id="data" name="data" class="form-control" style="text-transform: uppercase;" placeholder="">
+                                                </div>
+
+
+                                            
+                                                <button class="btn" style="background-color: #6e6c72; color: white;" onclick="window.history.back()" type="button">Voltar</button>         
+                                                <button class="btn" style="background-color: #7eda0d; color: black;" type="submit" id="botao" name="botao">Salvar</button>                                            
+                                            </form>
+                                        </div> <!-- end preview-->                                        
+                                    </div> <!-- end tab-content-->
+
+
+                            
+                            </div> <!-- end card-body -->
+                        </div> <!-- end card-->
+                        </div> <!-- end col-->
+                    </div> <!-- end row-->
+                </div>
+                <div class="modal-footer d-flex justify-content-between align-items-center">
+                  <img src="../../img_pwa/logo_icon.png" alt="Logo" style="height: 30px;">
+                <div>
+                    <a href="javascript:void(0);" class="btn" style="background-color: #8c52ff; color: white;" data-bs-dismiss="modal">Fechar</a>
+                    <button type="button" class="btn" style="background-color: #2be4c6; color: black;" id="botaoOS">Criar</button>
+                  </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+
+
+
         <script src="../../js/overlayscrollbars.browser.es6.min.js"></script>
         <script src="../../js/popper.min.js"></script>
         <script src="../../js/bootstrap.min.js"></script>
         <script src="../../js/adminlte.js"></script>
         <script src="https://cdn.datatables.net/plug-ins/1.13.4/sorting/datetime-moment.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-        <script>
-            $(document).ready(function () {
-                $('#calendario').datepicker({
-                    format: "dd/mm/yyyy",
-                    language: "pt-BR",
-                    todayHighlight: true
-                });
-            });
-        </script>
+        
+<script>
+    $(document).ready(function () {
+        // Inicializa o datepicker no calendário
+        $('#calendario').datepicker({
+            format: "dd/mm/yyyy",
+            language: "pt-BR",
+            todayHighlight: true,
+            autoclose: true
+        }).on('changeDate', function (e) {
+            // Pega a data selecionada formatada
+            const dataSelecionada = $('#calendario').datepicker('getFormattedDate');
+
+            // Define essa data no campo de data dentro do modal
+            $('#data').val(dataSelecionada);
+
+            // Abre o modal
+            $('#modalCriarOS').modal('show');
+        });
+    });
+</script>
 
         <script>
             $(function() {
@@ -242,8 +313,5 @@ $siteAdmin = new SITE_ADMIN();
         </script>
 
 	   <?php include_once BASE_PATH . "src/config.php"; ?>
-
-       
-   
    </body>
 </html>
