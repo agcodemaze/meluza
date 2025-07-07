@@ -250,7 +250,7 @@ $tipos = $siteAdmin->getTiposLocalInfo();
                                             <div class="position-relative mb-3" id="campo-tipo">
                                               <label class="form-label" for="cliente">Tipo de Local</label>
                                               <select id="tipo" name="tipo" class="form-control select2" required>
-                                                <option value="">Selecione um cliente</option>
+                                                <option value="">Selecione o tipo</option>
                                                 <?php foreach ($tipos as $tipo): ?>
                                                   <option value="<?= $tipo['TLO_IDTIPOLOCAL'] ?>">
                                                     <?= htmlspecialchars($tipo['PLO_DCNOME'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
@@ -260,9 +260,11 @@ $tipos = $siteAdmin->getTiposLocalInfo();
                                             </div>
 
                                             <div class="position-relative mb-3" id="campo-duracao">                                                    
-                                              <label class="form-label" for="duracao">Duração Estimada</label>
-                                              <input type="text" id="duracao" name="duracao" class="form-control">
-                                            </div> 
+                                              <label class="form-label" for="duracao">Duração Estimada (em horas)</label>
+                                              <input type="text" id="duracao" name="duracao" class="form-control" maxlength="2"
+                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,2); if (parseInt(this.value) > 99) this.value = '99';"
+                                                     placeholder="0 a 99">
+                                            </div>
 
                                             <div class="position-relative mb-3" id="campo-preco">                                                    
                                               <label class="form-label" for="preco">Preço</label>
