@@ -251,6 +251,7 @@ foreach ($faxinas as $item) {
                                             
                                                 ?>
                                                 <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center faxina-item"
+                                                  data-faxinaId="<?= $item['FXA_IDFAXINA'] ?>"
                                                   data-idcliente="<?= $item['CLI_IDCLIENTE'] ?>"
                                                   data-idtipo="<?= $item['FXA_DCTIPO'] ?>"
                                                   data-duracao="<?= $item['FXA_DCDURACAO_ESTIMADA'] ?>"
