@@ -77,7 +77,7 @@ $siteAdmin = new SITE_ADMIN();
                                                 <div class="position-relative mb-3">
                                                     <label for="cep" class="form-label">CEP</label>
                                                     <input type="text" id="cep" name="cep" class="form-control" placeholder="Digite o CEP" maxlength="9" onblur="buscarEndereco()">                                                
-                                                    <small><a href="javascript:void(0)" onclick="abrirBuscaPorEndereco()">Não sei o CEP</a></small>
+                                                    <small><a href="https://buscacepinter.correios.com.br/app/localidade_logradouro/index.php" target="_blank" >Não sei o CEP</a></small>
                                                   </div>
 
                                                 <div class="position-relative mb-3">
@@ -138,13 +138,6 @@ $siteAdmin = new SITE_ADMIN();
     <script src="../../js/adminlte.js"></script>
 	<?php include_once BASE_PATH . "src/config.php"; ?>
 
-
-  <script>
-    function abrirBuscaPorEndereco() {
-    const urlCorreios = "https://www.correios.com.br/encomendas/rastreamento/consultar-cep";  
-      window.open(urlCorreios, '_blank');
-    }
-  <script>
 
     <script>
         $(document).ready(function() {
