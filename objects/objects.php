@@ -290,65 +290,65 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }
         }
 
-public function inserFaxinaInfo($CLI_IDCLIENTE, $FXA_DCTIPO, $FXA_DCDURACAO_ESTIMADA, $FXA_NMPRECO_COMBINADO, $FXA_DTDATA_MULTIPLAS, $FXA_STSTATUS, $FXA_DCOBS)
-{       
-    if (!$this->pdo) {
-        $this->conexao();
-    } 
-
-    // Limpa preço para formato numérico
-    $FXA_NMPRECO_COMBINADO = str_replace(['R$', '.', ','], ['', '', '.'], $FXA_NMPRECO_COMBINADO);
-
-    $now = new DateTime(); 
-    $FXA_DTDATA_CADASTRO = $now->format('Y-m-d H:i:s');
-    $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
-    $FXA_STATIVO = "ATIVO";
-
-    // Separa as datas pelo separador vírgula
-    $datas = explode(',', $FXA_DTDATA_MULTIPLAS);
-
-    try {
-        $sql = "INSERT INTO FXA_FAXINA 
-                (CLI_IDCLIENTE, FXA_DCTIPO, FXA_DCDURACAO_ESTIMADA, FXA_NMPRECO_COMBINADO, FXA_DTDATA, FXA_DCOBS, FXA_DTULTIMAATUALIZACAO, FXA_STATIVO, FXA_DTDATA_CADASTRO, FXA_STSTATUS) 
-                VALUES (:CLI_IDCLIENTE, :FXA_DCTIPO, :FXA_DCDURACAO_ESTIMADA, :FXA_NMPRECO_COMBINADO, :FXA_DTDATA, :FXA_DCOBS, :FXA_DTULTIMAATUALIZACAO, :FXA_STATIVO, :FXA_DTDATA_CADASTRO, :FXA_STSTATUS)";
+        public function inserFaxinaInfo($CLI_IDCLIENTE, $FXA_DCTIPO, $FXA_DCDURACAO_ESTIMADA, $FXA_NMPRECO_COMBINADO, $FXA_DTDATA_MULTIPLAS, $FXA_STSTATUS, $FXA_DCOBS)
+        {       
+            if (!$this->pdo) {
+                $this->conexao();
+            } 
         
-        $stmt = $this->pdo->prepare($sql);
-
-        foreach ($datas as $dataStr) {
-            // Remove espaços em branco
-            $dataStr = trim($dataStr);
-
-            // Converte para formato MySQL
-            $dataObj = DateTime::createFromFormat('d/m/Y H:i', $dataStr);
-            if (!$dataObj) {
-                // Pode lançar erro, ignorar ou continuar
-                continue;
-            }
-            $FXA_DTDATA = $dataObj->format('Y-m-d H:i:s');
-
-            $stmt->bindParam(':CLI_IDCLIENTE', $CLI_IDCLIENTE, PDO::PARAM_STR);
-            $stmt->bindParam(':FXA_DCDURACAO_ESTIMADA', $FXA_DCDURACAO_ESTIMADA, PDO::PARAM_STR);
-            $stmt->bindParam(':FXA_NMPRECO_COMBINADO', $FXA_NMPRECO_COMBINADO, PDO::PARAM_STR);
-            $stmt->bindParam(':FXA_DTDATA', $FXA_DTDATA, PDO::PARAM_STR);
-            $stmt->bindParam(':FXA_DCOBS', $FXA_DCOBS, PDO::PARAM_STR);
-            $stmt->bindParam(':FXA_DTULTIMAATUALIZACAO', $FXA_DTULTIMAATUALIZACAO, PDO::PARAM_STR);
-            $stmt->bindParam(':FXA_STATIVO', $FXA_STATIVO, PDO::PARAM_STR);
-            $stmt->bindParam(':FXA_DTDATA_CADASTRO', $FXA_DTDATA_CADASTRO, PDO::PARAM_STR);
-            $stmt->bindParam(':FXA_DCTIPO', $FXA_DCTIPO, PDO::PARAM_STR);
-            $stmt->bindParam(':FXA_STSTATUS', $FXA_STSTATUS, PDO::PARAM_STR);
-
-            $stmt->execute();
+            // Limpa preço para formato numérico
+            $FXA_NMPRECO_COMBINADO = str_replace(['R$', '.', ','], ['', '', '.'], $FXA_NMPRECO_COMBINADO);
+        
+            $now = new DateTime(); 
+            $FXA_DTDATA_CADASTRO = $now->format('Y-m-d H:i:s');
+            $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
+            $FXA_STATIVO = "ATIVO";
+        
+            // Separa as datas pelo separador vírgula
+            $datas = explode(',', $FXA_DTDATA_MULTIPLAS);
+        
+            try {
+                $sql = "INSERT INTO FXA_FAXINA 
+                        (CLI_IDCLIENTE, FXA_DCTIPO, FXA_DCDURACAO_ESTIMADA, FXA_NMPRECO_COMBINADO, FXA_DTDATA, FXA_DCOBS, FXA_DTULTIMAATUALIZACAO, FXA_STATIVO, FXA_DTDATA_CADASTRO, FXA_STSTATUS) 
+                        VALUES (:CLI_IDCLIENTE, :FXA_DCTIPO, :FXA_DCDURACAO_ESTIMADA, :FXA_NMPRECO_COMBINADO, :FXA_DTDATA, :FXA_DCOBS, :FXA_DTULTIMAATUALIZACAO, :FXA_STATIVO, :FXA_DTDATA_CADASTRO, :FXA_STSTATUS)";
+                
+                $stmt = $this->pdo->prepare($sql);
+            
+                foreach ($datas as $dataStr) {
+                    // Remove espaços em branco
+                    $dataStr = trim($dataStr);
+                
+                    // Converte para formato MySQL
+                    $dataObj = DateTime::createFromFormat('d/m/Y H:i', $dataStr);
+                    if (!$dataObj) {
+                        // Pode lançar erro, ignorar ou continuar
+                        continue;
+                    }
+                    $FXA_DTDATA = $dataObj->format('Y-m-d H:i:s');
+                
+                    $stmt->bindParam(':CLI_IDCLIENTE', $CLI_IDCLIENTE, PDO::PARAM_STR);
+                    $stmt->bindParam(':FXA_DCDURACAO_ESTIMADA', $FXA_DCDURACAO_ESTIMADA, PDO::PARAM_STR);
+                    $stmt->bindParam(':FXA_NMPRECO_COMBINADO', $FXA_NMPRECO_COMBINADO, PDO::PARAM_STR);
+                    $stmt->bindParam(':FXA_DTDATA', $FXA_DTDATA, PDO::PARAM_STR);
+                    $stmt->bindParam(':FXA_DCOBS', $FXA_DCOBS, PDO::PARAM_STR);
+                    $stmt->bindParam(':FXA_DTULTIMAATUALIZACAO', $FXA_DTULTIMAATUALIZACAO, PDO::PARAM_STR);
+                    $stmt->bindParam(':FXA_STATIVO', $FXA_STATIVO, PDO::PARAM_STR);
+                    $stmt->bindParam(':FXA_DTDATA_CADASTRO', $FXA_DTDATA_CADASTRO, PDO::PARAM_STR);
+                    $stmt->bindParam(':FXA_DCTIPO', $FXA_DCTIPO, PDO::PARAM_STR);
+                    $stmt->bindParam(':FXA_STSTATUS', $FXA_STSTATUS, PDO::PARAM_STR);
+                
+                    $stmt->execute();
+                }
+            
+                $response = array("success" => true, "message" => "Faxinas agendadas com sucesso.");
+                return json_encode($response);
+            
+            } catch (PDOException $e) {
+                $error =  $e->getMessage();
+                $response = array("success" => false, "message" => "Houve um erro: $error");
+                return json_encode($response);
+            }            
         }
-
-        $response = array("success" => true, "message" => "Faxinas agendadas com sucesso.");
-        return json_encode($response);
-
-    } catch (PDOException $e) {
-        $error =  $e->getMessage();
-        $response = array("success" => false, "message" => "Houve um erro: $error");
-        return json_encode($response);
-    }            
-}
 
 
         public function editFaxinaInfo($FXA_IDFAXINA, $CLI_IDCLIENTE, $FXA_DCTIPO, $FXA_DCDURACAO_ESTIMADA, $FXA_NMPRECO_COMBINADO, $FXA_DTDATA, $FXA_STSTATUS, $FXA_DCOBS)
