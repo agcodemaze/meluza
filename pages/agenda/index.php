@@ -222,7 +222,7 @@ $tipos = $siteAdmin->getTiposLocalInfo();
     <div id="modalAgendamento" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #7eda0d; color: #000000;">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #086683; color: #000000;">
               <h4 class="modal-title text-white mb-0">Agendar uma faxina</h4>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div> 
@@ -241,7 +241,7 @@ $tipos = $siteAdmin->getTiposLocalInfo();
                                                 <option value="">Selecione um cliente</option>
                                                 <?php foreach ($clientes as $cliente): ?>
                                                   <option value="<?= $cliente['CLI_IDCLIENTE'] ?>">
-                                                    <?= htmlspecialchars($cliente['CLI_DCNOME'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
+                                                    <?= htmlspecialchars(mb_convert_case($cliente['CLI_DCNOME'], MB_CASE_TITLE, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
                                                   </option>
                                                 <?php endforeach; ?>
                                               </select>
@@ -253,7 +253,7 @@ $tipos = $siteAdmin->getTiposLocalInfo();
                                                 <option value="">Selecione o tipo</option>
                                                 <?php foreach ($tipos as $tipo): ?>
                                                   <option value="<?= $tipo['TLO_IDTIPOLOCAL'] ?>">
-                                                    <?= htmlspecialchars($tipo['PLO_DCNOME'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
+                                                    <?= htmlspecialchars(mb_convert_case($cliente['PLO_DCNOME'], MB_CASE_TITLE, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
                                                   </option>
                                                 <?php endforeach; ?>
                                               </select>
@@ -291,8 +291,8 @@ $tipos = $siteAdmin->getTiposLocalInfo();
                 <div class="modal-footer d-flex justify-content-between align-items-center">
                   <img src="../../assets/img//meluza_logo_90.png" alt="Logo" style="height: 30px;">
                 <div>
-                    <a href="javascript:void(0);" class="btn" style="background-color: #8c52ff; color: white;" data-bs-dismiss="modal">Fechar</a>
-                    <button type="button" class="btn" style="background-color: #2be4c6; color: black;" id="botaoSalvar">Agendar</button>
+                    <a href="javascript:void(0);" class="btn" style="background-color: #6e6c72; color: white;" data-bs-dismiss="modal">Fechar</a>
+                    <button type="button" class="btn" style="background-color: #7eda0d; color: black;" id="botaoSalvar">Agendar</button>
                   </div>
                 </div>
             </div><!-- /.modal-content -->
