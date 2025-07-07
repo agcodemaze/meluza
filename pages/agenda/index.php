@@ -327,13 +327,26 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
     });
 </script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    $('.select2').select2({
+// Inicializa o Select2 ao abrir o modal
+document.addEventListener('DOMContentLoaded', function () {
+  // Caso o modal já esteja visível ou o select esteja fora do modal
+  $('#cliente').select2({
+    dropdownParent: $('#modalAgendamento'),
+    placeholder: "Selecione um cliente",
+    width: '100%',
+    allowClear: true
+  });
+
+  // Garante que ao abrir o modal novamente, o Select2 será inicializado corretamente
+  $('#modalAgendamento').on('shown.bs.modal', function () {
+    $('#cliente').select2({
+      dropdownParent: $('#modalAgendamento'),
       placeholder: "Selecione um cliente",
       width: '100%',
       allowClear: true
     });
   });
+});
 </script>
 
         <script>
