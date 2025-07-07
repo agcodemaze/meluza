@@ -722,15 +722,17 @@ foreach ($faxinas as $item) {
         const data = this.dataset.data || '';
         const observacao = this.dataset.observacao || '';
 
-        // Preenche os campos no modal
-        document.getElementById('cliente').value = cliente;
-        document.getElementById('tipo').value = tipo;
+        // Preenche campos (atualiza select2 corretamente)
+        $('#cliente').val(cliente).trigger('change');
+        $('#tipo').val(tipo).trigger('change');
+
         document.getElementById('duracao').value = duracao;
         document.getElementById('preco').value = preco;
         document.getElementById('dataHora').value = formatarDataHora(data);
         document.getElementById('observacao').value = observacao;
 
-        // Agora sim, abre o modal depois de preencher
+        // Abre o modal
+        console.log({ cliente, tipo, duracao, preco, data, observacao });
         const modal = new bootstrap.Modal(document.getElementById('modalAgendamentoEditar'));
         modal.show();
       });
@@ -751,6 +753,7 @@ foreach ($faxinas as $item) {
     }
   });
 </script>
+
 
 
 
