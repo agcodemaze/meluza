@@ -16,7 +16,12 @@ $siteAdmin = new SITE_ADMIN();
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
     <script src="https://cdn.jsdelivr.net/npm/moment@2.29.1/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <!-- Flatpickr CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+
+<!-- Tema opcional para estilo Bootstrap -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">   
 </head>
 
     <style>
@@ -237,7 +242,7 @@ $siteAdmin = new SITE_ADMIN();
 
                                                 <div class="position-relative mb-3">
                                                     <label for="data" class="form-label">Data</label>
-                                                    <input type="text" class="form-control" id="data" name="data" placeholder="Selecione a data" autocomplete="off">
+                                                    <input type="text" class="form-control" id="dataHora" name="dataHora" placeholder="Selecione data e hora">
                                                 </div>                                           
                                             </form>
                                         </div> <!-- end preview-->                                        
@@ -295,20 +300,19 @@ $siteAdmin = new SITE_ADMIN();
     });
 </script>
 
-<script>
-    $(document).ready(function () {
-        $('#data').datepicker({
-            format: "dd/mm/yyyy",          // Formato brasileiro
-            language: "pt-BR",             // Idioma
-            todayHighlight: true,          // Destaca o dia atual
-            autoclose: true,               // Fecha ao selecionar
-            clearBtn: true,                // Botão limpar
-        });
+<!-- Flatpickr JS -->
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 
-        // Força mostrar o calendário ao focar ou clicar
-        $('#data').on('focus click', function () {
-            $(this).datepicker('show');
-        });
+<!-- Inicialização -->
+<script>
+    flatpickr("#dataHora", {
+        enableTime: true,              // Habilita hora
+        dateFormat: "d/m/Y H:i",       // Formato brasileiro com hora
+        time_24hr: true,               // Relógio 24h
+        locale: "pt",                  // Localização em português (precisa de extensão se quiser nomes traduzidos)
+        defaultHour: 12,               // Hora padrão
+        defaultMinute: 0,              // Minuto padrão
+        minuteIncrement: 5             // Incremento de 5 min
     });
 </script>
 
