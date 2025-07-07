@@ -514,9 +514,21 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
     $(function () {
         const input = $('#intervaloDatas');
 
-        const start = moment().subtract(1, 'months').startOf('day');
-        const end = moment().add(1, 'months').endOf('day');
+        // Função para obter os parâmetros da URL
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
 
+        // Tenta obter data_inicio e data_fim da URL
+        const dataInicioUrl = getQueryParam('data_inicio');
+        const dataFimUrl = getQueryParam('data_fim');
+
+        // Usa os valores da URL se existirem, senão usa padrão
+        const start = dataInicioUrl ? moment(dataInicioUrl, 'YYYY-MM-DD HH:mm:ss') : moment().subtract(1, 'months').startOf('day');
+        const end = dataFimUrl ? moment(dataFimUrl, 'YYYY-MM-DD HH:mm:ss') : moment().add(1, 'months').endOf('day');
+
+        // Inicializa o date range picker
         input.daterangepicker({
             timePicker: true,
             timePicker24Hour: true,
@@ -537,18 +549,21 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
             }
         });
 
+        // Preenche o input com o texto formatado
+        input.val(start.format('DD/MM/YYYY HH:mm') + ' - ' + end.format('DD/MM/YYYY HH:mm'));
+
+        // Evento ao clicar em Aplicar
         input.on('apply.daterangepicker', function (ev, picker) {
-            console.log("Evento apply disparado");
             const dataInicio = picker.startDate.format('YYYY-MM-DD HH:mm:ss');
             const dataFim = picker.endDate.format('YYYY-MM-DD HH:mm:ss');
 
             const baseUrl = window.location.href.split('?')[0];
             const novaUrl = baseUrl + '?data_inicio=' + encodeURIComponent(dataInicio) + '&data_fim=' + encodeURIComponent(dataFim);
-            console.log("Nova URL:", novaUrl);
             window.location.href = novaUrl;
         });
     });
 </script>
+
 
 
 
