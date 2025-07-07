@@ -214,7 +214,7 @@ foreach ($faxinas as $item) {
                                             <div class="col-auto">
                                               <label for="searchField" class="visually-hidden">Procurar</label>
                                               <input type="search" class="form-control" id="searchField" placeholder="Procurar...">
-                                          </div>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -228,7 +228,7 @@ foreach ($faxinas as $item) {
                                             
                                                     $dataOriginal = $item["FXA_DTDATA"];
                                                     $data = new DateTime($dataOriginal);
-                                                                                                
+
                                                     // Mapeia os dias da semana em inglês para português
                                                     $diasSemana = [
                                                         'Sunday'    => 'Domingo',
@@ -239,10 +239,10 @@ foreach ($faxinas as $item) {
                                                         'Friday'    => 'Sexta-feira',
                                                         'Saturday'  => 'Sábado',
                                                     ];
-                                                    
+
                                                     // Pega o nome do dia em inglês
                                                     $diaIngles = $data->format('l');
-                                                    
+
                                                     // Traduz para português
                                                     $diaSemana = $diasSemana[$diaIngles];
 
@@ -427,13 +427,18 @@ foreach ($faxinas as $item) {
         <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
         
 <script>
-  document.getElementById('searchField').addEventListener('keyup', function() {
-    var search = this.value.toLowerCase();
-    var items = document.querySelectorAll(".faxina-item");
+  document.addEventListener("DOMContentLoaded", function () {
+    const searchField = document.getElementById('searchField');
+    const items = document.querySelectorAll(".faxina-item");
 
-    items.forEach(function(item) {
-      var texto = item.innerText.toLowerCase();
-      item.style.display = texto.includes(search) ? "" : "none";
+    searchField.addEventListener('keyup', function () {
+      const search = this.value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+      
+      items.forEach(function (item) {
+        const texto = item.textContent.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        const visivel = texto.includes(search);
+        item.style.display = visivel ? "" : "none";
+      });
     });
   });
 </script>
