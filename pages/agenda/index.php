@@ -291,9 +291,9 @@ foreach ($faxinas as $item) {
                                                             <span class="badge text-bg-<?php echo $badgeColor; ?>">
                                                                 <?php echo mb_convert_case($item["FXA_STSTATUS"], MB_CASE_TITLE, "UTF-8"); ?>
                                                             </span>
-                                                                                                          
-                                                            <span class="badge text-bg-warning">
-                                                                R$<?php echo number_format($item["FXA_NMPRECO_COMBINADO"], 2, ',', '.'); ?>
+
+                                                            <span class="badge text-bg-danger">
+                                                                apagar
                                                             </span>
                                                         </div>
                                                     </div>
