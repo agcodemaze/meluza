@@ -292,7 +292,10 @@ foreach ($faxinas as $item) {
                                                                 <?php echo mb_convert_case($item["FXA_STSTATUS"], MB_CASE_TITLE, "UTF-8"); ?>
                                                             </span>
 
-                                                            <span class="badge text-bg-danger">
+                                                            <span 
+                                                                class="badge text-bg-danger"
+                                                                onclick="event.stopPropagation(); confirmDeleteAttr(<?= $item['FXA_IDFAXINA'] ?>);"
+                                                            >
                                                                 Excluir
                                                             </span>
                                                         </div>
@@ -898,7 +901,95 @@ foreach ($faxinas as $item) {
 </script>
 
 
+<script>
+    function confirmDeleteAttr(element) {
+        const id = element.getAttribute('data-id');
+        confirmDelete(id);
+    }
 
+    function confirmDelete(id) {
+        Swal.fire({
+            title: 'Lista de Faxinas',
+            text: `Tem certeza que deseja excluir a faxina?`,
+            icon: 'warning',
+            showDenyButton: true,
+            confirmButtonText: 'CONFIRMAR',
+            denyButtonText: 'CANCELAR',
+            confirmButtonColor: "#4caf50",   
+            denyButtonColor: "#9e9e9e",      
+            background: "#f9f9fb",           
+            color: "#333",                   
+            width: '420px'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                Swal.fire({
+                    title: 'Aguarde...',
+                    text: 'Excluindo o cliente...',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    background: "#f9f9fb",
+                    color: "#333",
+                    didOpen: () => {
+                        Swal.showLoading();
+                    }
+                });
+            
+                $.ajax({
+                    url: "/deleteFaxinaProc",
+                    type: "POST",
+                    data: { id: id },
+                    dataType: "json",
+                    success: function (jsonResponse) {
+                        if (jsonResponse.success) {
+                            Swal.fire({
+                                title: 'Sucesso!',
+                                text: jsonResponse.message,
+                                icon: 'success',
+                                width: '420px',
+                                confirmButtonColor: "#4caf50",
+                                background: "#f9f9fb",
+                                color: "#333"
+                            }).then(() => {
+                                window.location.href = "/agenda";
+                            });
+                        } else {
+                            Swal.fire({
+                                title: 'Erro!',
+                                text: jsonResponse.message || 'Erro ao excluir a faxina.',
+                                icon: 'error',
+                                width: '420px',
+                                confirmButtonColor: "#f44336",  
+                                background: "#f9f9fb",
+                                color: "#333"
+                            });
+                        }
+                    },
+                    error: function () {
+                        Swal.fire({
+                            title: 'Erro!',
+                            text: 'Erro ao excluir a faxina.',
+                            icon: 'error',
+                            width: '420px',
+                            confirmButtonColor: "#f44336",
+                            background: "#f9f9fb",
+                            color: "#333"
+                        });
+                    }
+                });
+            } else if (result.isDenied) {
+                Swal.fire({
+                    title: 'Cancelado',
+                    text: 'Nenhuma alteração foi feita.',
+                    icon: 'info',
+                    width: '420px',
+                    confirmButtonColor: "#9e9e9e",
+                    background: "#f9f9fb",
+                    color: "#333"
+                });
+            }
+        });
+    }
+</script>
 
 
 

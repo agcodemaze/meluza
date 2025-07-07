@@ -23,6 +23,9 @@ return [
     //agenda
     'agenda' => 'pages/agenda/index.php', 
     'insertFaxinaProc' => 'pages/agenda/insertFaxinaProc.php', 
+    'deleteFaxinaProc' => 'pages/agenda/deleteFaxinaProc.php', 
+
+    
 
     
 
