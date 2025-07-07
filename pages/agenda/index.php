@@ -5,6 +5,7 @@ include_once BASE_PATH . "objects/objects.php";
 $siteAdmin = new SITE_ADMIN(); 
 $clientes = $siteAdmin->getClienteInfo(USER_ID);
 $tipos = $siteAdmin->getTiposLocalInfo();
+$faxinasValendario = $siteAdmin->getFaxinasCalendarioInfo(USER_ID);
 
 // Verifica se recebeu intervalo via GET
 if (isset($_GET['data_inicio']) && isset($_GET['data_fim'])) {
@@ -342,7 +343,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
 
 <script>
     const datasOcupadas = [
-        <?php foreach ($faxinas as $item): ?>
+        <?php foreach ($faxinasValendario as $item): ?>
             '<?= date('d/m/Y', strtotime($item["FXA_DTDATA"])) ?>',
         <?php endforeach; ?>
     ];
