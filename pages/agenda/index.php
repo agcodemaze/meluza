@@ -312,7 +312,7 @@ $siteAdmin = new SITE_ADMIN();
         locale: "pt",                  // Localização em português (precisa de extensão se quiser nomes traduzidos)
         defaultHour: 12,               // Hora padrão
         defaultMinute: 0,              // Minuto padrão
-        minuteIncrement: 5             // Incremento de 5 min
+        minuteIncrement: 5             // Incremento de 5 min 
     });
 </script>
 
