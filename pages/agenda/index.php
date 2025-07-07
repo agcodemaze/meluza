@@ -205,7 +205,7 @@ $siteAdmin = new SITE_ADMIN();
 
 
     <!-- Modal Criar faxina-->
-    <div id="modalCriarOS" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+    <div id="modalCriarFaxina" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #8c52ff;">
@@ -237,13 +237,8 @@ $siteAdmin = new SITE_ADMIN();
 
                                                 <div class="position-relative mb-3">
                                                     <label for="data" class="form-label">Data</label>
-                                                    <input type="text" id="data" name="data" class="form-control" style="text-transform: uppercase;" placeholder="">
-                                                </div>
-
-
-                                            
-                                                <button class="btn" style="background-color: #6e6c72; color: white;" onclick="window.history.back()" type="button">Voltar</button>         
-                                                <button class="btn" style="background-color: #7eda0d; color: black;" type="submit" id="botao" name="botao">Salvar</button>                                            
+                                                    <input type="date" id="data" name="data" class="form-control" style="text-transform: uppercase;" placeholder="">
+                                                </div>                                           
                                             </form>
                                         </div> <!-- end preview-->                                        
                                     </div> <!-- end tab-content-->
@@ -259,7 +254,7 @@ $siteAdmin = new SITE_ADMIN();
                   <img src="../../img_pwa/logo_icon.png" alt="Logo" style="height: 30px;">
                 <div>
                     <a href="javascript:void(0);" class="btn" style="background-color: #8c52ff; color: white;" data-bs-dismiss="modal">Fechar</a>
-                    <button type="button" class="btn" style="background-color: #2be4c6; color: black;" id="botaoOS">Criar</button>
+                    <button type="button" class="btn" style="background-color: #2be4c6; color: black;" id="botaoSalvar">Agendar</button>
                   </div>
                 </div>
             </div><!-- /.modal-content -->
@@ -278,21 +273,24 @@ $siteAdmin = new SITE_ADMIN();
         
 <script>
     $(document).ready(function () {
-        // Inicializa o datepicker no calendário
         $('#calendario').datepicker({
             format: "dd/mm/yyyy",
             language: "pt-BR",
             todayHighlight: true,
             autoclose: true
         }).on('changeDate', function (e) {
-            // Pega a data selecionada formatada
-            const dataSelecionada = $('#calendario').datepicker('getFormattedDate');
+            // Data no formato dd/mm/yyyy
+            const dataBr = $('#calendario').datepicker('getFormattedDate');
 
-            // Define essa data no campo de data dentro do modal
-            $('#data').val(dataSelecionada);
+            // Converte para formato yyyy-mm-dd
+            const partes = dataBr.split('/');
+            const dataIso = `${partes[2]}-${partes[1]}-${partes[0]}`;
+
+            // Define a data no input type="date"
+            $('#data').val(dataIso);
 
             // Abre o modal
-            $('#modalCriarOS').modal('show');
+            $('#modalCriarFaxina').modal('show');
         });
     });
 </script>
