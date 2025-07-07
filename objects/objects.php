@@ -176,5 +176,39 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }            
         }
 
+        public function deleteClienteById($CLI_IDCLIENTE, $CLI_DCNOME)
+        {       
+            if (!$this->pdo) {
+                $this->conexao();
+            } 
+
+            $now = new DateTime(); 
+            $CLI_DTULTIMA_ATUALIZACAO = $now->format('Y-m-d H:i:s');
+            $CLI_STATIVO = "INATIVO";
+
+            try {
+                $sql = "UPDATE CLI_CLIENTE 
+                        SET CLI_STATIVO = :CLI_STATIVO,
+                            CLI_DTULTIMA_ATUALIZACAO = :CLI_DTULTIMA_ATUALIZACAO
+                        WHERE CLI_IDCLIENTE = :CLI_IDCLIENTE";
+
+                $stmt = $this->pdo->prepare($sql);
+            
+                $stmt->bindParam(':CLI_IDCLIENTE', $CLI_IDCLIENTE, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_DTULTIMA_ATUALIZACAO', $CLI_DTULTIMA_ATUALIZACAO, PDO::PARAM_STR);
+                $stmt->bindParam(':CLI_STATIVO', $CLI_STATIVO, PDO::PARAM_STR);
+
+                $stmt->execute();   
+                
+                $response = array("success" => true, "message" => "O cliente $CLI_DCNOME foi apagado com sucesso.");
+                return json_encode($response); 
+
+            } catch (PDOException $e) {
+                $error =  $e->getMessage();   
+                $response = array("success" => false, "message" => "Houve um erro: $error");
+                return json_encode($response);
+            }            
+        }
+
     }
 ?>
