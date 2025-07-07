@@ -58,37 +58,18 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
         }
     </style>
 <style>
-td.day.dia-ocupado {
-    position: relative;
-    background-color: transparent !important;
-    z-index: 1;
-    font-weight: bold;
-}
-
-td.day.dia-ocupado::before {
-    content: "";
-    background-color: #007bff;
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: -1;
-}
-
-td.day.dia-ocupado:hover::before {
-    background-color: #0056b3;
-}
-
-td.day.dia-ocupado span {
+.dia-ocupado-bolinha {
+    background-color: #007bff !important;
     color: white !important;
-    position: relative;
-    z-index: 2;
+    border-radius: 50% !important;
+    width: 36px;
+    height: 36px;
+    line-height: 36px;
+    text-align: center;
+    display: inline-block;
+    margin: auto;
 }
 </style>
-
 
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
       <div class="app-wrapper">
@@ -352,8 +333,6 @@ td.day.dia-ocupado span {
     ];
 </script>
 <script>
-    const datasOcupadas = ["10/07/2025", "11/07/2025", "17/07/2025"];
-
     $(document).ready(function () {
         $('#calendario').datepicker({
             format: "dd/mm/yyyy",
@@ -368,10 +347,11 @@ td.day.dia-ocupado span {
 
                 if (datasOcupadas.includes(dataFormatada)) {
                     return {
-                        classes: 'dia-ocupado',
+                        classes: 'dia-ocupado-bolinha',
                         tooltip: 'Dia com faxina'
                     };
                 }
+
                 return;
             }
         });
