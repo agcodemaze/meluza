@@ -7,6 +7,22 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 $tipos = $siteAdmin->getTiposLocalInfo();
 $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
+// Verifica se recebeu intervalo via GET
+if (isset($_GET['data_inicio']) && isset($_GET['data_fim'])) {
+    try {
+        $dataInicio = (new DateTime($_GET['data_inicio']))->format('Y-m-d H:i:s');
+        $dataFim = (new DateTime($_GET['data_fim']))->format('Y-m-d H:i:s');
+    } catch (Exception $e) {
+        // Em caso de erro no formato da data, define intervalo padrão (hoje até 1 mes a frente)
+        $dataInicio = (new DateTime())->setTime(0, 0)->format('Y-m-d H:i:s');
+        $dataFim = (new DateTime())->modify('+2 month')->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+    }
+} else {
+    // Intervalo padrão: 1 mês antes até 1 mês depois da data atual
+    $dataInicio = (new DateTime())->setTime(0, 0)->format('Y-m-d H:i:s');
+    $dataFim = (new DateTime())->modify('+2 month')->setTime(23, 59, 59)->format('Y-m-d H:i:s');
+}
+
 ?>
 
 <!DOCTYPE html>
