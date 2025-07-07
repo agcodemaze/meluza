@@ -264,6 +264,7 @@ foreach ($faxinas as $item) {
                                                   data-telefone="<?= $item['CLI_DCTELEFONE'] ?>"
                                                   data-estado="<?= $item['CLI_DCESTADO'] ?>"
                                                   data-complemento="<?= $item['CLI_DCCOMPLEMENTO'] ?>"
+                                                  data-status="<?= htmlspecialchars($item['FXA_STSTATUS']) ?>"
                                                   data-observacao="<?= htmlspecialchars($item['FXA_DCOBS'] ?? '') ?>"                                                 
                                                   style="cursor: pointer;"
                                                 >
@@ -382,6 +383,18 @@ foreach ($faxinas as $item) {
                                               <label for="observacao" class="form-label">Observações</label>
                                               <textarea class="form-control" maxlength="300" rows="3" id="observacao" name="observacao" placeholder=""></textarea>
                                             </div>  
+
+                                            <div class="position-relative mb-3">
+                                              <label class="form-label d-block">Status</label>
+                                              <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="status" id="statusProgramada" value="PROGRAMADA" checked>
+                                                <label class="form-check-label" for="statusProgramada">PROGRAMADA</label>
+                                              </div>
+                                              <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="status" id="statusConcluida" value="CONCLUÍDA">
+                                                <label class="form-check-label" for="statusConcluida">CONCLUÍDA</label>
+                                              </div>
+                                            </div>
                                             
                                             <div class="position-relative mb-3 text-center">
                                               <small class="d-block mb-2 text-muted" id="texto-endereco" style="font-weight: normal; font-size: 12px;"></small>
@@ -795,6 +808,16 @@ foreach ($faxinas as $item) {
         document.getElementById('dataHora').value = formatarDataHora(this.dataset.data) || '';
         document.getElementById('observacao').value = this.dataset.observacao || '';
 
+        // Atualiza o status no radio
+        const status = this.dataset.status || 'PROGRAMADA';
+        if (status === 'PROGRAMADA') {
+          document.getElementById('statusProgramada').checked = true;
+        } else if (status === 'CONCLUÍDA') {
+          document.getElementById('statusConcluida').checked = true;
+        } else {
+          document.getElementById('statusProgramada').checked = true; // padrão
+        }
+
         const rua = this.dataset.rua || '';
         const numero = this.dataset.numero || '';
         const bairro = this.dataset.bairro || '';
@@ -820,6 +843,9 @@ foreach ($faxinas as $item) {
       document.getElementById('preco').value = '';
       document.getElementById('dataHora').value = '';
       document.getElementById('observacao').value = '';
+
+      // Radio default no novo cadastro
+      document.getElementById('statusProgramada').checked = true;
 
       const textoEndereco = document.getElementById('texto-endereco');
       if (textoEndereco) textoEndereco.textContent = '';
@@ -867,6 +893,7 @@ foreach ($faxinas as $item) {
     }
   });
 </script>
+
 
 
 
