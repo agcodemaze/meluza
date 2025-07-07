@@ -710,17 +710,6 @@ foreach ($faxinas as $item) {
 
 <script>
   document.addEventListener("DOMContentLoaded", function () {
-  const faxinaItens = document.querySelectorAll('.faxina-item');
-  console.log("Faxinas encontradas:", faxinaItens.length);
-
-  faxinaItens.forEach(item => {
-    item.addEventListener('click', function () {
-      alert("Clique detectado!");
-    });
-  });
-});
-
-  document.addEventListener("DOMContentLoaded", function () {
     const faxinaItens = document.querySelectorAll('.faxina-item');
 
     faxinaItens.forEach(item => {
@@ -733,17 +722,25 @@ foreach ($faxinas as $item) {
         const data = this.dataset.data || '';
         const observacao = this.dataset.observacao || '';
 
-        // Preenche campos (atualiza select2 corretamente)
+        // Debug: log dos dados
+        console.log('Dados recebidos:', { cliente, tipo, duracao, preco, data, observacao });
+
+        // Preenche campos select2
         $('#cliente').val(cliente).trigger('change');
         $('#tipo').val(tipo).trigger('change');
 
+        // Preenche campos simples
         document.getElementById('duracao').value = duracao;
-        document.getElementById('preco').value = preco;
+
+        // Formata e preenche o preço
+        const precoFormatado = formatarPreco(preco);
+        console.log('Preço formatado:', precoFormatado);
+        document.getElementById('preco').value = precoFormatado;
+
         document.getElementById('dataHora').value = formatarDataHora(data);
         document.getElementById('observacao').value = observacao;
 
         // Abre o modal
-        console.log({ cliente, tipo, duracao, preco, data, observacao });
         const modal = new bootstrap.Modal(document.getElementById('modalAgendamentoEditar'));
         modal.show();
       });
@@ -761,6 +758,15 @@ foreach ($faxinas as $item) {
       const minuto = String(dataObj.getMinutes()).padStart(2, '0');
 
       return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+    }
+
+    function formatarPreco(valor) {
+      const numero = parseFloat(valor);
+      if (isNaN(numero)) return '';
+      return numero.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      });
     }
   });
 </script>
