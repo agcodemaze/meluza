@@ -364,10 +364,10 @@ foreach ($faxinas as $item) {
 
                                               <div class="d-flex justify-content-center gap-3">
                                                 <a href="#" target="_blank">
-                                                  <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="Uber" style="height: 40px;">
+                                                  <img src="../../assets/img/uber.png" alt="Uber" style="height: 40px;">
                                                 </a>
                                                 <a href="#" target="_blank">
-                                                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/99app_logo.png" alt="99" style="height: 40px;">
+                                                  <img src="../../assets/img/99.png" alt="99" style="height: 40px;">
                                                 </a>
                                               </div>
                                             </div>
