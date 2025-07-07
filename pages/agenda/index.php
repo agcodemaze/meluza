@@ -545,6 +545,28 @@ foreach ($faxinas as $item) {
       });
     });
 </script>
+<script>
+    // Inicializa o Select2 ao abrir o modal
+    document.addEventListener('DOMContentLoaded', function () {
+      // Caso o modal já esteja visível ou o select esteja fora do modal
+      $('#cliente').select2({
+        dropdownParent: $('#modalAgendamento'),
+        placeholder: "Selecione um clmodalAgendamentoEditariente",
+        width: '100%',
+        allowClear: true
+      });
+
+      // Garante que ao abrir o modal novamente, o Select2 será inicializado corretamente
+      $('#modalAgendamentoEditar').on('shown.bs.modal', function () {
+        $('#cliente').select2({
+          dropdownParent: $('#modalAgendamentoEditar'),
+          placeholder: "Selecione um cliente",
+          width: '100%',
+          allowClear: true
+        });
+      });
+    });
+</script>
 
 
 
