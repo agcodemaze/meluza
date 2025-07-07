@@ -316,6 +316,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
                 $stmt->bindParam(':FXA_DTULTIMAATUALIZACAO', $FXA_DTULTIMAATUALIZACAO, PDO::PARAM_STR);
                 $stmt->bindParam(':FXA_STATIVO', $FXA_STATIVO, PDO::PARAM_STR);
                 $stmt->bindParam(':FXA_DTDATA_CADASTRO', $FXA_DTDATA_CADASTRO, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DCTIPO', $FXA_DCTIPO, PDO::PARAM_STR);
                 
                 $stmt->execute();   
                 
