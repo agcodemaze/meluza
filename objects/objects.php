@@ -290,7 +290,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }
         }
 
-        public function inserFaxinaInfo($CLI_IDCLIENTE, $FXA_DCTIPO, $FXA_DCDURACAO_ESTIMADA, $FXA_NMPRECO_COMBINADO, $FXA_DTDATA, $FXA_DCOBS)
+        public function inserFaxinaInfo($CLI_IDCLIENTE, $FXA_DCTIPO, $FXA_DCDURACAO_ESTIMADA, $FXA_NMPRECO_COMBINADO, $FXA_DTDATA, $FXA_STSTATUS, $FXA_DCOBS)
         {       
             if (!$this->pdo) {
                 $this->conexao();
@@ -306,7 +306,6 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             $FXA_DTDATA_CADASTRO = $now->format('Y-m-d H:i:s');
             $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
             $FXA_STATIVO = "ATIVO";
-            $FXA_STSTATUS = "PROGRAMADA";
             $FXA_NMPRECO_COMBINADO = str_replace(['R$', '.', ','], ['', '', '.'], $FXA_NMPRECO_COMBINADO);
 
             try {
@@ -339,7 +338,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }            
         }
 
-        public function editFaxinaInfo($FXA_IDFAXINA, $CLI_IDCLIENTE, $FXA_DCTIPO, $FXA_DCDURACAO_ESTIMADA, $FXA_NMPRECO_COMBINADO, $FXA_DTDATA, $FXA_DCOBS)
+        public function editFaxinaInfo($FXA_IDFAXINA, $CLI_IDCLIENTE, $FXA_DCTIPO, $FXA_DCDURACAO_ESTIMADA, $FXA_NMPRECO_COMBINADO, $FXA_DTDATA, $FXA_STSTATUS, $FXA_DCOBS)
         {       
             if (!$this->pdo) {
                 $this->conexao();
@@ -354,7 +353,6 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             $now = new DateTime(); 
             $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
             $FXA_STATIVO = "ATIVO";
-            $FXA_STSTATUS = "PROGRAMADA";
             $FXA_NMPRECO_COMBINADO = preg_replace('/[^\d,]/', '', $FXA_NMPRECO_COMBINADO); // remove tudo exceto dígitos e vírgula
             $FXA_NMPRECO_COMBINADO = str_replace(',', '.', $FXA_NMPRECO_COMBINADO); // troca vírgula por ponto
             $FXA_NMPRECO_COMBINADO = number_format((float)$FXA_NMPRECO_COMBINADO, 2, '.', '');

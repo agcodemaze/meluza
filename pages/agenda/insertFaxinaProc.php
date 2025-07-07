@@ -5,7 +5,7 @@ header('Content-Type: application/json');
 
 class registerFaxina extends SITE_ADMIN
 {
-    public function insertFaxina($id, $cliente, $tipo, $duracao, $preco, $data, $observacao)
+    public function insertFaxina($id, $cliente, $tipo, $duracao, $preco, $data, $status, $observacao)
     {
         try {
 
@@ -15,12 +15,12 @@ class registerFaxina extends SITE_ADMIN
 
             if(empty($id))
             {
-                $result = $this->inserFaxinaInfo($cliente, $tipo, $duracao, $preco, $data, $observacao);
+                $result = $this->inserFaxinaInfo($cliente, $tipo, $duracao, $preco, $data, $status, $observacao);
                 echo $result;
             }
             else
             {
-                $result = $this->editFaxinaInfo($id, $cliente, $tipo, $duracao, $preco, $data, $observacao);
+                $result = $this->editFaxinaInfo($id, $cliente, $tipo, $duracao, $preco, $data, $status, $observacao);
                 echo $result;
             }
             
@@ -36,6 +36,7 @@ class registerFaxina extends SITE_ADMIN
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $id = $_POST['faxinaId'];   
+    $status = $_POST['status'];  
     $cliente = mb_strtoupper(trim($_POST['cliente']), 'UTF-8');    
     $tipo = mb_strtoupper(trim($_POST['tipo']), 'UTF-8');  
     $duracao = mb_strtoupper(trim($_POST['duracao']), 'UTF-8');  
@@ -45,6 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $observacao = mb_strtoupper(trim($_POST['observacao']), 'UTF-8');  
 
     $registerFaxina = new registerFaxina();
-    $registerFaxina->insertFaxina($id, $cliente, $tipo, $duracao, $preco, $data, $observacao);
+    $registerFaxina->insertFaxina($id, $cliente, $tipo, $duracao, $preco, $data, $status, $observacao);
 }
  ?>
