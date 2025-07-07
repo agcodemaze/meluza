@@ -7,9 +7,6 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 $tipos = $siteAdmin->getTiposLocalInfo();
 $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
-var_dump($faxinas);
-die();
-
 ?>
 
 <!DOCTYPE html>
