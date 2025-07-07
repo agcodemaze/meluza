@@ -172,6 +172,10 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                 if ($item["FXA_STSTATUS"] == "PROGRAMADA")   $badgeColor = "info";
                 if ($item["FXA_STSTATUS"] == "CONCLUÍDA")    $badgeColor = "success";
                 if ($item["FXA_STSTATUS"] == "ATRASADA")     $badgeColor = "danger";
+
+                $nomeCliente = mb_convert_case($item["CLI_DCNOME"], MB_CASE_TITLE, "UTF-8");
+                $nomeExibido = mb_strlen($nomeCliente) > 11 ? mb_substr($nomeCliente, 0, 11) . '...' : $nomeCliente;
+
             ?>
             <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center">
                 <div class="me-3 mb-2" style="flex: 0 0 50px;">
@@ -179,7 +183,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                 </div>
                 <div class="flex-grow-1">
                     <div class="fw-bold d-flex justify-content-between align-items-center flex-wrap">
-                        <span><?php echo mb_convert_case($item["CLI_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?></span>
+                        <span><?php echo mb_convert_case($nomeExibido, MB_CASE_TITLE, "UTF-8"); ?></span>
                         <span class="badge text-bg-warning mt-1 mt-sm-0">
                             R$<?php echo $item["FXA_NMPRECO_COMBINADO"]; ?>
                         </span>
