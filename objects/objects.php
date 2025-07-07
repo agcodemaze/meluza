@@ -132,6 +132,18 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        function getTiposLocalInfo() 
+        {
+            if (!$this->pdo) {
+                $this->conexao();
+            }
+
+            $sql = "SELECT * FROM TLO_TIPOLOCAL ORDER BY PLO_DCNOME ASC";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
         function getClienteInfoById($CLI_IDCLIENTE, $USU_IDUSUARIO) 
         {
             if (!$this->pdo) {

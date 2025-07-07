@@ -4,6 +4,7 @@ include_once BASE_PATH . "objects/objects.php";
 
 $siteAdmin = new SITE_ADMIN(); 
 $clientes = $siteAdmin->getClienteInfo(USER_ID);
+$tipos = $siteAdmin->getTiposLocalInfo();
 
 ?>
 
@@ -246,10 +247,17 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                               </select>
                                             </div>
 
-                                            <div class="position-relative mb-3" id="campo-tipo">                                                    
-                                              <label class="form-label" for="tipo">Tipo de Local</label>
-                                              <input type="text" id="tipo" name="tipo" class="form-control">
-                                            </div> 
+                                            <div class="position-relative mb-3" id="campo-tipo">
+                                              <label class="form-label" for="cliente">Tipo de Local</label>
+                                              <select id="tipo" name="tipo" class="form-control select2" required>
+                                                <option value="">Selecione um cliente</option>
+                                                <?php foreach ($tipos as $tipo): ?>
+                                                  <option value="<?= $tipo['TLO_IDTIPOLOCAL'] ?>">
+                                                    <?= htmlspecialchars($tipo['PLO_DCNOME'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
+                                                  </option>
+                                                <?php endforeach; ?>
+                                              </select>
+                                            </div>
 
                                             <div class="position-relative mb-3" id="campo-duracao">                                                    
                                               <label class="form-label" for="duracao">Duração Estimada</label>
@@ -258,8 +266,8 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 
                                             <div class="position-relative mb-3" id="campo-preco">                                                    
                                               <label class="form-label" for="preco">Preço</label>
-                                              <input type="text" id="preco" name="preco" class="form-control">
-                                            </div> 
+                                              <input type="text" id="preco" name="preco" class="form-control" placeholder="R$ 0,00">
+                                            </div>
                                             
                                             <div class="position-relative mb-3">
                                                 <label for="data" class="form-label">Data</label>
@@ -308,6 +316,12 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
             autoclose: true
         })
     });
+</script>
+
+<script>
+  $(document).ready(function() {
+    $('#preco').mask('R$ 000.000.000,00', {reverse: true});
+  });
 </script>
 
 <!-- Flatpickr JS -->
