@@ -186,7 +186,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                                                             <strong>Tipo de Faxina:</strong> </strong> <?php echo mb_convert_case($item["TLO_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>
                                                         </div>
                                                         <div class="text-truncate">
-                                                            <?php echo $item["CLI_DCBAIRRO"]; ?>
+                                                            <?php echo mb_convert_case($item["CLI_DCBAIRRO"], MB_CASE_TITLE, "UTF-8"); ?>
                                                         </div>
                                                     </div>
                                                 </div>
