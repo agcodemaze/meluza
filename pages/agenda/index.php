@@ -363,7 +363,7 @@ foreach ($faxinas as $item) {
                                               <small class="d-block mb-2 text-muted" id="texto-endereco" style="font-weight: normal; font-size: 12px;"></small>
 
                                               <div class="d-flex justify-content-center gap-3">
-                                                <a href="#" target="_blank">
+                                                <a id="iconeUber" href="javascript:void(0);" target="_blank">
                                                   <img src="../../assets/img/uber.png" alt="Uber" style="height: 40px;">
                                                 </a>
                                                 <a href="#" target="_blank">
@@ -680,74 +680,146 @@ foreach ($faxinas as $item) {
 </script>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const faxinaItens = document.querySelectorAll('.faxina-item');
-    const modalEl = document.getElementById('modalAgendamento');
-    const modal = new bootstrap.Modal(modalEl);
+document.addEventListener("DOMContentLoaded", function () {
+  const faxinaItens = document.querySelectorAll('.faxina-item');
+  const modalEl = document.getElementById('modalAgendamento');
+  const modal = new bootstrap.Modal(modalEl);
 
-    // Abrir modal para editar preenchendo os campos
-    faxinaItens.forEach(item => {
-      item.addEventListener('click', function () {
-        // Preenche campos do formulário
-        document.getElementById('faxinaId').value = this.dataset.faxinaid || '';
-        $('#cliente').val(this.dataset.idcliente).trigger('change');
-        $('#tipo').val(this.dataset.idtipo).trigger('change');
-        document.getElementById('duracao').value = this.dataset.duracao || '';
-        document.getElementById('preco').value = formatarPreco(this.dataset.preco) || '';
-        document.getElementById('dataHora').value = formatarDataHora(this.dataset.data) || '';
-        document.getElementById('observacao').value = this.dataset.observacao || '';
-
-        // Preenche o endereço no <small>
-        const rua = this.dataset.rua || '';
-        const numero = this.dataset.numero || '';
-        const bairro = this.dataset.bairro || '';
-        const cidade = this.dataset.cidade || '';
-        const estado = this.dataset.estado || '';
-
-        const enderecoFormatado = `${rua}, ${numero} - ${bairro}, ${cidade} - ${estado}`;
-        document.getElementById('texto-endereco').textContent = enderecoFormatado;
-
-        modal.show();
+  // Função para buscar lat/lon via Nominatim
+  async function buscarCoordenadas(endereco) {
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}`;
+    try {
+      const resposta = await fetch(url, {
+        headers: {
+          'User-Agent': 'Codemaze/1.0 (suporte@codemaze.com.br)'
+        }
       });
-    });
+      const dados = await resposta.json();
+      if (dados.length > 0) {
+        return { lat: dados[0].lat, lon: dados[0].lon };
+      } else {
+        return null;
+      }
+    } catch (erro) {
+      console.error('Erro ao buscar coordenadas:', erro);
+      return null;
+    }
+  }
 
-    // Função para abrir modal em modo "novo"
-    window.abrirModalNovo = function () {
-      document.getElementById('faxinaId').value = '';
-      $('#cliente').val('').trigger('change');
-      $('#tipo').val('').trigger('change');
-      document.getElementById('duracao').value = '';
-      document.getElementById('preco').value = '';
-      document.getElementById('dataHora').value = '';
-      document.getElementById('observacao').value = '';
-      document.getElementById('texto-endereco').textContent = ''; // Limpa o endereço
+  // Gera link do Uber baseado nas coords
+  function gerarLinkUber(lat, lon) {
+    return `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${lat}&dropoff[longitude]=${lon}&dropoff[nickname]=Cliente`;
+  }
+
+  // Atualiza os ícones no modal com os links corretos
+  async function atualizarIconesUber99(rua, numero, bairro, cidade, estado) {
+    const enderecoCompleto = `${rua}, ${numero}, ${bairro}, ${cidade}, ${estado}`;
+    const coords = await buscarCoordenadas(enderecoCompleto);
+    const uberIcon = document.getElementById('iconeUber');
+    const noventaENoveIcon = document.getElementById('icone99');
+
+    if (coords) {
+      uberIcon.href = gerarLinkUber(coords.lat, coords.lon);
+      uberIcon.style.opacity = '1';
+      uberIcon.title = 'Chamar Uber para ' + enderecoCompleto;
+    } else {
+      uberIcon.href = 'javascript:void(0);';
+      uberIcon.style.opacity = '0.3';
+      uberIcon.title = 'Endereço inválido para Uber';
+    }
+
+    // Link estático do 99 (você pode personalizar esse link)
+    noventaENoveIcon.href = 'https://99app.com/'; 
+    noventaENoveIcon.style.opacity = '1';
+    noventaENoveIcon.title = 'Chamar 99';
+  }
+
+  // Abrir modal para editar preenchendo os campos e atualizando ícones
+  faxinaItens.forEach(item => {
+    item.addEventListener('click', function () {
+      document.getElementById('faxinaId').value = this.dataset.faxinaid || '';
+
+      $('#cliente').val(this.dataset.idcliente).trigger('change');
+      $('#tipo').val(this.dataset.idtipo).trigger('change');
+      document.getElementById('duracao').value = this.dataset.duracao || '';
+      document.getElementById('preco').value = formatarPreco(this.dataset.preco) || '';
+      document.getElementById('dataHora').value = formatarDataHora(this.dataset.data) || '';
+      document.getElementById('observacao').value = this.dataset.observacao || '';
+
+      // Pega dados do endereço via data-attributes ou como preferir
+      const rua = this.dataset.rua || '';
+      const numero = this.dataset.numero || '';
+      const bairro = this.dataset.bairro || '';
+      const cidade = this.dataset.cidade || '';
+      const estado = this.dataset.estado || '';
+
+      // Atualiza texto do endereço no modal (se existir elemento com id texto-endereco)
+      const textoEndereco = document.getElementById('texto-endereco');
+      if (textoEndereco) {
+        textoEndereco.textContent = `${rua}, ${numero} - ${bairro}, ${cidade} - ${estado}`;
+      }
+
+      // Atualiza os ícones com link Uber e 99
+      atualizarIconesUber99(rua, numero, bairro, cidade, estado);
+
       modal.show();
-    };
-
-    function formatarDataHora(dataISO) {
-      if (!dataISO) return '';
-      const dataCorrigida = dataISO.replace(' ', 'T');
-      const dataObj = new Date(dataCorrigida);
-      if (isNaN(dataObj.getTime())) return dataISO;
-
-      const dia = String(dataObj.getDate()).padStart(2, '0');
-      const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-      const ano = dataObj.getFullYear();
-      const hora = String(dataObj.getHours()).padStart(2, '0');
-      const minuto = String(dataObj.getMinutes()).padStart(2, '0');
-
-      return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
-    }
-
-    function formatarPreco(valor) {
-      const numero = parseFloat(valor);
-      if (isNaN(numero)) return '';
-      return numero.toLocaleString('pt-BR', {
-        style: 'currency',
-        currency: 'BRL'
-      });
-    }
+    });
   });
+
+  // Função para abrir modal em modo "novo"
+  window.abrirModalNovo = function () {
+    document.getElementById('faxinaId').value = '';
+    $('#cliente').val('').trigger('change');
+    $('#tipo').val('').trigger('change');
+    document.getElementById('duracao').value = '';
+    document.getElementById('preco').value = '';
+    document.getElementById('dataHora').value = '';
+    document.getElementById('observacao').value = '';
+
+    // Limpa texto e ícones do endereço
+    const textoEndereco = document.getElementById('texto-endereco');
+    if (textoEndereco) textoEndereco.textContent = '';
+
+    const uberIcon = document.getElementById('iconeUber');
+    const noventaENoveIcon = document.getElementById('icone99');
+    if (uberIcon) {
+      uberIcon.href = 'javascript:void(0);';
+      uberIcon.style.opacity = '0.3';
+      uberIcon.title = '';
+    }
+    if (noventaENoveIcon) {
+      noventaENoveIcon.href = 'javascript:void(0);';
+      noventaENoveIcon.style.opacity = '0.3';
+      noventaENoveIcon.title = '';
+    }
+
+    modal.show();
+  };
+
+  function formatarDataHora(dataISO) {
+    if (!dataISO) return '';
+    const dataCorrigida = dataISO.replace(' ', 'T');
+    const dataObj = new Date(dataCorrigida);
+    if (isNaN(dataObj.getTime())) return dataISO;
+
+    const dia = String(dataObj.getDate()).padStart(2, '0');
+    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+    const ano = dataObj.getFullYear();
+    const hora = String(dataObj.getHours()).padStart(2, '0');
+    const minuto = String(dataObj.getMinutes()).padStart(2, '0');
+
+    return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+  }
+
+  function formatarPreco(valor) {
+    const numero = parseFloat(valor);
+    if (isNaN(numero)) return '';
+    return numero.toLocaleString('pt-BR', {
+      style: 'currency',
+      currency: 'BRL'
+    });
+  }
+});
 </script>
 
 
