@@ -253,7 +253,7 @@ $tipos = $siteAdmin->getTiposLocalInfo();
                                                 <option value="">Selecione o tipo</option>
                                                 <?php foreach ($tipos as $tipo): ?>
                                                   <option value="<?= $tipo['TLO_IDTIPOLOCAL'] ?>">
-                                                    <?= htmlspecialchars(mb_convert_case($cliente['PLO_DCNOME'], MB_CASE_TITLE, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
+                                                    <?= htmlspecialchars(mb_convert_case($tipo['PLO_DCNOME'], MB_CASE_TITLE, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
                                                   </option>
                                                 <?php endforeach; ?>
                                               </select>
