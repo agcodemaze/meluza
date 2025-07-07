@@ -292,7 +292,7 @@ $tipos = $siteAdmin->getTiposLocalInfo();
                   <img src="../../assets/img//meluza_logo_90.png" alt="Logo" style="height: 30px;">
                 <div>
                     <a href="javascript:void(0);" class="btn" style="background-color: #6e6c72; color: white;" data-bs-dismiss="modal">Fechar</a>
-                    <button type="button" class="btn" style="background-color: #7eda0d; color: black;" id="botao">Agendar</button>
+                    <button type="button" class="btn" style="background-color: #7eda0d; color: black;" id="botaoAgendar">Agendar</button>
                   </div>
                 </div>
             </div><!-- /.modal-content -->
@@ -481,7 +481,7 @@ $tipos = $siteAdmin->getTiposLocalInfo();
     }
 
     $(document).ready(function () {
-      $("#botao").on("click", confirmAndSubmit);
+      $("#botaoAgendar").on("click", confirmAndSubmit);
     });
   </script>
 
