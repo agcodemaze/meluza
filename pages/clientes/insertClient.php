@@ -80,14 +80,9 @@ $siteAdmin = new SITE_ADMIN();
                                                 </div>
 
                                                 <div class="position-relative mb-3">
-                                                  <label for="enderecoBusca" class="form-label">Digite seu endereço para encontrar o CEP</label>
-                                                  <input type="text" id="enderecoBusca" name="enderecoBusca" class="form-control" placeholder="Rua, Bairro, Cidade, Estado">
-                                                  <button type="button" onclick="buscarEnderecoPorTexto()" class="btn btn-primary mt-2">Buscar Endereço</button>
-                                                </div>
-
-                                                <div class="position-relative mb-3">
                                                     <label for="endereco" class="form-label">Endereço</label>
-                                                    <input type="text" id="endereco" name="endereco" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
+                                                    <input type="text" id="endereco" name="endereco" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="">
+                                                    <button type="button" onclick="buscarEnderecoPorTexto()" class="btn btn-primary mt-2">Buscar Endereço</button>
                                                 </div>
 
                                                 <div class="position-relative position-relative mb-3">
@@ -146,7 +141,7 @@ $siteAdmin = new SITE_ADMIN();
 
 <script>
   function buscarEnderecoPorTexto() {
-  const endereco = document.getElementById('enderecoBusca').value.trim();
+  const endereco = document.getElementById('endereco').value.trim();
   if (!endereco) {
     alert('Por favor, digite um endereço para buscar.');
     return;
