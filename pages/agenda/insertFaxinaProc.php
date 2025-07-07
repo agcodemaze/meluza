@@ -30,7 +30,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $duracao = mb_strtoupper(trim($_POST['duracao']), 'UTF-8');  
     $preco = mb_strtoupper(trim($_POST['preco']), 'UTF-8');  
 
-    $data = mb_strtoupper(trim($_POST['data']), 'UTF-8');  
+    $data = mb_strtoupper(trim($_POST['dataHora']), 'UTF-8');  
     $observacao = mb_strtoupper(trim($_POST['observacao']), 'UTF-8');  
 
     $registerFaxina = new registerFaxina();
