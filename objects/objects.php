@@ -401,7 +401,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
                 $this->conexao(); 
             }
 
-            $sql = "SELECT * FROM VW_FAXINA_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO AND CLI_STATIVO = 'ATIVO' AND FXA_DTDATA >= :DATAINI AND FXA_DTDATA <= :DATAFIM ORDER BY FXA_DTDATA ASC";
+            $sql = "SELECT * FROM VW_FAXINA_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO AND FXA_STATIVO = 'ATIVO' AND FXA_DTDATA >= :DATAINI AND FXA_DTDATA <= :DATAFIM ORDER BY FXA_DTDATA ASC";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_STR);
             $stmt->bindParam(':DATAINI', $DATAINI, PDO::PARAM_STR);
