@@ -296,6 +296,12 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
                 $this->conexao();
             } 
 
+            // Converte para o formato MySQL
+            $dataObj = DateTime::createFromFormat('d/m/Y H:i', $FXA_DTDATA);
+            if ($dataObj) {
+                $FXA_DTDATA = $dataObj->format('Y-m-d H:i:s');
+            } 
+
             $now = new DateTime(); 
             $FXA_DTDATA_CADASTRO = $now->format('Y-m-d H:i:s');
             $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
