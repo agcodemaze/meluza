@@ -24,7 +24,8 @@ die();
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
 <!-- Tema opcional para estilo Bootstrap -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">   
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/material_blue.css">  
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" /> 
 </head>
 
     <style>
@@ -236,8 +237,15 @@ die();
                                         <form id="form" name="form" role="form" method="POST" enctype="multipart/form-data">                                       
                                             
                                             <div class="position-relative mb-3" id="campo-nome">
-                                              <label class="form-label" for="nome">Cliente</label>
-                                              <input id="nome" name="nome" autocomplete="new-nome" style="text-transform: uppercase;" type="text" class="form-control" placeholder="" maxlength="50"  oninput="this.value = this.value.replace(/[^\p{L} ]/gu, '')" required/>
+                                              <label class="form-label" for="cliente">Cliente</label>
+                                              <select id="cliente" name="cliente" class="form-control select2" required>
+                                                <option value="">Selecione um cliente</option>
+                                                <?php foreach ($clientes as $cliente): ?>
+                                                  <option value="<?= $cliente['CLI_IDCLIENTE'] ?>">
+                                                    <?= htmlspecialchars($cliente['CLI_DCNOME'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
+                                                  </option>
+                                                <?php endforeach; ?>
+                                              </select>
                                             </div>
 
                                             <div class="position-relative mb-3" id="campo-tipo">                                                    
@@ -306,6 +314,7 @@ die();
 
 <!-- Flatpickr JS -->
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 <!-- Inicialização -->
 <script>
@@ -318,6 +327,15 @@ die();
         defaultMinute: 0,              
         minuteIncrement: 5             
     });
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    $('.select2').select2({
+      placeholder: "Selecione um cliente",
+      width: '100%',
+      allowClear: true
+    });
+  });
 </script>
 
         <script>
