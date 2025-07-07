@@ -149,10 +149,10 @@ foreach ($faxinas as $item) {
                                 <div class="info-box">
                                    <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;">	<i class="bi bi-calendar"></i></span>
                                     <div class="info-box-content">
-                                        <span class="info-box-text">Faxinas Agendadas</span>
+                                        <span class="info-box-text">Faxinas Programadas</span>
                                         <span class="info-box-number">
                                             <?php echo $faxinasAgendadas; ?> 
-                                            <small> Agendadas</small>
+                                            <small> Programadas</small>
                                         </span>
                                     </div>
                                     <!-- /.info-box-content -->
