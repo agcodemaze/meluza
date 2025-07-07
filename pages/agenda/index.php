@@ -59,17 +59,30 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
     </style>
 <style>
 .dia-ocupado-bolinha {
-    background-color: #007bff !important;
+    position: relative;
     color: white !important;
-    border-radius: 50% !important;
-    width: 36px;
-    height: 36px;
-    line-height: 36px;
-    text-align: center;
-    display: inline-block;
-    margin: auto;
+    font-weight: bold;
+}
+
+.dia-ocupado-bolinha::after {
+    content: attr(data-date);
+    background-color: #007bff;
+    color: white;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 14px;
+    z-index: 1;
 }
 </style>
+
 
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
       <div class="app-wrapper">
@@ -333,6 +346,9 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
     ];
 </script>
 <script>
+    // Array de datas ocupadas no formato "dd/mm/yyyy"
+    const datasOcupadas = ["10/07/2025", "11/07/2025", "17/07/2025"];
+
     $(document).ready(function () {
         $('#calendario').datepicker({
             format: "dd/mm/yyyy",
@@ -347,8 +363,8 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
                 if (datasOcupadas.includes(dataFormatada)) {
                     return {
-                        classes: 'dia-ocupado-bolinha',
-                        tooltip: 'Dia com faxina'
+                        tooltip: 'Dia com faxina',
+                        content: `<span class="dia-ocupado-bolinha" data-date="${date.getDate()}">${date.getDate()}</span>`
                     };
                 }
 
