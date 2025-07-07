@@ -233,7 +233,7 @@ foreach ($faxinas as $item) {
                                                 <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center faxina-item"
      data-idcliente="<?= $item['CLI_IDCLIENTE'] ?>"
      data-idtipo="<?= $item['TLO_IDTIPOLOCAL'] ?>"
-     data-duracao="<?= $item['FXA_NRDURACAO'] ?>"
+     data-duracao="<?= $item['FXA_DCDURACAO_ESTIMADA'] ?>"
      data-preco="<?= $item['FXA_NMPRECO_COMBINADO'] ?>"
      data-data="<?= $item['FXA_DTDATA'] ?>"
      data-observacao="<?= htmlspecialchars($item['FXA_DCOBSERVACAO'] ?? '') ?>"
