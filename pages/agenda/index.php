@@ -25,6 +25,31 @@ if (isset($_GET['data_inicio']) && isset($_GET['data_fim'])) {
 
 $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
 
+$faxinasAgendadas = "0";
+$faxinasConcluidas = "0";
+$faxinasTotal = "0";
+$faxinasGanhosPrevistos = "0";
+$faxinasGanhosAcumulados = "0";
+
+foreach ($faxinas as $item) {
+    if (isset($item['FXA_STSTATUS']) && strtoupper($item['FXA_STSTATUS']) === 'CONCLUÍDA') {
+        $faxinasConcluidas++;
+    }
+    if (isset($item['FXA_STSTATUS']) && strtoupper($item['FXA_STSTATUS']) === 'PROGRAMADA') {
+        $faxinasAgendadas++;
+    }  
+ 
+    if (isset($item['FXA_NMPRECO_COMBINADO']) && is_numeric($item['FXA_NMPRECO_COMBINADO']) && $item['FXA_STSTATUS'] === 'PROGRAMADA') {
+        $faxinasGanhosPrevistos += (float)$item['FXA_NMPRECO_COMBINADO'];
+    }
+
+    if (isset($item['FXA_NMPRECO_COMBINADO']) && is_numeric($item['FXA_NMPRECO_COMBINADO']) && $item['FXA_STSTATUS'] === 'CONCLUÍDA') {
+        $faxinasGanhosAcumulados += (float)$item['FXA_NMPRECO_COMBINADO'];
+    }
+
+    $faxinasTotal++;
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -78,9 +103,9 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
         .dia-ocupado.day::after {
             content: "";
             display: block;
-            width: 12px;
-            height: 12px;
-            background-color:rgb(98, 0, 255);
+            width: 9px;
+            height: 9px;
+            background-color:rgb(255, 0, 0);
             border-radius: 50%;
             margin: 2px auto 0;
         }
@@ -126,7 +151,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
                                     <div class="info-box-content">
                                         <span class="info-box-text">Faxinas Agendadas</span>
                                         <span class="info-box-number">
-                                            10
+                                            <?php echo $faxinasAgendadas; ?> 
                                             <small></small>
                                         </span>
                                     </div>
@@ -138,7 +163,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-hand-thumbs-up-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Faxinas Concluídas</span> <span class="info-box-number">41,410</span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Faxinas Concluídas</span> <span class="info-box-number"><?php echo $faxinasConcluidas; ?></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -149,7 +174,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-cart-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">760</span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">R$<?php echo $faxinasGanhosAcumulados; ?></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -158,7 +183,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-people-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Clientes Cadastrados</span> <span class="info-box-number">2,000</span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Ganhos Previstos</span> <span class="info-box-number">R$<?php echo $faxinasGanhosPrevistos; ?></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -328,9 +353,6 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID,$dataInicio,$dataFim);
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div><!-- /.modal -->
-
-
-
 
         <script src="../../js/overlayscrollbars.browser.es6.min.js"></script>
         <script src="../../js/popper.min.js"></script>
