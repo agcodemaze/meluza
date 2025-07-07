@@ -708,8 +708,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Gera link do Uber baseado nas coords
   function gerarLinkUber(lat, lon) {
-    console.log(`https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${lat}&dropoff[longitude]=${lon}&dropoff[nickname]=Cliente`)
-    return `https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=${lat}&dropoff[longitude]=${lon}&dropoff[nickname]=Cliente`;
+    const nickname = encodeURIComponent("Cliente");
+    return `https://m.uber.com/ul/?action=setPickup&dropoff%5Blatitude%5D=${lat}&dropoff%5Blongitude%5D=${lon}&dropoff%5Bnickname%5D=${nickname}`;
   }
 
   // Atualiza os ícones no modal com os links corretos
