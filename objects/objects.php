@@ -339,6 +339,63 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             }            
         }
 
+        public function editFaxinaInfo($FXA_IDFAXINA, $CLI_IDCLIENTE, $FXA_DCTIPO, $FXA_DCDURACAO_ESTIMADA, $FXA_NMPRECO_COMBINADO, $FXA_DTDATA, $FXA_DCOBS)
+        {       
+            if (!$this->pdo) {
+                $this->conexao();
+            } 
+        
+            // Converte para o formato MySQL
+            $dataObj = DateTime::createFromFormat('d/m/Y H:i', $FXA_DTDATA);
+            if ($dataObj) {
+                $FXA_DTDATA = $dataObj->format('Y-m-d H:i:s');
+            } 
+        
+            $now = new DateTime(); 
+            $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
+            $FXA_STATIVO = "ATIVO";
+            $FXA_STSTATUS = "PROGRAMADA";
+            $FXA_NMPRECO_COMBINADO = str_replace(['R$', '.', ','], ['', '', '.'], $FXA_NMPRECO_COMBINADO);
+        
+            try {
+                $sql = "UPDATE FXA_FAXINA SET 
+                            CLI_IDCLIENTE = :CLI_IDCLIENTE,
+                            FXA_DCTIPO = :FXA_DCTIPO,
+                            FXA_DCDURACAO_ESTIMADA = :FXA_DCDURACAO_ESTIMADA,
+                            FXA_NMPRECO_COMBINADO = :FXA_NMPRECO_COMBINADO,
+                            FXA_DTDATA = :FXA_DTDATA,
+                            FXA_DCOBS = :FXA_DCOBS,
+                            FXA_DTULTIMAATUALIZACAO = :FXA_DTULTIMAATUALIZACAO,
+                            FXA_STATIVO = :FXA_STATIVO,
+                            FXA_STSTATUS = :FXA_STSTATUS
+                        WHERE FXA_IDFAXINA = :FXA_IDFAXINA";
+        
+                $stmt = $this->pdo->prepare($sql);
+            
+                $stmt->bindParam(':CLI_IDCLIENTE', $CLI_IDCLIENTE, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DCDURACAO_ESTIMADA', $FXA_DCDURACAO_ESTIMADA, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_NMPRECO_COMBINADO', $FXA_NMPRECO_COMBINADO, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DTDATA', $FXA_DTDATA, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DCOBS', $FXA_DCOBS, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DTULTIMAATUALIZACAO', $FXA_DTULTIMAATUALIZACAO, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_STATIVO', $FXA_STATIVO, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_DCTIPO', $FXA_DCTIPO, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_STSTATUS', $FXA_STSTATUS, PDO::PARAM_STR);
+                $stmt->bindParam(':FXA_IDFAXINA', $FXA_IDFAXINA, PDO::PARAM_INT);
+            
+                $stmt->execute();   
+            
+                $response = array("success" => true, "message" => "Faxina atualizada com sucesso.");
+                return json_encode($response); 
+            
+            } catch (PDOException $e) {
+                $error = $e->getMessage();   
+                $response = array("success" => false, "message" => "Houve um erro: $error");
+                return json_encode($response);
+            }            
+        }
+
+
         function getFaxinasInfo($USU_IDUSUARIO,$DATAINI,$DATAFIM) 
         {
             if (!$this->pdo) {
