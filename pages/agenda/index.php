@@ -58,28 +58,34 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
         }
     </style>
 <style>
-.dia-ocupado-bolinha {
+td.day.dia-ocupado {
     position: relative;
-    color: white !important;
+    background-color: transparent !important;
+    z-index: 1;
     font-weight: bold;
 }
 
-.dia-ocupado-bolinha::after {
-    content: attr(data-date);
+td.day.dia-ocupado::before {
+    content: "";
     background-color: #007bff;
-    color: white;
     border-radius: 50%;
     width: 28px;
     height: 28px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    font-size: 14px;
-    z-index: 1;
+    z-index: -1;
+}
+
+td.day.dia-ocupado:hover::before {
+    background-color: #0056b3;
+}
+
+td.day.dia-ocupado span {
+    color: white !important;
+    position: relative;
+    z-index: 2;
 }
 </style>
 
@@ -346,7 +352,6 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
     ];
 </script>
 <script>
-    // Array de datas ocupadas no formato "dd/mm/yyyy"
     const datasOcupadas = ["10/07/2025", "11/07/2025", "17/07/2025"];
 
     $(document).ready(function () {
@@ -363,11 +368,10 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
                 if (datasOcupadas.includes(dataFormatada)) {
                     return {
-                        tooltip: 'Dia com faxina',
-                        content: `<span class="dia-ocupado-bolinha" data-date="${date.getDate()}">${date.getDate()}</span>`
+                        classes: 'dia-ocupado',
+                        tooltip: 'Dia com faxina'
                     };
                 }
-
                 return;
             }
         });
