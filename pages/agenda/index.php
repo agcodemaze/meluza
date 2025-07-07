@@ -174,7 +174,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                 if ($item["FXA_STSTATUS"] == "ATRASADA")     $badgeColor = "danger";
 
                 $nomeCliente = mb_convert_case($item["CLI_DCNOME"], MB_CASE_TITLE, "UTF-8");
-                $nomeExibido = mb_strlen($nomeCliente) > 11 ? mb_substr($nomeCliente, 0, 11) . '...' : $nomeCliente;
+                $nomeExibido = mb_strlen($nomeCliente) > 13 ? mb_substr($nomeCliente, 0, 13) . '...' : $nomeCliente;
 
             ?>
             <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center">
