@@ -230,7 +230,15 @@ foreach ($faxinas as $item) {
                                                     $nomeExibido = mb_strlen($nomeCliente) > 13 ? mb_substr($nomeCliente, 0, 13) . '...' : $nomeCliente;
                                             
                                                 ?>
-                                                <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center">
+                                                <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center faxina-item"
+     data-idcliente="<?= $item['CLI_IDCLIENTE'] ?>"
+     data-idtipo="<?= $item['TLO_IDTIPOLOCAL'] ?>"
+     data-duracao="<?= $item['FXA_NRDURACAO'] ?>"
+     data-preco="<?= $item['FXA_NMPRECO_COMBINADO'] ?>"
+     data-data="<?= $item['FXA_DTDATA'] ?>"
+     data-observacao="<?= htmlspecialchars($item['FXA_DCOBSERVACAO'] ?? '') ?>"
+     data-bs-toggle="modal" data-bs-target="#modalAgendamentoEditar"
+     style="cursor: pointer;">
                                                     <div class="me-3 mb-2" style="flex: 0 0 50px;">
                                                         <img src="../../assets/img/avatarAgenda.png" alt="Imagem" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
                                                     </div>
@@ -275,6 +283,87 @@ foreach ($faxinas as $item) {
 
     <!-- Modal Criar faxina-->
     <div id="modalAgendamento" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #086683; color: #000000;">
+              <h4 class="modal-title text-white mb-0">Agendar uma faxina</h4>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
+            </div> 
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane show active" id="tooltips-validation-preview">
+                                        <form id="form" name="form" role="form" method="POST" enctype="multipart/form-data">                                       
+                                            
+                                            <div class="position-relative mb-3" id="campo-nome">
+                                              <label class="form-label" for="cliente">Cliente</label>
+                                              <select id="cliente" name="cliente" class="form-control select2" required>
+                                                <option value="">Selecione um cliente</option>
+                                                <?php foreach ($clientes as $cliente): ?>
+                                                  <option value="<?= $cliente['CLI_IDCLIENTE'] ?>">
+                                                    <?= htmlspecialchars(mb_convert_case($cliente['CLI_DCNOME'], MB_CASE_TITLE, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
+                                                  </option>
+                                                <?php endforeach; ?>
+                                              </select>
+                                            </div>
+
+                                            <div class="position-relative mb-3" id="campo-tipo">
+                                              <label class="form-label" for="cliente">Tipo de Local</label>
+                                              <select id="tipo" name="tipo" class="form-control select2" required>
+                                                <option value="">Selecione o tipo</option>
+                                                <?php foreach ($tipos as $tipo): ?>
+                                                  <option value="<?= $tipo['TLO_IDTIPOLOCAL'] ?>">
+                                                    <?= htmlspecialchars(mb_convert_case($tipo['PLO_DCNOME'], MB_CASE_TITLE, 'UTF-8'), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8') ?>
+                                                  </option>
+                                                <?php endforeach; ?>
+                                              </select>
+                                            </div>
+
+                                            <div class="position-relative mb-3" id="campo-duracao">                                                    
+                                              <label class="form-label" for="duracao">Duração Estimada (em horas)</label>
+                                              <input type="text" id="duracao" name="duracao" class="form-control" maxlength="2"
+                                                     oninput="this.value = this.value.replace(/\D/g, '').slice(0,2); if (parseInt(this.value) > 99) this.value = '99';"
+                                                     placeholder="0 a 99">
+                                            </div>
+
+                                            <div class="position-relative mb-3" id="campo-preco">                                                    
+                                              <label class="form-label" for="preco">Preço</label>
+                                              <input type="text" id="preco" name="preco" class="form-control" placeholder="R$ 0,00">
+                                            </div>
+                                            
+                                            <div class="position-relative mb-3">
+                                                <label for="data" class="form-label">Data</label>
+                                                <input type="text" class="form-control" id="dataHora" name="dataHora" placeholder="Selecione data e hora">
+                                            </div>   
+                                            
+                                            <div class="position-relative mb-3">
+                                              <label for="observacao" class="form-label">Observações</label>
+                                              <textarea class="form-control" maxlength="300" rows="3" id="observacao" name="observacao" placeholder=""></textarea>
+                                            </div> 
+                                        </form>
+                                    </div> <!-- end preview-->                                        
+                                </div> <!-- end tab-content-->                            
+                            </div> <!-- end card-body -->
+                        </div> <!-- end card-->
+                        </div> <!-- end col-->
+                    </div> <!-- end row-->
+                </div>
+                <div class="modal-footer d-flex justify-content-between align-items-center">
+                  <img src="../../assets/img//meluza_logo_90.png" alt="Logo" style="height: 30px;">
+                <div>
+                    <a href="javascript:void(0);" class="btn" style="background-color: #6e6c72; color: white;" data-bs-dismiss="modal">Fechar</a>
+                    <button type="button" class="btn" style="background-color: #7eda0d; color: black;" id="botaoAgendar">Agendar</button>
+                  </div>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+
+    <!-- Modal Editar faxina-->
+    <div id="modalAgendamentoEditar" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
             <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #086683; color: #000000;">
@@ -619,6 +708,45 @@ foreach ($faxinas as $item) {
     });
 </script>
 
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const faxinaItens = document.querySelectorAll('.faxina-item');
+
+    faxinaItens.forEach(item => {
+      item.addEventListener('click', function () {
+        // Pega os atributos
+        const cliente = this.dataset.idcliente;
+        const tipo = this.dataset.idtipo;
+        const duracao = this.dataset.duracao || '';
+        const preco = this.dataset.preco || '';
+        const data = this.dataset.data || '';
+        const observacao = this.dataset.observacao || '';
+
+        // Preenche os campos no modal
+        document.getElementById('cliente').value = cliente;
+        document.getElementById('tipo').value = tipo;
+        document.getElementById('duracao').value = duracao;
+        document.getElementById('preco').value = preco;
+        document.getElementById('dataHora').value = formatarDataHora(data);
+        document.getElementById('observacao').value = observacao;
+      });
+    });
+
+    function formatarDataHora(dataISO) {
+      if (!dataISO) return '';
+      const dataObj = new Date(dataISO);
+      if (isNaN(dataObj.getTime())) return dataISO; // se falhar, retorna original
+
+      const dia = String(dataObj.getDate()).padStart(2, '0');
+      const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+      const ano = dataObj.getFullYear();
+      const hora = String(dataObj.getHours()).padStart(2, '0');
+      const minuto = String(dataObj.getMinutes()).padStart(2, '0');
+
+      return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+    }
+  });
+</script>
 
 
 
