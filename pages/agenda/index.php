@@ -366,7 +366,7 @@ foreach ($faxinas as $item) {
                                                 <a id="iconeUber" href="javascript:void(0);" target="_blank">
                                                   <img src="../../assets/img/uber.png" alt="Uber" style="height: 40px;">
                                                 </a>
-                                                <a href="#" target="_blank">
+                                                <a id="icone99" href="javascript:void(0);" target="_blank">
                                                   <img src="../../assets/img/99.png" alt="99" style="height: 40px;">
                                                 </a>
                                               </div>
@@ -685,7 +685,6 @@ document.addEventListener("DOMContentLoaded", function () {
   const modalEl = document.getElementById('modalAgendamento');
   const modal = new bootstrap.Modal(modalEl);
 
-  // Função para buscar lat/lon via Nominatim
   async function buscarCoordenadas(endereco) {
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}`;
     try {
@@ -706,54 +705,51 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Gera link do Uber baseado nas coords
   function gerarLinkUber(lat, lon) {
     const nickname = encodeURIComponent("Cliente");
     return `https://m.uber.com/ul/?action=setPickup&dropoff%5Blatitude%5D=${lat}&dropoff%5Blongitude%5D=${lon}&dropoff%5Bnickname%5D=${nickname}`;
   }
 
-  // Atualiza os ícones no modal com os links corretos
+  function gerarLink99(lat, lon) {
+    return `https://app.99app.com/open?pickup=my_location&destination=${lat},${lon}`;
+  }
+
   async function atualizarIconesUber99(rua, numero, bairro, cidade, estado) {
     const enderecoCompleto = `${rua} ${numero}, ${cidade}, ${estado}`;
     const uberIcon = document.getElementById('iconeUber');
     const noventaENoveIcon = document.getElementById('icone99');
-  
-    // Coloca ícone Uber como opaco e sem link enquanto busca
+
     uberIcon.href = 'javascript:void(0);';
+    noventaENoveIcon.href = 'javascript:void(0);';
     uberIcon.style.opacity = '0.3';
+    noventaENoveIcon.style.opacity = '0.3';
     uberIcon.title = 'Buscando endereço...';
-  
+    noventaENoveIcon.title = 'Buscando endereço...';
+
     try {
       const coords = await buscarCoordenadas(enderecoCompleto);
       if (coords) {
         uberIcon.href = gerarLinkUber(coords.lat, coords.lon);
         uberIcon.style.opacity = '1';
         uberIcon.title = 'Chamar Uber para ' + enderecoCompleto;
+
+        noventaENoveIcon.href = gerarLink99(coords.lat, coords.lon);
+        noventaENoveIcon.style.opacity = '1';
+        noventaENoveIcon.title = 'Chamar 99 para ' + enderecoCompleto;
       } else {
-        // Sem coords válidas, deixa opaco
-        uberIcon.href = 'javascript:void(0);';
-        uberIcon.style.opacity = '0.3';
         uberIcon.title = 'Endereço inválido para Uber';
+        noventaENoveIcon.title = 'Endereço inválido para 99';
       }
     } catch (error) {
       console.error('Erro ao buscar coordenadas:', error);
-      uberIcon.href = 'javascript:void(0);';
-      uberIcon.style.opacity = '0.3';
       uberIcon.title = 'Erro ao buscar endereço';
+      noventaENoveIcon.title = 'Erro ao buscar endereço';
     }
-  
-    // Link estático do 99 (pode modificar se quiser)
-    noventaENoveIcon.href = 'https://99app.com/';
-    noventaENoveIcon.style.opacity = '1';
-    noventaENoveIcon.title = 'Chamar 99';
   }
 
-
-  // Abrir modal para editar preenchendo os campos e atualizando ícones
   faxinaItens.forEach(item => {
     item.addEventListener('click', function () {
       document.getElementById('faxinaId').value = this.dataset.faxinaid || '';
-
       $('#cliente').val(this.dataset.idcliente).trigger('change');
       $('#tipo').val(this.dataset.idtipo).trigger('change');
       document.getElementById('duracao').value = this.dataset.duracao || '';
@@ -761,27 +757,23 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById('dataHora').value = formatarDataHora(this.dataset.data) || '';
       document.getElementById('observacao').value = this.dataset.observacao || '';
 
-      // Pega dados do endereço via data-attributes ou como preferir
       const rua = this.dataset.rua || '';
       const numero = this.dataset.numero || '';
       const bairro = this.dataset.bairro || '';
       const cidade = this.dataset.cidade || '';
       const estado = this.dataset.estado || '';
 
-      // Atualiza texto do endereço no modal (se existir elemento com id texto-endereco)
       const textoEndereco = document.getElementById('texto-endereco');
       if (textoEndereco) {
         textoEndereco.textContent = `${rua}, ${numero} - ${bairro}, ${cidade} - ${estado}`;
       }
 
-      // Atualiza os ícones com link Uber e 99
       atualizarIconesUber99(rua, numero, bairro, cidade, estado);
 
       modal.show();
     });
   });
 
-  // Função para abrir modal em modo "novo"
   window.abrirModalNovo = function () {
     document.getElementById('faxinaId').value = '';
     $('#cliente').val('').trigger('change');
@@ -791,7 +783,6 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById('dataHora').value = '';
     document.getElementById('observacao').value = '';
 
-    // Limpa texto e ícones do endereço
     const textoEndereco = document.getElementById('texto-endereco');
     if (textoEndereco) textoEndereco.textContent = '';
 
@@ -836,6 +827,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 </script>
+
 
 
 
