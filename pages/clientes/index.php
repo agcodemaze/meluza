@@ -176,7 +176,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
         function confirmDelete(id, nome) {
             Swal.fire({
                 title: 'Lista de Clientes',
-                text: `Tem certeza que deseja excluir o cliente "${nome}"?`,
+                text: `Tem certeza que deseja excluir o(a) cliente "${nome}"?`,
                 icon: 'warning',
                 showDenyButton: true,
                 confirmButtonText: 'CONFIRMAR',

@@ -124,7 +124,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
                 $this->conexao();
             }
 
-            $sql = "SELECT * FROM CLI_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO ORDER BY CLI_DCNOME ASC";
+            $sql = "SELECT * FROM CLI_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO AND CLI_STATIVO = 'ATIVO' ORDER BY CLI_DCNOME ASC";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_STR);
             $stmt->execute();
@@ -200,7 +200,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
 
                 $stmt->execute();   
                 
-                $response = array("success" => true, "message" => "O cliente $CLI_DCNOME foi apagado com sucesso.");
+                $response = array("success" => true, "message" => "O(a) cliente $CLI_DCNOME foi apagado com sucesso.");
                 return json_encode($response); 
 
             } catch (PDOException $e) {
