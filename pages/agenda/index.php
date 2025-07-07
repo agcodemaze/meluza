@@ -293,10 +293,11 @@ foreach ($faxinas as $item) {
                                                             </span>
 
                                                             <span 
-                                                                class="badge text-bg-danger"
-                                                                onclick="event.stopPropagation(); confirmDeleteAttr(<?= $item['FXA_IDFAXINA'] ?>);"
+                                                              class="badge text-bg-danger"
+                                                              data-id="<?= $item['FXA_IDFAXINA'] ?>"
+                                                              onclick="event.stopPropagation(); confirmDeleteAttr(this);"
                                                             >
-                                                                Excluir
+                                                              Excluir
                                                             </span>
                                                         </div>
                                                     </div>
