@@ -171,7 +171,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
                                                 ?>
                                                 <div class="d-flex border-top py-2 px-1">
-                                                    <div class="col-2"><img src="/assets/img/default-150x150.png" alt="Product Image" class="img-size-50" /></div>
+                                                    <div class="col-2"><img src="../../assets/img/avatarAgenda.png" alt="Product Image" class="img-size-50" /></div>
                                                     <div class="col-10">
                                                         <a href="javascript:void(0)" class="fw-bold">
                                                             <?php echo mb_convert_case($item["CLI_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>
