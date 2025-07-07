@@ -147,12 +147,12 @@ foreach ($faxinas as $item) {
                     <div class="row">
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                   <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;">	<i class="bi bi-calendar"></i>></span>
+                                   <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;">	<i class="bi bi-calendar"></i></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Faxinas Agendadas</span>
                                         <span class="info-box-number">
                                             <?php echo $faxinasAgendadas; ?> 
-                                            <small>Faxinas</small>
+                                            <small> Agendadas</small>
                                         </span>
                                     </div>
                                     <!-- /.info-box-content -->
@@ -163,7 +163,7 @@ foreach ($faxinas as $item) {
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-check-lg"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Faxinas Concluídas</span> <span class="info-box-number"><?php echo $faxinasConcluidas; ?><small>Concluídas</small></span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Faxinas Concluídas</span> <span class="info-box-number"><?php echo $faxinasConcluidas; ?><small> Concluídas</small></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -174,7 +174,7 @@ foreach ($faxinas as $item) {
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-piggy-bank"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">R$<?php echo $faxinasGanhosAcumulados; ?><small>Recebidos</small></span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">R$<?php echo $faxinasGanhosAcumulados; ?><small> Recebidos</small></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -183,7 +183,7 @@ foreach ($faxinas as $item) {
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-currency-dollar"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Ganhos Previstos</span> <span class="info-box-number">R$<?php echo $faxinasGanhosPrevistos; ?><small>a receber</small></span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Ganhos Previstos</span> <span class="info-box-number">R$<?php echo $faxinasGanhosPrevistos; ?><small> à receber</small></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
