@@ -54,6 +54,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cidade = !empty($_POST['cidade']) ? mb_strtoupper(trim($_POST['cidade']), 'UTF-8') : null;
     $estado = !empty($_POST['estado']) ? mb_strtoupper(trim($_POST['estado']), 'UTF-8') : null;
 
+    if(empty($nome))
+    {
+        $response = array("success" => false, "message" => "O nome do cliente precisa ser informado.");
+        echo json_encode($response);   
+        exit;  
+    }
+
     $registerCliente = new registerCliente();
     $registerCliente->insertCliente($nome, $observacao, $telefone, $cep, $endereco, $numero, $bairro, $cidade, $estado, $complemento);
 }

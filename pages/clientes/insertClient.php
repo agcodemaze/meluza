@@ -82,7 +82,7 @@ $siteAdmin = new SITE_ADMIN();
 
                                                 <div class="position-relative mb-3">
                                                     <label for="endereco" class="form-label">Endereço</label>
-                                                    <input type="text" id="endereco" name="endereco" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" readonly>
+                                                    <input type="text" id="endereco" name="endereco" class="form-control" style="text-transform: uppercase;  background-color: #e9ecef; pointer-events: none; opacity: 1;" placeholder="" required readonly>
                                                 </div>
 
                                                 <div class="position-relative position-relative mb-3">
