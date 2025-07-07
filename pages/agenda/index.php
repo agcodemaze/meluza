@@ -345,7 +345,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
                 if (datasOcupadas.includes(dataFormatada)) {
                     return {
-                        classes: 'dia-ocupado-bolinha',
+                        classes: 'dia-ocupado',
                         tooltip: 'Dia com faxina'
                     };
                 }
