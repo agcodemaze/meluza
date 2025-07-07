@@ -120,7 +120,7 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 
                                     <tr class="align-middle">
                                         <td><?= $contador++; ?></td>
-                                        <td>
+                                        <td onclick="window.location.href='/updateClient?id=<?= $cliente['CLI_IDCLIENTE'] ?>'" style="cursor: pointer;">
                                             <?= htmlspecialchars(
                                                 mb_strlen($cliente['CLI_DCNOME'], 'UTF-8') > 20 
                                                 ? mb_substr(mb_convert_case($cliente['CLI_DCNOME'], MB_CASE_TITLE, 'UTF-8'), 0, 20, 'UTF-8') . '...' 

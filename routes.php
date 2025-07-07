@@ -14,6 +14,7 @@ return [
     'inserClient' => 'pages/clientes/inserClient.php',
     'inserClientProc' => 'pages/clientes/inserClientProc.php',  
     'deleteClientProc' => 'pages/clientes/deleteClientProc.php', 
+    'updateClient' => 'pages/clientes/updateClient.php', 
     
     
 

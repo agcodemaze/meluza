@@ -132,6 +132,21 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        function getClienteInfoById($CLI_IDCLIENTE, $USU_IDUSUARIO) 
+        {
+            if (!$this->pdo) {
+                $this->conexao();
+            }
+
+            $sql = "SELECT * FROM CLI_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO AND CLI_IDCLIENTE = :CLI_IDCLIENTE";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(':CLI_IDCLIENTE', $CLI_IDCLIENTE, PDO::PARAM_STR);
+            $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        }
+
         public function insertClienteInfo($CLI_DCNOME, $CLI_DCOBS, $CLI_DCTELEFONE, $CLI_DCCEP, $CLI_DCENDERECO, $CLI_DCNUM_ENDERECO, $CLI_DCBAIRRO, $CLI_DCCIDADE, $CLI_DCESTADO, $CLI_DCCOMPLEMENTO, $USU_IDUSUARIO)
         {       
             if (!$this->pdo) {
