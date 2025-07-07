@@ -211,6 +211,10 @@ foreach ($faxinas as $item) {
                                     <div class="card-header">
                                         <h3 class="card-title">Faxinas</h3>
                                         <div class="card-tools">
+                                                                      <div class="col-auto">
+                                <label for="searchField" class="visually-hidden">Procurar</label>
+                                <input type="search" class="form-control" id="searchField" placeholder="Procurar...">
+                            </div>
                                         </div>
                                     </div>
 
