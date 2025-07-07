@@ -714,7 +714,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Atualiza os ícones no modal com os links corretos
   async function atualizarIconesUber99(rua, numero, bairro, cidade, estado) {
-    const enderecoCompleto = `${rua}, ${numero}, ${bairro}, ${cidade}, ${estado}`;
+    const enderecoCompleto = `${rua} ${numero}, ${cidade}, ${estado}`;
     const uberIcon = document.getElementById('iconeUber');
     const noventaENoveIcon = document.getElementById('icone99');
   
