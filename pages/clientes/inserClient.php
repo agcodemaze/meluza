@@ -188,134 +188,110 @@ $siteAdmin = new SITE_ADMIN();
     </script>
 
     <script>
-        function confirmAndSubmit(event) {
-          event.preventDefault(); 
+    function confirmAndSubmit(event) {
+      event.preventDefault(); 
+    
+      var form = document.getElementById("form");    
+    
+      Swal.fire({
+        title: 'Formulário de Clientes',
+        text: 'Tem certeza que deseja cadastrar o cliente?',
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonText: 'CONFIRMAR',
+        denyButtonText: 'CANCELAR',
+        confirmButtonColor: "#4caf50",  // verde
+        denyButtonColor: "#9e9e9e",     // cinza
+        background: "#f9f9fb",          // fundo claro
+        color: "#333",                  // texto escuro
+        width: '420px'
+      }).then((result) => {
+        if (result.isConfirmed) {
         
-          var form = document.getElementById("form");    
-      
+          // Mostra o alerta de carregamento
           Swal.fire({
-            title: 'Formulário de Clientes',
-            text: 'Tem certeza que deseja cadastrar o cliente?',
-            icon: 'warning',
-            showDenyButton: true,
-            confirmButtonText: 'CONFIRMAR',
-            denyButtonText: 'CANCELAR',
-            confirmButtonColor: "#2be4c6",
-            denyButtonColor: "#8c52ff",
-            background: "#343a40",
-            color: "#a1b6c2",
-            width: '420px',
-            customClass: {
-              title: 'swal-title',
-              content: 'swal-content',
-              confirmButton: 'swal-confirm-btn',
-              denyButton: 'swal-deny-btn',
-              htmlContainer: 'swal-text'
-            }
-          }).then((result) => {
-            if (result.isConfirmed) {
+            title: 'Enviando dados...',
+            text: 'Aguarde enquanto processamos o cadastro.',
+            allowOutsideClick: false,
+            allowEscapeKey: false,
+            didOpen: () => {
+              Swal.showLoading();
+            },
+            background: "#f9f9fb",
+            color: "#333",
+            width: '420px'
+          });
+      
+          var formData = new FormData($("#form")[0]);
+      
+          $.ajax({
+            url: "/inserClientProc",
+            type: "POST",
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "json",
+            success: function (response) {
+              Swal.close(); // Fecha o loading
             
-              // Mostra o alerta de carregamento
+              if (response.success) {
+                Swal.fire({
+                  title: 'Sucesso!',
+                  text: response.message,
+                  icon: 'success',
+                  width: '420px',
+                  confirmButtonColor: "#4caf50",
+                  background: "#f9f9fb",
+                  color: "#333"
+                }).then(() => {
+                  window.location.href = "/clientes";
+                });
+              } else {
+                Swal.fire({
+                  title: 'Erro!',
+                  text: response.message,
+                  icon: 'error',
+                  width: '420px',
+                  confirmButtonColor: "#f44336",
+                  background: "#f9f9fb",
+                  color: "#333"
+                });
+              }
+            },
+            error: function (xhr, status, error) {
+              Swal.close(); // Fecha o loading
+            
               Swal.fire({
-                title: 'Enviando dados...',
-                text: 'Aguarde enquanto processamos o cadastro.',
-                allowOutsideClick: false,
-                allowEscapeKey: false,
-                didOpen: () => {
-                  Swal.showLoading();
-                },
-                background: "#343a40",
-                color: "#a1b6c2",
-                width: '420px'
-              });
-          
-              var formData = new FormData($("#form")[0]);
-          
-              $.ajax({
-                url: "/inserClientProc",
-                type: "POST",
-                data: formData,
-                processData: false,
-                contentType: false,
-                dataType: "json",
-                success: function (response) {
-                  Swal.close(); // Fecha o loading
-                
-                  if (response.success) {
-                    Swal.fire({
-                      title: 'Sucesso!',
-                      text: response.message,
-                      icon: 'success',
-                      width: '420px',
-                      confirmButtonColor: "#2be4c6",
-                      background: "#343a40",
-                      color: "#a1b6c2",
-                      customClass: {
-                        title: 'swal-title',
-                        content: 'swal-content',
-                        htmlContainer: 'swal-text',
-                        confirmButton: 'swal-confirm-btn'
-                      }
-                    }).then(() => {
-                      window.location.href = "/clientes";
-                    });
-                  } else {
-                    Swal.fire({
-                      title: 'Erro!',
-                      text: response.message,
-                      icon: 'error',
-                      width: '420px',
-                      confirmButtonColor: "#2be4c6",
-                      background: "#1e1e1e",
-                      color: "#a1b6c2",
-                      customClass: {
-                        title: 'swal-title',
-                        content: 'swal-content',
-                        htmlContainer: 'swal-text',
-                        confirmButton: 'swal-confirm-btn'
-                      }
-                    });
-                  }
-                },
-                error: function (xhr, status, error) {
-                  Swal.close(); // Fecha o loading
-                
-                  Swal.fire({
-                    title: 'Erro!',
-                    text: 'Erro ao cadastrar o cliente: ' + error,
-                    icon: 'error',
-                    width: '420px',
-                    confirmButtonColor: "#2be4c6",
-                    background: "#343a40",
-                    color: "#a1b6c2",
-                    customClass: {
-                      title: 'swal-title',
-                      content: 'swal-content',
-                      htmlContainer: 'swal-text',
-                      confirmButton: 'swal-confirm-btn'
-                    }
-                  });
-                }
-              });
-          
-            } else if (result.dismiss === Swal.DismissReason.cancel) {
-              Swal.fire({
-                title: 'Cancelado',
-                text: 'Nenhuma alteração foi feita.',
-                icon: 'info',
+                title: 'Erro!',
+                text: 'Erro ao cadastrar o cliente: ' + error,
+                icon: 'error',
                 width: '420px',
-                confirmButtonColor: "#8c52ff",
-                background: "#343a40",
-                color: "#a1b6c2"
+                confirmButtonColor: "#f44336",
+                background: "#f9f9fb",
+                color: "#333"
               });
             }
           });
+      
+        } else if (result.dismiss === Swal.DismissReason.cancel || result.isDenied) {
+          Swal.fire({
+            title: 'Cancelado',
+            text: 'Nenhuma alteração foi feita.',
+            icon: 'info',
+            width: '420px',
+            confirmButtonColor: "#9e9e9e",
+            background: "#f9f9fb",
+            color: "#333"
+          });
         }
+      });
+    }
 
-        $(document).ready(function () {
-          $("#botao").on("click", confirmAndSubmit);
-        });
+    $(document).ready(function () {
+      $("#botao").on("click", confirmAndSubmit);
+    });
     </script>
+
    
    </body>
 </html>
