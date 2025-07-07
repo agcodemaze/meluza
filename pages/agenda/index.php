@@ -3,6 +3,9 @@ require BASE_PATH . "src/auth.php";
 include_once BASE_PATH . "objects/objects.php";
 
 $siteAdmin = new SITE_ADMIN(); 
+$clientes = $siteAdmin->getClienteInfo();
+var_dump($clientes);
+die();
 
 ?>
 
