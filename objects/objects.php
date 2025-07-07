@@ -306,12 +306,13 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             $FXA_DTDATA_CADASTRO = $now->format('Y-m-d H:i:s');
             $FXA_DTULTIMAATUALIZACAO = $now->format('Y-m-d H:i:s');
             $FXA_STATIVO = "ATIVO";
+            $FXA_STSTATUS = "PROGRAMADA";
             $FXA_NMPRECO_COMBINADO = str_replace(['R$', '.', ','], ['', '', '.'], $FXA_NMPRECO_COMBINADO);
 
             try {
                 $sql = "INSERT INTO FXA_FAXINA 
-                        (CLI_IDCLIENTE, FXA_DCTIPO, FXA_DCDURACAO_ESTIMADA, FXA_NMPRECO_COMBINADO, FXA_DTDATA, FXA_DCOBS, FXA_DTULTIMAATUALIZACAO, FXA_STATIVO, FXA_DTDATA_CADASTRO) 
-                        VALUES (:CLI_IDCLIENTE, :FXA_DCTIPO, :FXA_DCDURACAO_ESTIMADA, :FXA_NMPRECO_COMBINADO, :FXA_DTDATA, :FXA_DCOBS, :FXA_DTULTIMAATUALIZACAO, :FXA_STATIVO, :FXA_DTDATA_CADASTRO)";
+                        (CLI_IDCLIENTE, FXA_DCTIPO, FXA_DCDURACAO_ESTIMADA, FXA_NMPRECO_COMBINADO, FXA_DTDATA, FXA_DCOBS, FXA_DTULTIMAATUALIZACAO, FXA_STATIVO, FXA_DTDATA_CADASTRO, FXA_STSTATUS) 
+                        VALUES (:CLI_IDCLIENTE, :FXA_DCTIPO, :FXA_DCDURACAO_ESTIMADA, :FXA_NMPRECO_COMBINADO, :FXA_DTDATA, :FXA_DCOBS, :FXA_DTULTIMAATUALIZACAO, :FXA_STATIVO, :FXA_DTDATA_CADASTRO, :FXA_STSTATUS)";
 
                 $stmt = $this->pdo->prepare($sql);
             
@@ -324,7 +325,8 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
                 $stmt->bindParam(':FXA_STATIVO', $FXA_STATIVO, PDO::PARAM_STR);
                 $stmt->bindParam(':FXA_DTDATA_CADASTRO', $FXA_DTDATA_CADASTRO, PDO::PARAM_STR);
                 $stmt->bindParam(':FXA_DCTIPO', $FXA_DCTIPO, PDO::PARAM_STR);
-                
+                $stmt->bindParam(':FXA_STSTATUS', $FXA_STSTATUS, PDO::PARAM_STR);
+               
                 $stmt->execute();   
                 
                 $response = array("success" => true, "message" => "Faxina agendada com sucesso.");
@@ -343,7 +345,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
                 $this->conexao();
             }
 
-            $sql = "SELECT * FROM VW_FAXINA_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO AND CLI_STATIVO = 'ATIVO' ORDER BY FXA_DTDATA DESC";
+            $sql = "SELECT * FROM VW_FAXINA_CLIENTE WHERE USU_IDUSUARIO = :USU_IDUSUARIO AND CLI_STATIVO = 'ATIVO' ORDER BY FXA_DTDATA ASC";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(':USU_IDUSUARIO', $USU_IDUSUARIO, PDO::PARAM_STR);
             $stmt->execute();
