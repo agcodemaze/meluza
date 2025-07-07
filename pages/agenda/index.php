@@ -109,6 +109,19 @@ foreach ($faxinas as $item) {
             border-radius: 50%;
             margin: 2px auto 0;
         }
+
+        .info-box-icon {
+            font-size: 30px; /* Ajuste o tamanho do ícone */
+            padding: 10px;
+        }
+        
+        .info-box-text {
+            font-size: 14px; /* Ajuste o tamanho do texto */
+        }
+        
+        .info-box-number {
+            font-size: 16px; /* Ajuste o tamanho do número */
+        }
     </style>
 
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
