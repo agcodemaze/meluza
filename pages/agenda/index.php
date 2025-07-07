@@ -680,153 +680,171 @@ foreach ($faxinas as $item) {
 </script>
 
 <script>
-document.addEventListener("DOMContentLoaded", function () {
-  const faxinaItens = document.querySelectorAll('.faxina-item');
-  const modalEl = document.getElementById('modalAgendamento');
-  const modal = new bootstrap.Modal(modalEl);
+  document.addEventListener("DOMContentLoaded", function () {
+    const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const botao99 = document.getElementById("icone99");
+    if (isIOS && botao99) {
+      botao99.style.display = "none";
+    }
+  });
+</script>
 
-  async function buscarCoordenadas(endereco) {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}`;
-    try {
-      const resposta = await fetch(url, {
-        headers: {
-          'User-Agent': 'Codemaze/1.0 (suporte@codemaze.com.br)'
+<script>  
+  document.addEventListener("DOMContentLoaded", function () {
+    const faxinaItens = document.querySelectorAll('.faxina-item');
+    const modalEl = document.getElementById('modalAgendamento');
+    const modal = new bootstrap.Modal(modalEl);
+
+    async function buscarCoordenadas(endereco) {
+      const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(endereco)}`;
+      try {
+        const resposta = await fetch(url, {
+          headers: {
+            'User-Agent': 'Codemaze/1.0 (suporte@codemaze.com.br)'
+          }
+        });
+        const dados = await resposta.json();
+        if (dados.length > 0) {
+          return { lat: dados[0].lat, lon: dados[0].lon };
+        } else {
+          return null;
         }
-      });
-      const dados = await resposta.json();
-      if (dados.length > 0) {
-        return { lat: dados[0].lat, lon: dados[0].lon };
-      } else {
+      } catch (erro) {
+        console.error('Erro ao buscar coordenadas:', erro);
         return null;
       }
-    } catch (erro) {
-      console.error('Erro ao buscar coordenadas:', erro);
-      return null;
     }
-  }
 
-  function gerarLinkUber(lat, lon) {
-    const nickname = encodeURIComponent("Cliente");
-    return `https://m.uber.com/ul/?action=setPickup&dropoff%5Blatitude%5D=${lat}&dropoff%5Blongitude%5D=${lon}&dropoff%5Bnickname%5D=${nickname}`;
-  }
+    function gerarLinkUber(lat, lon) {
+      const nickname = encodeURIComponent("Cliente");
+      return `https://m.uber.com/ul/?action=setPickup&dropoff%5Blatitude%5D=${lat}&dropoff%5Blongitude%5D=${lon}&dropoff%5Bnickname%5D=${nickname}`;
+    }
 
-  function gerarLink99(lat, lon) {
-    return `https://app.99app.com/open?pickup=my_location&destination=${lat},${lon}`;
-  }
+    function gerarLink99(lat, lon) {
+      return `https://app.99app.com/open?pickup=my_location&destination=${lat},${lon}`;
+    }
 
-  async function atualizarIconesUber99(rua, numero, bairro, cidade, estado) {
-    const enderecoCompleto = `${rua} ${numero}, ${cidade}, ${estado}`;
-    const uberIcon = document.getElementById('iconeUber');
-    const noventaENoveIcon = document.getElementById('icone99');
+    async function atualizarIconesUber99(rua, numero, bairro, cidade, estado) {
+      const enderecoCompleto = `${rua} ${numero}, ${cidade}, ${estado}`;
+      const uberIcon = document.getElementById('iconeUber');
+      const noventaENoveIcon = document.getElementById('icone99');
 
-    uberIcon.href = 'javascript:void(0);';
-    noventaENoveIcon.href = 'javascript:void(0);';
-    uberIcon.style.opacity = '0.3';
-    noventaENoveIcon.style.opacity = '0.3';
-    uberIcon.title = 'Buscando endereço...';
-    noventaENoveIcon.title = 'Buscando endereço...';
+      // Estado inicial
+      uberIcon.href = 'javascript:void(0);';
+      noventaENoveIcon.href = 'javascript:void(0);';
+      uberIcon.style.opacity = '0.3';
+      noventaENoveIcon.style.opacity = '0.3';
+      uberIcon.style.pointerEvents = 'none';
+      noventaENoveIcon.style.pointerEvents = 'none';
+      uberIcon.title = 'Buscando endereço...';
+      noventaENoveIcon.title = 'Buscando endereço...';
 
-    try {
-      const coords = await buscarCoordenadas(enderecoCompleto);
-      if (coords) {
-        uberIcon.href = gerarLinkUber(coords.lat, coords.lon);
-        uberIcon.style.opacity = '1';
-        uberIcon.title = 'Chamar Uber para ' + enderecoCompleto;
-
-        noventaENoveIcon.href = gerarLink99(coords.lat, coords.lon);
-        noventaENoveIcon.style.opacity = '1';
-        noventaENoveIcon.title = 'Chamar 99 para ' + enderecoCompleto;
-      } else {
-        uberIcon.title = 'Endereço inválido para Uber';
-        noventaENoveIcon.title = 'Endereço inválido para 99';
+      try {
+        const coords = await buscarCoordenadas(enderecoCompleto);
+        if (coords) {
+          // Ativa links
+          uberIcon.href = gerarLinkUber(coords.lat, coords.lon);
+          noventaENoveIcon.href = gerarLink99(coords.lat, coords.lon);
+          uberIcon.style.opacity = '1';
+          noventaENoveIcon.style.opacity = '1';
+          uberIcon.style.pointerEvents = 'auto';
+          noventaENoveIcon.style.pointerEvents = 'auto';
+          uberIcon.title = 'Chamar Uber para ' + enderecoCompleto;
+          noventaENoveIcon.title = 'Chamar 99 para ' + enderecoCompleto;
+        } else {
+          uberIcon.title = 'Endereço inválido para Uber';
+          noventaENoveIcon.title = 'Endereço inválido para 99';
+        }
+      } catch (error) {
+        console.error('Erro ao buscar coordenadas:', error);
+        uberIcon.title = 'Erro ao buscar endereço';
+        noventaENoveIcon.title = 'Erro ao buscar endereço';
       }
-    } catch (error) {
-      console.error('Erro ao buscar coordenadas:', error);
-      uberIcon.title = 'Erro ao buscar endereço';
-      noventaENoveIcon.title = 'Erro ao buscar endereço';
     }
-  }
 
-  faxinaItens.forEach(item => {
-    item.addEventListener('click', function () {
-      document.getElementById('faxinaId').value = this.dataset.faxinaid || '';
-      $('#cliente').val(this.dataset.idcliente).trigger('change');
-      $('#tipo').val(this.dataset.idtipo).trigger('change');
-      document.getElementById('duracao').value = this.dataset.duracao || '';
-      document.getElementById('preco').value = formatarPreco(this.dataset.preco) || '';
-      document.getElementById('dataHora').value = formatarDataHora(this.dataset.data) || '';
-      document.getElementById('observacao').value = this.dataset.observacao || '';
+    faxinaItens.forEach(item => {
+      item.addEventListener('click', function () {
+        document.getElementById('faxinaId').value = this.dataset.faxinaid || '';
+        $('#cliente').val(this.dataset.idcliente).trigger('change');
+        $('#tipo').val(this.dataset.idtipo).trigger('change');
+        document.getElementById('duracao').value = this.dataset.duracao || '';
+        document.getElementById('preco').value = formatarPreco(this.dataset.preco) || '';
+        document.getElementById('dataHora').value = formatarDataHora(this.dataset.data) || '';
+        document.getElementById('observacao').value = this.dataset.observacao || '';
 
-      const rua = this.dataset.rua || '';
-      const numero = this.dataset.numero || '';
-      const bairro = this.dataset.bairro || '';
-      const cidade = this.dataset.cidade || '';
-      const estado = this.dataset.estado || '';
+        const rua = this.dataset.rua || '';
+        const numero = this.dataset.numero || '';
+        const bairro = this.dataset.bairro || '';
+        const cidade = this.dataset.cidade || '';
+        const estado = this.dataset.estado || '';
+
+        const textoEndereco = document.getElementById('texto-endereco');
+        if (textoEndereco) {
+          textoEndereco.textContent = `${rua}, ${numero} - ${bairro}, ${cidade} - ${estado}`;
+        }
+
+        atualizarIconesUber99(rua, numero, bairro, cidade, estado);
+
+        modal.show();
+      });
+    });
+
+    window.abrirModalNovo = function () {
+      document.getElementById('faxinaId').value = '';
+      $('#cliente').val('').trigger('change');
+      $('#tipo').val('').trigger('change');
+      document.getElementById('duracao').value = '';
+      document.getElementById('preco').value = '';
+      document.getElementById('dataHora').value = '';
+      document.getElementById('observacao').value = '';
 
       const textoEndereco = document.getElementById('texto-endereco');
-      if (textoEndereco) {
-        textoEndereco.textContent = `${rua}, ${numero} - ${bairro}, ${cidade} - ${estado}`;
+      if (textoEndereco) textoEndereco.textContent = '';
+
+      const uberIcon = document.getElementById('iconeUber');
+      const noventaENoveIcon = document.getElementById('icone99');
+      if (uberIcon) {
+        uberIcon.href = 'javascript:void(0);';
+        uberIcon.style.opacity = '0.3';
+        uberIcon.style.pointerEvents = 'none';
+        uberIcon.title = '';
+      }
+      if (noventaENoveIcon) {
+        noventaENoveIcon.href = 'javascript:void(0);';
+        noventaENoveIcon.style.opacity = '0.3';
+        noventaENoveIcon.style.pointerEvents = 'none';
+        noventaENoveIcon.title = '';
       }
 
-      atualizarIconesUber99(rua, numero, bairro, cidade, estado);
-
       modal.show();
-    });
+    };
+
+    function formatarDataHora(dataISO) {
+      if (!dataISO) return '';
+      const dataCorrigida = dataISO.replace(' ', 'T');
+      const dataObj = new Date(dataCorrigida);
+      if (isNaN(dataObj.getTime())) return dataISO;
+
+      const dia = String(dataObj.getDate()).padStart(2, '0');
+      const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+      const ano = dataObj.getFullYear();
+      const hora = String(dataObj.getHours()).padStart(2, '0');
+      const minuto = String(dataObj.getMinutes()).padStart(2, '0');
+
+      return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+    }
+
+    function formatarPreco(valor) {
+      const numero = parseFloat(valor);
+      if (isNaN(numero)) return '';
+      return numero.toLocaleString('pt-BR', {
+        style: 'currency',
+        currency: 'BRL'
+      });
+    }
   });
-
-  window.abrirModalNovo = function () {
-    document.getElementById('faxinaId').value = '';
-    $('#cliente').val('').trigger('change');
-    $('#tipo').val('').trigger('change');
-    document.getElementById('duracao').value = '';
-    document.getElementById('preco').value = '';
-    document.getElementById('dataHora').value = '';
-    document.getElementById('observacao').value = '';
-
-    const textoEndereco = document.getElementById('texto-endereco');
-    if (textoEndereco) textoEndereco.textContent = '';
-
-    const uberIcon = document.getElementById('iconeUber');
-    const noventaENoveIcon = document.getElementById('icone99');
-    if (uberIcon) {
-      uberIcon.href = 'javascript:void(0);';
-      uberIcon.style.opacity = '0.3';
-      uberIcon.title = '';
-    }
-    if (noventaENoveIcon) {
-      noventaENoveIcon.href = 'javascript:void(0);';
-      noventaENoveIcon.style.opacity = '0.3';
-      noventaENoveIcon.title = '';
-    }
-
-    modal.show();
-  };
-
-  function formatarDataHora(dataISO) {
-    if (!dataISO) return '';
-    const dataCorrigida = dataISO.replace(' ', 'T');
-    const dataObj = new Date(dataCorrigida);
-    if (isNaN(dataObj.getTime())) return dataISO;
-
-    const dia = String(dataObj.getDate()).padStart(2, '0');
-    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-    const ano = dataObj.getFullYear();
-    const hora = String(dataObj.getHours()).padStart(2, '0');
-    const minuto = String(dataObj.getMinutes()).padStart(2, '0');
-
-    return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
-  }
-
-  function formatarPreco(valor) {
-    const numero = parseFloat(valor);
-    if (isNaN(numero)) return '';
-    return numero.toLocaleString('pt-BR', {
-      style: 'currency',
-      currency: 'BRL'
-    });
-  }
-});
 </script>
+
 
 
 
