@@ -147,12 +147,12 @@ foreach ($faxinas as $item) {
                     <div class="row">
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                   <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"><i class="bi bi-gear-fill"></i></span>
+                                   <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;">	<i class="bi bi-calendar"></i>></span>
                                     <div class="info-box-content">
                                         <span class="info-box-text">Faxinas Agendadas</span>
                                         <span class="info-box-number">
                                             <?php echo $faxinasAgendadas; ?> 
-                                            <small>sss</small>
+                                            <small>Faxinas</small>
                                         </span>
                                     </div>
                                     <!-- /.info-box-content -->
@@ -162,8 +162,8 @@ foreach ($faxinas as $item) {
                             <!-- /.col -->
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-hand-thumbs-up-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Faxinas Concluídas</span> <span class="info-box-number"><?php echo $faxinasConcluidas; ?></span></div>
+                                    <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-check-lg text-success"></i> </span>
+                                    <div class="info-box-content"><span class="info-box-text">Faxinas Concluídas</span> <span class="info-box-number"><?php echo $faxinasConcluidas; ?><small>Concluídas</small></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -173,8 +173,8 @@ foreach ($faxinas as $item) {
                             <!-- <div class="clearfix hidden-md-up"></div> -->
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-cart-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">R$<?php echo $faxinasGanhosAcumulados; ?></span></div>
+                                    <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-piggy-bank"></i> </span>
+                                    <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">R$<?php echo $faxinasGanhosAcumulados; ?><small>Recebidos</small></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -182,8 +182,8 @@ foreach ($faxinas as $item) {
                             <!-- /.col -->
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
-                                    <span class="info-box-icon shadow-sm" style="background-color: #00c1fb; color: #fff;"> <i class="bi bi-people-fill"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Ganhos Previstos</span> <span class="info-box-number">R$<?php echo $faxinasGanhosPrevistos; ?></span></div>
+                                    <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-currency-dollar"></i> </span>
+                                    <div class="info-box-content"><span class="info-box-text">Ganhos Previstos</span> <span class="info-box-number">R$<?php echo $faxinasGanhosPrevistos; ?><small>a receber</small></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
