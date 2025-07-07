@@ -76,8 +76,13 @@ $siteAdmin = new SITE_ADMIN();
                                                 <!-- Campos de endereço -->
                                                 <div class="position-relative mb-3">
                                                     <label for="cep" class="form-label">CEP</label>
-                                                    <input type="text" id="cep" name="cep" class="form-control" placeholder="Digite o CEP" maxlength="9" onblur="buscarEndereco()">
-                                                    <small><a href="javascript:void(0)" onclick="abrirBuscaPorEndereco()">Não sei o CEP</a></small>
+                                                    <input type="text" id="cep" name="cep" class="form-control" placeholder="Digite o CEP" maxlength="9" onblur="buscarEndereco()">                                                
+                                                </div>
+
+                                                <div class="position-relative mb-3">
+                                                  <label for="enderecoBusca" class="form-label">Digite seu endereço para encontrar o CEP</label>
+                                                  <input type="text" id="enderecoBusca" name="enderecoBusca" class="form-control" placeholder="Rua, Bairro, Cidade, Estado">
+                                                  <button type="button" onclick="buscarEnderecoPorTexto()" class="btn btn-primary mt-2">Buscar Endereço</button>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
@@ -138,27 +143,77 @@ $siteAdmin = new SITE_ADMIN();
     <script src="../../js/adminlte.js"></script>
 	<?php include_once BASE_PATH . "src/config.php"; ?>
 
-<script>
-  function abrirBuscaPorEndereco() {
-  // Exemplo: abrir um prompt simples para o usuário digitar endereço
-  const endereco = prompt("Digite Rua, Bairro, Cidade para buscar o CEP:");
-  if (!endereco) return;
 
-  // Aqui você pode usar a API do ViaCEP, OpenStreetMap ou outra para tentar buscar o CEP
-  fetch(`https://viacep.com.br/ws/${encodeURIComponent(endereco)}/json/`)
-    .then(res => res.json())
-    .then(data => {
-      if (data.cep) {
-        document.getElementById('cep').value = data.cep;
-        buscarEndereco(); // pode chamar sua função para preencher os outros campos
-      } else {
-        alert("CEP não encontrado. Tente informar o endereço completo.");
-      }
-    })
-    .catch(() => alert("Erro ao consultar CEP. Tente novamente mais tarde."));
+<script>
+  function buscarEnderecoPorTexto() {
+  const endereco = document.getElementById('enderecoBusca').value.trim();
+  if (!endereco) {
+    alert('Por favor, digite um endereço para buscar.');
+    return;
+  }
+
+  const url = `https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&q=${encodeURIComponent(endereco)}`;
+
+  fetch(url, {
+    headers: {
+      'Accept-Language': 'pt-BR', // para resultados em português
+      'User-Agent': 'SeuApp/1.0 (seu-email@exemplo.com)'
+    }
+  })
+  .then(response => response.json())
+  .then(data => {
+    if (!data || data.length === 0) {
+      alert('Endereço não encontrado. Tente ser mais específico.');
+      return;
+    }
+
+    const resultado = data[0]; // pega o primeiro resultado
+    const enderecoDetalhado = resultado.address;
+
+    // Preenche os campos no seu formulário:
+    if (enderecoDetalhado.road) {
+      document.getElementById('endereco').value = enderecoDetalhado.road.toUpperCase();
+    } else {
+      document.getElementById('endereco').value = '';
+    }
+
+    if (enderecoDetalhado.postcode) {
+      document.getElementById('cep').value = enderecoDetalhado.postcode;
+    } else {
+      document.getElementById('cep').value = '';
+    }
+
+    if (enderecoDetalhado.neighbourhood) {
+      document.getElementById('bairro').value = enderecoDetalhado.neighbourhood.toUpperCase();
+    } else if (enderecoDetalhado.suburb) {
+      document.getElementById('bairro').value = enderecoDetalhado.suburb.toUpperCase();
+    } else {
+      document.getElementById('bairro').value = '';
+    }
+
+    if (enderecoDetalhado.city) {
+      document.getElementById('cidade').value = enderecoDetalhado.city.toUpperCase();
+    } else if (enderecoDetalhado.town) {
+      document.getElementById('cidade').value = enderecoDetalhado.town.toUpperCase();
+    } else {
+      document.getElementById('cidade').value = '';
+    }
+
+    if (enderecoDetalhado.state) {
+      document.getElementById('estado').value = enderecoDetalhado.state.toUpperCase();
+    } else {
+      document.getElementById('estado').value = '';
+    }
+
+    alert('Endereço preenchido automaticamente. Por favor, confirme e complete os dados se necessário.');
+  })
+  .catch(error => {
+    alert('Erro ao buscar endereço. Tente novamente mais tarde.');
+    console.error(error);
+  });
 }
-<script>
 
+</script>
 
     <script>
         $(document).ready(function() {
