@@ -711,7 +711,7 @@ foreach ($faxinas as $item) {
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const faxinaItens = document.querySelectorAll('.faxina-item');
-
+console.log({ cliente, tipo, duracao, preco, data, observacao });
     faxinaItens.forEach(item => {
       item.addEventListener('click', function () {
         // Pega os atributos
