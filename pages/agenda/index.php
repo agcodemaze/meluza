@@ -236,7 +236,7 @@ foreach ($faxinas as $item) {
                                                   data-duracao="<?= $item['FXA_DCDURACAO_ESTIMADA'] ?>"
                                                   data-preco="<?= $item['FXA_NMPRECO_COMBINADO'] ?>"
                                                   data-data="<?= $item['FXA_DTDATA'] ?>"
-                                                  data-endereco="<?= $item['CLI_DCENDERECO'] ?>"
+                                                  data-rua="<?= $item['CLI_DCENDERECO'] ?>"
                                                   data-bairro="<?= $item['CLI_DCBAIRRO'] ?>"
                                                   data-numero="<?= $item['CLI_DCNUM_ENDERECO'] ?>"
                                                   data-cidade="<?= $item['CLI_DCCIDADE'] ?>"
@@ -320,7 +320,7 @@ foreach ($faxinas as $item) {
                                             </div>
 
                                             <div class="row">
-                                              <div class="col-md-3">
+                                              <div class="col-md-6">
                                                 <div class="position-relative mb-3" id="campo-tipo">
                                                   <label class="form-label" for="tipo">Tipo de Local</label>
                                                   <select id="tipo" name="tipo" class="form-control select2" required>
@@ -334,7 +334,7 @@ foreach ($faxinas as $item) {
                                                 </div>
                                               </div>
                                                     
-                                              <div class="col-md-3">
+                                              <div class="col-md-6">
                                                 <div class="position-relative mb-3" id="campo-preco">
                                                   <label class="form-label" for="preco">Preço</label>
                                                   <input type="text" id="preco" name="preco" class="form-control" placeholder="R$ 0,00">
@@ -360,17 +360,17 @@ foreach ($faxinas as $item) {
                                             </div>  
                                             
                                             <div class="position-relative mb-3 text-center">
-  <small class="d-block mb-2 text-muted" id="texto-endereco">Rua Exemplo, 123 - Bairro Central</small>
-  
-  <div class="d-flex justify-content-center gap-3">
-    <a href="#" target="_blank">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="Uber" style="height: 40px;">
-    </a>
-    <a href="#" target="_blank">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/99app_logo.png" alt="99" style="height: 40px;">
-    </a>
-  </div>
-</div>
+                                              <small class="d-block mb-2 text-muted" id="texto-endereco" style="font-weight: normal; font-size: 12px;"></small>
+
+                                              <div class="d-flex justify-content-center gap-3">
+                                                <a href="#" target="_blank">
+                                                  <img src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="Uber" style="height: 40px;">
+                                                </a>
+                                                <a href="#" target="_blank">
+                                                  <img src="https://upload.wikimedia.org/wikipedia/commons/8/8f/99app_logo.png" alt="99" style="height: 40px;">
+                                                </a>
+                                              </div>
+                                            </div>
                                             
                                         </form>
                                     </div> <!-- end preview-->                                        
@@ -680,7 +680,7 @@ foreach ($faxinas as $item) {
 </script>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+  document.addEventListener("DOMContentLoaded", function () {
     const faxinaItens = document.querySelectorAll('.faxina-item');
     const modalEl = document.getElementById('modalAgendamento');
     const modal = new bootstrap.Modal(modalEl);
@@ -688,15 +688,24 @@ foreach ($faxinas as $item) {
     // Abrir modal para editar preenchendo os campos
     faxinaItens.forEach(item => {
       item.addEventListener('click', function () {
-        // Preenche com dados da faxina selecionada
+        // Preenche campos do formulário
         document.getElementById('faxinaId').value = this.dataset.faxinaid || '';
-
         $('#cliente').val(this.dataset.idcliente).trigger('change');
         $('#tipo').val(this.dataset.idtipo).trigger('change');
         document.getElementById('duracao').value = this.dataset.duracao || '';
         document.getElementById('preco').value = formatarPreco(this.dataset.preco) || '';
         document.getElementById('dataHora').value = formatarDataHora(this.dataset.data) || '';
         document.getElementById('observacao').value = this.dataset.observacao || '';
+
+        // Preenche o endereço no <small>
+        const rua = this.dataset.rua || '';
+        const numero = this.dataset.numero || '';
+        const bairro = this.dataset.bairro || '';
+        const cidade = this.dataset.cidade || '';
+        const estado = this.dataset.estado || '';
+
+        const enderecoFormatado = `${rua}, ${numero} - ${bairro}, ${cidade} - ${estado}`;
+        document.getElementById('texto-endereco').textContent = enderecoFormatado;
 
         modal.show();
       });
@@ -711,23 +720,24 @@ foreach ($faxinas as $item) {
       document.getElementById('preco').value = '';
       document.getElementById('dataHora').value = '';
       document.getElementById('observacao').value = '';
+      document.getElementById('texto-endereco').textContent = ''; // Limpa o endereço
       modal.show();
     };
 
-  function formatarDataHora(dataISO) {
-    if (!dataISO) return '';
-    const dataCorrigida = dataISO.replace(' ', 'T');
-    const dataObj = new Date(dataCorrigida);
-    if (isNaN(dataObj.getTime())) return dataISO;
+    function formatarDataHora(dataISO) {
+      if (!dataISO) return '';
+      const dataCorrigida = dataISO.replace(' ', 'T');
+      const dataObj = new Date(dataCorrigida);
+      if (isNaN(dataObj.getTime())) return dataISO;
 
-    const dia = String(dataObj.getDate()).padStart(2, '0');
-    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-    const ano = dataObj.getFullYear();
-    const hora = String(dataObj.getHours()).padStart(2, '0');
-    const minuto = String(dataObj.getMinutes()).padStart(2, '0');
+      const dia = String(dataObj.getDate()).padStart(2, '0');
+      const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+      const ano = dataObj.getFullYear();
+      const hora = String(dataObj.getHours()).padStart(2, '0');
+      const minuto = String(dataObj.getMinutes()).padStart(2, '0');
 
-    return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
-  }
+      return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+    }
 
     function formatarPreco(valor) {
       const numero = parseFloat(valor);
@@ -738,8 +748,8 @@ foreach ($faxinas as $item) {
       });
     }
   });
-
 </script>
+
 
 
 
