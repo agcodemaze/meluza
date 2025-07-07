@@ -685,19 +685,21 @@ foreach ($faxinas as $item) {
     modal.show();
   };
 
-  function formatarDataHora(dataISO) {
-    if (!dataISO) return '';
-    const dataObj = new Date(dataISO);
-    if (isNaN(dataObj.getTime())) return dataISO;
+function formatarDataHora(dataISO) {
+  if (!dataISO) return '';
+  // Substitui espaço por 'T' para ser formato ISO válido para JS
+  const dataCorrigida = dataISO.replace(' ', 'T');
+  const dataObj = new Date(dataCorrigida);
+  if (isNaN(dataObj.getTime())) return dataISO;
 
-    const dia = String(dataObj.getDate()).padStart(2, '0');
-    const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
-    const ano = dataObj.getFullYear();
-    const hora = String(dataObj.getHours()).padStart(2, '0');
-    const minuto = String(dataObj.getMinutes()).padStart(2, '0');
+  const dia = String(dataObj.getDate()).padStart(2, '0');
+  const mes = String(dataObj.getMonth() + 1).padStart(2, '0');
+  const ano = dataObj.getFullYear();
+  const hora = String(dataObj.getHours()).padStart(2, '0');
+  const minuto = String(dataObj.getMinutes()).padStart(2, '0');
 
-    return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
-  }
+  return `${dia}/${mes}/${ano} ${hora}:${minuto}`;
+}
 
   function formatarPreco(valor) {
     const numero = parseFloat(valor);
