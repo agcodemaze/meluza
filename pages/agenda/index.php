@@ -136,7 +136,7 @@ $siteAdmin = new SITE_ADMIN();
                     <!-- /.row -->
                      <br>
 <div class="row">
-    <div class="toll-free-box text-center" style="cursor: pointer; background-color: #00c1fb;" data-bs-toggle="modal" data-bs-target="#modalAgendamento">
+    <div class="toll-free-box text-center" style="cursor: pointer; background-color:rgb(175, 8, 253);" data-bs-toggle="modal" data-bs-target="#modalAgendamento">
         <h4 class="text-reset"><i class="mdi mdi-deskphone"></i> Agendar Uma Nova Faxina</h4>
     </div>
 </div>
