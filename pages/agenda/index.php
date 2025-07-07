@@ -293,7 +293,7 @@ foreach ($faxinas as $item) {
                                                             </span>
 
                                                             <span class="badge text-bg-danger">
-                                                                EXCLUIR
+                                                                Excluir
                                                             </span>
                                                         </div>
                                                     </div>
