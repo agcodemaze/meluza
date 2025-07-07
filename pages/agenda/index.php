@@ -7,6 +7,9 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
 $tipos = $siteAdmin->getTiposLocalInfo();
 $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
 
+var_dump($faxinas);
+die();
+
 ?>
 
 <!DOCTYPE html>
@@ -162,48 +165,48 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                                     </div>
 
                                     <!-- /.card-header -->
-<div class="card-body p-0">
-    <div class="px-2">
-        <?php foreach ($faxinas as $item): ?>
-            <?php
-                $dataOriginal = $item["FXA_DTDATA"];
-                $dataConvertida = DateTime::createFromFormat('Y-m-d H:i:s', $dataOriginal)->format('d/m/Y H:i:s');
-
-                if ($item["FXA_STSTATUS"] == "PROGRAMADA")   $badgeColor = "info";
-                if ($item["FXA_STSTATUS"] == "CONCLUÍDA")    $badgeColor = "success";
-                if ($item["FXA_STSTATUS"] == "ATRASADA")     $badgeColor = "danger";
-
-                $nomeCliente = mb_convert_case($item["CLI_DCNOME"], MB_CASE_TITLE, "UTF-8");
-                $nomeExibido = mb_strlen($nomeCliente) > 13 ? mb_substr($nomeCliente, 0, 13) . '...' : $nomeCliente;
-
-            ?>
-            <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center">
-                <div class="me-3 mb-2" style="flex: 0 0 50px;">
-                    <img src="../../assets/img/avatarAgenda.png" alt="Imagem" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
-                </div>
-                <div class="flex-grow-1">
-                    <div class="fw-bold d-flex justify-content-between align-items-center flex-wrap">
-                        <span><?php echo mb_convert_case($nomeExibido, MB_CASE_TITLE, "UTF-8"); ?></span>
-                        <span class="badge text-bg-warning mt-1 mt-sm-0">
-                            R$<?php echo $item["FXA_NMPRECO_COMBINADO"]; ?>
-                        </span>
-                    </div>
-                    <div class="small text-muted">
-                        <strong>Data:</strong> <?php echo $dataConvertida; ?>
-                    </div>
-                    <div class="small text-muted">
-                        <strong>Tipo de Faxina:</strong> <?php echo mb_convert_case($item["TLO_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>
-                    </div>
-                    <div class="mt-1">
-                        <span class="badge text-bg-<?php echo $badgeColor; ?>">
-                            <?php echo mb_convert_case($item["FXA_STSTATUS"], MB_CASE_TITLE, "UTF-8"); ?>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        <?php endforeach; ?>
-    </div>
-</div>
+                                    <div class="card-body p-0">
+                                        <div class="px-2">
+                                            <?php foreach ($faxinas as $item): ?>
+                                                <?php
+                                                    $dataOriginal = $item["FXA_DTDATA"];
+                                                    $dataConvertida = DateTime::createFromFormat('Y-m-d H:i:s', $dataOriginal)->format('d/m/Y H:i:s');
+                                            
+                                                    if ($item["FXA_STSTATUS"] == "PROGRAMADA")   $badgeColor = "info";
+                                                    if ($item["FXA_STSTATUS"] == "CONCLUÍDA")    $badgeColor = "success";
+                                                    if ($item["FXA_STSTATUS"] == "ATRASADA")     $badgeColor = "danger";
+                                            
+                                                    $nomeCliente = mb_convert_case($item["CLI_DCNOME"], MB_CASE_TITLE, "UTF-8");
+                                                    $nomeExibido = mb_strlen($nomeCliente) > 13 ? mb_substr($nomeCliente, 0, 13) . '...' : $nomeCliente;
+                                            
+                                                ?>
+                                                <div class="d-flex flex-wrap border-top py-3 px-1 align-items-center">
+                                                    <div class="me-3 mb-2" style="flex: 0 0 50px;">
+                                                        <img src="../../assets/img/avatarAgenda.png" alt="Imagem" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
+                                                    </div>
+                                                    <div class="flex-grow-1">
+                                                        <div class="fw-bold d-flex justify-content-between align-items-center flex-wrap">
+                                                            <span><?php echo mb_convert_case($nomeExibido, MB_CASE_TITLE, "UTF-8"); ?></span>
+                                                            <span class="badge text-bg-warning mt-1 mt-sm-0">
+                                                                R$<?php echo $item["FXA_NMPRECO_COMBINADO"]; ?>
+                                                            </span>
+                                                        </div>
+                                                        <div class="small text-muted">
+                                                            <strong>Data:</strong> <?php echo $dataConvertida; ?>
+                                                        </div>
+                                                        <div class="small text-muted">
+                                                            <strong>Tipo de Faxina:</strong> <?php echo mb_convert_case($item["TLO_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>
+                                                        </div>
+                                                        <div class="mt-1">
+                                                            <span class="badge text-bg-<?php echo $badgeColor; ?>">
+                                                                <?php echo mb_convert_case($item["FXA_STSTATUS"], MB_CASE_TITLE, "UTF-8"); ?>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            <?php endforeach; ?>
+                                        </div>
+                                    </div>
 
                                     <!-- /.card-body -->
 
