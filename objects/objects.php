@@ -356,7 +356,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             $FXA_STATIVO = "ATIVO";
             $FXA_STSTATUS = "PROGRAMADA";
             $FXA_NMPRECO_COMBINADO = str_replace(['R$', ' ', '.'], '', $FXA_NMPRECO_COMBINADO); // Remove R$, espaços e pontos
-            $FXA_NMPRECO_COMBINADO = str_replace(',', '.', $FXA_NMPRECO_COMBINADO)
+            $FXA_NMPRECO_COMBINADO = str_replace(',', '.', $FXA_NMPRECO_COMBINADO);
         
             try {
                 $sql = "UPDATE FXA_FAXINA SET 
