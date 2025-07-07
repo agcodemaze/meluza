@@ -120,7 +120,7 @@ foreach ($faxinas as $item) {
         }
 
         .info-box-number {
-            font-size: 24px; /* Ajuste o tamanho do número */
+            font-size: 19px; /* Ajuste o tamanho do número */
         }
     </style>
 
@@ -187,7 +187,7 @@ foreach ($faxinas as $item) {
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-piggy-bank"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">R$<?php echo $faxinasGanhosAcumulados; ?><small> Recebidos</small></span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Ganhos Acumulados</span> <span class="info-box-number">R$<?php echo $faxinasGanhosAcumulados; ?><small></small></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
@@ -196,7 +196,7 @@ foreach ($faxinas as $item) {
                             <div class="col-12 col-sm-6 col-md-3">
                                 <div class="info-box">
                                     <span class="info-box-icon shadow-sm" style="background-color: #c9026f; color: #fff;"> <i class="bi bi-currency-dollar"></i> </span>
-                                    <div class="info-box-content"><span class="info-box-text">Ganhos Previstos</span> <span class="info-box-number">R$<?php echo $faxinasGanhosPrevistos; ?><small> à receber</small></span></div>
+                                    <div class="info-box-content"><span class="info-box-text">Ganhos à Receber</span> <span class="info-box-number">R$<?php echo $faxinasGanhosPrevistos; ?><small></small></span></div>
                                     <!-- /.info-box-content -->
                                 </div>
                                 <!-- /.info-box -->
