@@ -189,7 +189,7 @@ $faxinas = $siteAdmin->getFaxinasInfo(USER_ID);
                                                             <strong>Tipo de Faxina:</strong> </strong> <?php echo mb_convert_case($item["TLO_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>
                                                         </div>
                                                         <div class="text-truncate">
-                                                            <span class="badge text-bg-<?php echo $badgeColor; ?> float-end">
+                                                            <span class="badge text-bg-<?php echo $badgeColor; ?>">
                                                             <?php echo mb_convert_case($item["FXA_STSTATUS"], MB_CASE_TITLE, "UTF-8"); ?>
                                                             </span>
                                                         </div>
