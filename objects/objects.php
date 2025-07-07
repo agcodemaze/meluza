@@ -437,7 +437,7 @@ include realpath(__DIR__ . '/../phpMailer/src/Exception.php');
             $FXA_STATIVO = "INATIVO";
 
             try {
-                $sql = "UPDATE CLI_CLIENTE 
+                $sql = "UPDATE FXA_FAXINA 
                         SET FXA_STATIVO = :FXA_STATIVO,
                             FXA_DTULTIMAATUALIZACAO = :FXA_DTULTIMAATUALIZACAO
                         WHERE FXA_IDFAXINA = :FXA_IDFAXINA";
