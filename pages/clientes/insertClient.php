@@ -77,6 +77,7 @@ $siteAdmin = new SITE_ADMIN();
                                                 <div class="position-relative mb-3">
                                                     <label for="cep" class="form-label">CEP</label>
                                                     <input type="text" id="cep" name="cep" class="form-control" placeholder="Digite o CEP" maxlength="9" onblur="buscarEndereco()">
+                                                    <small><a href="javascript:void(0)" onclick="abrirBuscaPorEndereco()">Não sei o CEP</a></small>
                                                 </div>
 
                                                 <div class="position-relative mb-3">
@@ -136,6 +137,28 @@ $siteAdmin = new SITE_ADMIN();
     <script src="../../js/bootstrap.min.js"></script>
     <script src="../../js/adminlte.js"></script>
 	<?php include_once BASE_PATH . "src/config.php"; ?>
+
+<script>
+  function abrirBuscaPorEndereco() {
+  // Exemplo: abrir um prompt simples para o usuário digitar endereço
+  const endereco = prompt("Digite Rua, Bairro, Cidade para buscar o CEP:");
+  if (!endereco) return;
+
+  // Aqui você pode usar a API do ViaCEP, OpenStreetMap ou outra para tentar buscar o CEP
+  fetch(`https://viacep.com.br/ws/${encodeURIComponent(endereco)}/json/`)
+    .then(res => res.json())
+    .then(data => {
+      if (data.cep) {
+        document.getElementById('cep').value = data.cep;
+        buscarEndereco(); // pode chamar sua função para preencher os outros campos
+      } else {
+        alert("CEP não encontrado. Tente informar o endereço completo.");
+      }
+    })
+    .catch(() => alert("Erro ao consultar CEP. Tente novamente mais tarde."));
+}
+<script>
+
 
     <script>
         $(document).ready(function() {
