@@ -222,6 +222,12 @@ foreach ($faxinas as $item) {
                                                     $dataOriginal = $item["FXA_DTDATA"];
                                                     $dataConvertida = DateTime::createFromFormat('Y-m-d H:i:s', $dataOriginal)->format('d/m/Y H:i:s');
                                             
+                                                    $dataOriginal = $item["FXA_DTDATA"]; // Ex: '2025-07-07 14:30:00'
+                                                    setlocale(LC_TIME, 'pt_BR.UTF-8', 'pt_BR', 'Portuguese_Brazil');
+
+                                                    $diaSemana = strftime('%A', strtotime($dataOriginal));
+                                                    $diaSemana = ucfirst($diaSemana); 
+
                                                     if ($item["FXA_STSTATUS"] == "PROGRAMADA")   $badgeColor = "info";
                                                     if ($item["FXA_STSTATUS"] == "CONCLUÍDA")    $badgeColor = "success";
                                                     if ($item["FXA_STSTATUS"] == "ATRASADA")     $badgeColor = "danger";
@@ -258,6 +264,9 @@ foreach ($faxinas as $item) {
                                                         </div>
                                                         <div class="small text-muted">
                                                             <strong>Data:</strong> <?php echo $dataConvertida; ?>
+                                                        </div>
+                                                        <div class="small text-muted">
+                                                            <strong>Dia:</strong> <?php echo $diaSemana; ?>
                                                         </div>
                                                         <div class="small text-muted">
                                                             <strong>Tipo de Faxina:</strong> <?php echo mb_convert_case($item["TLO_DCNOME"], MB_CASE_TITLE, "UTF-8"); ?>

@@ -71,51 +71,10 @@ $clientes = $siteAdmin->getClienteInfo(USER_ID);
                                 <?php $contador = 1; ?>
                                 <?php foreach ($clientes as $cliente): ?>
 
-                                    <?php
-                                    /*
-                                        $uberLink = "javascript:void(0);";
-                                        $uberRua     = $cliente['CLI_DCENDERECO'];
-                                        $uberNumero  = $cliente['CLI_DCNUM_ENDERECO'];
-                                        $uberCidade  = $cliente['CLI_DCCIDADE'];
-                                        $uberEstado  = $cliente['CLI_DCESTADO'];
-                                        $uberBairro  = $cliente['CLI_DCBAIRRO']; 
-
-                                        $endereco = "$uberRua, $uberNumero, $uberCidade, $uberEstado";
-                                        $url = "https://nominatim.openstreetmap.org/search?format=json&q=" . urlencode($endereco);
-                                                                        
-                                        // Inicializa cURL
-                                        $ch = curl_init($url);
-                                                                        
-                                        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-                                        curl_setopt($ch, CURLOPT_USERAGENT, 'Codemaze/1.0 (suporte@codemaze.com.br)'); 
-                                        curl_setopt($ch, CURLOPT_TIMEOUT, 10);
-                                                                        
-                                        $response = curl_exec($ch);
-                                        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-                                        curl_close($ch);
-                                                                        
-                                        if ($httpCode == 200 && $response) {
-                                            $data = json_decode($response, true);
-                                            if (!empty($data)) {
-                                                $lat = $data[0]['lat'];
-                                                $lon = $data[0]['lon'];
-                                                $colorIcon = " #000000";
-                                                $uberLink = "https://m.uber.com/ul/?action=setPickup&dropoff[latitude]=$lat&dropoff[longitude]=$lon&dropoff[nickname]=Cliente";
-                                            } 
-                                            else
-                                                {
-                                                    $colorIcon = " #c7c1c1";
-                                                }
-                                        }
-                                        else
-                                            {
-                                                $colorIcon = " #c7c1c1";
-                                            } 
-                                        */                           
+                                    <?php                         
                                         $telefone = $cliente['CLI_DCTELEFONE'];
                                         $mensagem = "Olá, tudo bem?";                                                                        
                                         $linkWhatsapp = "https://wa.me/55{$telefone}?text=" . rawurlencode($mensagem);
-                            
                                     ?>
 
                                     <tr class="align-middle">
