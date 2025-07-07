@@ -219,7 +219,7 @@ $siteAdmin = new SITE_ADMIN();
     <div id="modalAgendamento" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="primary-header-modalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #8c52ff;">
+            <div class="modal-header d-flex justify-content-between align-items-center" style="background-color: #7eda0d; color: #000000;">
               <h4 class="modal-title text-white mb-0">Agendar uma faxina</h4>
               <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Fechar"></button>
             </div> 
@@ -228,41 +228,49 @@ $siteAdmin = new SITE_ADMIN();
                         <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+                                <div class="tab-content">
+                                    <div class="tab-pane show active" id="tooltips-validation-preview">
+                                        <form id="form" name="form" role="form" method="POST" enctype="multipart/form-data">                                       
+                                            
+                                            <div class="position-relative mb-3" id="campo-nome">
+                                              <label class="form-label" for="nome">Cliente</label>
+                                              <input id="nome" name="nome" autocomplete="new-nome" style="text-transform: uppercase;" type="text" class="form-control" placeholder="" maxlength="50"  oninput="this.value = this.value.replace(/[^\p{L} ]/gu, '')" required/>
+                                            </div>
 
+                                            <div class="position-relative mb-3" id="campo-tipo">                                                    
+                                              <label class="form-label" for="tipo">Tipo de Local</label>
+                                              <input type="text" id="tipo" name="tipo" class="form-control">
+                                            </div> 
 
-                                    <div class="tab-content">
-                                        <div class="tab-pane show active" id="tooltips-validation-preview">
-                                            <form id="form" name="form" role="form" method="POST" enctype="multipart/form-data">                                       
+                                            <div class="position-relative mb-3" id="campo-duracao">                                                    
+                                              <label class="form-label" for="duracao">Duração Estimada</label>
+                                              <input type="text" id="duracao" name="duracao" class="form-control">
+                                            </div> 
 
-                                                <div class="position-relative mb-3" id="campo-nome">
-                                                  <label class="form-label" for="nome">Nome Completo</label>
-                                                  <input id="nome" name="nome" autocomplete="new-nome" style="text-transform: uppercase;" type="text" class="form-control" placeholder="" maxlength="50"  oninput="this.value = this.value.replace(/[^\p{L} ]/gu, '')" required/>
-                                                </div>
-
-                                                <div class="position-relative mb-3" id="campo-telefone">                                                    
-                                                  <label class="form-label" for="telefone">Telefone</label>
-                                                  <input type="text" id="telefone" name="telefone" class="form-control" placeholder="(00) 00000-0000">
-                                                </div> 
-
-                                                
-
-                                                <div class="position-relative mb-3">
-                                                    <label for="data" class="form-label">Data</label>
-                                                    <input type="text" class="form-control" id="dataHora" name="dataHora" placeholder="Selecione data e hora">
-                                                </div>                                           
-                                            </form>
-                                        </div> <!-- end preview-->                                        
-                                    </div> <!-- end tab-content-->
-
-
-                            
+                                            <div class="position-relative mb-3" id="campo-preco">                                                    
+                                              <label class="form-label" for="preco">Preço</label>
+                                              <input type="text" id="preco" name="preco" class="form-control">
+                                            </div> 
+                                            
+                                            <div class="position-relative mb-3">
+                                                <label for="data" class="form-label">Data</label>
+                                                <input type="text" class="form-control" id="dataHora" name="dataHora" placeholder="Selecione data e hora">
+                                            </div>   
+                                            
+                                            <div class="position-relative mb-3">
+                                              <label for="observacao" class="form-label">Observações</label>
+                                              <textarea class="form-control" maxlength="300" rows="3" id="observacao" name="observacao" placeholder=""></textarea>
+                                            </div> 
+                                        </form>
+                                    </div> <!-- end preview-->                                        
+                                </div> <!-- end tab-content-->                            
                             </div> <!-- end card-body -->
                         </div> <!-- end card-->
                         </div> <!-- end col-->
                     </div> <!-- end row-->
                 </div>
                 <div class="modal-footer d-flex justify-content-between align-items-center">
-                  <img src="../../img_pwa/logo_icon.png" alt="Logo" style="height: 30px;">
+                  <img src="../../assets/img//meluza_logo_90.png" alt="Logo" style="height: 30px;">
                 <div>
                     <a href="javascript:void(0);" class="btn" style="background-color: #8c52ff; color: white;" data-bs-dismiss="modal">Fechar</a>
                     <button type="button" class="btn" style="background-color: #2be4c6; color: black;" id="botaoSalvar">Agendar</button>
