@@ -226,18 +226,25 @@ foreach ($faxinas as $item) {
                                                     $dataOriginal = $item["FXA_DTDATA"];
                                                     $dataConvertida = DateTime::createFromFormat('Y-m-d H:i:s', $dataOriginal)->format('d/m/Y H:i:s');
                                             
-                                                    $dataOriginal = $item["FXA_DTDATA"]; 
+                                                    $dataOriginal = $item["FXA_DTDATA"];
                                                     $data = new DateTime($dataOriginal);
-                                                  
-                                                    $fmt = new IntlDateFormatter(
-                                                        'pt_BR',               
-                                                        IntlDateFormatter::FULL, 
-                                                        IntlDateFormatter::NONE // Não exibe hora
-                                                    );
-
-                                                    $fmt->setPattern('EEEE'); // Apenas o dia da semana por extenso
-                                                    $diaSemana = ucfirst($fmt->format($data)); // Ex: Segunda-feira
-
+                                                                                                
+                                                    // Mapeia os dias da semana em inglês para português
+                                                    $diasSemana = [
+                                                        'Sunday'    => 'Domingo',
+                                                        'Monday'    => 'Segunda-feira',
+                                                        'Tuesday'   => 'Terça-feira',
+                                                        'Wednesday' => 'Quarta-feira',
+                                                        'Thursday'  => 'Quinta-feira',
+                                                        'Friday'    => 'Sexta-feira',
+                                                        'Saturday'  => 'Sábado',
+                                                    ];
+                                                    
+                                                    // Pega o nome do dia em inglês
+                                                    $diaIngles = $data->format('l');
+                                                    
+                                                    // Traduz para português
+                                                    $diaSemana = $diasSemana[$diaIngles];
 
                                                     if ($item["FXA_STSTATUS"] == "PROGRAMADA")   $badgeColor = "info";
                                                     if ($item["FXA_STSTATUS"] == "CONCLUÍDA")    $badgeColor = "success";
