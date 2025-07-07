@@ -675,8 +675,9 @@ foreach ($faxinas as $item) {
         const dataInicioUrl = getQueryParam('data_inicio');
         const dataFimUrl = getQueryParam('data_fim');
 
-const start = moment().startOf('day');
-const end = moment().add(6, 'days').endOf('day');
+        // Usa os valores da URL se existirem, senão usa padrão
+        const start = dataInicioUrl ? moment(dataInicioUrl, 'YYYY-MM-DD HH:mm:ss') : moment().subtract(1, 'months').startOf('day');
+        const end = dataFimUrl ? moment(dataFimUrl, 'YYYY-MM-DD HH:mm:ss') : moment().add(1, 'months').endOf('day');
 
         // Inicializa o date range picker
         input.daterangepicker({
