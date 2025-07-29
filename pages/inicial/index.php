@@ -27,7 +27,7 @@ $siteAdmin = new SITE_ADMIN();
 
         <!-- PUSH NOTIFICATION -->
         <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-        
+
         <!-- PUSH NOTIFICATION -->
         <script>
           window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -39,8 +39,8 @@ $siteAdmin = new SITE_ADMIN();
             //localStorage.removeItem('onesignal-notification-prompt');
             //await OneSignal.logout();
         
-            const externalId = "<?php echo IDCONDOMINIO . '-' . USER_ID; ?>";
-            const tagValue = "<?php echo IDCONDOMINIO; ?>";
+            const externalId = "<?php echo USER_ID; ?>";
+            const tagValue = "<?php echo USER_ID; ?>";
         
             try {
               await OneSignal.login(externalId);
@@ -51,7 +51,7 @@ $siteAdmin = new SITE_ADMIN();
               if (e.errors?.[0]?.code === "user-2") {
                 console.warn("Alias já está em uso, assumindo que já está vinculado.");
                 await OneSignal.User.addTag('condobd', tagValue);
-                
+
               } else {
                 console.error("Erro ao fazer login:", e);
               }
