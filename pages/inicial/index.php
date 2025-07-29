@@ -27,49 +27,16 @@ $siteAdmin = new SITE_ADMIN();
 
         <!-- PUSH NOTIFICATION -->
         <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-
-        <!-- PUSH NOTIFICATION -->
         <script>
           window.OneSignalDeferred = window.OneSignalDeferred || [];
           OneSignalDeferred.push(async function(OneSignal) {
-            await OneSignal.init({ appId: "e6abbc14-7a9a-41b8-bf2e-cc710996edc1" });
-            OneSignal.Debug.setLogLevel("debug");
-        
-            //localStorage.removeItem('ONE_SIGNAL_PLAYER_ID');
-            //localStorage.removeItem('onesignal-notification-prompt');
-            //await OneSignal.logout();
-        
-            const externalId = "<?php echo USER_ID; ?>";
-            const tagValue = "<?php echo USER_ID; ?>";
-        
-            try {
-              await OneSignal.login(externalId);
-              console.log("Usuário logado com external_id:", externalId);
-              await OneSignal.User.addTag('condobd', tagValue);
-            
-            } catch (e) {      
-              if (e.errors?.[0]?.code === "user-2") {
-                console.warn("Alias já está em uso, assumindo que já está vinculado.");
-                await OneSignal.User.addTag('condobd', tagValue);
-
-              } else {
-                console.error("Erro ao fazer login:", e);
-              }
-            }
-        
-            const isPushEnabled = await OneSignal.Notification.isPushEnabled();
-            if (!isPushEnabled) {
-              await OneSignal.Slidedown.promptPush();
-            }
-        
-            const permission = await OneSignal.Notification.getPermission();
-            if (permission === 'denied') {
-              // Exibe instruções personalizadas
-              OneSignal.PushUnblock.show(); // ou um modal seu com orientação
-            }
-        
+            await OneSignal.init({
+              appId: "e6abbc14-7a9a-41b8-bf2e-cc710996edc1",
+            });
           });
         </script>
+        <!-- PUSH NOTIFICATION -->
+
 
    </head>
    <body class="layout-fixed sidebar-expand-lg sidebar-open bg-body-tertiary">
