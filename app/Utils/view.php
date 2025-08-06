@@ -24,7 +24,7 @@ class View {
         // COUNTEUDO DA VIEW
         $contentView = self::getContentView($view);
 
-        //RETORNA O CONTEUDO RENDERIZADO
+        //RETORNA O CONTEUDO RENDERIZADO 
         return $contentView;
     }
 }
