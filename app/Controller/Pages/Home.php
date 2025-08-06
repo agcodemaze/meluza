@@ -19,6 +19,6 @@ class Home extends Page{
         ]); 
 
         //VIEW DA PAGINA
-        return self::getPage('Mics page', $content)
+        return self::getPage('Mics page', $content);
     }
 }
