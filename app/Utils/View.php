@@ -25,7 +25,10 @@ class View {
         // COUNTEUDO DA VIEW
         $contentView = self::getContentView($view);
 
-        var_dump($vars);
+        //CHAVES DO ARRAY DE VARIAVEIS
+        $keys = array_keys($vars);
+
+        var_dump($keys); //posso colocar aqui para renderizar e checar debug
 
         //RETORNA O CONTEUDO RENDERIZADO 
         return $contentView; 
