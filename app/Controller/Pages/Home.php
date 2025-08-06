@@ -15,20 +15,20 @@ class Home extends Page{
 
         $objOrganization = new Organization();
 
-        
+        /*
         //debug --------
         echo "<pre>";   
         print_r($objOrganization);
         echo "<pre>"; 
         exit;
         //debug --------
-        
+        */
 
         //VIEW DA HOME
         $content = View::render('pages/home',[
-            'name' => 'Michell Duarte',
-            'description' => 'descricao do site mvc',
-            'gato' => 'Rex o Gato'
+            'name' => $objOrganization->name,
+            'description' => $objOrganization->description,
+            'site' => $objOrganization->site
         ]); 
 
         //VIEW DA PAGINA
