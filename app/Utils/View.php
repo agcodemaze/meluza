@@ -1,5 +1,5 @@
 <?php
-namespace App\Utils
+namespace App\Utils;
 
 class View {
 
@@ -13,12 +13,12 @@ class View {
         $file = __DIR__.'/../../resources/view/'.$view.'.html';
         return file_exists($file) ? file_get_contents($file) : '';
     }
-    
+     
     /**
      * Método responsável por retornar o conteúdo renderizado de uma view.
      * @param string
      * @return string
-     */
+     */ 
 
     public static function render($view){
         // COUNTEUDO DA VIEW
