@@ -12,7 +12,8 @@ class Home {
     public static function getHome() {
         return View::render('pages/home',[
             'name' => 'Michell Duarte',
-            'description' => 'descricao do site mvc'
+            'description' => 'descricao do site mvc',
+            'gato' => 'Rex o Gato'
         ]); 
     }
 }
