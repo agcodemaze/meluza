@@ -1,2 +1,2 @@
-#0 0 * * * curl -s https://condomaze.com.br/pages/cron/manutencao.php
-#0 */2 * * * curl -s https://condomaze.com.br/pages/cron/vagasEstacionamentoCheck.php
+#0 0 * * * curl -s https://condomaze.com.br/pages/cronS/manutencao.php
+#0 */2 * * * curl -s https://condomaze.com.br/pages/cronS/vagasEstacionamentoCheck.php
