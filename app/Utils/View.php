@@ -28,17 +28,22 @@ class View {
         //CHAVES DO ARRAY DE VARIAVEIS
         $keys = array_keys($vars);
 
+        //abaixo usa-se uma funcao anonima para criar um placeholders
+        $keys = array_map(function($item){
+            return '{{'.$item.'}}';
+        }, $keys);
+
+        /*
         //debug --------
         echo "<pre>";   
         print_r($keys);
         echo "<pre>"; 
         exit;
         //debug --------
-
-
-
+        */
+        
         //RETORNA O CONTEUDO RENDERIZADO 
-        return $contentView; 
+        return str_replace($keys, array_values($vars), $contentView);
     }
 }
 
