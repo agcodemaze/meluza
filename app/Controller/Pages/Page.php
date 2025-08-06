@@ -15,6 +15,15 @@ class Page {
     }
 
     /**
+     * Método responsável por rederizar o footer da página
+     * @return string
+     */
+
+    private static function getFooter(){
+        return View::render('pages/footer');
+    }
+
+    /**
     * Metodo responsavel por retornar o conteúdo da Página Genérica
     * @return string
     */
@@ -23,7 +32,8 @@ class Page {
         return View::render('pages/page',[
             'title' => $title,
             'header' => self::getHeader(),
-            'content' => $content
+            'content' => $content,
+            'footer' => self::getFooter()
         ]); 
     }
 }
