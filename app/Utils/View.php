@@ -28,10 +28,17 @@ class View {
         //CHAVES DO ARRAY DE VARIAVEIS
         $keys = array_keys($vars);
 
-        var_dump($keys); //posso colocar aqui para renderizar e checar debug
+        //debug --------
+        echo "<pre>";   
+        print_r($keys);
+        echo "<pre>"; 
+        exit;
+        //debug --------
+
+
 
         //RETORNA O CONTEUDO RENDERIZADO 
-        //return $contentView; 
+        return $contentView; 
     }
 }
 
