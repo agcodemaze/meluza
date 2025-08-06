@@ -18,7 +18,7 @@ class Home extends Page{
         
         //debug --------
         echo "<pre>";   
-        print_r($keys);
+        print_r($objOrganization);
         echo "<pre>"; 
         exit;
         //debug --------
