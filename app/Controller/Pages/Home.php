@@ -1,7 +1,9 @@
 <?php
 
 namespace App\Controller\Pages;
+
 use \App\Utils\View;
+use \App\Model\Organization;
 
 class Home extends Page{
     /**
@@ -10,6 +12,17 @@ class Home extends Page{
     */
 
     public static function getHome() {
+
+        $objOrganization = new Organization();
+
+        
+        //debug --------
+        echo "<pre>";   
+        print_r($keys);
+        echo "<pre>"; 
+        exit;
+        //debug --------
+        
 
         //VIEW DA HOME
         $content = View::render('pages/home',[
