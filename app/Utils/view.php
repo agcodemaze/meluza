@@ -25,7 +25,7 @@ class View {
         $contentView = self::getContentView($view);
 
         //RETORNA O CONTEUDO RENDERIZADO 
-        return $contentView;
+        return $contentView; 
     }
 }
 
