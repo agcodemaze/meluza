@@ -31,7 +31,7 @@ class View {
         var_dump($keys); //posso colocar aqui para renderizar e checar debug
 
         //RETORNA O CONTEUDO RENDERIZADO 
-        return $contentView; 
+        //return $contentView; 
     }
 }
 
