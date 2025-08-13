@@ -34,12 +34,9 @@ class Home extends Page{
         //VIEW DA PAGINA
         return self::getPage('Mics page', $content);
     }
+
+    public static function getTeste() {
+        return "funcionou";
+    }
 }
 
-class teste extends Page{
-    public static function getteste()
-    {
-        return "uhull";
-    }
-    
-}

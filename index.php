@@ -2,9 +2,13 @@
 
 require __DIR__.'/vendor/autoload.php';
 
-use \App\Controller\Pages\Home;
-use \App\Controller\Pages\teste; // Importa a classe
+/**
+ * nome do arquivo .php deve ser o mesmo nome da classe
+ * por isso o \Home e na pasta do controoler existe um Home.php. Isso é padrão Composer
+ */
+
+use \App\Controller\Pages\Home; 
 
 //echo Home::getHome();
+echo Home::getTeste();
 
-echo teste::getteste();
