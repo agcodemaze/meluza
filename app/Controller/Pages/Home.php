@@ -36,7 +36,7 @@ class Home extends Page{
     }
 }
 
-class teste {
+class teste extends Page{
     public static function getteste()
     {
         return "uhull";
