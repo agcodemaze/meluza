@@ -35,3 +35,11 @@ class Home extends Page{
         return self::getPage('Mics page', $content);
     }
 }
+
+class teste {
+    public static function getteste()
+    {
+        return "uhull";
+    }
+    
+}
