@@ -11,7 +11,7 @@ class Page {
      */
 
     private static function getHeader(){
-        return View::render('pages/layout/header');
+        return View::render('pages/header');
     }
 
     /**
@@ -20,7 +20,7 @@ class Page {
      */
 
     private static function getMenu(){
-        return View::render('pages/layout/menu');
+        return View::render('pages/menu');
     }
 
     /**
@@ -29,7 +29,7 @@ class Page {
      */
 
     private static function getFooter(){
-        return View::render('pages/layout/footer');
+        return View::render('pages/footer');
     }
 
     /**
@@ -38,7 +38,7 @@ class Page {
      */
 
     private static function getContent(){
-        return View::render('pages/content/content');
+        return View::render('pages/content');
     }
 
     /**
