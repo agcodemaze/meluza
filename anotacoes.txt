@@ -1,3 +1,85 @@
 cor verde: #7eda0d
 cor azul: #00c1fb
 cor botao voltar: #6e6c72
+
+
+
+Dados para testes unitários:
+Executar os testes: bash -> ./bin/phpunit
+
+$this->assertEquals($expected, $actual): Verifica se dois valores são iguais. Funciona bem para strings, números, arrays e objetos.
+$this->assertSame($expected, $actual): Similar ao assertEquals, mas verifica se os valores e os tipos são idênticos. É mais estrito e útil para evitar bugs com tipos.
+$this->assertTrue($condition): Verifica se a condição é true.
+$this->assertFalse($condition): Verifica se a condição é false.
+$this->assertNull($variable): Verifica se a variável é null.
+$this->assertNotNull($variable): Verifica se a variável não é null.
+$this->assertArrayHasKey($key, $array): Verifica se uma chave existe em um array.
+$this->assertObjectHasAttribute($attribute, $object): Verifica se uma propriedade existe em um objeto.
+$this->assertClassHasAttribute($attribute, $class): Verifica se uma propriedade estática ou de classe existe.
+$this->assertFileExists($filename): Verifica se um arquivo existe.
+$this->assertGreaterThan($expected, $actual): Verifica se o valor atual é maior que o esperado.
+$this->assertLessThan($expected, $actual): Verifica se o valor atual é menor que o esperado.
+$this->assertEmpty($variable): Verifica se uma variável está vazia (por exemplo, "", [], null).
+$this->assertNotEmpty($variable): Verifica se uma variável não está vazia.
+$this->assertIsArray($variable): Verifica se a variável é um array.
+$this->assertIsString($variable): Verifica se a variável é uma string.
+$this->assertIsInt($variable): Verifica se a variável é um inteiro.
+$this->assertEquals	Verifica se dois valores são iguais.
+$this->assertNotEquals	Verifica se dois valores não são iguais.
+$this->assertSame	Verifica se dois valores e seus tipos são iguais.
+$this->assertNotSame	Verifica se dois valores ou seus tipos são diferentes.
+$this->assertEqualCanonicalizing	Verifica a igualdade ignorando a ordem dos elementos.
+$this->assertNotEqualCanonicalizing	Verifica a desigualdade ignorando a ordem dos elementos.
+$this->assertEqualsIgnoringCase	Verifica a igualdade de strings ignorando maiúsculas/minúsculas.
+$this->assertNotEqualsIgnoringCase	Verifica a desigualdade de strings ignorando maiúsculas/minúsculas.
+$this->assertEqualsWithDelta	Verifica a igualdade de valores numéricos com uma margem de erro.
+$this->assertNotEqualsWithDelta	Verifica a desigualdade de valores numéricos com uma margem de erro.
+$this->assertTrue	Verifica se a condição é true.
+$this->assertNotTrue	Verifica se a condição não é true.
+$this->assertFalse	Verifica se a condição é false.
+$this->assertNotFalse	Verifica se a condição não é false.
+$this->assertNull	Verifica se a variável é null.
+$this->assertNotNull	Verifica se a variável não é null.
+$this->assertInfinite	Verifica se um valor é infinito.
+$this->assertFinite	Verifica se um valor não é infinito.
+$this->assertIsReadable	Verifica se um arquivo ou diretório é legível.
+$this->assertIsNotReadable	Verifica se um arquivo ou diretório não é legível.
+$this->assertIsWritable	Verifica se um arquivo ou diretório é gravável.
+$this->assertIsNotWritable	Verifica se um arquivo ou diretório não é gravável.
+$this->assertStringContainsString	Verifica se uma string contém outra string.
+$this->assertStringNotContainsString	Verifica se uma string não contém outra string.
+$this->assertStringStartsWiht	Verifica se uma string começa com um prefixo.
+$this->assertStringEndsWith	Verifica se uma string termina com um sufixo.
+$this->assertStringMatchesFormat	Verifica se uma string corresponde a um formato.
+$this->assertStringNotMatchesFormat	Verifica se uma string não corresponde a um formato.
+$this->assertStringEqualsFile	Compara uma string com o conteúdo de um arquivo.
+$this->assertStringNotEqualsFile	Compara uma string com o conteúdo de um arquivo.
+$this->assertIsArray	Verifica se a variável é um array.
+$this->assertArrayHasKey	Verifica se uma chave existe em um array.
+$this->assertArrayNotHasKey	Verifica se uma chave não existe em um array.
+$this->assertContains	Verifica se um valor existe em um array ou coleção.
+$this->assertNotContains	Verifica se um valor não existe em um array ou coleção.
+$this->assertCount	Verifica se a quantidade de elementos de uma coleção é a esperada.
+$this->assertNotCount	Verifica se a quantidade de elementos de uma coleção não é a esperada.
+$this->assertIsList	Verifica se um array é uma lista (não associativo).
+$this->expectException	Espera que o código lance uma exceção específica.
+$this->expectExceptionMessage	Espera que a exceção tenha uma mensagem específica.
+$this->expectExceptionCode	Espera que a exceção tenha um código específico.
+$this->assertIsBool	Verifica se a variável é um booleano.
+$this->assertIsInt	Verifica se a variável é um inteiro.
+$this->assertIsFloat	Verifica se a variável é um float.
+$this->assertIsNumeric	Verifica se a variável é um valor numérico.
+$this->assertIsObject	Verifica se a variável é um objeto.
+$this->assertIsResource	Verifica se a variável é um recurso (resource).
+$this->assertIsScalar	Verifica se a variável é um valor escalar (string, int, float, bool).
+$this->assertIsCallable	Verifica se a variável é uma função que pode ser chamada.
+$this->assertIsIterable	Verifica se a variável é iterável (array ou objeto implementando \Traversable).
+$this->assertInstanceOf	Verifica se um objeto é uma instância de uma classe.
+$this->assertNotInstanceOf	Verifica se um objeto não é uma instância de uma classe.
+$this->assertObjectHasAttribute	Verifica se um objeto possui uma propriedade.
+$this->assertObjectNotHasAttribute	Verifica se um objeto não possui uma propriedade.
+$this->assertClassHasAttribute	Verifica se uma classe possui uma propriedade estática ou de instância.
+$this->assertClassNotHasAttribute	Verifica se uma classe não possui uma propriedade.
+$this->assertClassHasStaticAttribute	Verifica se uma classe possui uma propriedade estática.
+$this->assertClassNotHasStaticAttribute	Verifica se uma classe não possui uma propriedade estática.
+$this->assertMethodExists	Verifica se um método existe em uma classe ou objeto.
