@@ -35,8 +35,5 @@ class Home extends Page{
         return self::getPage('Mics page', $content);
     }
 
-    public static function getTeste() {
-        return "funcionou";
-    }
 }
 

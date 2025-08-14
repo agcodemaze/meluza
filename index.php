@@ -9,6 +9,6 @@ require __DIR__.'/vendor/autoload.php';
 
 use \App\Controller\Pages\Home; 
 
-//echo Home::getHome();
-echo Home::getTeste();
+echo Home::getHome();
+
 
