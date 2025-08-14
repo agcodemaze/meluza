@@ -10,7 +10,7 @@ class Page {
      * @return string
      */
 
-    private static function getHeader(){
+    private static function getHead(){
         return View::render('pages/head');
     }
 
@@ -19,7 +19,7 @@ class Page {
      * @return string
      */
 
-    private static function getHeader(){
+    private static function getMenu(){
         return View::render('pages/menu');
     }
 
@@ -33,6 +33,15 @@ class Page {
     }
 
     /**
+     * Método responsável por rederizar o corpo
+     * @return string
+     */
+
+    private static function getMain(){
+        return View::render('pages/main');
+    }
+
+    /**
     * Metodo responsavel por retornar o conteúdo da Página Genérica
     * @return string
     */
@@ -40,7 +49,7 @@ class Page {
     public static function getPage($title, $content) {
         return View::render('pages/page',[
             'title' => $title,
-            'header' => self::getHeader(),
+            'header' => self::getHead(),
             'content' => $content,
             'footer' => self::getFooter()
         ]); 
