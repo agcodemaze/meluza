@@ -243,7 +243,7 @@ function setLayout() {
     } else if (layout === 'color-header') {
       // Change logo color for color-header layout
       if (document.querySelector('.pc-sidebar .m-header .logo-lg')) {
-        document.querySelector('.pc-sidebar .m-header .logo-lg').setAttribute('src', '../assets/images/logo-white.svg');
+        document.querySelector('.pc-sidebar .m-header .logo-lg').setAttribute('src', '../../../public/assets/images/logo-white.svg');
       }
     } else if (layout === 'compact') {
       script.src = '../assets/js/layout-compact.js'; // Load script for compact layout
@@ -350,7 +350,7 @@ for (var l = 0; l < elem.length; l++) {
 
 // Change authentication logo
 document.querySelectorAll('.auth-main.v2 .img-brand').forEach((img) => {
-  img.setAttribute('src', '../assets/images/logo-white.svg');
+  img.setAttribute('src', '../../../public/assets/images/logo-white.svg');
 });
 
 // Function to remove CSS classes with a given prefix from a DOM node
