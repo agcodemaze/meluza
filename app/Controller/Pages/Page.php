@@ -10,8 +10,8 @@ class Page {
      * @return string
      */
 
-    private static function getHead(){
-        return View::render('pages/head');
+    private static function getHeader(){
+        return View::render('pages/header');
     }
 
     /**
@@ -37,8 +37,8 @@ class Page {
      * @return string
      */
 
-    private static function getMain(){
-        return View::render('pages/main');
+    private static function getContent(){
+        return View::render('pages/content');
     }
 
     /**
@@ -49,7 +49,9 @@ class Page {
     public static function getPage($title, $content) {
         return View::render('pages/page',[
             'title' => $title,
-            'header' => self::getHead(),
+            'menu' => self::getMenu(),
+            'header' => self::getHeader(),
+            'content' => self::getContent(),
             'content' => $content,
             'footer' => self::getFooter()
         ]); 
