@@ -11,7 +11,16 @@ class Page {
      */
 
     private static function getHeader(){
-        return View::render('pages/header');
+        return View::render('pages/head');
+    }
+
+    /**
+     * Método responsável por rederizar o menu
+     * @return string
+     */
+
+    private static function getHeader(){
+        return View::render('pages/menu');
     }
 
     /**
