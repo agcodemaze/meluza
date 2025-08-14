@@ -9,7 +9,26 @@ class HomeTest extends TestCase
 {
     /**
      * @test
+     * Para executar o teste no terminal:
+     * bash -> ./bin/phpunit
      */
+
+    /**
+     * @test
+     * Verifica se o método 'getHome' existe na classe Home.
+     */
+    public function oMetodoGetHomeExisteNaClasseHome()
+    {
+        // ... Lógica do seu primeiro teste ...
+        $home = new Home();
+        $this->assertTrue(method_exists($home, 'getHome'));
+    }
+
+    /**
+     * @test
+     * Verifica se o nome esta correto.
+     */
+
     public function oMetodoGetHomeRetornaHtmlComONomeDaOrganizacao()
     {
         // 1. Arrange (Preparação)
@@ -24,6 +43,6 @@ class HomeTest extends TestCase
         
         // 3. Assert (Verificação)
         // Vamos verificar se a string retornada contém o nome da organização
-        $this->assertStringContainsString('Site_do_mics', $htmlContent);
+        $this->assertStringContainsString('Site do mics', $htmlContent);
     }
 }
