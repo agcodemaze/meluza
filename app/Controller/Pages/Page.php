@@ -38,7 +38,7 @@ class Page {
      */
 
     private static function getContent(){
-        return View::render('pages/content');
+        return View::render('pages/vw_sample_empty');
     }
 
     /**
