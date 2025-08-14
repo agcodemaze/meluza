@@ -238,7 +238,7 @@ function setLayout() {
     var script = document.createElement('script');
     if (layout === 'horizontal') {
       document.querySelector('.pc-sidebar').classList.add('d-none');
-      script.src = '../assets/js/layout-horizontal.js'; // Load script for horizontal layout
+      script.src = '../../../public/assets/js/layout-horizontal.js'; // Load script for horizontal layout
       document.body.appendChild(script);
     } else if (layout === 'color-header') {
       // Change logo color for color-header layout
@@ -246,10 +246,10 @@ function setLayout() {
         document.querySelector('.pc-sidebar .m-header .logo-lg').setAttribute('src', '../../../public/assets/images/logo-white.svg');
       }
     } else if (layout === 'compact') {
-      script.src = '../assets/js/layout-compact.js'; // Load script for compact layout
+      script.src = '../../../public/assets/js/layout-compact.js'; // Load script for compact layout
       document.body.appendChild(script);
     } else if (layout === 'tab') {
-      script.src = '../assets/js/layout-tab.js'; // Load script for tab layout
+      script.src = '../../../public/assets/js/layout-tab.js'; // Load script for tab layout
       document.body.appendChild(script);
     }
   }
