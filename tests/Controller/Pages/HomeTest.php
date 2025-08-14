@@ -1,6 +1,5 @@
 <?php
 
-// O namespace do seu teste deve refletir a estrutura da pasta 'tests'
 namespace Tests\Controller\Pages;
 
 use PHPUnit\Framework\TestCase;
@@ -11,19 +10,20 @@ class HomeTest extends TestCase
     /**
      * @test
      */
-    public function oMetodoGetHomeExisteNaClasseHome()
+    public function oMetodoGetHomeRetornaHtmlComONomeDaOrganizacao()
     {
         // 1. Arrange (Preparação)
-        // Cria uma instância da classe que você quer testar
+        // Você precisa de uma forma de mockar (simular) a classe Organization
+        // e o seu método getPage para que o teste seja focado apenas em 'getHome'
+        
+        // Neste exemplo, vamos apenas verificar a string final
         $home = new Home();
-
+        
         // 2. Act (Ação)
-        // Não precisamos de uma ação específica para este teste, pois
-        // vamos verificar apenas a existência do método.
-
+        $htmlContent = $home->getHome();
+        
         // 3. Assert (Verificação)
-        // O PHPUnit tem várias "asserts" (afirmações)
-        // Aqui, verificamos se o método 'getHome' existe na classe $home
-        $this->assertTrue(method_exists($home, 'getHome'), 'O método getHome() não existe na classe Home.');
+        // Vamos verificar se a string retornada contém o nome da organização
+        $this->assertStringContainsString('Site do mics', $htmlContent);
     }
 }
