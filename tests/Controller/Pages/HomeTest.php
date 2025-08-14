@@ -24,6 +24,6 @@ class HomeTest extends TestCase
         
         // 3. Assert (Verificação)
         // Vamos verificar se a string retornada contém o nome da organização
-        $this->assertStringContainsString('Site do mics', $htmlContent);
+        $this->assertStringContainsString('Site_do_mics', $htmlContent);
     }
 }
