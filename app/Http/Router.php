@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http;
+use \Closure;
 
 class Router {
 
@@ -56,15 +57,24 @@ class Router {
      * @param array $params
      */
     private function addRoute($method, $route, $params =[]){
-        echo "<pre>";   
-        print_r($method);
-        echo "<pre>"; 
+
                 echo "<pre>";   
-        print_r($route);
-        echo "<pre>"; 
-                        echo "<pre>";   
         print_r($params);
         echo "<pre>"; 
+        //VALIDAÇÃO DOS PARAMETROS
+        foreach($params as $key=>$value){
+            if($value instanceof Closure){
+                $params['controller'] = $value;
+                unset($params[$key]);
+                continue;
+            }
+        }
+
+        
+                echo "<pre>";   
+        print_r($params);
+        echo "<pre>";
+        
     }
 
     /**

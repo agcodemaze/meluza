@@ -15,7 +15,7 @@ define('URL','https://cliente.meluza.com.br');
 
 $obRouter = new Router(URL);
 
-//RORA HOME
+//ROTA HOME
 $obRouter->get('/',[
     function(){
         return new Response(200,Home::getHome());
