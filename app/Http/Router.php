@@ -111,7 +111,7 @@ class Router {
         $httpMethod = $this->request->getHttpMethod();
 
         //VALIDA AS ROTAS
-        foreach($this->routes as $patternRoute=$methods){
+        foreach($this->routes as $patternRoute=>$methods){
             //VERIFICA SE A URI BATE COM O PADRAO
             if(preg_match($patternRoute,$uri)){
                 //VERIFICA O METHOD
@@ -134,12 +134,13 @@ class Router {
         try{            
             //OBTEM A ROTA ATUAL
             $route = $this->getRoute();
+                    echo "<pre>";   
+        print_r($route);
+        echo "<pre>"; 
 
         } catch(Exception $e){
             return new Response($e->getCode(), $e->getMessage());
         }
-
-     
     }
 
 }
