@@ -1,0 +1,6 @@
+#LIGA O REWRITE URL
+RewriteEngine on
+
+#REGRA REWRITE
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^.(.*)$ ./index.php [QSA,NC]
