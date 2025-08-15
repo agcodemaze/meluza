@@ -53,7 +53,7 @@ class Response {
      * Método responsavel por adicionar um registro no cabeçalho de resposta
      */
     public function addHeader($key, $value) {
-        $this->headers[$key] = [$value];
+        $this->headers[$key] = $value;
     }
     
     /**
@@ -65,7 +65,7 @@ class Response {
 
         //ENVIAR HEADERS
         foreach($this->headers as $key=>$value){
-            header($key.': '.$value[0]);
+            header($key.': '.$value);
         }
 
     }
