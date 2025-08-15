@@ -95,9 +95,7 @@ class Router {
         //FATIA A URI COM O PREFIXO
         $xUri = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
 
-                echo "<pre>";   
-        print_r($xUri);
-        echo "<pre>"; 
+        return end($xUri);
 
     }
 
