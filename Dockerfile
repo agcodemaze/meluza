@@ -5,8 +5,9 @@ FROM php:8.1-apache
 RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev \
     libpq-dev vim cron curl unzip git \
+    libzip-dev \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql mysqli sockets pdo_pgsql
+    && docker-php-ext-install gd pdo pdo_mysql mysqli sockets pdo_pgsql zip
 
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
@@ -16,7 +17,7 @@ WORKDIR /var/www/html
 
 # Copia apenas arquivos do Composer e instala dependências (para aproveitar cache)
 COPY composer.json composer.lock ./
-RUN composer install --optimize-autoloader --no-dev
+RUN composer install --no-dev --optimize-autoloader --no-interaction --verbose
 
 # Copia o restante do projeto
 COPY . .
