@@ -34,7 +34,7 @@ class Response {
      * @var mixed
      * @var string
      */
-    public __construct($httpCode, $content, $contentType = 'text/html') {
+    public function __construct($httpCode, $content, $contentType = 'text/html') {
         $this->httpCode = $httpCode;
         $this->content = $content; 
         $this->setContentType($contentType);   
