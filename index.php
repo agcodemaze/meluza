@@ -20,7 +20,7 @@ $obRouter->get('/',[
     function(){
         return new Response(200,Home::getHome());
     }
-])
+]);
 
 
 
