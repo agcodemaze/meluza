@@ -134,7 +134,17 @@ class Router {
         try{            
             //OBTEM A ROTA ATUAL
             $route = $this->getRoute();
-            throw new Exception('Url não encontrada', 404);
+
+            //VERIFICA O CONTROLADOR
+            if(!isset($route['controller'])){
+                throw new Exception('A URL não pôde ser processada', 500);
+            }
+
+            //ARGUMENTOS DA FUNÇÃO
+            $args = [];
+
+            //RETORNA A EXECUÇÃO DA FUNÇÃO
+            return call_user_func_array($route['controller'], $args)
 
         } catch(Exception $e){
             return new Response($e->getCode(), $e->getMessage());
