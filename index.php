@@ -22,6 +22,10 @@ $obRouter->get('/',[
     }
 ]);
 
+//IMPRIME RESPONSE NA PÁGINA
+$obRouter->run()
+            ->sendResponse();
+
 
 
 

@@ -72,10 +72,6 @@ class Router {
         //ADICIONA A ROTA DENTRO DA CLASSE
         $this->routes[$patternRoute][$method] = $params;
 
-                echo "<pre>";   
-        print_r($this);
-        echo "<pre>"; 
-
     }
 
     /**
@@ -86,4 +82,19 @@ class Router {
     public function get($route, $params = []){
         return $this->addRoute('GET',$route, $params);
     }
+
+    /**
+     * Método responsável por executar a rota atual
+     * @return Response
+     */
+    public function run() {
+        try{
+            throw new Exception("Página não encontrada", 404);
+        } catch(Execption $e){
+            return new Response($e->getCode(), $e->getMessage());
+        }
+
+     
+    }
+
 }
