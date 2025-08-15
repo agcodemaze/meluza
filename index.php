@@ -10,7 +10,9 @@ require __DIR__.'/vendor/autoload.php';
 use \App\Http\Router;
 use \App\Controller\Pages\Home; 
 
-$obRouter = new Router('');
+define('URL','https://cliente.meluza.com.br/');
+
+$obRouter = new Router(URL);
 
         echo "<pre>";   
         print_r($obRouter);
