@@ -44,6 +44,10 @@ RUN echo "DocumentRoot /var/www/html/public" > /etc/apache2/sites-available/000-
     echo "    Require all granted" >> /etc/apache2/sites-available/000-default.conf && \
     echo "</Directory>" >> /etc/apache2/sites-available/000-default.conf
 
+    # Permissões corretas para Laravel
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+    
 # Configura timezone
 RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
     echo "America/Sao_Paulo" > /etc/timezone
