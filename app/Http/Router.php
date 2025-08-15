@@ -144,7 +144,7 @@ class Router {
             $args = [];
 
             //RETORNA A EXECUÇÃO DA FUNÇÃO
-            return call_user_func_array($route['controller'], $args)
+            return call_user_func_array($route['controller'], $args);
 
         } catch(Exception $e){
             return new Response($e->getCode(), $e->getMessage());
