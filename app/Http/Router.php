@@ -66,11 +66,15 @@ class Router {
             }
         }
 
+        //PADRÃO DE VALIDAÇÃO DA URL
         $patternRoute = '/^'.str_replace('/', '\/', $route).'$/';
         
+        //ADICIONA A ROTA DENTRO DA CLASSE
+        $this->routes[$patternRoute][$method] = $params;
+
                 echo "<pre>";   
-        print_r($patternRoute);
-        echo "<pre>";
+        print_r($this);
+        echo "<pre>"; 
 
     }
 
