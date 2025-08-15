@@ -1,11 +1,10 @@
-# Usando a imagem oficial do PHP 8.1 com Apache 
+# Usando a imagem oficial do PHP 8.1 com Apache
 FROM php:8.1-apache
 
 # Atualiza pacotes e instala extensões necessárias
 RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev \
-    libpq-dev \
-    vim cron curl unzip git \
+    libpq-dev vim cron curl unzip git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql mysqli sockets pdo_pgsql
 
@@ -15,13 +14,14 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Define diretório de trabalho
 WORKDIR /var/www/html
 
-# Copia arquivos do projeto para a pasta do Apache
+# Copia apenas arquivos do Composer e instala dependências (para aproveitar cache)
+COPY composer.json composer.lock ./
+RUN composer install --optimize-autoloader --no-dev
+
+# Copia o restante do projeto
 COPY . .
 
-# Instala dependências do Laravel (somente produção)
-RUN composer install --optimize-autoloader --no-dev || true
-
-# Ajusta permissões para storage e cache
+# Permissões corretas para Laravel
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
     chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
@@ -37,7 +37,7 @@ RUN a2enmod rewrite
 RUN echo "upload_max_filesize = 50M" >> /usr/local/etc/php/php.ini && \
     echo "post_max_size = 50M" >> /usr/local/etc/php/php.ini
 
-# Configura o Apache para servir a pasta /var/www/html
+# Apache serve a pasta /public do Laravel
 RUN echo "DocumentRoot /var/www/html/public" > /etc/apache2/sites-available/000-default.conf && \
     echo "<Directory /var/www/html/public>" >> /etc/apache2/sites-available/000-default.conf && \
     echo "    AllowOverride All" >> /etc/apache2/sites-available/000-default.conf && \
@@ -51,5 +51,10 @@ RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
 # Expõe a porta padrão do Apache
 EXPOSE 80
 
-# Inicia o Apache no foreground (mantém o container rodando)
+# Copia entrypoint para rodar Laravel automaticamente
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Comando final do Apache
 CMD ["apache2-foreground"]
