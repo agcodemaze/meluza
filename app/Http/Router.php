@@ -2,6 +2,7 @@
 
 namespace App\Http;
 use \Closure;
+use \Exception;
 
 class Router {
 
