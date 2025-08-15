@@ -12,16 +12,18 @@ RUN apt-get update && apt-get install -y \
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Copia os arquivos do projeto para a pasta do Apache
-COPY . /var/www/html/
-
-# Instala dependências do projeto (php-jwt, aws-sdk, etc)
+# Define diretório de trabalho
 WORKDIR /var/www/html
-RUN composer install || true
 
-# Define permissões corretas para o Apache
-RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html
+# Copia arquivos do projeto para a pasta do Apache
+COPY . .
+
+# Instala dependências do Laravel (somente produção)
+RUN composer install --optimize-autoloader --no-dev || true
+
+# Ajusta permissões para storage e cache
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Copia e ativa a crontab, se existir
 COPY crontab.txt /var/spool/cron/crontabs/root
@@ -36,8 +38,8 @@ RUN echo "upload_max_filesize = 50M" >> /usr/local/etc/php/php.ini && \
     echo "post_max_size = 50M" >> /usr/local/etc/php/php.ini
 
 # Configura o Apache para servir a pasta /var/www/html
-RUN echo "DocumentRoot /var/www/html" > /etc/apache2/sites-available/000-default.conf && \
-    echo "<Directory /var/www/html>" >> /etc/apache2/sites-available/000-default.conf && \
+RUN echo "DocumentRoot /var/www/html/public" > /etc/apache2/sites-available/000-default.conf && \
+    echo "<Directory /var/www/html/public>" >> /etc/apache2/sites-available/000-default.conf && \
     echo "    AllowOverride All" >> /etc/apache2/sites-available/000-default.conf && \
     echo "    Require all granted" >> /etc/apache2/sites-available/000-default.conf && \
     echo "</Directory>" >> /etc/apache2/sites-available/000-default.conf
