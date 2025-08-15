@@ -90,7 +90,7 @@ class Router {
     public function run() {
         try{
             throw new Exception("Página não encontrada", 404);
-        } catch(Execption $e){
+        } catch(Exception $e){
             return new Response($e->getCode(), $e->getMessage());
         }
 
