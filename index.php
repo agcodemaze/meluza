@@ -9,11 +9,6 @@ require __DIR__.'/vendor/autoload.php';
 
 use \App\Controller\Pages\Home; 
 
-$responde = new \App\Http\Response(200,'Olá Mundo');
-
-$responde->sendResponse();
-
-exit;
 echo Home::getHome();
 
 
