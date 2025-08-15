@@ -91,9 +91,14 @@ class Router {
     private function getUri(){
         //URI DA REQUEST
         $uri = $this->request->getUri();
+
+        //FATIA A URI COM O PREFIXO
+        $xUri = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
+
                 echo "<pre>";   
-        print_r($uri);
+        print_r($xUri);
         echo "<pre>"; 
+
     }
 
     /**
@@ -111,13 +116,9 @@ class Router {
      * @return Response
      */
     public function run() {
-        try{
-            
+        try{            
             //OBTEM A ROTA ATUAL
             $route = $this->getRoute();
-                    echo "<pre>";   
-        print_r($route);
-        echo "<pre>"; 
 
         } catch(Exception $e){
             return new Response($e->getCode(), $e->getMessage());
