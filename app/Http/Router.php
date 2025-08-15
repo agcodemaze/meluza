@@ -57,10 +57,6 @@ class Router {
      * @param array $params
      */
     private function addRoute($method, $route, $params =[]){
-
-                echo "<pre>";   
-        print_r($params);
-        echo "<pre>"; 
         //VALIDAÇÃO DOS PARAMETROS
         foreach($params as $key=>$value){
             if($value instanceof Closure){
@@ -70,11 +66,12 @@ class Router {
             }
         }
 
+        $patternRoute = str_replace('/', '\/', $route);
         
                 echo "<pre>";   
-        print_r($params);
+        print_r($patternRoute);
         echo "<pre>";
-        
+
     }
 
     /**
