@@ -1,48 +1,53 @@
+# Usando a imagem oficial do PHP 8.1 com Apache 
 FROM php:8.1-apache
 
-# Instala pacotes necessários
+# Atualiza pacotes e instala extensões necessárias
 RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev \
-    libpq-dev zip unzip git curl vim cron \
+    libpq-dev \
+    vim cron curl unzip git \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install gd pdo pdo_mysql mysqli sockets pdo_pgsql
 
 # Instala Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Configura Apache
-RUN a2enmod rewrite && \
-    echo "ServerName localhost" >> /etc/apache2/apache2.conf
+# Copia os arquivos do projeto para a pasta do Apache
+COPY . /var/www/html/
 
-# Define diretório do projeto
+# Instala dependências do projeto (php-jwt, aws-sdk, etc)
 WORKDIR /var/www/html
+RUN composer install || true
 
-# Copia arquivos do projeto (exceto os ignorados pelo .dockerignore)
-COPY . .
+# Define permissões corretas para o Apache
+RUN chown -R www-data:www-data /var/www/html && \
+    chmod -R 755 /var/www/html
 
-# Instala dependências do Laravel
-RUN composer install --optimize-autoloader --no-dev
-
-# Ajusta permissões para storage e cache
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
-    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
-
-# Configura cron se necessário
+# Copia e ativa a crontab, se existir
 COPY crontab.txt /var/spool/cron/crontabs/root
-RUN chmod 600 /var/spool/cron/crontabs/root && crontab /var/spool/cron/crontabs/root
+RUN chmod 600 /var/spool/cron/crontabs/root || true && \
+    crontab /var/spool/cron/crontabs/root || true
 
-# Ajusta configurações PHP
+# Habilita o módulo rewrite do Apache
+RUN a2enmod rewrite
+
+# Ajusta configurações do php.ini
 RUN echo "upload_max_filesize = 50M" >> /usr/local/etc/php/php.ini && \
     echo "post_max_size = 50M" >> /usr/local/etc/php/php.ini
 
-# Ajusta timezone
+# Configura o Apache para servir a pasta /var/www/html
+RUN echo "DocumentRoot /var/www/html" > /etc/apache2/sites-available/000-default.conf && \
+    echo "<Directory /var/www/html>" >> /etc/apache2/sites-available/000-default.conf && \
+    echo "    AllowOverride All" >> /etc/apache2/sites-available/000-default.conf && \
+    echo "    Require all granted" >> /etc/apache2/sites-available/000-default.conf && \
+    echo "</Directory>" >> /etc/apache2/sites-available/000-default.conf
+
+# Configura timezone
 RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
     echo "America/Sao_Paulo" > /etc/timezone
 
+# Expõe a porta padrão do Apache
 EXPOSE 80
 
-COPY entrypoint.sh /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
-
-# Comando final
+# Inicia o Apache no foreground (mantém o container rodando)
 CMD ["apache2-foreground"]
