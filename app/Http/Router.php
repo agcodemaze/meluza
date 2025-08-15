@@ -45,9 +45,34 @@ class Router {
         //INFORMAÇÕES DA URL ATUAL
         $parseUrl = parse_url($this->url);
 
-                echo "<pre>";   
-        print_r($parseUrl);
-        echo "<pre>"; 
+        //DEFINE PREFIXO
+        $this->prefix = $parseUrl['path'] ?? '';
+    }
 
+    /**
+     * Método responsável por adicionar uma rota na classe
+     * @param string $method
+     * @param string $route
+     * @param array $params
+     */
+    private function addRoute($method, $route, $params =[]){
+        echo "<pre>";   
+        print_r($method);
+        echo "<pre>"; 
+                echo "<pre>";   
+        print_r($route);
+        echo "<pre>"; 
+                        echo "<pre>";   
+        print_r($params);
+        echo "<pre>"; 
+    }
+
+    /**
+     * Método responsavel por definir uma rota de GET
+     * @param string $route
+     * @param array $params
+     */
+    public function get($route, $params = []){
+        return $this->addRoute('GET',$route, $params);
     }
 }
