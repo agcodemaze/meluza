@@ -1,22 +1,22 @@
-# Usando a imagem oficial do PHP 8.1 com Apache
 FROM php:8.1-apache
 
-# Atualiza pacotes e instala extensões necessárias
+# Pacotes do sistema e extensões PHP necessárias para Laravel
 RUN apt-get update && apt-get install -y \
     libpng-dev libjpeg-dev libfreetype6-dev \
-    libpq-dev vim cron curl unzip git \
-    libzip-dev \
+    libpq-dev libzip-dev libonig-dev libxml2-dev unzip git curl vim \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install gd pdo pdo_mysql mysqli sockets pdo_pgsql zip
+    && docker-php-ext-install gd pdo pdo_mysql mysqli sockets pdo_pgsql zip bcmath mbstring opcache
 
-# Instala Composer
+# Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Define diretório de trabalho
+# Diretório de trabalho
 WORKDIR /var/www/html
 
-# Copia apenas arquivos do Composer e instala dependências (para aproveitar cache)
+# Copia apenas Composer files para usar cache
 COPY composer.json composer.lock ./
+
+# Instala dependências do Laravel (com log detalhado)
 RUN composer install --no-dev --optimize-autoloader --no-interaction --verbose
 
 # Copia o restante do projeto
@@ -26,36 +26,31 @@ COPY . .
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache && \
     chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-# Copia e ativa a crontab, se existir
+# Cron
 COPY crontab.txt /var/spool/cron/crontabs/root
-RUN chmod 600 /var/spool/cron/crontabs/root || true && \
-    crontab /var/spool/cron/crontabs/root || true
+RUN chmod 600 /var/spool/cron/crontabs/root || true && crontab /var/spool/cron/crontabs/root || true
 
-# Habilita o módulo rewrite do Apache
+# Apache
 RUN a2enmod rewrite
-
-# Ajusta configurações do php.ini
-RUN echo "upload_max_filesize = 50M" >> /usr/local/etc/php/php.ini && \
-    echo "post_max_size = 50M" >> /usr/local/etc/php/php.ini
-
-# Apache serve a pasta /public do Laravel
 RUN echo "DocumentRoot /var/www/html/public" > /etc/apache2/sites-available/000-default.conf && \
     echo "<Directory /var/www/html/public>" >> /etc/apache2/sites-available/000-default.conf && \
     echo "    AllowOverride All" >> /etc/apache2/sites-available/000-default.conf && \
     echo "    Require all granted" >> /etc/apache2/sites-available/000-default.conf && \
     echo "</Directory>" >> /etc/apache2/sites-available/000-default.conf
 
-# Configura timezone
-RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
-    echo "America/Sao_Paulo" > /etc/timezone
+# PHP
+RUN echo "upload_max_filesize = 50M" >> /usr/local/etc/php/php.ini && \
+    echo "post_max_size = 50M" >> /usr/local/etc/php/php.ini
 
-# Expõe a porta padrão do Apache
-EXPOSE 80
+# Timezone
+RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && echo "America/Sao_Paulo" > /etc/timezone
 
-# Copia entrypoint para rodar Laravel automaticamente
+# EntryPoint
 COPY entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
 
-# Comando final do Apache
+# Porta
+EXPOSE 80
+
 CMD ["apache2-foreground"]
