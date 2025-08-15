@@ -45,6 +45,45 @@ class Request {
         $this->uri = $_SERVER['REQUEST_URI'] ?? '';
     }
 
+    /**
+     * Método responsável por retornar o método http da requisição
+     * @var string
+     */
+    public function getHttpMethod() {
+        return $this->httpMethod;
+    }
+
+    /**
+     * Método responsável por retornar a URI da requisição
+     * @var string
+     */
+    public function getUri() {
+        return $this->uri;
+    }
+
+    /**
+     * Método responsável por retornar o header da requisição
+     * @var array
+     */
+    public function getHeaders() {
+        return $this->headers;
+    }
+
+    /**
+     * Método responsável por retornar os parametros da url da  da requisição
+     * @var array
+     */
+    public function getQueryParams() {
+        return $this->queryParams;
+    }
+
+    /**
+     * Método responsável por retornar as variaveis POST da requisição
+     * @var array
+     */
+    public function getPostVars() {
+        return $this->postVars;
+    }
 
 
 
