@@ -9,7 +9,7 @@ require __DIR__.'/vendor/autoload.php';
 
 use \App\Controller\Pages\Home; 
 
-$objrequest = new \App\Http\request;
+$objrequest = new \App\Http\Request;
 
         
         //debug --------
