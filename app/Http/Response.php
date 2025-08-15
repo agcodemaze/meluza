@@ -57,9 +57,27 @@ class Response {
     }
     
     /**
+     * Métoo responsável por enviar o header para o navegador
+     */
+    private function sendHeaders() {
+        //STATUS
+        http_response_code($this->httpCode);
+
+        //ENVIAR HEADERS
+        foreach($this->headers as $key=>$value){
+            header($key.': '.$value);
+        }
+
+    }
+
+    /**
      * Métoo responsável por enviar a resposta ao usuário
      */
     public function sendResponse() {
+        //ENVIA OS HEADERS
+        $this->sendHeaders();
+
+        //IMPRIME O CONTEÚDO
         switch($this->contentType) {
             case 'text/html':
                 echo $this->content;
