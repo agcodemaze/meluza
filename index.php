@@ -9,6 +9,19 @@ require __DIR__.'/vendor/autoload.php';
 
 use \App\Controller\Pages\Home; 
 
+$objrequest = new \App\Http\request;
+
+        
+        //debug --------
+        echo "<pre>";   
+        print_r($objrequest);
+        echo "<pre>"; 
+        exit;
+        //debug --------
+        
+
+exit;
+
 echo Home::getHome();
 
 

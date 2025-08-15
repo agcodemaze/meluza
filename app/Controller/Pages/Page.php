@@ -52,7 +52,6 @@ class Page {
             'menu' => self::getMenu(),
             'header' => self::getHeader(),
             'content' => self::getContent(),
-            //'content' => $content,
             'footer' => self::getFooter()
         ]); 
     }
