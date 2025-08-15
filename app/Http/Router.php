@@ -107,6 +107,23 @@ class Router {
         //URI
         $url = $this->getUri();
 
+        //METHOD
+        $httpMethod = $this->request->getHttpMethod();
+
+        //VALIDA AS ROTAS
+        foreach($this->routes as $patternRoute=$methods){
+            //VERIFICA SE A URI BATE COM O PADRAO
+            if(preg_match($patternRoute,$uri)){
+                //VERIFICA O METHOD
+                if($methods[$httpMethod]){
+                    //RETORNO DOS PARAMETROS DA ROTA
+                    return $methods[$httpMethod];
+                }
+                throw new Exception('Método não permitido', 405);
+            }
+        }
+        throw new Exception('Url não encontrada', 404);
+
     }
 
     /**
