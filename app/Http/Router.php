@@ -43,7 +43,11 @@ class Router {
      */
     private function setPrefix(){
         //INFORMAÇÕES DA URL ATUAL
-        $parteUrl = parse_url($this->url);
+        $parseUrl = parse_url($this->url);
+
+                echo "<pre>";   
+        print_r($parseUrl);
+        echo "<pre>"; 
 
     }
 }
