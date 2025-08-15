@@ -55,5 +55,16 @@ class Response {
     public function addHeader($key, $value) {
         $this->headers[$key] = [$value];
     }
+    
+    /**
+     * Métoo responsável por enviar a resposta ao usuário
+     */
+    public function sendResponse() {
+        switch($this->contentType) {
+            case 'text/html':
+                echo $this->content;
+                exit;
+        }
+    }
 
 }
