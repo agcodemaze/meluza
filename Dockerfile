@@ -20,9 +20,10 @@ WORKDIR /var/www/html
 # Instala dependências sem rodar scripts para evitar erro com artisan
 RUN composer install --no-dev --optimize-autoloader --no-interaction --no-scripts
 
-# Define permissões corretas para Apache
+# Define permissões corretas para Laravel
 RUN chown -R www-data:www-data /var/www/html && \
-    chmod -R 755 /var/www/html
+    chmod -R 755 /var/www/html && \
+    chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # Copia e ativa a crontab, se existir
 COPY crontab.txt /var/spool/cron/crontabs/root
@@ -36,9 +37,9 @@ RUN a2enmod rewrite
 RUN echo "upload_max_filesize = 50M" >> /usr/local/etc/php/php.ini && \
     echo "post_max_size = 50M" >> /usr/local/etc/php/php.ini
 
-# Configura Apache para servir /var/www/html
-RUN echo "DocumentRoot /var/www/html" > /etc/apache2/sites-available/000-default.conf && \
-    echo "<Directory /var/www/html>" >> /etc/apache2/sites-available/000-default.conf && \
+# Configura Apache para servir /var/www/html/public
+RUN echo "DocumentRoot /var/www/html/public" > /etc/apache2/sites-available/000-default.conf && \
+    echo "<Directory /var/www/html/public>" >> /etc/apache2/sites-available/000-default.conf && \
     echo "    AllowOverride All" >> /etc/apache2/sites-available/000-default.conf && \
     echo "    Require all granted" >> /etc/apache2/sites-available/000-default.conf && \
     echo "</Directory>" >> /etc/apache2/sites-available/000-default.conf
@@ -49,6 +50,9 @@ RUN ln -sf /usr/share/zoneinfo/America/Sao_Paulo /etc/localtime && \
 
 # Expõe porta padrão do Apache
 EXPOSE 80
+
+# Gera a chave do Laravel e cacheia config
+RUN php artisan key:generate || true && php artisan config:cache || true
 
 # Inicia Apache no foreground
 CMD ["apache2-foreground"]
