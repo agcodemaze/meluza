@@ -134,7 +134,7 @@ class Router {
         try{            
             //OBTEM A ROTA ATUAL
             $route = $this->getRoute();
-            return new Response('Teste');
+            throw new Exception('Url não encontrada', 404);
 
         } catch(Exception $e){
             return new Response($e->getCode(), $e->getMessage());
