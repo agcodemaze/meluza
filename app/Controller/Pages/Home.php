@@ -25,7 +25,7 @@ class Home extends Page{
         */
 
         //VIEW DA HOME
-        $content = View::render('pages/home',[
+        $content = View::render('pages/page',[
             'name' => $objOrganization->name,
             'description' => $objOrganization->description,
             'site' => $objOrganization->site

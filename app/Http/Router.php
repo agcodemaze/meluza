@@ -130,24 +130,17 @@ class Router {
      * Método responsável por executar a rota atual
      * @return Response
      */
-public function run() {
-    try {
-        // Obtém os parâmetros da rota atual
-        $route = $this->getRoute();
+    public function run() {
+        try{            
+            //OBTEM A ROTA ATUAL
+            $route = $this->getRoute();
+                    echo "<pre>";   
+        print_r($route);
+        echo "<pre>"; 
 
-        // Extrai a closure/controller e as variáveis
-        $controller = $route['controller'];
-        $params = $route['variables'] ?? []; // Usa um array vazio se não houver variáveis
-
-        // Executa a função do controller com os parâmetros
-        $content = call_user_func_array($controller, $params);
-
-        // Retorna uma nova instância de Response com o conteúdo
-        return new Response(200, $content);
-
-    } catch(Exception $e) {
-        return new Response($e->getCode(), $e->getMessage());
+        } catch(Exception $e){
+            return new Response($e->getCode(), $e->getMessage());
+        }
     }
-}
 
 }
