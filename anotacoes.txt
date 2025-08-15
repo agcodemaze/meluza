@@ -2,7 +2,11 @@ cor verde: #7eda0d
 cor azul: #00c1fb
 cor botao voltar: #6e6c72
 
-
+Para rodar o laravel:
+Criar o .env na raiz após o deploy
+rodar os comandos:
+    php artisan config:clear
+    php artisan cache:clear
 
 Dados para testes unitários:
 Executar os testes: bash -> ./bin/phpunit
