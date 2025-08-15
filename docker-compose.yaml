@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    ports:
+      - "${ENV_APP_PORT:-80}:80"
+    environment:
+      # Variáveis do Laravel
+      APP_ENV: production
+      APP_DEBUG: false
+      APP_KEY: base64:SEU_APP_KEY
+      APP_URL: https://cliente.meluza.com.br
+      # Banco de dados
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: meluza
+      DB_USERNAME: meluza_user
+      DB_PASSWORD: senha_segura
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    command: ["apache2-foreground"]  # Mantém compatibilidade com entrypoint
+
+  db:
+    image: mysql:8
+    container_name: laravel_db
+    restart: always
+    environment:
+      MYSQL_DATABASE: meluza
+      MYSQL_USER: meluza_user
+      MYSQL_PASSWORD: senha_segura
+      MYSQL_ROOT_PASSWORD: root_pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
