@@ -105,7 +105,7 @@ class Router {
      */
     private function getRoute(){
         //URI
-        $url = $this->getUri();
+        $uri = $this->getUri();
 
         //METHOD
         $httpMethod = $this->request->getHttpMethod();
