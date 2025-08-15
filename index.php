@@ -22,6 +22,14 @@ $obRouter->get('/',[
     }
 ]);
 
+//ROTA SOBRE
+$obRouter->get('/sobre',[
+    function(){
+        return new Response(200,Home::getHome());
+    }
+]);
+
+
 //IMPRIME RESPONSE NA PÁGINA
 $obRouter->run()
             ->sendResponse();
