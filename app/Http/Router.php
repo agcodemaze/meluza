@@ -115,6 +115,9 @@ class Router {
             
             //OBTEM A ROTA ATUAL
             $route = $this->getRoute();
+                    echo "<pre>";   
+        print_r($route);
+        echo "<pre>"; 
 
         } catch(Exception $e){
             return new Response($e->getCode(), $e->getMessage());
