@@ -14,7 +14,7 @@ class Organization {
      * Nome da Organização
      * @var string
      */
-    public $name = 'Site do mics';
+    public $title = 'Site do mics';
 
     /**
      * Site da Organização
@@ -31,7 +31,5 @@ class Organization {
     minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
     commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
     esse cillum dolore eu fugiat nulla pariatur.";
-
-
 
 }

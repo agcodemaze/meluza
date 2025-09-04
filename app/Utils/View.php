@@ -4,48 +4,49 @@ namespace App\Utils;
 class View {
 
     /**
-     * Método responsável por retornar o conteúdo de uma view.
-     * @param string
+     * Retorna o conteúdo da view processando variáveis PHP.
+     *
+     * @param string $view Nome da view (sem extensão)
+     * @param array $vars Variáveis a serem passadas para a view
      * @return string
+     * @throws \Exception Se a view não existir
      */
+    public static function render(string $view, array $vars = []): string {
+        $file = __DIR__ . '/../../resources/view/' . $view . '.php';
 
-    private static function getContentView($view){
-        $file = __DIR__.'/../../resources/view/'.$view.'.html';
-        return file_exists($file) ? file_get_contents($file) : '';
+        if (!file_exists($file)) {
+            throw new \Exception("View '{$view}' não encontrada em {$file}");
+        }
+
+        // Extrai as variáveis para serem acessíveis como $variavel
+        extract($vars);
+
+        // Inicia buffer de saída
+        ob_start();
+
+        // Inclui a view (agora com acesso às variáveis)
+        include $file;
+
+        // Retorna o conteúdo do buffer
+        return ob_get_clean();
     }
-     
-    /**
-     * Método responsável por retornar o conteúdo renderizado de uma view.
-     * @param string
-     * @param array $vars(strings/numericos)
-     * @return string
-     */ 
 
-    public static function render($view, $vars = []){
-        // COUNTEUDO DA VIEW
-        $contentView = self::getContentView($view);
-
-        //CHAVES DO ARRAY DE VARIAVEIS
-        $keys = array_keys($vars);
-
-        //abaixo usa-se uma funcao anonima para criar um placeholders
-        $keys = array_map(function($item){
-            return '{{'.$item.'}}';
-        }, $keys);
-
-        /*
-        //debug --------
-        echo "<pre>";   
-        print_r($keys);
-        echo "<pre>"; 
-        exit;
-        //debug --------
-        */
+    function conexao()
+    {
         
-        //RETORNA O CONTEUDO RENDERIZADO 
-        return str_replace($keys, array_values($vars), $contentView);
+        $host = $_ENV['ENV_BD_HOST'];
+        $dbname = "1000"; 
+        $user = $_ENV['ENV_BD_USER'];
+        $pass = $_ENV['ENV_BD_PASS'];
+
+        try {
+            $this->pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
+            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch (PDOException $e) {
+            die("Erro na conexão: " . $e->getMessage());
+        } 
     }
+
+
+
 }
-
-
-?>

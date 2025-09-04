@@ -1,0 +1,30 @@
+# Ignorar o arquivo de ambiente com senhas
+.env
+.env.local
+.env.*.local
+
+# Dependências do Composer
+/vendor/
+
+# Cache do PHP
+*.log
+*.cache
+*.tmp
+*.swp
+*.bak
+
+# Diretórios de upload / imagens temporárias
+/uploads/
+/storage/
+tmp/
+/UX_Components/
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDEs e editores
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace

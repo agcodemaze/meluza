@@ -10,8 +10,8 @@ class Page {
      * @return string
      */
 
-    private static function getHeader(){
-        return View::render('pages/header');
+    private static function getHeader($page,$content){
+        return View::render($page,$content);
     }
 
     /**
@@ -19,8 +19,8 @@ class Page {
      * @return string
      */
 
-    private static function getMenu(){
-        return View::render('pages/menu');
+    private static function getMenu($page,$content){
+        return View::render($page,$content);
     }
 
     /**
@@ -28,8 +28,8 @@ class Page {
      * @return string
      */
 
-    private static function getFooter(){
-        return View::render('pages/footer');
+    private static function getFooter($page,$content){
+        return View::render($page,$content);
     }
 
     /**
@@ -37,8 +37,8 @@ class Page {
      * @return string
      */
 
-    private static function getContent(){
-        return View::render('pages/vw_sample_empty');
+    private static function getContent($vwPage,$content){
+        return View::render($vwPage,$content);
     }
 
     /**
@@ -46,13 +46,25 @@ class Page {
     * @return string
     */
 
-    public static function getPage($title, $content) {
+    public static function getPage($vwPage, $content) {
+
+        /*
+        //debug --------
+        echo "<pre>";   
+        print_r($content);
+        echo "<pre>"; 
+        exit;
+        //debug --------
+       */
+
         return View::render('pages/page',[
-            'title' => $title,
-            'menu' => self::getMenu(),
-            'header' => self::getHeader(),
-            'content' => self::getContent(),
-            'footer' => self::getFooter()
+            'title' => $content["title"],
+            'componentsScriptsHeader' => $content["componentsScriptsHeader"],
+            'componentsScriptsFooter' => $content["componentsScriptsFooter"],
+            'menu' => self::getMenu('pages/menu',$content),
+            'header' => self::getHeader('pages/header',$content),
+            'content' => self::getContent($vwPage,$content),
+            'footer' => self::getFooter('pages/footer',$content),
         ]); 
     }
 }
