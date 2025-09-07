@@ -60,7 +60,4 @@ class Login extends PageLogin{
         $logoff = new Auth();
         $response = $logoff->logoff();            
     }  
-
-
 }
-
