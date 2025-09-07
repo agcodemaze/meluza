@@ -1,4 +1,5 @@
 <?php
+/*
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 
@@ -50,6 +51,7 @@ if (!empty($_SESSION['jwt'])) {
 }
 
 $ipAcessoClient = $_SERVER['HTTP_X_REAL_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? 'IP desconhecido';
+*/
 ?>
 
 

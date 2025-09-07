@@ -13,7 +13,7 @@ class Auth {
         $dbname = $_ENV['ENV_BD_NAME'] ?? getenv('ENV_BD_NAME') ?? '';
         $user   = $_ENV['ENV_BD_USER'] ?? getenv('ENV_BD_USER') ?? '';
         $pass   = $_ENV['ENV_BD_PASS'] ?? getenv('ENV_BD_PASS') ?? '';
-        $dsn  = "mysql:host=$host;dbname=$db;charset=utf8mb4";
+        $dsn  = "mysql:host=$host;dbname=$dbname;charset=utf8mb4";
 
         return new PDO($dsn, $user, $pass, [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
