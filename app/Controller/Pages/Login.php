@@ -41,18 +41,18 @@ class Login extends PageLogin{
             if ($data['success'] === true) 
             {               
                 //session_regenerate_id(true);                
-                echo $response;
+                return $response;
                 
             } 
             else 
                 {
                     // ATRASO para dificultar brute force
                     sleep(2); // 2 segundos de atraso                    
-                    echo $response;
+                    return $response;
                 }
         } catch (PDOException $e) {   
             $erro = $e->getMessage();           
-            echo json_encode(["success" => false, "message" => "Erro no servidor. Tente novamente mais tarde."]);
+            return json_encode(["success" => false, "message" => "Erro no servidor. Tente novamente mais tarde."]);
         }
     }    
 
