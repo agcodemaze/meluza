@@ -31,7 +31,7 @@ class Auth extends Conn {
         if ($userinfo && password_verify($USU_DCSENHA, $userinfo['USU_DCSENHA'])) 
         {
             $this->GenJWT($userinfo);
-            return json_encode(["success" => true, "message" => "Credenciais válidas!", "userinfo" => $userinfo]);
+            return json_encode(["success" => true, "message" => "Credenciais válidas!"]);
         }
         else
             {                
