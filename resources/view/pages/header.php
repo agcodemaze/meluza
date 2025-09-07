@@ -98,7 +98,7 @@
                             </a>
 
                             <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item">
+                            <a href="/logoff" class="dropdown-item">
                                 <i class="mdi mdi-logout me-1"></i>
                                 <span><?= \App\Core\Language::get('sair'); ?></span>
                             </a>

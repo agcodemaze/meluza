@@ -5,6 +5,7 @@ use \App\Utils\View;
 use \App\Model\Entity\Profissionais;
 
 class Page {
+    
 
     /**
      * Método responsável por rederizar o topo da página

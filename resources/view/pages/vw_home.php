@@ -4,7 +4,6 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
 $lang = $_SESSION['lang'] ?? 'pt';
 
-
 // Agora cada consulta tem 'data_hora' completa
 $consultas = [
     ["data_hora" => "2025-09-04 19:00", "paciente" => "JOÃO ALBERTO MEDEIROS", "duracao" => 30],

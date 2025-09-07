@@ -3,6 +3,7 @@
 namespace App\Controller\Pages;
 
 use \App\Utils\View;
+use \App\Utils\Auth;
 use \App\Model\Entity\Organization;
 use \App\Model\Entity\Paciente;
 
@@ -14,6 +15,7 @@ class CadPaciente extends Page{
 
     public static function putCadPaciente() {
 
+        Auth::authCheck(); //verifica se já tem login válido (jwt)
         $objOrganization = new Organization();
 
         $listaConvenios = new Paciente();

@@ -27,9 +27,9 @@ class Conn {
     */
     private function conexao() {
 
-        $host   = $_ENV['ENV_BD_HOST'] ?? getenv('ENV_BD_HOST') ?? 'localhost';
-        $dbname = $_ENV['ENV_BD_NAME'] ?? getenv('ENV_BD_NAME') ?? '1000';
-        $user   = $_ENV['ENV_BD_USER'] ?? getenv('ENV_BD_USER') ?? 'root';
+        $host   = $_ENV['ENV_BD_HOST'] ?? getenv('ENV_BD_HOST') ?? '';
+        $dbname = $_ENV['ENV_BD_NAME'] ?? getenv('ENV_BD_NAME') ?? '';
+        $user   = $_ENV['ENV_BD_USER'] ?? getenv('ENV_BD_USER') ?? '';
         $pass   = $_ENV['ENV_BD_PASS'] ?? getenv('ENV_BD_PASS') ?? '';
 
         try {

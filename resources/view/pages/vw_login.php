@@ -1,3 +1,58 @@
+<?php
+use Firebase\JWT\JWT;
+use Firebase\JWT\Key;
+
+$secretKey   = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
+$lifetime = 60 * 60 * 24 * 180;
+
+if (empty($_SESSION['jwt'])) 
+{
+    if(!empty($_COOKIE['token']))
+    {
+        $_SESSION['jwt'] = $_COOKIE['token'];
+    }
+}
+
+if (!empty($_SESSION['jwt'])) {
+    try {
+        $jwt = $_SESSION['jwt'];
+        $decoded = JWT::decode($jwt, new Key($secretKey, 'HS256'));
+        $payload = (array) $decoded;
+
+        $payload['iat'] = time();
+        $payload['exp'] = time() + $lifetime;
+
+        $newJwt = JWT::encode($payload, $secretKey, 'HS256');
+        $_SESSION['jwt'] = $newJwt;
+
+        setcookie('token', $newJwt, [
+            'expires' => time() + $lifetime,
+            'path' => '/',
+            'domain' => 'meluza.com.br',
+            'secure' => isset($_SERVER['HTTPS']),
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+
+        header("Location: /inicial");
+        
+    } catch (Exception $e) {
+        unset($_SESSION['jwt']);
+            setcookie('token', '', [
+            'expires' => time() - 3600,
+            'path' => '/',
+            'domain' => 'meluza.com.br',
+            'secure' => isset($_SERVER['HTTPS']),
+            'httponly' => true,
+            'samesite' => 'Lax'
+        ]);
+    }
+}
+
+$ipAcessoClient = $_SERVER['HTTP_X_REAL_IP'] ?? $_SERVER['REMOTE_ADDR'] ?? 'IP desconhecido';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -72,7 +127,7 @@
                                 <p class="text-muted mb-4"><?= \App\Core\Language::get('login_desc'); ?></p>
                             </div>
 
-                            <form action="#">
+                            <form id="loginForm">
 
                                 <div class="mb-3">
                                     <label for="codigo" class="form-label"><?= \App\Core\Language::get('codigo_clinica'); ?></label>
@@ -80,8 +135,8 @@
                                 </div>
 
                                 <div class="mb-3">
-                                    <label for="emailaddress" class="form-label"><?= \App\Core\Language::get('email'); ?></label>
-                                    <input class="form-control" type="email" id="emailaddress" required="" placeholder="<?= \App\Core\Language::get('email_placeholder'); ?>">
+                                    <label for="email" class="form-label"><?= \App\Core\Language::get('email'); ?></label>
+                                    <input class="form-control" type="email" id="email" required="" placeholder="<?= \App\Core\Language::get('email_placeholder'); ?>">
                                 </div>
 
                                 <div class="mb-3">
@@ -123,5 +178,39 @@
     <script src="/public/assets/js/app.min.js"></script>
 
 </body>
+
+<script>
+                    document.getElementById('loginForm').addEventListener('submit', function(event) {
+                        event.preventDefault();
+
+                        const email = document.getElementById('email').value;
+                        const password = document.getElementById('password').value;
+                        const codigo = document.getElementById('codigo').value;
+
+                        const payload = {
+                            email: email,
+                            codigo: codigo,
+                            password: password
+                        };
+
+                        fetch('/logincheck', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(payload)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                window.location.href = '/inicial';
+                            } else {
+                                alert(data.message);
+                            }
+                        })
+                        .catch(error => console.error('Erro:', error));
+                    });
+
+</script>
+
+
 
 </html>

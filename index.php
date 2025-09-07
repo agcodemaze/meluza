@@ -2,12 +2,30 @@
 
 require __DIR__.'/vendor/autoload.php';
 
+
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__); //para ler o .env
 $dotenv->load();
 
+// Tempo de vida da sessão e do JWT (180 dias)
+$lifetime = 60 * 60 * 24 * 180;
+
+session_set_cookie_params([
+    'lifetime' => $lifetime,
+    'path' => '/',
+    'domain' => 'meluza.com.br',
+    'secure' => isset($_SERVER['HTTPS']),
+    'httponly' => true,
+    'samesite' => 'Lax'
+]);
+
+ini_set('session.gc_maxlifetime', $lifetime);
+ini_set('session.cookie_lifetime', $lifetime);
+
+session_start();
+
 /**
  * nome do arquivo .php deve ser o mesmo nome da classe
- * por isso o \Home e na pasta do controoler existe um Home.php. Isso é padrão Composer
+ * por isso o \Home e na pasta do controler existe um Home.php. Isso é padrão Composer
  */
 
 use \App\Http\Router;
@@ -26,9 +44,18 @@ Language::init();
 define('URL','https://cliente.meluza.com.br');
 define('ASSETS_PATH', '/public/assets/');
 define('UXCOMPONENTS_PATH', __DIR__ . '/UX_Components/');
-define('TENANCY_ID','1');
+
 
 $obRouter = new Router(URL);
+
+// ROTA ROOT -> redireciona para /login
+$obRouter->get('/', [
+    function () {
+        $response = new Response(302, ''); // código 302 + corpo vazio
+        $response->addHeader('Location', '/login');
+        return $response;
+    }
+]);
 
 //ROTA HOME
 $obRouter->get('/inicial',[
@@ -65,10 +92,32 @@ $obRouter->get('/agenda',[
     }
 ]);
 
-//ROTA LOGIN
+//ROTA LOGIN RENDER TELA
 $obRouter->get('/login',[
     function(){
         return new Response(200,Login::getLogin());
+    }
+]);
+
+//ROTA LOGOFF
+$obRouter->get('/logoff',[
+    function(){
+        return new Response(200,Login::logoffUser());
+    }
+]);
+
+// Rota POST para validar o login
+$obRouter->post('/logincheck', [
+    function() {
+        $loginController = new \App\Controller\Pages\Login();
+
+        $input = json_decode(file_get_contents('php://input'), true);
+        $email = $input['email'] ?? '';
+        $password = $input['password'] ?? '';
+        $codigo = $input['codigo'] ?? '';
+
+        $result = $loginController->validateUser($email, $password, $codigo);
+        return new \App\Http\Response(200, $result);
     }
 ]);
 

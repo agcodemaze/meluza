@@ -6,8 +6,7 @@ class Language {
     private static $default = 'pt';
     private static $translations = [];
 
-    public static function init() {
-        session_start();
+    public static function init() {       
 
         if (isset($_GET['lang']) && in_array($_GET['lang'], self::$supported)) {
             $_SESSION['lang'] = $_GET['lang'];

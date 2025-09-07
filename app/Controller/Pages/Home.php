@@ -3,6 +3,7 @@
 namespace App\Controller\Pages;
 
 use \App\Utils\View;
+use \App\Utils\Auth;
 use \App\Model\Entity\Organization;
 
 class Home extends Page{
@@ -12,7 +13,7 @@ class Home extends Page{
     */
 
     public static function getHome() {
-
+        Auth::authCheck(); //verifica se já tem login válido (jwt)
         $objOrganization = new Organization();
 
         /**

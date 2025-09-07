@@ -3,6 +3,7 @@
 namespace App\Controller\Pages;
 
 use \App\Utils\View;
+use \App\Utils\Auth;
 use \App\Model\Entity\Organization;
 
 class Agenda extends Page{
@@ -13,6 +14,7 @@ class Agenda extends Page{
 
     public static function getAgenda () {
 
+        Auth::authCheck(); //verifica se já tem login válido (jwt)
         $objOrganization = new Organization();
 
         /*

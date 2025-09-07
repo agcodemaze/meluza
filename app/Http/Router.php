@@ -85,6 +85,16 @@ class Router {
     }
 
     /**
+     * Método responsavel por definir uma rota de POST
+     * @param string $route
+     * @param array $params
+     */
+    public function post($route, $params = []){
+        return $this->addRoute('POST',$route, $params);
+    }
+
+
+    /**
      * Método responsável por retonrar a URI desconsiderando o prefixo.
      * @return string
      */
@@ -117,7 +127,7 @@ class Router {
             //VERIFICA SE A URI BATE COM O PADRAO
             if(preg_match($patternRoute,$uri)){
                 //VERIFICA O METHOD
-                if($methods[$httpMethod]){
+                if(isset($methods[$httpMethod])){
                     //RETORNO DOS PARAMETROS DA ROTA
                     return $methods[$httpMethod];
                 }
