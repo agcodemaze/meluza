@@ -14,7 +14,7 @@ class Organization {
      * Nome da Organização
      * @var string
      */
-    public $title = 'Site do mics';
+    public $title = 'SmileCopilot';
 
     /**
      * Site da Organização
@@ -26,10 +26,12 @@ class Organization {
      * Descricao da Organização
      * @var string
      */
-    public $description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad 
-    minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea 
-    commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit 
-    esse cillum dolore eu fugiat nulla pariatur.";
+    public $description = "Sistema odontológico completo com agenda online, integração ao WhatsApp, anamnese inteligente e diversos recursos. Tenha o melhor suporte do mercado e faça parte da comunidade de mais de 2.000 dentistas";
+
+        /**
+     * Descricao da Organização
+     * @var string
+     */
+    public $keywords = "software odontológico, sistema para dentistas, agenda online para consultório, gestão de clínicas odontológicas, prontuário eletrônico odontológico";
 
 }

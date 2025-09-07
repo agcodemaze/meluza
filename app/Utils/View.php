@@ -30,23 +30,4 @@ class View {
         // Retorna o conteúdo do buffer
         return ob_get_clean();
     }
-
-    function conexao()
-    {
-        
-        $host = $_ENV['ENV_BD_HOST'];
-        $dbname = "1000"; 
-        $user = $_ENV['ENV_BD_USER'];
-        $pass = $_ENV['ENV_BD_PASS'];
-
-        try {
-            $this->pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $pass);
-            $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            die("Erro na conexão: " . $e->getMessage());
-        } 
-    }
-
-
-
 }

@@ -89,14 +89,16 @@ class Router {
      * @return string
      */
     private function getUri(){
-        //URI DA REQUEST
+        // URI da request
         $uri = $this->request->getUri();
-
-        //FATIA A URI COM O PREFIXO
+    
+        // Remove query string, mantendo só o path
+        $uri = parse_url($uri, PHP_URL_PATH);
+    
+        // Fatia a URI com o prefixo
         $xUri = strlen($this->prefix) ? explode($this->prefix, $uri) : [$uri];
-
+    
         return end($xUri);
-
     }
 
     /**

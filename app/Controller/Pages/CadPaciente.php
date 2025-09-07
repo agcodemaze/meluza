@@ -12,12 +12,13 @@ class CadPaciente extends Page{
     * @return string
     */
 
-    public static function getCadPaciente() {
+    public static function putCadPaciente() {
 
         $objOrganization = new Organization();
 
         $listaConvenios = new Paciente();
         $convenios = $listaConvenios->getConvenios();
+        
         
         /*
         //debug --------

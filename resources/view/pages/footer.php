@@ -7,9 +7,9 @@
             </div>
             <div class="col-md-6">
                 <div class="text-md-end footer-links d-none d-md-block">
-                    <a href="javascript: void(0);">Termos de uso</a>
-                    <a href="javascript: void(0);">Termos de Privacidade</a>
-                    <a href="javascript: void(0);">Suporte </a>
+                    <a href="javascript: void(0);"><?= \App\Core\Language::get('termos_de_uso'); ?></a>
+                    <a href="javascript: void(0);"><?= \App\Core\Language::get('termos_de_privacidade'); ?></a>
+                    <a href="javascript: void(0);"><?= \App\Core\Language::get('suporte'); ?> </a>
                 </div>
             </div>
         </div>

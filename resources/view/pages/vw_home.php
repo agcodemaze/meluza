@@ -2,12 +2,15 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
+$lang = $_SESSION['lang'] ?? 'pt';
+
+
 // Agora cada consulta tem 'data_hora' completa
 $consultas = [
-    ["data_hora" => "2025-09-04 11:00", "paciente" => "JOÃO ALBERTO MEDEIROS", "duracao" => 30],
-    ["data_hora" => "2025-09-04 11:20", "paciente" => "MARIA DORALINA DE JESUS", "duracao" => 45],
-    ["data_hora" => "2025-09-04 11:30", "paciente" => "CARLOS LIMA", "duracao" => 60], // dia seguinte
-    ["data_hora" => "2025-09-04 12:30", "paciente" => "ANA FLAVIA DE ARAÚJO", "duracao" => 30]    // dia anterior
+    ["data_hora" => "2025-09-04 19:00", "paciente" => "JOÃO ALBERTO MEDEIROS", "duracao" => 30],
+    ["data_hora" => "2025-09-04 19:20", "paciente" => "MARIA DORALINA DE JESUS", "duracao" => 45],
+    ["data_hora" => "2025-09-04 19:30", "paciente" => "CARLOS LIMA", "duracao" => 60], // dia seguinte
+    ["data_hora" => "2025-09-04 20:30", "paciente" => "ANA FLAVIA DE ARAÚJO", "duracao" => 30]    // dia anterior
 ];
 ?>
 
@@ -34,7 +37,7 @@ $consultas = [
             <div class="page-title-box">
                 <div class="page-title-right">
                 </div>
-                <h4 class="page-title">Consultas Programadas</h4>
+                <h4 class="page-title"><?= \App\Core\Language::get('consultas'); ?> <?= \App\Core\Language::get('programadas'); ?> </h4>
             </div>
         </div>
     </div>
@@ -50,7 +53,7 @@ $consultas = [
                                 <div class="card-body text-center py-2">
                                     <i class="ri-briefcase-line text-muted font-24"></i>
                                     <h3><span>29</span></h3>
-                                    <p class="text-muted font-15 mb-0">Total de<br>Consultas</p>
+                                    <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('total_de'); ?><br><?= \App\Core\Language::get('consultas'); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +62,7 @@ $consultas = [
                                 <div class="card-body text-center py-2">
                                     <i class="ri-list-check-2 text-muted font-24"></i>
                                     <h3><span>715</span></h3>
-                                    <p class="text-muted font-15 mb-0">Consultas<br>Confirmadas</p>
+                                    <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('consultas'); ?><br><?= \App\Core\Language::get('confirmadas'); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -68,7 +71,7 @@ $consultas = [
                                 <div class="card-body text-center py-2">
                                     <i class="ri-group-line text-muted font-24"></i>
                                     <h3><span>31</span></h3>
-                                    <p class="text-muted font-15 mb-0">Consultas<br>Canceladas</p>
+                                    <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('consultas'); ?><br><?= \App\Core\Language::get('canceladas'); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -77,7 +80,7 @@ $consultas = [
                                 <div class="card-body text-center py-2">
                                     <i class="ri-line-chart-line text-muted font-24"></i>
                                     <h3><span>93%</span> <i class="mdi mdi-arrow-up text-success"></i></h3>
-                                    <p class="text-muted font-15 mb-0">Pacientes<br>Cadastrados</p>
+                                    <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('pacientes'); ?><br><?= \App\Core\Language::get('cadastrados'); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -92,7 +95,7 @@ $consultas = [
     <div class="col-lg-12">
         <div class="card">
             <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                <h4 class="header-title mb-2 mb-md-0">Timeline de atendimento</h4>
+                <h4 class="header-title mb-2 mb-md-0"><?= \App\Core\Language::get('timeline_de_atendimento'); ?></h4>
             </div>
             <div id="timeline" style="height: 250px; overflow-y: auto; border: 0px solid #ccc; padding: 0 15px;"></div>
         </div>
@@ -104,22 +107,22 @@ $consultas = [
                     <div class="col-lg-12">
                         <div class="card">
                             <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                <h4 class="header-title mb-2 mb-md-0">Agenda</h4>
+                                <h4 class="header-title mb-2 mb-md-0"><?= \App\Core\Language::get('agenda'); ?></h4>
                                 <!-- Botões -->
                                 <div class="d-flex flex-column flex-md-row gap-1 w-100 w-md-auto ms-md-5">
                                     <button type="button" class="btn btn-soft-secondary btn-sm w-100 w-md-auto">
-                                        ONTEM
+                                        <?= \App\Core\Language::get('ontem'); ?>
                                     </button>
                                     <button type="button" class="btn btn-primary btn-sm w-100 w-md-auto">
-                                        HOJE
+                                        <?= \App\Core\Language::get('hoje'); ?>
                                     </button>
                                     <button type="button" class="btn btn-soft-secondary btn-sm w-100 w-md-auto">
-                                        AMANHÃ
+                                        <?= \App\Core\Language::get('amanha'); ?>
                                     </button>
                                 </div>
                             </div>
                             <div class="card-header bg-light-lighten border-top border-bottom border-light py-1 text-center">
-                                <p class="m-0"><b>14</b> Consultas confirmadas de 16</p>
+                                <p class="m-0"><b>14</b> <?= \App\Core\Language::get('consultas'); ?> <?= \App\Core\Language::get('confirmadas'); ?> <?= \App\Core\Language::get('de'); ?> 16</p>
                             </div>
                             <div class="card-body pt-2">
                                 <div class="table-responsive">
@@ -127,120 +130,27 @@ $consultas = [
                                         <tbody>
                                             <tr style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal"> <!-- TR com chamada para edição de consulta via Modal -->
                                                 <td>
-                                                    <h5 class="font-14 my-1"><a href="javascript:void(0);" class="text-body">José Antônio da Silva Ribeiro...</a></h5>
-                                                    <span class="text-muted font-13">25/06/2025 16h00 ás 16h30</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Status</span> <br />
-                                                    <span class="badge badge-warning-lighten">Agendada</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Telefone</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">(11) 98273-4350</h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Médico</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Solange Lima de Oliveira</h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Especialidade</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Ortodontia</h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Plano Saúde/Odonto</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Sulamérica</h5>
-                                                </td>
-                                                <td class="table-action" style="width: 90px;">
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-send-check-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Pedir confirmação de comparecimento via WhatsApp"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Reagendar consulta"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Excluir consulta"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal"> <!-- TR com chamada para edição de consulta via Modal -->
-                                                <td>
-                                                    <h5 class="font-14 my-1"><a href="javascript:void(0);" class="text-body">Michell Duarte de Oliveira...</a></h5>
-                                                    <span class="text-muted font-13">25/06/2025 16h00 ás 16h30</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Status</span> <br />
-                                                    <span class="badge badge-success-lighten">Confirmada</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Telefone</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">(11) 98273-4350</h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Médico</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Solange Lima de Oliveira</h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Especialidade</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Ortodontia</h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Plano Saúde/Odonto</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Uniodonto</h5>
-                                                </td>
-                                                <td class="table-action" style="width: 90px;">
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-send-check-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Pedir confirmação de comparecimento via WhatsApp"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Reagendar consulta"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Excluir consulta"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal"> <!-- TR com chamada para edição de consulta via Modal -->
-                                                <td>
-                                                    <h5 class="font-14 my-1"><a href="javascript:void(0);" class="text-body">Vanessa Kuasne Oliveira...</a></h5>
-                                                    <span class="text-muted font-13">25/06/2025 16h00 ás 16h30</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Status</span> <br />
-                                                    <span class="badge badge-warning-lighten">Agendada</span>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Telefone</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">(11) 98273-4350</h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Médico</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Solange Lima de Oliveira</h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Especialidade</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Ortodontia</h5>
-                                                </td>
-                                                <td>
-                                                    <span class="text-muted font-13">Plano Saúde/Odonto</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Sulamérica</h5>
-                                                </td>
-                                                <td class="table-action" style="width: 90px;">
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-send-check-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Pedir confirmação de comparecimento via WhatsApp"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Reagendar consulta"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Excluir consulta"></i></a>
-                                                </td>
-                                            </tr>
-                                            <tr style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal"> <!-- TR com chamada para edição de consulta via Modal -->
-                                                <td>
                                                     <h5 class="font-14 my-1"><a href="javascript:void(0);" class="text-body">Rodolfo Hernandes Silva...</a></h5>
-                                                    <span class="text-muted font-13">25/06/2025 16h00 ás 16h30</span>
+                                                    <span class="text-muted font-13">25/06/2025 16h00 <?= \App\Core\Language::get('as'); ?> 16h30</span>
                                                 </td>
                                                 <td>
-                                                    <span class="text-muted font-13">Status</span> <br />
+                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('status'); ?></span> <br />
                                                     <span class="badge badge-danger-lighten">Cancelada</span>
                                                 </td>
                                                 <td>
-                                                    <span class="text-muted font-13">Telefone</span>
+                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('telefone'); ?></span>
                                                     <h5 class="font-14 mt-1 fw-normal">(11) 98273-4350</h5>
                                                 </td>
                                                 <td>
-                                                    <span class="text-muted font-13">Médico</span>
+                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('profissional'); ?></span>
                                                     <h5 class="font-14 mt-1 fw-normal">Solange Lima de Oliveira</h5>
                                                 </td>
                                                 <td>
-                                                    <span class="text-muted font-13">Especialidade</span>
-                                                    <h5 class="font-14 mt-1 fw-normal">Ortodontia</h5>
+                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('especialidade'); ?></span>
+                                                    <h5 class="font-14 mt-1 fw-normal">Ortodontia</h5> 
                                                 </td>
                                                 <td>
-                                                    <span class="text-muted font-13">Plano Saúde/Odonto</span>
+                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('plano_saude_odonto'); ?></span>
                                                     <h5 class="font-14 mt-1 fw-normal">Uniodonto</h5>
                                                 </td>
                                                 <td class="table-action" style="width: 90px;">
@@ -346,7 +256,7 @@ $consultas = [
         zoomMax: 1000 * 60 * 60*24,
         margin: { item: 10, axis: 5 },
         orientation: 'top',
-        locale: 'pt-br' // agora funciona
+        locale: '<?= $lang; ?>' 
     };
 
     // Inicializa timeline

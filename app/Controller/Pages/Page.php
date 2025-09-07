@@ -2,6 +2,7 @@
 
 namespace App\Controller\Pages;
 use \App\Utils\View;
+use \App\Model\Entity\Profissionais;
 
 class Page {
 
@@ -48,19 +49,23 @@ class Page {
 
     public static function getPage($vwPage, $content) {
 
+        $objProfissionais = new Profissionais();
+        $profissionais = $objProfissionais->getProfissionais(TENANCY_ID);
+
         /*
         //debug --------
         echo "<pre>";   
-        print_r($content);
+        print_r($profissionais);
         echo "<pre>"; 
         exit;
         //debug --------
-       */
+      */
 
         return View::render('pages/page',[
             'title' => $content["title"],
             'componentsScriptsHeader' => $content["componentsScriptsHeader"],
             'componentsScriptsFooter' => $content["componentsScriptsFooter"],
+            'profissionais' => $profissionais,
             'menu' => self::getMenu('pages/menu',$content),
             'header' => self::getHeader('pages/header',$content),
             'content' => self::getContent($vwPage,$content),
