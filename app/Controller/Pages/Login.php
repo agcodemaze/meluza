@@ -14,7 +14,6 @@ class Login extends PageLogin{
     public static function getLogin() {
 
         $objOrganization = new Organization();
-       
         
         /*
         //debug --------

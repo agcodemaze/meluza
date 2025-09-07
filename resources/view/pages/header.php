@@ -15,7 +15,7 @@
                     <!-- Topbar Brand Logo -->
                     <div class="logo-topbar">
                         <!-- Logo light -->
-                        <a href="/" class="logo-light">
+                        <a href="/inicial" class="logo-light">
                             <span class="logo-lg">
                                 <img src="../../../public/assets/images/SmileCopilot-Logo_139x28.png" alt="logo"  style="height:28px; width:auto;">
                             </span>
@@ -25,7 +25,7 @@
                         </a>
 
                         <!-- Logo Dark -->
-                        <a href="/" class="logo-dark">
+                        <a href="/inicial" class="logo-dark">
                             <span class="logo-lg">
                                 <img src="../../../public/assets/images/SmileCopilot-Logo_139x28.png" alt="dark logo" style="height:28px; width:auto;">
                             </span>

@@ -32,7 +32,11 @@ class PageLogin {
       */
 
         return View::render('pages/vw_login',[
-            'title' => $content["title"]
+            'title' => $content["title"],
+            'description' => $content["description"],
+            'site' => $content["description"],
+            'keywords' => $content["description"]
         ]); 
     }
 }
+

@@ -31,7 +31,7 @@ define('TENANCY_ID','1');
 $obRouter = new Router(URL);
 
 //ROTA HOME
-$obRouter->get('/',[
+$obRouter->get('/inicial',[
     function(){
         return new Response(200,Home::getHome());
     }
