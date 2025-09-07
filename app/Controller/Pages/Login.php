@@ -41,7 +41,10 @@ class Login extends PageLogin{
             if ($data['success'] === true) 
             {               
                 //session_regenerate_id(true);                
-                echo $response;
+                //echo $response;
+
+                    $response = new \App\Http\Response(200, json_encode($data), 'application/json');
+                    $response->sendResponse();
             } 
             else 
                 {
