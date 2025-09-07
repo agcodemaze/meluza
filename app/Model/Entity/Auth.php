@@ -19,21 +19,25 @@ class Auth extends Conn {
      * retorna um json com o teste de autenticação do usuário
      * @return array
      */
-public function autenticar($USU_DCEMAIL, $USU_DCSENHA, $TENANCY_ID) {
-    $stmt = $this->pdo->prepare("SELECT * FROM USU_USUARIO WHERE USU_DCEMAIL = :USU_DCEMAIL AND TENANCY_ID = :TENANCY_ID");
-    $stmt->bindParam(":USU_DCEMAIL", $USU_DCEMAIL);
-    $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
-    $stmt->execute();
-    $userinfo = $stmt->fetch(PDO::FETCH_ASSOC);
+    public function autenticar($USU_DCEMAIL, $USU_DCSENHA, $TENANCY_ID) {
 
-    if ($userinfo && password_verify($USU_DCSENHA, $userinfo['USU_DCSENHA'])) {
-        $this->GenJWT($userinfo); // aqui ainda chamamos setcookie()
-        return ["success" => true, "message" => "Credenciais válidas!", "userinfo" => $userinfo];
-    } else {
-        sleep(2);
-        return ["success" => false, "message" => "Credenciais inválidas!"];
+        $sql = "SELECT * FROM USU_USUARIO WHERE USU_DCEMAIL = :USU_DCEMAIL AND TENANCY_ID = :TENANCY_ID";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(":USU_DCEMAIL", $USU_DCEMAIL);
+        $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
+        $stmt->execute();
+        $userinfo = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($userinfo && password_verify($USU_DCSENHA, $userinfo['USU_DCSENHA'])) 
+        {
+            $this->GenJWT($userinfo);
+            return json_encode(["success" => true, "message" => "Credenciais válidas!"]);
+        }
+        else
+            {                
+                return json_encode(["success" => false, "message" => "Credenciais inválidas!"]);
+            }
     }
-}
 
 
     /**
