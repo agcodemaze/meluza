@@ -112,9 +112,9 @@
 <!-- ========== Slimbar Start ========== -->
 <div class="navbar-slim">
     <div class="container-fluid d-flex justify-content-start align-items-center gap-2">
-        <label for="profissional" class="mb-0 fw-semibold">Selecione o Profissional:</label>
+        <label for="profissional" class="mb-0 fw-semibold"><?= \App\Core\Language::get('selecione_profissional'); ?>:</label>
 <select id="profissional" class="form-select" style="width: 250px;">
-    <option value="">-- Selecione --</option>
+    <option value="">-- <?= \App\Core\Language::get('selecione_min'); ?> --</option>
     <?php foreach ($profissionais as $profissional): ?>
         <option 
             value="<?= htmlspecialchars($profissional['DEN_IDDENTISTA'], ENT_QUOTES, 'UTF-8') ?>" 

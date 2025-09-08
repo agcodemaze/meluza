@@ -10,7 +10,6 @@ class PageLogin {
      * Método responsável por rederizar o corpo
      * @return string
      */
-
     private static function getContent($vwPage,$content){
         return View::render($vwPage,$content);
     }
@@ -19,7 +18,6 @@ class PageLogin {
     * Metodo responsavel por retornar o conteúdo da Página Genérica
     * @return string
     */
-
     public static function getPage($vwPage, $content) {
 
         /*

@@ -6,12 +6,16 @@ use \App\Utils\View;
 use \App\Utils\Auth;
 use \App\Model\Entity\Organization;
 
+/**
+ * A classe Agenda é responsável por controlar a página de agendamentos/calendário
+ * do sistema.
+ */
 class Agenda extends Page{
+
     /**
-    * Metodo responsavel por retornar o conteúdo da Home
+    * Metodo responsavel por retornar o conteúdo da página de agenda.
     * @return string
     */
-
     public static function getAgenda () {
 
         Auth::authCheck(); //verifica se já tem login válido (jwt)

@@ -36,6 +36,7 @@
     'secao_cad_basico' => 'Seção para cadastro de dados básicos de contato do paciente.',
     'nome_completo' => 'Nome Completo', 
     'sexo' => 'Sexo',
+    'selecione_min' => 'Selecione',
     'selecione' => 'SELECIONE',
     'masculino' => 'MASCULINO',
     'feminino' => 'FEMININO',
@@ -88,7 +89,7 @@
     'processando_solicitacao' => 'Processando a solicitação...', 
     'paciente_desc' => 'Aqui são listados todos os pacientes cadastrados.', 
     'login' => 'Entre com a sua conta',
-    'login_desc' => 'ou cadastre-se para utilizar 7 dias gratuitos',
+    'login_desc' => 'ou <span class="text-primary" style="cursor: pointer;">cadastre-se</span> para utilizar 7 dias gratuitos.',
     'senha' => 'Senha',
     'senha_esqueceu' => 'Esqueceu sua senha?',
     'entrar' => 'Entrar',
@@ -96,5 +97,9 @@
     'email_placeholder' => 'email@exemplo.com',
     'senha_placeholder' => '',
     'codigo_clinica_placeholder' => 'Ex. 12345',
+    'selecione_profissional' => 'Selecione o Profissional',
+    'pedir_confirmacao_whats_botao' => 'Pedir confirmação de comparecimento via WhatsApp',
+    'reagendar_consulra' => 'Reagendar consulta',
+    'excluir_consulta' => 'Excluir consulta',
     
     ];

@@ -6,14 +6,19 @@ use PDO;
 use PDOException;
 
 /**
- * Criada a herança da classe Conn para 
- * fazer a conexão com o Bando de dados
+ * A classe Profissionais é responsável por gerenciar dados relacionados a profissionais,
+ * como dentistas, na base de dados.
+ *
+ * Ela herda da classe Conn para estabelecer a conexão com o banco de dados.
  */
 class Profissionais extends Conn { 
 
     /**
-     * Retorna todos os convênios cadastrados
-     * @return array
+     * Retorna todos os profissionais (dentistas) cadastrados para um determinado tenant.
+     *
+     * @param int $TENANCY_ID O ID do tenant para filtrar os profissionais.
+     * @return array Um array associativo contendo os profissionais ou um array com
+     * uma mensagem de erro em caso de falha.
      */
     public function getProfissionais($TENANCY_ID) {
         try{           

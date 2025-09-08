@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en" data-layout="topnav">
-
 <head>
     <meta charset="utf-8" />
     <title><?= $title ?></title>
@@ -11,7 +10,9 @@
     <link rel="shortcut icon" href="/public/assets/images/favicon.ico">    
 
     <?= $componentsScriptsHeader ?>
+    <script src="/public/assets/utils/languageDetector.js"></script>
 </head>
+
 <style>
 .navbar-slim {
     background-color: #f5f5f5ff;

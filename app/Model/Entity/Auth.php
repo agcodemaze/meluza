@@ -10,14 +10,17 @@ use PDO;
 use PDOException;
 
 /**
- * Criada a herança da classe Conn para 
- * fazer a conexão com o Bando de dados
+ * A classe Auth herda de Conn para gerenciar a autenticação de usuários
+ * e a geração de tokens JWT.
  */
 class Auth extends Conn { 
 
     /**
-     * retorna um json com o teste de autenticação do usuário
-     * @return array
+     * Autentica um usuário verificando email, senha e tenancy ID.
+     * @param string $USU_DCEMAIL O email do usuário.
+     * @param string $USU_DCSENHA A senha do usuário.
+     * @param string $TENANCY_ID O ID da tenancy.
+     * @return string Retorna um JSON com o resultado da autenticação.
      */
     public function autenticar($USU_DCEMAIL, $USU_DCSENHA, $TENANCY_ID) {
 
@@ -41,15 +44,21 @@ class Auth extends Conn {
 
 
     /**
-     * Gera o JWT e armazena na sessão
-     * @return array
+     * Gera um token JWT e um refresh token, e os armazena em cookies HTTP-only.
+     *
+     * Esta função cria um JWT com as informações do usuário, define cookies HTTP-only
+     * para o JWT e um refresh token, e armazena o refresh token no banco de dados
+     * para posterior revogação ou atualização.
+     *
+     * @param array $userinfo As informações do usuário autenticado (ID, email, perfil, nome, tenancy ID).
+     * @return void Esta função não retorna um valor, apenas executa a lógica de autenticação.
      */
     function GenJWT($userinfo) {
         $secretKey   = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
 
-    // Tempo de vida do JWT e do refresh token
-    $jwtLifetime = 60 * 60;          // 1 hora
-    $refreshLifetime = 60 * 60 * 24 * 60; // 60 dias
+        // Tempo de vida do JWT e do refresh token
+        $jwtLifetime = 60 * 60;          // 1 hora
+        $refreshLifetime = 60 * 60 * 24 * 60; // 60 dias
 
         $payload = [
             "iss" => "smilecopilot",
@@ -91,9 +100,20 @@ class Auth extends Conn {
             'httponly' => true,
             'samesite' => 'Lax'
         ]);
-
     }
 
+    /**
+     * Armazena o refresh token no banco de dados.
+     *
+     * Esta função insere um novo refresh token para um usuário no banco de dados,
+     * juntamente com seu tempo de expiração e status de revogação.
+     * O token é armazenado com hash para maior segurança.
+     *
+     * @param int $USU_IDUSUARIO O ID do usuário associado ao token.
+     * @param string $RTK_DCTOKEN O token de atualização gerado.
+     * @param int $lifetime O tempo de vida do token em segundos.
+     * @return void
+     */
     private function putRefreshToken($USU_IDUSUARIO, $RTK_DCTOKEN, $lifetime) {
         // Opcional: armazenar hash para mais segurança
         $hashedToken = password_hash($RTK_DCTOKEN, PASSWORD_DEFAULT);
@@ -108,10 +128,16 @@ class Auth extends Conn {
         $stmt->execute();
     }
 
+    /**
+     * Realiza o logoff do usuário, limpando sessões, cookies e revogando o refresh token.
+     *
+     * Esta função destrói a sessão, remove os cookies (de sessão, JWT e refresh token),
+     * e marca o refresh token no banco de dados como revogado para invalidá-lo.
+     * Após a limpeza, redireciona o usuário para a página de login.
+     *
+     * @return void
+     */
     function logoff() {
-        session_start();
-        $_SESSION = [];
-        session_destroy();
     
         // Remover cookie de sessão
         if (ini_get("session.use_cookies")) {

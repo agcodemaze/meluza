@@ -2,7 +2,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
-$lang = $_SESSION['lang'] ?? 'pt';
+$lang = $_GET['lang'] ?? 'pt';
 
 // Agora cada consulta tem 'data_hora' completa
 $consultas = [
@@ -153,9 +153,9 @@ $consultas = [
                                                     <h5 class="font-14 mt-1 fw-normal">Uniodonto</h5>
                                                 </td>
                                                 <td class="table-action" style="width: 90px;">
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-send-check-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Pedir confirmação de comparecimento via WhatsApp"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Reagendar consulta"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="Excluir consulta"></i></a>
+                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-send-check-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>"></i></a>
+                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('reagendar_consulra'); ?>"></i></a> 
+                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_consulta'); ?>"></i></a>
                                                 </td>
                                             </tr>
                                         </tbody>

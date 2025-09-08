@@ -121,7 +121,6 @@ $obRouter->post('/logincheck', [
     }
 ]);
 
-
 //IMPRIME RESPONSE NA PÁGINA
 $obRouter->run()
             ->sendResponse();

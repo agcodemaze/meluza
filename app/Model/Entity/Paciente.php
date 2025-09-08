@@ -6,14 +6,16 @@ use PDO;
 use PDOException;
 
 /**
- * Criada a herança da classe Conn para 
- * fazer a conexão com o Bando de dados
+ * A classe Paciente é responsável por gerenciar dados relacionados a pacientes,
+ * incluindo a obtenção de convênios e a listagem de pacientes.
+ * Ela herda da classe Conn para estabelecer a conexão com o banco de dados.
  */
 class Paciente extends Conn { 
 
     /**
-     * Retorna todos os convênios cadastrados
-     * @return array
+     * Retorna todos os convênios cadastrados no banco de dados.
+     * @return array Um array associativo contendo os convênios ou um array com uma
+     * mensagem de erro em caso de falha.
      */
     public function getConvenios() {
         try{           
@@ -26,10 +28,18 @@ class Paciente extends Conn {
         } 
     }
 
+    /**
+     * Retorna todos os pacientes cadastrados para um determinado tenant.
+     *
+     * @param int $TENANCY_ID O ID do tenant para filtrar os pacientes.
+     * @return array Um array associativo contendo os pacientes ou um array com
+     * uma mensagem de erro em caso de falha.
+     */
     public function getPacientes($TENANCY_ID) {
         try{           
-            $sql = "SELECT * FROM PAC_PACIENTES WHERE TENANCY_ID = $TENANCY_ID ORDER BY PAC_DCNOME ASC";
+            $sql = "SELECT * FROM PAC_PACIENTES WHERE TENANCY_ID = :TENANCY_ID ORDER BY PAC_DCNOME ASC";
             $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {

@@ -4,27 +4,38 @@ namespace App\Model\Entity;
 use PDO;
 use PDOException;
 
+/**
+ * A classe Conn é responsável por gerenciar a conexão com o banco de dados.
+ *
+ * Ela encapsula a lógica de conexão e fornece uma instância de PDO
+ * para que outras classes possam interagir com o banco de dados.
+ */
 class Conn {
 
+    /**
+     * @var PDO A instância de PDO para a conexão com o banco de dados.
+     */
     public $pdo;
 
     /**
-     * Construtor
-     * Inicializa a conexão automaticamente ao instanciar a classe.
+     * Construtor da classe Conn.
+     *
+     * Inicializa automaticamente a conexão com o banco de dados
+     * assim que um objeto Conn é instanciado.
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->conexao();
     }
 
     /**
-    * Inicializa a conexão com o banco de dados.
-    *
-    * Cria uma instância de PDO e armazena em $this->pdo.
-    * Caso ocorra um erro na conexão, o script é encerrado com die().
-    *
-    * @return void
-    */
+     * Inicializa a conexão com o banco de dados.
+     *
+     * Cria uma nova instância de PDO usando as credenciais do ambiente
+     * e a armazena na propriedade $this->pdo. Em caso de falha na conexão,
+     * o script é encerrado.
+     *
+     * @return void
+     */
     private function conexao() {
 
         $host   = $_ENV['ENV_BD_HOST'] ?? getenv('ENV_BD_HOST') ?? '';
