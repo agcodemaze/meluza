@@ -141,7 +141,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
 
-            <div class="modal-body">
+            <div class="modal-body"> 
                   <div class="card">
                                 <div class="card-body">
 
