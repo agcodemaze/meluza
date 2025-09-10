@@ -161,29 +161,29 @@ document.addEventListener('DOMContentLoaded', function() {
         events: [
             {
                 title: 'Consulta João',
-                start: '2025-09-04T10:00:00',
-                end: '2025-09-04T11:00:00',
+                start: '2025-09-07T19:00:00',
+                end: '2025-09-07T19:30:00',
                 className: 'bg-success',
                 observacoes: 'Paciente novo, trazer exames de sangue'
             },
             {
                 title: 'Consulta João',
-                start: '2025-09-04T16:00:00',
-                end: '2025-09-04T16:30:00',
+                start: '2025-09-08T16:00:00',
+                end: '2025-09-08T16:30:00',
                 className: 'bg-success',
                 observacoes: 'Consulta de retorno'
             },
             {
                 title: 'Consulta João',
-                start: '2025-09-04T17:00:00',
-                end: '2025-09-04T17:30:00',
+                start: '2025-09-09T17:00:00',
+                end: '2025-09-09T17:30:00',
                 className: 'bg-success',
                 observacoes: 'Confirmar convênio na recepção'
             },
             {
                 title: 'Retorno Maria',
-                start: '2025-09-04T14:00:00',
-                end: '2025-09-04T15:30:00',
+                start: '2025-09-09T14:00:00',
+                end: '2025-09-09T15:30:00',
                 className: 'bg-info',
                 observacoes: 'Paciente pediu avaliação de exames anteriores'
             }

@@ -5,6 +5,7 @@ namespace App\Controller\Pages;
 use \App\Utils\View;
 use \App\Utils\Auth;
 use \App\Model\Entity\Organization;
+use \App\Model\Entity\Consultas;
 
 class Home extends Page{
     /**
@@ -15,6 +16,8 @@ class Home extends Page{
     public static function getHome() {
         Auth::authCheck(); //verifica se já tem login válido (jwt)
         $objOrganization = new Organization();
+        $objConsultas = new Consultas();
+        $consultasHoje = $objConsultas->getConsultasHoje(TENANCY_ID);
 
         /**
          * Comonentes/Scripts que serão carregados na view
@@ -40,6 +43,7 @@ class Home extends Page{
             'title' => $objOrganization->title,
             'description' => $objOrganization->description,
             'site' => $objOrganization->site,
+            'consultasHoje' => $consultasHoje,
             'componentsScriptsHeader' => $componentsScriptsHeader,
             'componentsScriptsFooter' => $componentsScriptsFooter
         ]); 
