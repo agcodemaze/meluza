@@ -50,8 +50,8 @@ class Page {
 
     public static function getPage($vwPage, $content) {
 
-        $objProfissionais = new Profissionais();
-        $profissionais = $objProfissionais->getProfissionais(TENANCY_ID);
+        //$objProfissionais = new Profissionais();
+        //$profissionais = $objProfissionais->getProfissionais(TENANCY_ID);
 
         /*
         //debug --------
@@ -66,7 +66,7 @@ class Page {
             'title' => $content["title"],
             'componentsScriptsHeader' => $content["componentsScriptsHeader"],
             'componentsScriptsFooter' => $content["componentsScriptsFooter"],
-            'profissionais' => $profissionais,
+            //'profissionais' => $profissionais,
             'menu' => self::getMenu('pages/menu',$content),
             'header' => self::getHeader('pages/header',$content),
             'content' => self::getContent($vwPage,$content),

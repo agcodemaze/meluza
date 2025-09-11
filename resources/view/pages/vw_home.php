@@ -1,11 +1,64 @@
 <?php
+
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
+//trecho q reutilizo a url para criar os links de atalho para dias da semana
+$currentUrl = $_SERVER['REQUEST_URI'];
+$parsedUrl = parse_url($currentUrl);
+$path = $parsedUrl['path'];
+$query = $parsedUrl['query'] ?? '';
+parse_str($query, $queryParams);
+unset($queryParams['dia']);
+$newQuery = http_build_query($queryParams);
+$newUrl = $path . ($newQuery ? '?' . $newQuery : '');
+
+
 $lang = $_GET['lang'] ?? 'pt';
+
+$profissionalId = $_GET['profissional_id'] ?? '';
+$dia = $_GET['dia'] ?? '';
+
+if ($profissionalId === "all" && !empty($dia)) {
+    $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayPredef($dia);
+} elseif ($profissionalId === "all" && empty($dia)) {
+    $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayPredef(""); 
+} elseif ($profissionalId === "" && empty($dia)) {
+    $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayPredef(""); 
+} elseif (!empty($profissionalId) && !empty($dia)) {
+    $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayProfPredef($profissionalId, $dia);
+} elseif (!empty($profissionalId) && empty($dia)) {
+    $consultasHoje = \App\Controller\Pages\Home::getConsultasByProfissional($profissionalId);
+}
+
+$botaoStyleDeactiveOntem = "btn-soft-secondary ";
+$botaoStyleDeactiveHoje = "btn-soft-secondary ";
+$botaoStyleDeactiveAmanha = "btn-soft-secondary ";
+$botaoStyleDeactiveTodos = "btn-soft-secondary ";
+
+if(isset($_GET['dia'])) {
+    if($_GET['dia'] == "1") { 
+        $botaoStyleDeactiveHoje = "btn btn-primary"; 
+        $textTitulo = "de_hoje";
+    }elseif ($_GET['dia'] == "2") {
+        $botaoStyleDeactiveAmanha = "btn btn-primary";
+        $textTitulo = "de_amanha";
+    }elseif ($_GET['dia'] == "3") {
+        $botaoStyleDeactiveOntem = "btn btn-primary";
+        $textTitulo = "de_ontem";
+    }else {
+        $botaoStyleDeactiveTodos = "btn btn-primary";
+        $textTitulo = "de_todos";
+    }
+} else {
+    $botaoStyleDeactiveTodos = "btn btn-primary";
+    $textTitulo = "de_todos";
+}
 
 $totalConsultas = 0;
 $confirmadas = 0;
+$canceladas = 0;
+$concluida = 0;
 
 $totalConsultas = count($consultasHoje);
 
@@ -13,18 +66,23 @@ foreach ($consultasHoje as $consulta) {
     if ($consulta['CON_ENSTATUS'] === "CONFIRMADA") {
         $confirmadas++;
     }
+    if ($consulta['CON_ENSTATUS'] === "CANCELADA") {
+        $canceladas++;
+    }
+    if ($consulta['CON_ENSTATUS'] === "CONCLUIDA") {
+        $concluida++;
+    }
 }
 
+foreach ($consultasHoje as $c) {
+    $consultasTimeline[] = [
+        "data_hora" => $c['CON_DTCONSULTA'] . ' ' . $c['CON_HORACONSULTA'],
+        "paciente" => $c['PAC_DCNOME'],
+        "duracao" => (int)$c['CON_NUMDURACAO'],
+        "status" => $c['CON_ENSTATUS']
+    ];
+}
 
-
-
-// Agora cada consulta tem 'data_hora' completa
-$consultassss = [
-    ["data_hora" => "2025-09-09 19:20", "paciente" => "JOÃO ALBERTO MEDEIROS", "duracao" => 30],
-    ["data_hora" => "2025-09-09 19:20", "paciente" => "MARIA DORALINA DE JESUS", "duracao" => 45],
-    ["data_hora" => "2025-09-09 19:30", "paciente" => "CARLOS LIMA", "duracao" => 60], // dia seguinte
-    ["data_hora" => "2025-09-09 20:30", "paciente" => "ANA FLAVIA DE ARAÚJO", "duracao" => 30]    // dia anterior
-];
 ?>
 
 <style>
@@ -76,7 +134,7 @@ $consultassss = [
             <div class="page-title-box">
                 <div class="page-title-right">
                 </div>
-                <h4 class="page-title"><?= \App\Core\Language::get('consultas'); ?> <?= \App\Core\Language::get('programadas'); ?> </h4>
+                <h4 class="page-title"><?= \App\Core\Language::get('consultas'); ?> <?= \App\Core\Language::get($textTitulo); ?> </h4>
             </div>
         </div>
     </div>
@@ -91,7 +149,7 @@ $consultassss = [
                             <div class="card rounded-0 shadow-none m-0">
                                 <div class="card-body text-center py-2">
                                     <i class="ri-briefcase-line text-muted font-24"></i>
-                                    <h3><span>29</span></h3>
+                                    <h3><span><?= $totalConsultas; ?></span></h3>
                                     <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('total_de'); ?><br><?= \App\Core\Language::get('consultas'); ?></p>
                                 </div>
                             </div>
@@ -100,7 +158,7 @@ $consultassss = [
                             <div class="card rounded-0 shadow-none m-0 border-start border-light">
                                 <div class="card-body text-center py-2">
                                     <i class="ri-list-check-2 text-muted font-24"></i>
-                                    <h3><span>715</span></h3>
+                                    <h3><span><?= $confirmadas; ?></span></h3> 
                                     <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('consultas'); ?><br><?= \App\Core\Language::get('confirmadas'); ?></p>
                                 </div>
                             </div>
@@ -109,7 +167,7 @@ $consultassss = [
                             <div class="card rounded-0 shadow-none m-0 border-start border-light">
                                 <div class="card-body text-center py-2">
                                     <i class="ri-group-line text-muted font-24"></i>
-                                    <h3><span>31</span></h3>
+                                    <h3><span><?= $canceladas; ?></span></h3>
                                     <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('consultas'); ?><br><?= \App\Core\Language::get('canceladas'); ?></p>
                                 </div>
                             </div>
@@ -118,8 +176,8 @@ $consultassss = [
                             <div class="card rounded-0 shadow-none m-0 border-start border-light">
                                 <div class="card-body text-center py-2">
                                     <i class="ri-line-chart-line text-muted font-24"></i>
-                                    <h3><span>93%</span> <i class="mdi mdi-arrow-up text-success"></i></h3>
-                                    <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('pacientes'); ?><br><?= \App\Core\Language::get('cadastrados'); ?></p>
+                                    <h3><span><?= $concluida; ?></h3>
+                                    <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('consultas'); ?><br><?= \App\Core\Language::get('concluidas'); ?></p>
                                 </div>
                             </div>
                         </div>
@@ -139,7 +197,12 @@ $consultassss = [
                 </h4>
                 <span id="relogio" class="fw-bold text-muted"></span>
             </div>
+            <?php if ($totalConsultas > 0): ?>
             <div id="timeline" style="height: 250px; overflow-y: auto; border: 0px solid #ccc; padding: 0 15px;"></div>
+            <?php endif; ?>
+            <?php if ($totalConsultas == 0): ?>
+                <div style="height: 50px; overflow-y: auto; align-items: center; justify-content: center;  border: 0px solid #ccc; padding: 0 15px;">Não há consultas agendadas</div>                
+            <?php endif; ?>
         </div>
     </div><!-- end col-->    
 </div>
@@ -151,15 +214,23 @@ $consultassss = [
                             <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
                                 <h4 class="header-title mb-2 mb-md-0"><?= \App\Core\Language::get('agenda'); ?></h4>
                                 <!-- Botões -->
-                                <div class="d-flex flex-column flex-md-row gap-1 w-100 w-md-auto ms-md-5">
-                                    <button type="button" class="btn btn-soft-secondary btn-sm w-100 w-md-auto">
+                                <div class="d-flex flex-column flex-md-row gap-1 w-100 w-md-auto">
+                                    <button type="button" class="btn <?= $botaoStyleDeactiveOntem ?> btn-sm w-100 w-md-auto" onclick="window.location.href='<?= $newUrl.'&dia=3'; ?>'">
                                         <?= \App\Core\Language::get('ontem'); ?>
                                     </button>
-                                    <button type="button" class="btn btn-primary btn-sm w-100 w-md-auto">
+                                    <button type="button" class="btn <?= $botaoStyleDeactiveHoje ?> btn-sm w-100 w-md-auto" onclick="window.location.href='<?= $newUrl.'&dia=1'; ?>'">
                                         <?= \App\Core\Language::get('hoje'); ?>
                                     </button>
-                                    <button type="button" class="btn btn-soft-secondary btn-sm w-100 w-md-auto">
+                                    <button type="button" class="btn <?= $botaoStyleDeactiveAmanha ?> btn-sm w-100 w-md-auto" onclick="window.location.href='<?= $newUrl.'&dia=2'; ?>'">
                                         <?= \App\Core\Language::get('amanha'); ?>
+                                    </button>
+                                    <button type="button" class="btn <?= $botaoStyleDeactiveTodos ?> btn-sm w-100 w-md-auto" onclick="window.location.href='<?= $newUrl.'&dia=4'; ?>'">
+                                        <?= \App\Core\Language::get('todas'); ?>
+                                    </button>
+                                
+                                    <!-- Botão afastado com responsividade -->
+                                    <button type="button" class="btn btn-success btn-sm w-100 w-md-auto ms-md-5 mt-2 mt-md-0">
+                                        <?= \App\Core\Language::get('cadastrar_consulta_ini'); ?>
                                     </button>
                                 </div>
                             </div>
@@ -174,7 +245,7 @@ $consultassss = [
                                                 <?php
                                                     if ($consulta['CON_ENSTATUS'] == "CONCLUIDA") {
                                                         $imgIcon = "uil uil-award-alt font-16";
-                                                        $classIcon = "avatar-title bg-warning-lighten rounded-circle text-warning";
+                                                        $classIcon = "avatar-title bg-secondary-lighten rounded-circle text-secondary";
                                                         $iconStyle = "border: 2px solid #a7a6a5ff;";
                                                         $classeBadge = "secondary";
                                                     } elseif ($consulta['CON_ENSTATUS'] == "CANCELADA") {
@@ -200,7 +271,7 @@ $consultassss = [
                                                     }
                                                 ?>
 
-                                            <tr style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal"> <!-- TR com chamada para edição de consulta via Modal -->
+                                            <tr> <!-- TR com chamada para edição de consulta via Modal -->
                                                 <td>
                                                     <div class="avatar-sm d-table">
                                                         <span class="<?= $classIcon; ?>" style="<?= $iconStyle; ?>">
@@ -208,34 +279,51 @@ $consultassss = [
                                                         </span>
                                                     </div>
                                                 </td>
-                                                <td>
+                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                                     <h5 class="font-14 my-1"><a href="javascript:void(0);" class="text-body"><?= htmlspecialchars((string)$consulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?></a></h5>
                                                     <span class="text-muted font-13"><?= htmlspecialchars((string)$consulta['CON_DTCONSULTA'], ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars((string)$consulta['CON_HORACONSULTA'], ENT_QUOTES, 'UTF-8') ?> <?= \App\Core\Language::get('as'); ?> <?= htmlspecialchars((string)$consulta['CON_HORACONSULTA'], ENT_QUOTES, 'UTF-8') ?></span>
                                                 </td>
-                                                <td>
+                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                                     <span class="text-muted font-13"><?= \App\Core\Language::get('status'); ?></span> <br />
                                                     <span class="badge badge-<?= $classeBadge; ?>-lighten"><?= htmlspecialchars((string)$consulta['CON_ENSTATUS'], ENT_QUOTES, 'UTF-8') ?></span>
                                                 </td>
-                                                <td>
+                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                                     <span class="text-muted font-13"><?= \App\Core\Language::get('telefone'); ?></span>
                                                     <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['PAC_DCTELEFONE'], ENT_QUOTES, 'UTF-8') ?></h5>
                                                 </td>
-                                                <td>
+                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                                     <span class="text-muted font-13"><?= \App\Core\Language::get('profissional'); ?></span>
                                                     <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['DEN_DCNOME'], ENT_QUOTES, 'UTF-8') ?></h5>
                                                 </td>
-                                                <td>
+                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                                     <span class="text-muted font-13"><?= \App\Core\Language::get('especialidade'); ?></span>
                                                     <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['CON_NMESPECIALIDADE'], ENT_QUOTES, 'UTF-8') ?></h5> 
                                                 </td>
-                                                <td>
+                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                                     <span class="text-muted font-13"><?= \App\Core\Language::get('plano_saude_odonto'); ?></span>
                                                     <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['CNV_DCCONVENIO'], ENT_QUOTES, 'UTF-8') ?></h5>
                                                 </td>
                                                 <td class="table-action" style="width: 90px;">
                                                     <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-send-check-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('reagendar_consulra'); ?>"></i></a> 
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_consulta'); ?>"></i></a>
+                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('reagendar_consulra'); ?>"></i></a>                                
+                                                    <a href="javascript:void(0);"  
+                                                            class="action-icon"
+                                                            data-id="<?= htmlspecialchars((string)$consulta['CON_IDCONSULTA'], ENT_QUOTES, 'UTF-8') ?>"    
+                                                            data-dialogTitle="<?= \App\Core\Language::get('consultas_lista'); ?>"    
+                                                            data-dialogMessage="<?= \App\Core\Language::get('tem_certeza_excluir_consulta'); ?> <?= htmlspecialchars((string)$consulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?>?"   
+                                                            data-dialogUriToProcess="/deleteTaskProc"   
+                                                            data-dialogUriToRedirect="/inicial"   
+                                                            data-dialogConfirmButton="<?= \App\Core\Language::get('confirmar'); ?>"
+                                                            data-dialogCancelButton="<?= \App\Core\Language::get('cancelar'); ?>" 
+                                                            data-dialogErrorMessage="<?= \App\Core\Language::get('erro_ao_excluir'); ?>"
+                                                            data-dialogErrorTitle="<?= \App\Core\Language::get('erro'); ?>"    
+                                                            data-dialogCancelTitle="<?= \App\Core\Language::get('Cancelado'); ?>"                                                          
+                                                            data-dialogCancelMessage="<?= \App\Core\Language::get('cancelado_nenhuma_alteracao'); ?>"     
+                                                            data-dialogSuccessTitle="<?= \App\Core\Language::get('sucesso'); ?>"                                                             
+                                                            data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
+                                                            data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
+                                                            onclick="event.stopPropagation(); confirmDeleteAttr(this);"> <!-- Chama o método js confirmDeleteAttr com sweetalert -->
+                                                            <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_consulta'); ?>"></i>
                                                 </td>
                                             </tr>
                                             <?php endforeach; ?>
@@ -300,13 +388,27 @@ $consultassss = [
 
 <script>
     const servidorAgora = '<?php echo $dataHoraServidor; ?>';
-    const consultas = <?php echo json_encode($consultassss); ?>;
+    const consultas = <?php echo json_encode($consultasTimeline); ?>;
 
     const itemsData = consultas.map((c, index) => {
         const start = new Date(c.data_hora);
         const end = new Date(start.getTime() + c.duracao * 60 * 1000);
 
-        const corFundo = 'linear-gradient(135deg, #2196F3, #21CBF3)';
+        // Define cor de fundo com base no status
+        let corFundo;
+        if(c.status == 'CONFIRMADA'){
+            corFundo = 'linear-gradient(135deg, #28af49ff, #1aad75ff)';
+        } else if (c.status == 'CANCELADA') {
+            corFundo = 'linear-gradient(135deg, #f39821ff, #a8850fff)';
+        } else if (c.status == 'CONCLUIDA') {
+            corFundo = 'linear-gradient(135deg, #4c4e4eff, #a5acadff)';
+        } else if (c.status == 'AGENDADA') {
+            corFundo = 'linear-gradient(135deg, #2196F3, #21CBF3)';
+        } else if (c.status == 'FALTA') {
+            corFundo = 'linear-gradient(135deg, #f74c18ff, #d12727ff)';
+        } else {
+            corFundo = 'linear-gradient(135deg, #cccccc, #aaaaaa)'; // fallback
+        }
 
         return {
             id: index + 1,
@@ -315,7 +417,7 @@ $consultassss = [
                              ${end.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</small>`,
             start: start,
             end: end,
-            style: `background: ${corFundo};`
+            style: `background: ${corFundo}; color: white; border: 1px solid rgba(25, 118, 210, 0.8);`
         };
     });
 
@@ -334,8 +436,8 @@ $consultassss = [
         showCurrentTime: true,
         stack: true,
         horizontalScroll: true,
-        zoomMin: 1000 * 60 * 30,   // 30 min
-        zoomMax: 1000 * 60 * 60*24, // 24h
+        zoomMin: 1000 * 60 * 30,
+        zoomMax: 1000 * 60 * 60 * 24,
         margin: { item: 10, axis: 5 },
         orientation: 'top',
         locale: '<?= $lang; ?>'
@@ -348,28 +450,24 @@ $consultassss = [
             const itemId = properties.items[0];
             const item = items.get(itemId);
 
-            // Preenche modal (exemplo)
-            document.getElementById('username').value = item.content.replace(/<[^>]*>?/gm, ''); // remove tags html
+            // Preenche modal
+            document.getElementById('username').value = item.content.replace(/<[^>]*>?/gm, '');
             document.getElementById('emailaddress').value = item.email || '';
             document.getElementById('password').value = '';
             document.getElementById('customCheck1').checked = false;
 
-            // Abre modal
             const modal = new bootstrap.Modal(document.getElementById('editarConsulta-modal'));
             modal.show();
         }
     });
 
-    // Mantém timeline atualizada no horário
     function atualizarTimeline() {
         const agora = new Date();
         timeline.moveTo(agora);
     }
 
-    // Atualiza a cada 2 minutos
     setInterval(atualizarTimeline, 120000);
 </script>
-
 
 <script>
     function atualizarRelogio() {

@@ -31,11 +31,15 @@ class Home extends Page{
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/pt-br.min.js"></script>
             <link href="https://unpkg.com/vis-timeline/styles/vis-timeline-graph2d.min.css" rel="stylesheet" />
             <script src="https://unpkg.com/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>
+            <link href="'.ASSETS_PATH.'vendor/ad_sweetalert/sweetalert2.min.css" rel="stylesheet">
+            <script src="'.ASSETS_PATH.'vendor/ad_sweetalert/sweetalert2.all.min.js"></script>
         ';
 
         $componentsScriptsFooter = '
             <script src="'.ASSETS_PATH.'js/vendor.min.js"></script>            
             <script src="'.ASSETS_PATH.'js/app.min.js"></script>
+            <script src="'.ASSETS_PATH.'utils/alertDelete.js"></script>
+            <script src="'.ASSETS_PATH.'utils/scrollPositionReload.js"></script>
         ';
 
         //VIEW DA HOME
@@ -52,5 +56,25 @@ class Home extends Page{
         return self::getPage('pages/vw_home', $content);
     }
 
+    public static function getConsultasByProfissional($DEN_IDDENTISTA) {
+
+        $objConsultas = new Consultas();
+        $consultasByProfissional = $objConsultas->getConsultasByProfissional(TENANCY_ID, $DEN_IDDENTISTA);
+        return $consultasByProfissional;
+    }
+
+    public static function getConsultasByDayProfPredef($DEN_IDDENTISTA, $DIA) {
+
+        $objConsultas = new Consultas();
+        $consultasByDayProfPredef = $objConsultas->getConsultasByDayProfPredef(TENANCY_ID, $DEN_IDDENTISTA, $DIA);
+        return $consultasByDayProfPredef;
+    }
+
+    public static function getConsultasByDayPredef($DIA) {
+
+        $objConsultas = new Consultas();
+        $consultasByDayPredef = $objConsultas->getConsultasByDayPredef(TENANCY_ID, $DIA);
+        return $consultasByDayPredef;
+    }
 }
 

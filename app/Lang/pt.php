@@ -102,4 +102,17 @@
     'reagendar_consulra' => 'Reagendar consulta',
     'excluir_consulta' => 'Excluir consulta',
     
+    //------------- CONTINUA DAQUI PARA TRADUZIR DEMAIS IDIOMAS
+    
+    'todas' => 'Todas',
+    'consultas_lista' => 'Lista de Consultas',
+    'tem_certeza_excluir_consulta' => 'Tem certeza que deseja excluir a consulta do paciente ',
+    'selecione_todos' => 'Todos',
+    'de_hoje' => 'de Hoje',
+    'de_amanha' => 'de Amanhã',
+    'de_ontem' => 'de Ontem',
+    'de_todos' => '',
+    'concluidas' => 'Concluídas',
+    'cadastrar_consulta_ini' => 'CADASTRAR CONSULTA',
+
     ];

@@ -1,10 +1,15 @@
 <?php
     use \App\Model\Entity\Profissionais;
         
+    $profissionalId = "";
+    // Se vier via GET, salva na sessão
+    if (isset($_GET['profissional_id'])) {
+        $profissionalId = $_GET['profissional_id'];
+        $_SESSION['PROFISSIONAL_ID'] = $profissionalId;
+    }
+
     $objProfissionais = new Profissionais();
     $profissionais = $objProfissionais->getProfissionais(TENANCY_ID);
-
-    $selectedClientId = $PROFISSIONAL_ID ?? '';
 ?>
 
 <!-- ========== Topbar Start ========== -->
@@ -110,21 +115,27 @@
 <!-- ========== Topbar End ========== -->
 
 <!-- ========== Slimbar Start ========== -->
+ <form method="GET" id="formProfissional">
 <div class="navbar-slim">
-    <div class="container-fluid d-flex justify-content-start align-items-center gap-2">
+    <div class="container-fluid d-flex justify-content-start align-items-center gap-2">        
         <label for="profissional" class="mb-0 fw-semibold"><?= \App\Core\Language::get('selecione_profissional'); ?>:</label>
-<select id="profissional" class="form-select" style="width: 250px;">
-    <option value="">-- <?= \App\Core\Language::get('selecione_min'); ?> --</option>
-    <?php foreach ($profissionais as $profissional): ?>
-        <option 
-            value="<?= htmlspecialchars($profissional['DEN_IDDENTISTA'], ENT_QUOTES, 'UTF-8') ?>" 
-            <?= ($profissional['DEN_IDDENTISTA'] == $selectedClientId) ? 'selected' : '' ?>
-        >
-            <?= htmlspecialchars($profissional['DEN_DCNOME'], ENT_QUOTES, 'UTF-8') ?>
-        </option>
-    <?php endforeach; ?>
-</select>
+        <select 
+            name="profissional_id" 
+            id="profissional" 
+            class="form-select" 
+            style="width: 250px;" 
+            onchange="document.getElementById('formProfissional').submit()">                
+            <option value="all">-- <?= \App\Core\Language::get('selecione_todos'); ?> --</option>
+            <?php foreach ($profissionais as $profissional): ?>
+                <option 
+                    value="<?= htmlspecialchars($profissional['DEN_IDDENTISTA'], ENT_QUOTES, 'UTF-8') ?>" 
+                    <?= ($profissional['DEN_IDDENTISTA'] == $profissionalId) ? 'selected' : '' ?>>
+                    <?= htmlspecialchars($profissional['DEN_DCNOME'], ENT_QUOTES, 'UTF-8') ?>
+                </option>
+            <?php endforeach; ?>
+        </select>       
     </div>
 </div>
+</form>
 <!-- ========== Slimbar End ========== -->
 
