@@ -3,153 +3,141 @@ date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
 $lang = $_SESSION['lang'] ?? 'pt';
-
 ?>
 
 <!-- Start Content-->
-<div class="container-fluid">
-    <!-- start page title -->
+<div class="container-fluid" style="max-width:90% !important; padding-left:10px; padding-right:10px;">
     <div class="row">
         <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                </div>
-                <h4 class="page-title"><?= \App\Core\Language::get('agenda'); ?></h4>
-            </div>
-        </div>
-    </div>
-    <!-- end page title -->
+            <!-- Seção: Anamnese Médica -->
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">
+                        <?= \App\Core\Language::get('agenda'); ?>
+                    </h4> 
+                    
+                    <p class="text-muted font-14">
+                        <?= \App\Core\Language::get('agenda_desc'); ?>
+                    </p>
 
-    
-    <div class="row">
-        <div class="col-12">
+                    <div class="tab-content">
+                        <div class="tab-pane show active" id="input-types-preview">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="card">
+                                        <div class="card-body">
 
-<form class="needs-validation" id="form" name="form" role="form" method="POST" enctype="multipart/form-data" novalidate>
-    <!-- Seção: Anamnese Médica -->
-    <div class="card">
-        <div class="card-body">
-            <h4 class="header-title"><?= \App\Core\Language::get('consultas_agendads'); ?></h4> 
-            <p class="text-muted font-14">  
-                <?= \App\Core\Language::get('agenda_desc'); ?>
-            </p>
+                                            <div class="row">
+                                                <div class="col-lg-3">
+                                                    <div class="mt-4 mt-lg-0">                                                
+                                                        <div id="datepicker"></div>
+                                                    </div>
+                                                </div> <!-- end col -->
 
-            <div class="tab-content">
-                <div class="tab-pane show active" id="input-types-preview">
+                                                <div class="col-lg-9">
+                                                    <div class="mt-4 mt-lg-0">                                                
+                                                        <div id="calendar"></div>
+                                                    </div>
+                                                </div> <!-- end col -->
+                                            </div> <!-- end row -->
 
-                    <div class="row">
-                        <div class="col-12">
+                                        </div> <!-- end card body-->
+                                    </div> <!-- end card -->
+                                    <!-- Add New Event MODAL -->
+                                    <div class="modal fade" id="event-modal" tabindex="-1">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <form class="needs-validation" name="event-form" id="form-event" novalidate>
+                                                    <div class="modal-header py-3 px-4 border-bottom-0">
+                                                        <h5 class="modal-title" id="modal-title">Event</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body px-4 pb-4 pt-0">
+                                                        <div class="row">
+                                                            <div class="col-12">
+                                                                <div class="mb-3">
+                                                                    <label class="control-label form-label">Event Name</label>
+                                                                    <input class="form-control" placeholder="Insert Event Name" type="text" name="title" id="event-title" required />
+                                                                    <div class="invalid-feedback">Please provide a valid event name</div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <div class="mb-3">
+                                                                    <label class="control-label form-label">Category</label>
+                                                                    <select class="form-select" name="category" id="event-category" required>
+                                                                        <option value="bg-danger" selected>Danger</option>
+                                                                        <option value="bg-success">Success</option>
+                                                                        <option value="bg-primary">Primary</option>
+                                                                        <option value="bg-info">Info</option>
+                                                                        <option value="bg-dark">Dark</option>
+                                                                        <option value="bg-warning">Warning</option>
+                                                                    </select>
+                                                                    <div class="invalid-feedback">Please select a valid event category</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
 
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="row">
-
-                                        <div class="col-lg-12">
-                                            <div class="mt-4 mt-lg-0">
-                                                <div id="calendar"></div>
-                                            </div>
-                                        </div> <!-- end col -->
-
-                                    </div> <!-- end row -->
-                                </div> <!-- end card body-->
-                            </div> <!-- end card -->
-
-                            <!-- Add New Event MODAL -->
-                            <div class="modal fade" id="event-modal" tabindex="-1">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <form class="needs-validation" name="event-form" id="form-event" novalidate>
-                                            <div class="modal-header py-3 px-4 border-bottom-0">
-                                                <h5 class="modal-title" id="modal-title">Event</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body px-4 pb-4 pt-0">
-                                                <div class="row">
-                                                    <div class="col-12">
-                                                        <div class="mb-3">
-                                                            <label class="control-label form-label">Event Name</label>
-                                                            <input class="form-control" placeholder="Insert Event Name" type="text" name="title" id="event-title" required />
-                                                            <div class="invalid-feedback">Please provide a valid event name</div>
+                                                        <div class="row">
+                                                            <div class="col-6">
+                                                                <button type="button" class="btn btn-danger" id="btn-delete-event">Delete</button>
+                                                            </div>
+                                                            <div class="col-6 text-end">
+                                                                <button type="button" class="btn btn-light me-1" data-bs-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-success" id="btn-save-event">Save</button>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                    <div class="col-12">
-                                                        <div class="mb-3">
-                                                            <label class="control-label form-label">Category</label>
-                                                            <select class="form-select" name="category" id="event-category" required>
-                                                                <option value="bg-danger" selected>Danger</option>
-                                                                <option value="bg-success">Success</option>
-                                                                <option value="bg-primary">Primary</option>
-                                                                <option value="bg-info">Info</option>
-                                                                <option value="bg-dark">Dark</option>
-                                                                <option value="bg-warning">Warning</option>
-                                                            </select>
-                                                            <div class="invalid-feedback">Please select a valid event category</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-6">
-                                                        <button type="button" class="btn btn-danger" id="btn-delete-event">Delete</button>
-                                                    </div>
-                                                    <div class="col-6 text-end">
-                                                        <button type="button" class="btn btn-light me-1" data-bs-dismiss="modal">Close</button>
-                                                        <button type="submit" class="btn btn-success" id="btn-save-event">Save</button>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </form>
-                                    </div> <!-- end modal-content-->
-                                </div> <!-- end modal dialog-->
-                            </div>
-                            <!-- end modal-->
-                        </div>
-                        <!-- end col-12 -->
-                    </div> <!-- end row -->
+                                                </form>
+                                            </div> <!-- end modal-content-->
+                                        </div> <!-- end modal dialog-->
+                                    </div>
+                                    <!-- end modal-->
 
-               
-                    <!-- end row-->
-                </div> <!-- end preview-->
-            </div> <!-- end tab-content-->
-        </div> <!-- end card-body -->
-    </div> <!-- end card -->
-
-      
-</form>
-                                       
+                                </div> <!-- end col-12 -->
+                            </div> <!-- end row -->
+                        </div> <!-- end preview-->
+                    </div> <!-- end tab-content-->
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
         </div><!-- end col -->
     </div><!-- end row -->
 </div>
-<br>
 
+
+<!-- Scripts -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    var calendarEl = document.getElementById('calendar');
 
+    // Inicializa FullCalendar
+    var calendarEl = document.getElementById('calendar');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         locale: '<?= $lang; ?>',
-        initialView: 'timeGridWeek', // semana como padrão
-        nowIndicator: true, // linha vermelha mostrando hora atual
-        slotDuration: '00:30:00', // intervalos de 30 minutos
-        slotMinTime: "07:00:00", // horário inicial visível
-        slotMaxTime: "22:00:00", // horário final visível
-        allDaySlot: false, // remove "dia inteiro" no topo
+        initialView: 'timeGridWeek',
+        nowIndicator: true,
+        slotDuration: '00:30:00',
+        slotMinTime: "07:00:00",
+        slotMaxTime: "22:00:00",
+        allDaySlot: false,
         editable: true,
         selectable: true,
-        selectMirror: true,
+        expandRows: true,
         headerToolbar: {
             left: 'prev,next today',
             center: 'title',
             right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
         },
         buttonText: {
-            today: '<?= \App\Core\Language::get('hoje'); ?>',
-            month: '<?= \App\Core\Language::get('mes'); ?>',
-            week: '<?= \App\Core\Language::get('semana'); ?>',
-            day: '<?= \App\Core\Language::get('dia'); ?>',
-            list: '<?= \App\Core\Language::get('agenda'); ?>'
+            today: '<?= \App\Core\Language::get("hoje"); ?>',
+            month: '<?= \App\Core\Language::get("mes"); ?>',
+            week: '<?= \App\Core\Language::get("semana"); ?>',
+            day: '<?= \App\Core\Language::get("dia"); ?>',
+            list: '<?= \App\Core\Language::get("agenda"); ?>'
         },
-        height: 2000,      // altura total do calendário
-        expandRows: true,  // distribui os slots igualmente
+        height: 1800,
         select: function(arg) {
             var modal = new bootstrap.Modal(document.getElementById("event-modal"));
             modal.show();
@@ -159,62 +147,86 @@ document.addEventListener('DOMContentLoaded', function() {
             modal.show();
         },
         events: [
-            {
-                title: 'Consulta João',
-                start: '2025-09-07T19:00:00',
-                end: '2025-09-07T19:30:00',
-                className: 'bg-success',
-                observacoes: 'Paciente novo, trazer exames de sangue'
-            },
-            {
-                title: 'Consulta João',
-                start: '2025-09-08T16:00:00',
-                end: '2025-09-08T16:30:00',
-                className: 'bg-success',
-                observacoes: 'Consulta de retorno'
-            },
-            {
-                title: 'Consulta João',
-                start: '2025-09-09T17:00:00',
-                end: '2025-09-09T17:30:00',
-                className: 'bg-success',
-                observacoes: 'Confirmar convênio na recepção'
-            },
-            {
-                title: 'Retorno Maria',
-                start: '2025-09-09T14:00:00',
-                end: '2025-09-09T15:30:00',
-                className: 'bg-info',
-                observacoes: 'Paciente pediu avaliação de exames anteriores'
-            }
+            { title: 'Consulta João', start: '2025-09-16T19:00:00', end: '2025-09-16T19:30:00', className: 'bg-success' },
+            { title: 'Consulta João', start: '2025-09-17T16:00:00', end: '2025-09-17T16:30:00', className: 'bg-success' },
+            { title: 'Consulta João', start: '2025-09-17T17:00:00', end: '2025-09-17T17:30:00', className: 'bg-success' },
+            { title: 'Retorno Maria', start: '2025-09-18T14:00:00', end: '2025-09-18T15:30:00', className: 'bg-info' }
         ]
     });
 
     calendar.render();
+
+    // Inicializa Flatpickr somente para selecionar datas (sem eventos)
+    flatpickr("#datepicker", {
+        inline: true,
+        allowInput: false,  // usuário não digita nada
+        clickOpens: false,  // não abre input
+        locale: {
+            weekdays: {
+                shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
+                longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado']
+            },
+            months: {
+                shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
+            },
+            firstDayOfWeek: 1,   // Segunda-feira como primeiro dia
+            rangeSeparator: ' até ',
+            weekAbbreviation: 'Sem',
+            scrollTitle: 'Role para mudar',
+            toggleTitle: 'Clique para alternar',
+            time_24hr: true       // hora em formato 24h
+        },
+        onChange: function(selectedDates) {
+            if (selectedDates.length > 0) {
+                // Vai para a semana do FullCalendar, mas mantém a view 'timeGridWeek'
+                calendar.gotoDate(selectedDates[0]);
+            }
+        }
+    });
+
 });
 </script>
 
-
-
 <style>
-/* Aumenta a altura de cada slot de 30 minutos */
+/* Mantém altura dos slots */
 .fc-timegrid-slot {
-    height: 200px; /* ajuste para caber mais informação */
+    height: 100px; /* ou o valor que você já usa */
+}
+
+/* Linha lateral esquerda (coluna de horários) */
+.fc-timegrid-axis {
+    border-right: 3px solid #007bff; /* cor azul semelhante ao Google */
+    padding-right: 4px;
+    font-weight: 500;
+    font-size: 14px;
 }
 
 /* Aumenta a altura mínima de cada evento */
 .fc-event-main {
-    min-height: 60px;
-    padding: 6px;
-    font-size: 14px; /* deixa o texto legível */
+    min-height: 30px;
+    padding: 2px 4px;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
 }
 
-/* Opcional: aumenta fonte do horário lateral */
+/* Alinha o texto do evento à esquerda */
+.fc-event-title, 
+.fc-event-time {
+    text-align: left !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Reduz a distância entre hora e título */
+.fc-event-time {
+    margin-right: 2px;
+}
+
+/* Opcional: aumenta fonte do cabeçalho */
 .fc-col-header-cell-cushion {
-    font-size: 14px;
+    font-size: 16px;
 }
+
 </style>
-
-
-
-

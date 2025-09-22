@@ -1,0 +1,94 @@
+﻿/* ============================= */
+/* Custom Navigator - Azul Moderno */
+/* ============================= */
+
+/* container principal */
+.navigator_white_main {
+    border-left: 1px solid rgba(160, 160, 160, 0.4);
+    border-right: 1px solid rgba(160, 160, 160, 0.4);
+    border-bottom: 1px solid rgba(160, 160, 160, 0.4);
+    background-color: rgba(66, 133, 244, 0.08); /* azul suave transparente */
+    color: #000000;
+    font-family: 'Roboto', Arial, sans-serif;
+    border-radius: 6px;
+    padding: 2px;
+}
+
+/* mês */
+.navigator_white_month {
+    font-family: 'Roboto', Arial, sans-serif;
+    font-size: 9pt;
+    color: #1a73e8; /* azul Google */
+    font-weight: 500;
+}
+
+/* dia */
+.navigator_white_day {
+    color: #1a73e8;
+    text-align: center;
+    font-weight: 500;
+    padding: 4px 2px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+}
+
+/* fim de semana */
+.navigator_white_weekend {
+    background-color: rgba(26, 115, 232, 0.05);
+}
+
+/* header do dia */
+.navigator_white_dayheader {
+    color: #1967d2;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* número da semana */
+.navigator_white_weeknumber {
+    text-align: center;
+    color: #1967d2;
+    font-size: 8pt;
+}
+
+/* linhas entre dias */
+.navigator_white_line {
+    border-bottom: 1px solid rgba(160, 160, 160, 0.3);
+}
+
+/* dias de outro mês */
+.navigator_white_dayother {
+    color: rgba(0,0,0,0.3);
+}
+
+/* hoje */
+.navigator_white_todaybox {
+    border: 2px solid #1a73e8;
+    border-radius: 4px;
+    background-color: rgba(26, 115, 232, 0.1);
+}
+
+/* seleção */
+.navigator_white_select {
+    background-color: rgba(26, 115, 232, 0.3);
+    border-radius: 4px;
+}
+
+/* título do navigator */
+.navigator_white_title,
+.navigator_white_titleleft,
+.navigator_white_titleright {
+    text-align: center;
+    border-top: 1px solid rgba(160, 160, 160, 0.3);
+    color: #fff;
+    background: linear-gradient(to bottom, #1a73e8 0%, #3367d6 100%);
+    font-weight: 600;
+    padding: 4px 0;
+    border-radius: 6px 6px 0 0;
+}
+
+/* evento ocupado */
+.navigator_white_busy {
+    font-weight: bold;
+    color: #0b47a1;
+}

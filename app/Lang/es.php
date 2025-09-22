@@ -100,5 +100,18 @@
     'pedir_confirmacao_whats_botao' => 'Solicitar confirmación de asistencia vía WhatsApp',
     'reagendar_consulra' => 'Reagendar cita',
     'excluir_consulta' => 'Eliminar cita',
+    'todas' => 'Todas',
+    'consultas_lista' => 'Lista de Citas',
+    'tem_certeza_excluir_consulta' => '¿Está seguro de que desea eliminar la cita del paciente ',
+    'selecione_todos' => 'Todos',
+    'de_hoje' => 'de Hoy',
+    'de_amanha' => 'de Mañana',
+    'de_ontem' => 'de Ayer',
+    'de_todos' => 'de Todos',
+    'concluidas' => 'Completadas',
+    'cadastrar_consulta_ini' => 'REGISTRAR CITA',
+    'enviar' => 'Enviar',
+    'nenhuma_mensagem' => 'No hay mensajes registrados.',
+    'msg_para_whatsapp' => 'Mensajes para WhatsApp',
     
     ];

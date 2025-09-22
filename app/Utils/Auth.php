@@ -43,6 +43,7 @@ class Auth {
      * ela força o encerramento do script e redireciona o usuário.
      */
     public static function authCheck() {
+
         $secretKey = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
         $jwtLifetime = 60 * 60;          // 1 hora
         $refreshLifetime = 60 * 60 * 24 * 60; // 60 dias

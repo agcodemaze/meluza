@@ -5,7 +5,7 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 ?>
 
 <!-- Start Content-->
-<div class="container-fluid">
+<div class="container-fluid" style="max-width:95% !important; padding-left:20px; padding-right:20px;">
     <!-- start page title -->
     <div class="row">
         <div class="col-12">

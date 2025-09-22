@@ -6,6 +6,8 @@ use \App\Utils\View;
 use \App\Utils\Auth;
 use \App\Model\Entity\Organization;
 use \App\Model\Entity\Consultas;
+use \App\Model\Entity\Whatsapp;
+use \App\Model\Entity\Paciente;
 
 class Home extends Page{
     /**
@@ -17,8 +19,14 @@ class Home extends Page{
         Auth::authCheck(); //verifica se já tem login válido (jwt)
         $objOrganization = new Organization();
         $objConsultas = new Consultas();
-        $consultasHoje = $objConsultas->getConsultasHoje(TENANCY_ID);
+        $objWhatsapp = new Whatsapp();
+        $objPaciente= new Paciente();
 
+        $consultasHoje = $objConsultas->getConsultasHoje(TENANCY_ID);
+        $getModeloMsgsWhatsapp = $objWhatsapp->getModelosMsgWhatsapp(TENANCY_ID); 
+        $configuracoes = $objOrganization->getConfiguracoes(TENANCY_ID);
+        $pacientes = $objPaciente->getPacientes(TENANCY_ID);
+        
         /**
          * Comonentes/Scripts que serão carregados na view
          */
@@ -33,19 +41,24 @@ class Home extends Page{
             <script src="https://unpkg.com/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>
             <link href="'.ASSETS_PATH.'vendor/ad_sweetalert/sweetalert2.min.css" rel="stylesheet">
             <script src="'.ASSETS_PATH.'vendor/ad_sweetalert/sweetalert2.all.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
         ';
 
         $componentsScriptsFooter = '
             <script src="'.ASSETS_PATH.'js/vendor.min.js"></script>            
             <script src="'.ASSETS_PATH.'js/app.min.js"></script>
             <script src="'.ASSETS_PATH.'utils/alertDelete.js"></script>
-            <script src="'.ASSETS_PATH.'utils/scrollPositionReload.js"></script>
+            <script src="'.ASSETS_PATH.'utils/scrollPositionReload.js"></script>           
         ';
-
+//<script src="'.ASSETS_PATH.'utils/simple-timepicker-pt.js"></script>
         //VIEW DA HOME
         $content = ([
             'title' => $objOrganization->title,
+            'nomeEmpresa' => $objOrganization->nameCompany,
             'description' => $objOrganization->description,
+            'modeloMsgsWhatsapp' => $getModeloMsgsWhatsapp,
+            'pacientes' => $pacientes,
+            'configuracoes' => $configuracoes,
             'site' => $objOrganization->site,
             'consultasHoje' => $consultasHoje,
             'componentsScriptsHeader' => $componentsScriptsHeader,

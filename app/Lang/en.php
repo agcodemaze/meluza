@@ -100,5 +100,18 @@
     'pedir_confirmacao_whats_botao' => 'Request attendance confirmation via WhatsApp',
     'reagendar_consulra' => 'Reschedule appointment',
     'excluir_consulta' => 'Delete appointment',
-    
+    'todas' => 'All',
+    'consultas_lista' => 'Appointments List',
+    'tem_certeza_excluir_consulta' => 'Are you sure you want to delete the patient\'s appointment ',
+    'selecione_todos' => 'All',
+    'de_hoje' => 'from Today',
+    'de_amanha' => 'from Tomorrow',
+    'de_ontem' => 'from Yesterday',
+    'de_todos' => 'from All',
+    'concluidas' => 'Completed',
+    'cadastrar_consulta_ini' => 'REGISTER APPOINTMENT',
+    'enviar' => 'Send',
+    'nenhuma_mensagem' => 'No messages registered.',
+    'msg_para_whatsapp' => 'WhatsApp Messages',
+
     ];

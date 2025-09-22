@@ -3,6 +3,22 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
+$urlWhatsConfirmConsul = "https://cliente.meluza.com.br"; //deverá ser alterado
+
+//logica para horarios disponiveis
+$horarios = [];
+$inicio = $configuracoes[0]["CFG_DCHORA_EXPEDIENTE_INI"];
+$fim = $configuracoes[0]["CFG_DCHORA_EXPEDIENTE_END"];
+$hora = new DateTime($inicio);
+$horaFim = new DateTime($fim);
+$intervalo = new DateInterval('PT30M');
+
+while ($hora <= $horaFim) {
+    $horarios[] = $hora->format('H:i');
+    $hora->add($intervalo);
+}
+//logica para horarios disponiveis
+
 //trecho q reutilizo a url para criar os links de atalho para dias da semana
 $currentUrl = $_SERVER['REQUEST_URI'];
 $parsedUrl = parse_url($currentUrl);
@@ -13,22 +29,25 @@ unset($queryParams['dia']);
 $newQuery = http_build_query($queryParams);
 $newUrl = $path . ($newQuery ? '?' . $newQuery : '');
 
-
 $lang = $_GET['lang'] ?? 'pt';
 
-$profissionalId = $_GET['profissional_id'] ?? '';
-$dia = $_GET['dia'] ?? '';
+if (isset($_GET['profissional_id'])) {
+    $_SESSION['PROFISSIONAL_ID'] = $_GET['profissional_id'];
+}
+
+$profissionalId = $_SESSION['PROFISSIONAL_ID'] ?? 'all';
+$dia = $_GET['dia'] ?? '1';
 
 if ($profissionalId === "all" && !empty($dia)) {
     $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayPredef($dia);
 } elseif ($profissionalId === "all" && empty($dia)) {
-    $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayPredef(""); 
+    $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayPredef("1"); 
 } elseif ($profissionalId === "" && empty($dia)) {
     $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayPredef(""); 
 } elseif (!empty($profissionalId) && !empty($dia)) {
     $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayProfPredef($profissionalId, $dia);
 } elseif (!empty($profissionalId) && empty($dia)) {
-    $consultasHoje = \App\Controller\Pages\Home::getConsultasByProfissional($profissionalId);
+    $consultasHoje = \App\Controller\Pages\Home::getConsultasByDayProfPredef($profissionalId, $dia);
 }
 
 $botaoStyleDeactiveOntem = "btn-soft-secondary ";
@@ -46,13 +65,13 @@ if(isset($_GET['dia'])) {
     }elseif ($_GET['dia'] == "3") {
         $botaoStyleDeactiveOntem = "btn btn-primary";
         $textTitulo = "de_ontem";
-    }else {
+    }elseif($_GET['dia'] == "4") {
         $botaoStyleDeactiveTodos = "btn btn-primary";
         $textTitulo = "de_todos";
     }
 } else {
-    $botaoStyleDeactiveTodos = "btn btn-primary";
-    $textTitulo = "de_todos";
+    $botaoStyleDeactiveHoje = "btn btn-primary";
+    $textTitulo = "de_hoje";
 }
 
 $totalConsultas = 0;
@@ -82,6 +101,28 @@ foreach ($consultasHoje as $c) {
         "status" => $c['CON_ENSTATUS']
     ];
 }
+
+// paginacao da tabela de consultas
+// Defina quantos registros por página
+$porPagina = 10;
+$totalConsultas = count($consultasHoje);
+$totalPaginas = ceil($totalConsultas / $porPagina);
+
+// Página atual (default 1)
+$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
+if ($paginaAtual < 1) $paginaAtual = 1;
+if ($paginaAtual > $totalPaginas) $paginaAtual = $totalPaginas;
+
+$inicio = ($paginaAtual - 1) * $porPagina;
+$consultasPaginadas = array_slice($consultasHoje, $inicio, $porPagina);
+
+// Função para gerar URL mantendo query string existente
+function buildPageUrl($pagina) {
+    $params = $_GET;
+    $params['pagina'] = $pagina;
+    return '?' . http_build_query($params);
+}
+// fim paginacao da tabela de consultas
 
 ?>
 
@@ -123,11 +164,16 @@ foreach ($consultasHoje as $c) {
         background-color: #FF5252 !important;
         width: 2px !important;
     }
+  /* cor vermelha para datas bloqueadas */
+  .flatpickr-day.data-bloqueada {
+    background: #f7584dff !important;
+    color: white !important;
+    cursor: not-allowed !important;
+  }
 </style>
 
-
 <!-- Start Content-->
-<div class="container-fluid">
+<div class="container-fluid" style="max-width:95% !important; padding-left:20px; padding-right:20px;">
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -148,7 +194,7 @@ foreach ($consultasHoje as $c) {
                         <div class="col-sm-6 col-lg-3">
                             <div class="card rounded-0 shadow-none m-0">
                                 <div class="card-body text-center py-2">
-                                    <i class="ri-briefcase-line text-muted font-24"></i>
+                                    <i class="ri-pie-chart-line text-muted font-24"></i>
                                     <h3><span><?= $totalConsultas; ?></span></h3>
                                     <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('total_de'); ?><br><?= \App\Core\Language::get('consultas'); ?></p>
                                 </div>
@@ -157,7 +203,7 @@ foreach ($consultasHoje as $c) {
                         <div class="col-sm-6 col-lg-3">
                             <div class="card rounded-0 shadow-none m-0 border-start border-light">
                                 <div class="card-body text-center py-2">
-                                    <i class="ri-list-check-2 text-muted font-24"></i>
+                                    <i class="ri-calendar-check-line text-muted font-24"></i>
                                     <h3><span><?= $confirmadas; ?></span></h3> 
                                     <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('consultas'); ?><br><?= \App\Core\Language::get('confirmadas'); ?></p>
                                 </div>
@@ -166,7 +212,7 @@ foreach ($consultasHoje as $c) {
                         <div class="col-sm-6 col-lg-3">
                             <div class="card rounded-0 shadow-none m-0 border-start border-light">
                                 <div class="card-body text-center py-2">
-                                    <i class="ri-group-line text-muted font-24"></i>
+                                    <i class="ri-close-circle-line text-muted font-24"></i>
                                     <h3><span><?= $canceladas; ?></span></h3>
                                     <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('consultas'); ?><br><?= \App\Core\Language::get('canceladas'); ?></p>
                                 </div>
@@ -175,7 +221,7 @@ foreach ($consultasHoje as $c) {
                         <div class="col-sm-6 col-lg-3">
                             <div class="card rounded-0 shadow-none m-0 border-start border-light">
                                 <div class="card-body text-center py-2">
-                                    <i class="ri-line-chart-line text-muted font-24"></i>
+                                    <i class="ri-checkbox-circle-line text-muted font-24"></i>
                                     <h3><span><?= $concluida; ?></h3>
                                     <p class="text-muted font-15 mb-0"><?= \App\Core\Language::get('consultas'); ?><br><?= \App\Core\Language::get('concluidas'); ?></p>
                                 </div>
@@ -208,134 +254,320 @@ foreach ($consultasHoje as $c) {
 </div>
 <!-- end row-->
     
-    <div class="row">
-                    <div class="col-lg-12">
-                        <div class="card">
-                            <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
-                                <h4 class="header-title mb-2 mb-md-0"><?= \App\Core\Language::get('agenda'); ?></h4>
-                                <!-- Botões -->
-                                <div class="d-flex flex-column flex-md-row gap-1 w-100 w-md-auto">
-                                    <button type="button" class="btn <?= $botaoStyleDeactiveOntem ?> btn-sm w-100 w-md-auto" onclick="window.location.href='<?= $newUrl.'&dia=3'; ?>'">
-                                        <?= \App\Core\Language::get('ontem'); ?>
-                                    </button>
-                                    <button type="button" class="btn <?= $botaoStyleDeactiveHoje ?> btn-sm w-100 w-md-auto" onclick="window.location.href='<?= $newUrl.'&dia=1'; ?>'">
-                                        <?= \App\Core\Language::get('hoje'); ?>
-                                    </button>
-                                    <button type="button" class="btn <?= $botaoStyleDeactiveAmanha ?> btn-sm w-100 w-md-auto" onclick="window.location.href='<?= $newUrl.'&dia=2'; ?>'">
-                                        <?= \App\Core\Language::get('amanha'); ?>
-                                    </button>
-                                    <button type="button" class="btn <?= $botaoStyleDeactiveTodos ?> btn-sm w-100 w-md-auto" onclick="window.location.href='<?= $newUrl.'&dia=4'; ?>'">
-                                        <?= \App\Core\Language::get('todas'); ?>
-                                    </button>
-                                
-                                    <!-- Botão afastado com responsividade -->
-                                    <button type="button" class="btn btn-success btn-sm w-100 w-md-auto ms-md-5 mt-2 mt-md-0">
-                                        <?= \App\Core\Language::get('cadastrar_consulta_ini'); ?>
-                                    </button>
-                                </div>
-                            </div>
-                            <div class="card-header bg-light-lighten border-top border-bottom border-light py-1 text-center">
-                                <p class="m-0"><b><?= $confirmadas; ?></b> <?= \App\Core\Language::get('consultas'); ?> <?= \App\Core\Language::get('confirmadas'); ?> <?= \App\Core\Language::get('de'); ?> <?= $totalConsultas; ?></p>
-                            </div>
-                            <div class="card-body pt-2">
-                                <div class="table-responsive">
-                                    <table class="table table-centered table-nowrap table-hover mb-0">
-                                        <tbody>
-                                            <?php foreach ($consultasHoje as $consulta): ?>
-                                                <?php
-                                                    if ($consulta['CON_ENSTATUS'] == "CONCLUIDA") {
-                                                        $imgIcon = "uil uil-award-alt font-16";
-                                                        $classIcon = "avatar-title bg-secondary-lighten rounded-circle text-secondary";
-                                                        $iconStyle = "border: 2px solid #a7a6a5ff;";
-                                                        $classeBadge = "secondary";
-                                                    } elseif ($consulta['CON_ENSTATUS'] == "CANCELADA") {
-                                                        $imgIcon = "uil uil-stopwatch-slash font-16";
-                                                        $classIcon = "avatar-title bg-warning-lighten rounded-circle text-warning";
-                                                        $iconStyle = "border: 2px solid #ce7d04ff;";
-                                                        $classeBadge = "warning";
-                                                    } elseif ($consulta['CON_ENSTATUS'] == "AGENDADA") {
-                                                        $imgIcon = "uil  uil-clock font-16";
-                                                        $classIcon = "avatar-title bg-primary-lighten rounded-circle text-primary";
-                                                        $iconStyle = "border: 2px solid #4d55c5ff;";
-                                                        $classeBadge = "primary";
-                                                    } elseif ($consulta['CON_ENSTATUS'] == "FALTA") {
-                                                        $imgIcon = "uil uil-asterisk font-16";
-                                                        $classIcon = "avatar-title bg-danger-lighten rounded-circle text-danger";
-                                                        $iconStyle = "border: 2px solid #811818ff;";
-                                                        $classeBadge = "danger";
-                                                    } elseif ($consulta['CON_ENSTATUS'] == "CONFIRMADA") {
-                                                        $imgIcon = "uil uil-check font-16"; // corrigido aqui
-                                                        $classIcon = "avatar-title bg-success-lighten rounded-circle text-success";
-                                                        $iconStyle = "border: 2px solid #3dbd4eff;";
-                                                        $classeBadge = "success";
-                                                    }
-                                                ?>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-header d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+                <h4 class="header-title mb-2 mb-md-0"><?= \App\Core\Language::get('agenda'); ?></h4>
+                <!-- Botões -->
+                <div class="d-flex flex-column flex-md-row gap-1 w-100 w-md-auto mt-2 mt-md-0 ms-md-5">
+                    <button type="button" class="btn <?= $botaoStyleDeactiveOntem ?> btn-sm w-100 w-md-auto" 
+                            onclick="window.location.href='<?= $newUrl.'&dia=3'; ?>'">
+                        <i class="ri-calendar-2-line me-2"></i>
+                        <?= \App\Core\Language::get('ontem'); ?>
+                    </button>
+                    <button type="button" class="btn <?= $botaoStyleDeactiveHoje ?> btn-sm w-100 w-md-auto" 
+                            onclick="window.location.href='<?= $newUrl.'&dia=1'; ?>'">
+                        <i class="ri-calendar-2-line me-2"></i>
+                        <?= \App\Core\Language::get('hoje'); ?>
+                    </button>
+                    <button type="button" class="btn <?= $botaoStyleDeactiveAmanha ?> btn-sm w-100 w-md-auto" 
+                            onclick="window.location.href='<?= $newUrl.'&dia=2'; ?>'">
+                        <i class="ri-calendar-2-line me-2"></i>
+                        <?= \App\Core\Language::get('amanha'); ?>
+                    </button>
+                    <button type="button" class="btn <?= $botaoStyleDeactiveTodos ?> btn-sm w-100 w-md-auto" 
+                            onclick="window.location.href='<?= $newUrl.'&dia=4'; ?>'">
+                            <i class="ri-checkbox-multiple-line me-2"></i>
+                        <?= \App\Core\Language::get('todas'); ?>
+                    </button>
+                    <!-- Botão afastado com responsividade -->
+                    <button type="button" class="btn btn-sm w-100 w-md-auto ms-md-5 mt-2 mt-md-0" style="background-color: #0cadc2ff; color: white; border-color: #135fd1ff;" data-bs-toggle="modal" data-bs-target="#novaConsulta-modal">
+                        <i class="ri-user-3-line me-2"></i>
+                        <?= \App\Core\Language::get('cadastrar_consulta_ini'); ?>
+                    </button>
+                </div>
+            </div>
+            <div class="card-header bg-light-lighten border-top border-bottom border-light py-1 text-center">
+                <p class="m-0"><b><?= $confirmadas; ?></b> <?= \App\Core\Language::get('consultas'); ?> <?= \App\Core\Language::get('confirmadas'); ?> <?= \App\Core\Language::get('de'); ?> <?= $totalConsultas; ?></p>
+            </div>
+            <div class="card-header bg-light-lighten border-top border-bottom border-light py-1 text-center">
+                <form class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">
+                    <div class="col-auto">
+                        <label for="searchField" class="visually-hidden"><?= \App\Core\Language::get('procurar_campo'); ?></label>
+                        <input type="search" class="form-control" id="searchField" placeholder="<?= \App\Core\Language::get('procurar_placeholder'); ?>"> 
+                    </div>
+                </form>
+            </div>
+            <div class="card-body pt-2">
+                <div class="table-responsive">
+                    <table class="table table-centered table-nowrap table-hover mb-0" id="tabela-consultas">
+                        <tbody>
+                            <?php foreach ($consultasPaginadas as $index => $consulta): ?>
+                                <?php
+                                    if ($consulta['CON_ENSTATUS'] == "CONCLUIDA") {
+                                        $imgIcon = "uil uil-award-alt font-16";
+                                        $classIcon = "avatar-title bg-secondary-lighten rounded-circle text-secondary";
+                                        $iconStyle = "border: 2px solid #a7a6a5ff;";
+                                        $classeBadge = "secondary";
+                                    } elseif ($consulta['CON_ENSTATUS'] == "CANCELADA") {
+                                        $imgIcon = "uil uil-stopwatch-slash font-16";
+                                        $classIcon = "avatar-title bg-warning-lighten rounded-circle text-warning";
+                                        $iconStyle = "border: 2px solid #ce7d04ff;";
+                                        $classeBadge = "warning";
+                                    } elseif ($consulta['CON_ENSTATUS'] == "AGENDADA") {
+                                        $imgIcon = "uil  uil-clock font-16";
+                                        $classIcon = "avatar-title bg-primary-lighten rounded-circle text-primary";
+                                        $iconStyle = "border: 2px solid #4d55c5ff;";
+                                        $classeBadge = "primary";
+                                    } elseif ($consulta['CON_ENSTATUS'] == "FALTA") {
+                                        $imgIcon = "uil uil-asterisk font-16";
+                                        $classIcon = "avatar-title bg-danger-lighten rounded-circle text-danger";
+                                        $iconStyle = "border: 2px solid #811818ff;";
+                                        $classeBadge = "danger";
+                                    } elseif ($consulta['CON_ENSTATUS'] == "CONFIRMADA") {
+                                        $imgIcon = "uil uil-check font-16"; // corrigido aqui
+                                        $classIcon = "avatar-title bg-success-lighten rounded-circle text-success";
+                                        $iconStyle = "border: 2px solid #3dbd4eff;";
+                                        $classeBadge = "success";
+                                    }
 
-                                            <tr> <!-- TR com chamada para edição de consulta via Modal -->
-                                                <td>
-                                                    <div class="avatar-sm d-table">
-                                                        <span class="<?= $classIcon; ?>" style="<?= $iconStyle; ?>">
-                                                            <i class='<?= $imgIcon; ?>'></i>
-                                                        </span>
-                                                    </div>
-                                                </td>
-                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                                    <h5 class="font-14 my-1"><a href="javascript:void(0);" class="text-body"><?= htmlspecialchars((string)$consulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?></a></h5>
-                                                    <span class="text-muted font-13"><?= htmlspecialchars((string)$consulta['CON_DTCONSULTA'], ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars((string)$consulta['CON_HORACONSULTA'], ENT_QUOTES, 'UTF-8') ?> <?= \App\Core\Language::get('as'); ?> <?= htmlspecialchars((string)$consulta['CON_HORACONSULTA'], ENT_QUOTES, 'UTF-8') ?></span>
-                                                </td>
-                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('status'); ?></span> <br />
-                                                    <span class="badge badge-<?= $classeBadge; ?>-lighten"><?= htmlspecialchars((string)$consulta['CON_ENSTATUS'], ENT_QUOTES, 'UTF-8') ?></span>
-                                                </td>
-                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('telefone'); ?></span>
-                                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['PAC_DCTELEFONE'], ENT_QUOTES, 'UTF-8') ?></h5>
-                                                </td>
-                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('profissional'); ?></span>
-                                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['DEN_DCNOME'], ENT_QUOTES, 'UTF-8') ?></h5>
-                                                </td>
-                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('especialidade'); ?></span>
-                                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['CON_NMESPECIALIDADE'], ENT_QUOTES, 'UTF-8') ?></h5> 
-                                                </td>
-                                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                                    <span class="text-muted font-13"><?= \App\Core\Language::get('plano_saude_odonto'); ?></span>
-                                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['CNV_DCCONVENIO'], ENT_QUOTES, 'UTF-8') ?></h5>
-                                                </td>
-                                                <td class="table-action" style="width: 90px;">
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-send-check-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>"></i></a>
-                                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('reagendar_consulra'); ?>"></i></a>                                
-                                                    <a href="javascript:void(0);"  
-                                                            class="action-icon"
-                                                            data-id="<?= htmlspecialchars((string)$consulta['CON_IDCONSULTA'], ENT_QUOTES, 'UTF-8') ?>"    
-                                                            data-dialogTitle="<?= \App\Core\Language::get('consultas_lista'); ?>"    
-                                                            data-dialogMessage="<?= \App\Core\Language::get('tem_certeza_excluir_consulta'); ?> <?= htmlspecialchars((string)$consulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?>?"   
-                                                            data-dialogUriToProcess="/deleteTaskProc"   
-                                                            data-dialogUriToRedirect="/inicial"   
-                                                            data-dialogConfirmButton="<?= \App\Core\Language::get('confirmar'); ?>"
-                                                            data-dialogCancelButton="<?= \App\Core\Language::get('cancelar'); ?>" 
-                                                            data-dialogErrorMessage="<?= \App\Core\Language::get('erro_ao_excluir'); ?>"
-                                                            data-dialogErrorTitle="<?= \App\Core\Language::get('erro'); ?>"    
-                                                            data-dialogCancelTitle="<?= \App\Core\Language::get('Cancelado'); ?>"                                                          
-                                                            data-dialogCancelMessage="<?= \App\Core\Language::get('cancelado_nenhuma_alteracao'); ?>"     
-                                                            data-dialogSuccessTitle="<?= \App\Core\Language::get('sucesso'); ?>"                                                             
-                                                            data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
-                                                            data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
-                                                            onclick="event.stopPropagation(); confirmDeleteAttr(this);"> <!-- Chama o método js confirmDeleteAttr com sweetalert -->
-                                                            <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_consulta'); ?>"></i>
-                                                </td>
-                                            </tr>
-                                            <?php endforeach; ?>
-                                        </tbody>
-                                    </table>
-                                </div> <!-- end table-responsive-->
-                            </div> <!-- end card body-->
-                        </div> <!-- end card -->
-                    </div><!-- end col-->
-    </div>
-    <!-- end row-->
+                                    $semana = [
+                                        0 => 'domingo',
+                                        1 => 'segunda-feira',
+                                        2 => 'terça-feira',
+                                        3 => 'quarta-feira',
+                                        4 => 'quinta-feira',
+                                        5 => 'sexta-feira',
+                                        6 => 'sábado'
+                                    ];
+
+                                    $numeroDia = (int) date('w', strtotime($consulta['CON_DTCONSULTA']));
+                                    $diaSemana = $semana[$numeroDia];
+
+                                    $dataConsulta = (new DateTimeImmutable($consulta['CON_DTCONSULTA']))->format('d/m/Y');
+                                    $consultaHoraIni = (new DateTime($consulta['CON_HORACONSULTA']))->format('H\hi');
+
+                                    $hora = $consulta['CON_HORACONSULTA'];
+                                    $duracao = $consulta['CON_NUMDURACAO'];
+                                    $dt = new DateTime($hora);
+                                    $dt->add(new DateInterval("PT{$duracao}M"));
+                                    $consultaHoraFim = $dt->format('H\hi'); 
+
+                                    $showMaisInfo = "";
+
+                                    if (!empty($consulta['CON_DCOBSERVACOES'])) {
+                                        $obs = htmlspecialchars($consulta["CON_DCOBSERVACOES"], ENT_QUOTES, 'UTF-8');
+                                        $showMaisInfo = "
+                                        <a style='margin-left:5px; font-size:0.9rem; color: #ff4444ff;'
+                                           title='Mais informações'
+                                           data-bs-toggle='modal'
+                                           data-bs-target='#info-alert-modal'
+                                           data-observacoes=\"$obs\">
+                                            <i class='ri-information-line'></i>
+                                        </a>";
+                                    }
+                                    
+                                ?> 
+                            <tr> <!-- TR com chamada para edição de consulta via Modal -->
+                                <td>
+                                    <div class="avatar-sm d-table">
+                                        <span class="<?= $classIcon; ?>" style="<?= $iconStyle; ?>">
+                                            <i class='<?= $imgIcon; ?>'></i>
+                                        </span>
+                                    </div>
+                                </td>
+                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <h5 class="font-14 my-1"><a href="javascript:void(0);" class="text-body"> 
+                                        <?= $showMaisInfo ?>    
+                                        <?= htmlspecialchars((string)$consulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?></a></h5>
+                                    <span class="text-muted font-13"><?= htmlspecialchars((string)$dataConsulta, ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars((string)$consultaHoraIni, ENT_QUOTES, 'UTF-8') ?> <?= \App\Core\Language::get('as'); ?> <?= htmlspecialchars((string)$consultaHoraFim, ENT_QUOTES, 'UTF-8') ?></span>
+                                </td>
+                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <span class="text-muted font-13"><?= \App\Core\Language::get('status'); ?></span> <br />
+                                    <span class="badge badge-<?= $classeBadge; ?>-lighten"><?= htmlspecialchars((string)$consulta['CON_ENSTATUS'], ENT_QUOTES, 'UTF-8') ?></span>
+                                </td>
+                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <span class="text-muted font-13"><?= \App\Core\Language::get('telefone'); ?></span>
+                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['PAC_DCTELEFONE'], ENT_QUOTES, 'UTF-8') ?></h5>
+                                </td>
+                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <span class="text-muted font-13"><?= \App\Core\Language::get('profissional'); ?></span>
+                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['DEN_DCNOME'], ENT_QUOTES, 'UTF-8') ?></h5>
+                                </td>
+                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <span class="text-muted font-13"><?= \App\Core\Language::get('especialidade'); ?></span>
+                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['CON_NMESPECIALIDADE'], ENT_QUOTES, 'UTF-8') ?></h5> 
+                                </td>
+                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <span class="text-muted font-13"><?= \App\Core\Language::get('plano_saude_odonto'); ?></span>
+                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['CNV_DCCONVENIO'], ENT_QUOTES, 'UTF-8') ?></h5>
+                                </td>
+                                <td class="table-action" style="width: 90px;">
+                                    <a href="javascript:void(0);" 
+                                       class="action-icon" 
+                                       data-bs-toggle="modal" 
+                                       data-bs-target="#msg-modal"
+                                       data-nome="<?= htmlspecialchars($consulta['PAC_DCNOME']) ?>"
+                                       data-profissional="<?= htmlspecialchars($consulta['DEN_DCNOME']) ?>"
+                                       data-telefone="<?= htmlspecialchars($consulta['PAC_DCTELEFONE']) ?>"
+                                       data-data="<?= htmlspecialchars($dataConsulta) ?>"
+                                       data-dia="<?= htmlspecialchars($diaSemana) ?>"
+                                       data-hora="<?= htmlspecialchars($consultaHoraIni) ?>"
+                                       data-link="<?= htmlspecialchars($urlWhatsConfirmConsul) ?>">
+                                        <i class="mdi mdi-send-check-outline"
+                                           data-bs-toggle="popover" 
+                                           data-bs-trigger="hover" 
+                                           data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>">
+                                        </i>
+                                    </a>
+                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('reagendar_consulra'); ?>"></i></a>                                
+                                    <a href="javascript:void(0);"  
+                                            class="action-icon"
+                                            data-id="<?= htmlspecialchars((string)$consulta['CON_IDCONSULTA'], ENT_QUOTES, 'UTF-8') ?>"    
+                                            data-dialogTitle="<?= \App\Core\Language::get('consultas_lista'); ?>"    
+                                            data-dialogMessage="<?= \App\Core\Language::get('tem_certeza_excluir_consulta'); ?> <?= htmlspecialchars((string)$consulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?>?"   
+                                            data-dialogUriToProcess="/deleteTaskProc"   
+                                            data-dialogUriToRedirect="/inicial"   
+                                            data-dialogConfirmButton="<?= \App\Core\Language::get('confirmar'); ?>"
+                                            data-dialogCancelButton="<?= \App\Core\Language::get('cancelar'); ?>" 
+                                            data-dialogErrorMessage="<?= \App\Core\Language::get('erro_ao_excluir'); ?>"
+                                            data-dialogErrorTitle="<?= \App\Core\Language::get('erro'); ?>"    
+                                            data-dialogCancelTitle="<?= \App\Core\Language::get('Cancelado'); ?>"                                                          
+                                            data-dialogCancelMessage="<?= \App\Core\Language::get('cancelado_nenhuma_alteracao'); ?>"     
+                                            data-dialogSuccessTitle="<?= \App\Core\Language::get('sucesso'); ?>"                                                             
+                                            data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
+                                            data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
+                                            onclick="event.stopPropagation(); confirmDeleteAttr(this);"> <!-- Chama o método js confirmDeleteAttr com sweetalert -->
+                                            <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_consulta'); ?>"></i>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                    <!-- Paginação -->
+                    <!-- Paginação -->
+                    <nav aria-label="Navegação de páginas" class="my-4">
+                        <ul class="pagination mb-0 justify-content-center">
+                            <!-- Botão Previous -->
+                            <li class="page-item <?= ($paginaAtual <= 1) ? 'disabled' : '' ?>">
+                                <a class="page-link" href="<?= ($paginaAtual > 1) ? buildPageUrl($paginaAtual - 1) : '#' ?>" tabindex="-1"><?= \App\Core\Language::get('anterior'); ?></a>
+                            </li>
+                            <!-- Links das páginas -->
+                            <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
+                            <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
+                                <a class="page-link" href="<?= buildPageUrl($i) ?>"><?= $i ?></a>
+                            </li>
+                            <?php endfor; ?>                            
+                            <!-- Botão Next --> 
+                            <li class="page-item <?= ($paginaAtual >= $totalPaginas) ? 'disabled' : '' ?>">
+                                <a class="page-link" href="<?= ($paginaAtual < $totalPaginas) ? buildPageUrl($paginaAtual + 1) : '#' ?>"><?= \App\Core\Language::get('proximo'); ?></a>
+                            </li>                        
+                        </ul>
+                    </nav>
+                </div> <!-- end table-responsive-->
+            </div> <!-- end card body-->
+        </div> <!-- end card -->
+    </div><!-- end col-->
+</div>
+<!-- end row-->
 </div> <!-- container -->
+<!-- msg modal -->
+<style>
+    @media (min-width: 992px) {
+        #msg-modal .modal-dialog.modal-sm.modal-right {
+            max-width: 450px; /* largura maior no PC */
+            top: auto;        /* remove top fixo */
+            margin: 1.5rem 0 0 auto; /* apenas margem lateral e topo leve */
+        }
+    }
+</style>
+
+<div id="msg-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm modal-right">
+        <div class="modal-content">
+            <div class="modal-header border-0">
+                <h5 class="modal-title"><?= \App\Core\Language::get('msg_para_whatsapp'); ?> </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body" style="padding-top: 2rem; padding-bottom: 1rem;"> <!-- empurra só os cards -->
+
+                <?php if (!empty($modeloMsgsWhatsapp)) : ?>
+                    <?php foreach ($modeloMsgsWhatsapp as $msg) : ?>
+                        <div class="card mb-3 shadow-sm border" style="margin-top: 0.5rem;">
+                            <div class="card-body">
+                                <h6 class="card-title mb-2">
+                                    <?= htmlspecialchars($msg['WMS_DCTITULO']) ?>
+                                </h6>
+                                <p class="card-text small text-muted msg-template"
+                                   data-template="<?= htmlspecialchars($msg['WMS_DCMESSAGE_PT']) ?>">
+                                   <!-- Texto será preenchido via JS -->
+                                </p>
+
+                                <a href="https://wa.me/12345678997?text=mensagem" 
+                                   class="btn btn-sm btn-success" 
+                                   target="_blank">
+                                    <i class="mdi mdi-send"></i> <?= \App\Core\Language::get('enviar'); ?> 
+                                </a>
+                            </div>
+                        </div>
+                    <?php endforeach; ?>
+                <?php else : ?>
+                    <div class="alert alert-info text-center">
+                        <?= \App\Core\Language::get('nenhuma_mensagem'); ?> 
+                    </div>
+                <?php endif; ?>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- msg modal -->
+<script>
+    var msgModal = document.getElementById('msg-modal');
+
+    msgModal.addEventListener('show.bs.modal', function (event) {
+        let button = event.relatedTarget;
+        let nome = button.getAttribute('data-nome');
+        let profissional = button.getAttribute('data-profissional');
+        let data = button.getAttribute('data-data');
+        let dia = button.getAttribute('data-dia');
+        let hora = button.getAttribute('data-hora');
+        let telefone = button.getAttribute('data-telefone');
+        let linkConfirm = button.getAttribute('data-link');
+
+    msgModal.querySelectorAll('.card').forEach(function(card) {
+        let msgEl = card.querySelector('.msg-template');
+        let template = msgEl.getAttribute('data-template');
+
+        // Substitui placeholders
+        let msg = template
+            .replace('[Nome]', nome)
+            .replace('[profissional]', profissional)
+            .replace('[data]', data)
+            .replace('[dia]', dia)
+            .replace('[hora]', hora)
+            .replace('[link_de_confirmacao]', linkConfirm);
+
+        // Converte \n do texto para quebras de linha reais
+        msg = msg.replace(/\\n/g, "\n");
+
+        // Atualiza o preview no card (opcional)
+        msgEl.innerText = msg;
+
+        // Atualiza o link do WhatsApp
+        let a = card.querySelector('a.btn-success');
+        if(a) {
+            let empresa = "<?= $nomeEmpresa ?>";
+            let msgFinal = msg + empresa;
+            a.href = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(msgFinal);
+        }
+    });
+    });
+</script>
+<!-- msg modal -->
 
 <!-- /.Modal Alteração de consulta -->
 <div id="editarConsulta-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
@@ -345,7 +577,7 @@ foreach ($consultasHoje as $c) {
             <div class="modal-body">
                 <div class="text-center mt-2 mb-4">
                     <a href="index.html" class="text-success">
-                        <span><img src="../../../public/assets/images/logo.png" alt="" height="18"></span>
+                        <span><img src="/public/assets/images/SmileCopilot-Logo_139x28.png" style="height:28px; width:auto;"></span>
                     </a>
                 </div>
 
@@ -385,6 +617,130 @@ foreach ($consultasHoje as $c) {
 </div>
 <!-- /.Modal Alteração de consulta -->
 
+<!-- /.Modal nova consulta -->
+<div id="novaConsulta-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <button type="button"
+                    class="btn-close position-absolute top-0 end-0 m-2"
+                    style="cursor:pointer; z-index:1055;"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                    onclick="bootstrap.Modal.getOrCreateInstance(document.getElementById('novaConsulta-modal')).hide();">
+            </button>
+
+            <div class="modal-body">
+                <div class="text-center mt-2 mb-4">
+                    <a href="index.html" class="text-success">
+                        <span><img src="/public/assets/images/SmileCopilot-Logo_139x28.png" style="height:28px; width:auto;"></span>
+                    </a>
+                </div>
+
+                <form class="ps-3 pe-3" action="#">
+
+                    <div class="mb-3">
+                        <label for="paciente" class="form-label">Paciente</label>
+                        <div class="input-group">
+                            <select class="select2 form-control" id="paciente" data-placeholder="Escolha um paciente">
+                                <option value="">Selecione...</option>
+                                <?php foreach($pacientes as $p): ?>
+                                    <option value="<?= $p['PAC_IDPACIENTE'] ?>">
+                                        <?= htmlspecialchars($p['PAC_DCNOME']) ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <a href="/cadastropaciente" class="btn btn-success"
+                                style="
+                                    background-color: #0cadc2ff;
+                                    color: white;
+                                    border-color: #135fd1ff;
+                                    width: 40px;
+                                    height: 38px;            
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                    font-size: 1.5rem;        
+                                    font-weight: bold;
+                                    margin-left: 5px;
+                                    padding: 0;
+                                " data-bs-toggle="popover" data-bs-placement="right" data-bs-trigger="hover"
+                        data-bs-custom-class="info-popover" data-bs-title="<?= \App\Core\Language::get('pacientes'); ?>"
+                        data-bs-content="<?= \App\Core\Language::get('adicionar_paciente'); ?>">
+                                +
+                            </a>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="observacao" class="form-label">Observações</label>
+                        <textarea class="form-control" id="observacao" rows="4"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Duração da Consulta</label>
+                        <div class="form-check form-radio-danger">
+                            <input type="radio" value="30" id="duracao1" name="duracao" class="form-check-input">
+                            <label class="form-check-label" for="duracao1">30 Minutos</label>
+                        </div>
+                        <div class="form-check form-radio-danger">
+                            <input type="radio" value="60" id="duracao2" name="duracao" class="form-check-input">
+                            <label class="form-check-label" for="duracao2">60 Minutos</label>
+                        </div>
+                    </div> 
+
+                    <div class="mb-3">
+                        <label class="form-label">Data</label>
+                        <input type="text" id="basic-datepicker" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Horários disponíveis</label>
+                        <div id="horarios-disponiveis">
+
+                        </div>
+                    </div>
+
+                    <div class="mb-3 text-center">
+                        <button class="btn" style="background-color: #0cadc2ff; color: white; border-color: #135fd1ff;" type="submit">Salvar</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!-- /.Modal nova consulta -->
+
+<!-- Info Alert Modal -->
+<div id="info-alert-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-body p-4">
+                <div class="text-center">
+                    <i class="ri-information-line h1 text-info"></i>
+                    <h4 class="mt-2">Observações da Consulta</h4>
+                    <p class="mt-3" id="modal-observacoes">observações aqui.</p>
+                    <button type="button" class="btn btn-info my-2" data-bs-dismiss="modal">Continue</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var modal = document.getElementById('info-alert-modal');
+        modal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget; 
+            var observacoes = button.getAttribute('data-observacoes');
+
+            var modalBody = modal.querySelector('#modal-observacoes');
+            modalBody.textContent = observacoes && observacoes.trim() !== "" 
+                ? observacoes 
+                : "Nenhuma observação cadastrada.";
+        });
+    });                                
+</script>
 
 <script>
     const servidorAgora = '<?php echo $dataHoraServidor; ?>';
@@ -480,4 +836,97 @@ foreach ($consultasHoje as $c) {
 
     setInterval(atualizarRelogio, 1000);
     atualizarRelogio();
+</script>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Datas bloqueadas
+        var datasBloqueadas = [
+            "2025-09-15",
+            "2025-09-20",
+            "2025-09-22"
+        ];
+
+        flatpickr("#basic-datepicker", {
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            disable: datasBloqueadas,
+            locale: {
+                weekdays: {
+                    shorthand: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],
+                    longhand: ['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado']
+                },
+                months: {
+                    shorthand: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+                    longhand: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro']
+                },
+                firstDayOfWeek: 1,
+                rangeSeparator: ' até ',
+                weekAbbreviation: 'Sem',
+                scrollTitle: 'Scroll para aumentar',
+                toggleTitle: 'Clique para alternar',
+                time_24hr: true
+            },
+            onDayCreate: function(dObj, dStr, fp, dayElem) {
+                var data = dayElem.dateObj.toISOString().slice(0, 10);
+                if (datasBloqueadas.includes(data)) {
+                    dayElem.classList.add("data-bloqueada");
+                    dayElem.style.backgroundColor = "#ffcccc"; // vermelho
+                }
+            },
+            onChange: function(selectedDates, dateStr, instance) {
+                if (!dateStr) return;
+
+                var container = document.getElementById('horarios-disponiveis');
+                container.innerHTML = '<p>Carregando horários...</p>';
+
+                // Pega o valor do input de duração
+                var duracao = document.getElementById('duracao') ? document.getElementById('duracao').value : '';
+
+                // POST para o PHP
+                fetch('/horariosdisp', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: 'data=' + encodeURIComponent(dateStr) + '&duracao=' + encodeURIComponent(duracao)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    container.innerHTML = ''; // limpa carregando
+
+                    if (!data || data.length === 0) {
+                        container.innerHTML = '<p>Nenhum horário disponível com a duração selecionada.</p>';
+                        return;
+                    }
+
+                    data.forEach(function(horario) {
+                        var label = document.createElement('label');
+                        label.className = 'form-check-label d-block mb-1';
+                        label.innerHTML = `
+                            <input type="radio" name="horarios[]" value="${horario.horario}" class="form-check-input me-2">
+                            ${horario.horario}
+                        `;
+                        container.appendChild(label);
+                    });
+                })
+                .catch(err => {
+                    container.innerHTML = '<p>Erro ao buscar horários.</p>';
+                    console.error(err);
+                });
+            }
+        });
+    });
+</script>
+
+<script>
+    document.getElementById('searchField').addEventListener('keyup', function() {
+        var search = this.value.toLowerCase();
+        var rows = document.querySelectorAll("#tabela-consultas tbody tr");
+    
+        rows.forEach(function(row) {
+            var texto = row.innerText.toLowerCase();
+            row.style.display = texto.includes(search) ? "" : "none";
+        });
+    });
 </script>

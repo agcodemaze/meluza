@@ -7,18 +7,8 @@ $lang = $_SESSION['lang'] ?? 'pt';
 ?>
 
 <!-- Start Content-->
-<div class="container-fluid">
-    <!-- start page title -->
-    <div class="row">
-        <div class="col-12">
-            <div class="page-title-box">
-                <div class="page-title-right">
-                </div>
-                <h4 class="page-title"><?= \App\Core\Language::get('pacientes'); ?></h4>
-            </div>
-        </div>
-    </div>
-    <!-- end page title -->
+<div class="container-fluid" style="max-width:95% !important; padding-left:20px; padding-right:20px;">
+
 
     
     <div class="row">
@@ -35,7 +25,12 @@ $lang = $_SESSION['lang'] ?? 'pt';
                 <div class="tab-pane show active" id="input-types-preview">
                     <div class="row">
                         <div class="col-12">
-
+                            <div class="d-flex justify-content-end mb-2">
+                                <a href="/cadastropaciente" class="btn" 
+                                   style="background-color: #0cadc2ff; color: white; border-color: #135fd1ff;">
+                                    <i class="mdi mdi-account-plus me-2"></i> Cadastrar Paciente
+                                </a>
+                            </div>
                             <div class="card">
                                 <div class="card-body">
                                     <div class="row">

@@ -109,4 +109,41 @@ class Consultas extends Conn {
             return ["error" => $e->getMessage()];
         } 
     }
+
+    public function getHorariosDisponiveis($CON_DTCONSULTA, $CON_NUMDURACAO, $TENANCY_ID) {
+        try {
+            $sql = "WITH RECURSIVE horarios_possiveis AS (
+                        SELECT TIME('08:00:00') AS horario
+                        UNION ALL
+                        SELECT ADDTIME(horario, SEC_TO_TIME(:CON_NUMDURACAO*60))
+                        FROM horarios_possiveis
+                        WHERE ADDTIME(horario, SEC_TO_TIME(:CON_NUMDURACAO*60)) <= TIME('18:00:00')
+                    )
+                    SELECT h.horario
+                    FROM horarios_possiveis h
+                    WHERE NOT EXISTS (
+                        SELECT 1
+                        FROM CON_CONSULTAS c
+                        WHERE c.CON_DTCONSULTA = :CON_DTCONSULTA
+                          AND c.TENANCY_ID = :TENANCY_ID
+                          AND c.CON_ENSTATUS IN ('AGENDADA','CONFIRMADA')
+                          AND (
+                              h.horario < ADDTIME(c.CON_HORACONSULTA, SEC_TO_TIME(c.CON_NUMDURACAO*60))
+                              AND ADDTIME(h.horario, SEC_TO_TIME(:CON_NUMDURACAO*60)) > c.CON_HORACONSULTA
+                          )
+                    )
+                    ORDER BY h.horario";
+    
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":CON_DTCONSULTA", $CON_DTCONSULTA);
+            $stmt->bindParam(":CON_NUMDURACAO", $CON_NUMDURACAO);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
+            $stmt->execute();
+        
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return ["error" => $e->getMessage()];
+        }
+    }
+
 }

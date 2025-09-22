@@ -100,10 +100,7 @@
     'selecione_profissional' => 'Selecione o Profissional',
     'pedir_confirmacao_whats_botao' => 'Pedir confirmação de comparecimento via WhatsApp',
     'reagendar_consulra' => 'Reagendar consulta',
-    'excluir_consulta' => 'Excluir consulta',
-    
-    //------------- CONTINUA DAQUI PARA TRADUZIR DEMAIS IDIOMAS
-    
+    'excluir_consulta' => 'Excluir consulta',  
     'todas' => 'Todas',
     'consultas_lista' => 'Lista de Consultas',
     'tem_certeza_excluir_consulta' => 'Tem certeza que deseja excluir a consulta do paciente ',
@@ -113,6 +110,16 @@
     'de_ontem' => 'de Ontem',
     'de_todos' => '',
     'concluidas' => 'Concluídas',
-    'cadastrar_consulta_ini' => 'CADASTRAR CONSULTA',
+    'cadastrar_consulta_ini' => 'Nova Consulta',
+    'enviar' => 'Enviar', 
+    'nenhuma_mensagem' => 'Nenhuma mensagem cadastrada.', 
+    'msg_para_whatsapp' => 'Mensagens para Whatsapp', 
 
+    //------------- CONTINUA DAQUI PARA TRADUZIR DEMAIS IDIOMAS 
+    'adicionar_paciente' => 'Clique aqui para cadastrar um novo paciente.',
+    'procurar_campo' => 'Procurar',
+    'procurar_placeholder' => 'Procurar...',
+    'anterior' => 'Anterior',
+    'proximo' => 'Próximo',
+    
     ];

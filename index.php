@@ -12,7 +12,7 @@ $lifetime = 60 * 60 * 24 * 180;
 session_set_cookie_params([
     'lifetime' => $lifetime,
     'path' => '/',
-    'domain' => 'meluza.com.br',
+    //'domain' => 'meluza.com.br',
     'secure' => isset($_SERVER['HTTPS']),
     'httponly' => true,
     'samesite' => 'Lax'
@@ -118,6 +118,20 @@ $obRouter->post('/logincheck', [
 
         $result = $loginController->validateUser($email, $password, $codigo);
         return new \App\Http\Response(200, $result);
+    }
+]);
+
+//ROTA BUSCAR HORARIOS DISPONIVEIS AGENDA
+$obRouter->post('/horariosdisp', [
+    function() {
+        $consultaController = new \App\Controller\Pages\ConsultasAgenda();
+
+        $data = $_POST['data'] ?? '';
+        $duracao = $_POST['duracao'] ?? '';
+
+        $result = $consultaController->getHorariosDisp($data, $duracao);
+
+        return new \App\Http\Response(200, json_encode($result), 'application/json');
     }
 ]);
 
