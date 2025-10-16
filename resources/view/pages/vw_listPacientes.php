@@ -5,12 +5,21 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 $lang = $_SESSION['lang'] ?? 'pt';
 
 ?>
+<style>
+#alternative-page-datatable td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    vertical-align: middle; 
+    }
 
+
+.table td, .table th {
+    white-space: normal;
+    word-break: break-word;
+}
+</style>
 <!-- Start Content-->
-<div class="container-fluid" style="max-width:95% !important; padding-left:20px; padding-right:20px;">
-
-
-    
+<div class="container-fluid" style="max-width:100% !important; padding-left:10px; padding-right:10px;">
     <div class="row">
         <div class="col-12">
             <!-- Seção: Anamnese Médica -->
@@ -37,6 +46,7 @@ $lang = $_SESSION['lang'] ?? 'pt';
                                         <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
+                                                    <th></th>
                                                     <th><?= \App\Core\Language::get('nome_completo'); ?></th>
                                                     <th><?= \App\Core\Language::get('telefone'); ?></th>
                                                     <th><?= \App\Core\Language::get('cpfrg'); ?></th>
@@ -48,10 +58,17 @@ $lang = $_SESSION['lang'] ?? 'pt';
                                             <tbody>
                                                 <?php foreach ($listaPacientes as $listaPaciente): ?>
                                                 <tr style="cursor: pointer;" onclick="if(event.target.closest('td.dtr-control')) return false; window.location='/cadastropaciente';">
-                                                    <td class="text-truncate text-uppercase" style="max-width: 250px;"><?= $listaPaciente['PAC_DCNOME']; ?></td>
-                                                    <td><?= $listaPaciente['PAC_DCTELEFONE']; ?></td>
-                                                    <td><?= $listaPaciente['PAC_DCCPF']; ?></td>
-                                                    <td class="text-truncate text-uppercase" style="max-width: 150px;">SULAMÉRICA ODONTO</td>
+                                                    <td>
+                                                        <div class="avatar-xs d-table">
+                                                            <span class="avatar-title bg-info-lighten rounded-circle text-info" style="border: 1px solid #4d55c5ff;">
+                                                                <i class='uil uil-user font-16'></i>
+                                                            </span>
+                                                        </div>
+                                                    </td> 
+                                                    <td class="text-truncate" style="max-width: 250px;"><?= htmlspecialchars(ucwords(strtolower((string)$listaPaciente['PAC_DCNOME'])), ENT_QUOTES, 'UTF-8') ?></td>
+                                                    <td><?= htmlspecialchars(ucwords(strtolower((string)$listaPaciente['PAC_DCTELEFONE'])), ENT_QUOTES, 'UTF-8') ?></td>
+                                                    <td><?= htmlspecialchars(ucwords(strtolower((string)$listaPaciente['PAC_DCCPF'])), ENT_QUOTES, 'UTF-8') ?></td>
+                                                    <td class="text-truncate" style="max-width: 150px;">SULAMÉRICA ODONTO</td>
                                                     <td>05/08/2025</td>
                                                     <td>   
                                                         <a href="/cadastropaciente" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-eye-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i></a>             
@@ -75,7 +92,7 @@ $lang = $_SESSION['lang'] ?? 'pt';
                                                             data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
                                                             data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
                                                             onclick="event.stopPropagation(); confirmDeleteAttr(this);"> <!-- Chama o método js confirmDeleteAttr com sweetalert -->
-                                                            <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_paciente'); ?>"></i>
+                                                            <i class="mdi mdi-delete" data-bs-toggle="popover" style="color: #f16a6aff;" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_paciente'); ?>"></i>
                                                         </a>
                                                     </td>
                                                 </tr>
@@ -98,15 +115,15 @@ $lang = $_SESSION['lang'] ?? 'pt';
 <br>
 
 <?php if ($lang  === "pt" || empty($lang)): ?>
-    <script src="<?= ASSETS_PATH ?>utils/datatable-Init-ptbr.js"></script>
+    <script src="<?= ASSETS_PATH ?>utils/datatable-Init-ptbr_pacientes.js"></script>
 <?php endif; ?>
 
 <?php if ($lang  === "en"): ?>
-    <script src="<?= ASSETS_PATH ?>utils/datatable-Init-en.js"></script>
+    <script src="<?= ASSETS_PATH ?>utils/datatable-Init-en_paciente.js"></script>
 <?php endif; ?>
 
 <?php if ($lang  === "es"): ?>
-    <script src="<?= ASSETS_PATH ?>utils/datatable-Init-es.js"></script>
+    <script src="<?= ASSETS_PATH ?>utils/datatable-Init-es_paciente.js"></script>
 <?php endif; ?>
 
 

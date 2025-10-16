@@ -44,71 +44,97 @@ class Consultas extends Conn {
 
     public function getConsultasByDayProfPredef($TENANCY_ID, $DEN_IDDENTISTA, $diaSemana) {
         try {     
-            $dataParametro = null;
+            $dataInicio = $dataFim = null;
 
-            if($diaSemana == "1") {
-                $dataParametro = date('Y-m-d'); 
-            } 
-            elseif($diaSemana == "2") {
-                $dataParametro = date('Y-m-d', strtotime('+1 day'));
+            switch ($diaSemana) {
+                case "1": // Hoje
+                    $dataInicio = $dataFim = date('Y-m-d');
+                    break;
+                case "2": // Últimos 6 meses
+                    $dataInicio = date('Y-m-d', strtotime('-6 months'));
+                    $dataFim = date('Y-m-d');
+                    break;
+                case "3": // Próximos 6 meses
+                    $dataInicio = date('Y-m-d');
+                    $dataFim = date('Y-m-d', strtotime('+6 months'));
+                    break;
+                case "4": // Últimos 2 anos
+                    $dataInicio = date('Y-m-d', strtotime('-2 years'));
+                    $dataFim = date('Y-m-d');
+                    break;
+                default:
+                    throw new Exception("Opção inválida para diaSemana.");
             }
-            elseif($diaSemana == "3") {
-                $dataParametro = date('Y-m-d', strtotime('-1 day'));
-            } 
-            // se $diaSemana não for nenhum dos acima, $dataParametro fica null e trará todos os registros
 
             $sql = "SELECT * 
                     FROM VW_CONSULTAS 
-                    WHERE (:dataConsulta IS NULL OR CON_DTCONSULTA = :dataConsulta)
-                    AND TENANCY_ID = :TENANCY_ID
-                    AND DEN_IDDENTISTA = :DEN_IDDENTISTA
+                    WHERE TENANCY_ID = :TENANCY_ID
+                      AND DEN_IDDENTISTA = :DEN_IDDENTISTA
+                      AND CON_DTCONSULTA BETWEEN :dataInicio AND :dataFim
                     ORDER BY CON_DTCONSULTA, CON_HORACONSULTA ASC";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
             $stmt->bindParam(":DEN_IDDENTISTA", $DEN_IDDENTISTA);
-            $stmt->bindParam(":dataConsulta", $dataParametro);
+            $stmt->bindParam(":dataInicio", $dataInicio);
+            $stmt->bindParam(":dataFim", $dataFim);
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
-        } 
+        } catch (Exception $e) {
+            return ["error" => $e->getMessage()];
+        }
     }
+
 
     public function getConsultasByDayPredef($TENANCY_ID, $diaSemana) {
         try {     
-            $dataParametro = null;
+            $dataInicio = $dataFim = null;
 
-            if($diaSemana == "1") {
-                $dataParametro = date('Y-m-d'); 
-            } 
-            elseif($diaSemana == "2") {
-                $dataParametro = date('Y-m-d', strtotime('+1 day'));
+            switch ($diaSemana) {
+                case "1": // Hoje
+                    $dataInicio = $dataFim = date('Y-m-d');
+                    break;
+                case "2": // Últimos 6 meses
+                    $dataInicio = date('Y-m-d', strtotime('-6 months'));
+                    $dataFim = date('Y-m-d');
+                    break;
+                case "3": // Próximos 6 meses
+                    $dataInicio = date('Y-m-d');
+                    $dataFim = date('Y-m-d', strtotime('+6 months'));
+                    break;
+                case "4": // Últimos 2 anos
+                    $dataInicio = date('Y-m-d', strtotime('-2 years'));
+                    $dataFim = date('Y-m-d');
+                    break;
+                default:
+                    throw new Exception("Opção inválida para diaSemana.");
             }
-            elseif($diaSemana == "3") {
-                $dataParametro = date('Y-m-d', strtotime('-1 day'));
-            } 
-            // se $diaSemana não for nenhum dos acima, $dataParametro fica null e trará todos os registros
 
             $sql = "SELECT * 
                     FROM VW_CONSULTAS 
-                    WHERE (:dataConsulta IS NULL OR CON_DTCONSULTA = :dataConsulta)
-                    AND TENANCY_ID = :TENANCY_ID
+                    WHERE TENANCY_ID = :TENANCY_ID
+                      AND CON_DTCONSULTA BETWEEN :dataInicio AND :dataFim
                     ORDER BY CON_DTCONSULTA, CON_HORACONSULTA ASC";
 
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
-            $stmt->bindParam(":dataConsulta", $dataParametro);
+            $stmt->bindParam(":dataInicio", $dataInicio);
+            $stmt->bindParam(":dataFim", $dataFim);
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
-        } 
+        } catch (Exception $e) {
+            return ["error" => $e->getMessage()];
+        }
     }
+
 
     public function getHorariosDisponiveis($CON_DTCONSULTA, $CON_NUMDURACAO, $TENANCY_ID) {
         try {
@@ -145,5 +171,47 @@ class Consultas extends Conn {
             return ["error" => $e->getMessage()];
         }
     }
+
+    public function getConsultasToCalendar($TENANCY_ID, $DEN_IDDENTISTA) {
+        try {     
+            // Intervalo de 12 meses centrado em hoje
+            $dataInicio = date('Y-m-d', strtotime('-6 months'));
+            $dataFim = date('Y-m-d', strtotime('+6 months'));
+
+            // Monta SQL base
+            $sql = "SELECT * 
+                    FROM VW_CONSULTAS 
+                    WHERE TENANCY_ID = :TENANCY_ID
+                        AND CON_DTCONSULTA BETWEEN :dataInicio AND :dataFim";
+
+            // Se não for "all", adiciona filtro do dentista
+            if ($DEN_IDDENTISTA !== "all") {
+                $sql .= " AND DEN_IDDENTISTA = :DEN_IDDENTISTA";
+            }
+
+            $sql .= " ORDER BY CON_DTCONSULTA, CON_HORACONSULTA ASC";
+
+            $stmt = $this->pdo->prepare($sql);
+
+            // Sempre vincula TENANCY e datas
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
+            $stmt->bindParam(":dataInicio", $dataInicio);
+            $stmt->bindParam(":dataFim", $dataFim);
+
+            // Só vincula dentista se não for "all"
+            if ($DEN_IDDENTISTA !== "all") {
+                $stmt->bindParam(":DEN_IDDENTISTA", $DEN_IDDENTISTA);
+            }
+
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        } catch (PDOException $e) {
+            return ["error" => $e->getMessage()];
+        }
+    }
+
+
 
 }

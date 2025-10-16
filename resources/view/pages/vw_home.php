@@ -60,14 +60,14 @@ if(isset($_GET['dia'])) {
         $botaoStyleDeactiveHoje = "btn btn-primary"; 
         $textTitulo = "de_hoje";
     }elseif ($_GET['dia'] == "2") {
-        $botaoStyleDeactiveAmanha = "btn btn-primary";
-        $textTitulo = "de_amanha";
-    }elseif ($_GET['dia'] == "3") {
-        $botaoStyleDeactiveOntem = "btn btn-primary";
-        $textTitulo = "de_ontem";
-    }elseif($_GET['dia'] == "4") {
-        $botaoStyleDeactiveTodos = "btn btn-primary";
-        $textTitulo = "de_todos";
+        $botaoStyleDeactiveUltimos6Meses = "btn btn-primary";
+        $textTitulo = "ultimos_6_meses_desc";
+    }elseif ($_GET['dia'] == "4") {
+        $botaoStyleDeactiveUltimos2Anos = "btn btn-primary";
+        $textTitulo = "ultimos_2_anos_desc";
+    }elseif($_GET['dia'] == "3") {
+        $botaoStyleDeactiveProximos6Meses = "btn btn-primary";
+        $textTitulo = "proximos_6_meses_desc";
     }
 } else {
     $botaoStyleDeactiveHoje = "btn btn-primary";
@@ -101,28 +101,6 @@ foreach ($consultasHoje as $c) {
         "status" => $c['CON_ENSTATUS']
     ];
 }
-
-// paginacao da tabela de consultas
-// Defina quantos registros por página
-$porPagina = 10;
-$totalConsultas = count($consultasHoje);
-$totalPaginas = ceil($totalConsultas / $porPagina);
-
-// Página atual (default 1)
-$paginaAtual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
-if ($paginaAtual < 1) $paginaAtual = 1;
-if ($paginaAtual > $totalPaginas) $paginaAtual = $totalPaginas;
-
-$inicio = ($paginaAtual - 1) * $porPagina;
-$consultasPaginadas = array_slice($consultasHoje, $inicio, $porPagina);
-
-// Função para gerar URL mantendo query string existente
-function buildPageUrl($pagina) {
-    $params = $_GET;
-    $params['pagina'] = $pagina;
-    return '?' . http_build_query($params);
-}
-// fim paginacao da tabela de consultas
 
 ?>
 
@@ -170,10 +148,23 @@ function buildPageUrl($pagina) {
     color: white !important;
     cursor: not-allowed !important;
   }
+
+#alternative-page-datatable td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    vertical-align: middle; 
+    }
+
+
+.table td, .table th {
+    white-space: normal;
+    word-break: break-word;
+}
+
 </style>
 
 <!-- Start Content-->
-<div class="container-fluid" style="max-width:95% !important; padding-left:20px; padding-right:20px;">
+<div class="container-fluid" style="max-width:100% !important; padding-left:10px; padding-right:10px;">
     <!-- start page title -->
     <div class="row">
         <div class="col-12">
@@ -261,25 +252,25 @@ function buildPageUrl($pagina) {
                 <h4 class="header-title mb-2 mb-md-0"><?= \App\Core\Language::get('agenda'); ?></h4>
                 <!-- Botões -->
                 <div class="d-flex flex-column flex-md-row gap-1 w-100 w-md-auto mt-2 mt-md-0 ms-md-5">
-                    <button type="button" class="btn <?= $botaoStyleDeactiveOntem ?> btn-sm w-100 w-md-auto" 
-                            onclick="window.location.href='<?= $newUrl.'&dia=3'; ?>'">
+                    <button type="button" class="btn <?= $botaoStyleDeactiveUltimos2Anos ?> btn-sm w-100 w-md-auto" 
+                            onclick="window.location.href='<?= $newUrl.'&dia=4'; ?>'">
                         <i class="ri-calendar-2-line me-2"></i>
-                        <?= \App\Core\Language::get('ontem'); ?>
+                        <?= \App\Core\Language::get('ultimos_2_anos'); ?>                        
+                    </button>
+                    <button type="button" class="btn <?= $botaoStyleDeactiveUltimos6Meses ?> btn-sm w-100 w-md-auto" 
+                            onclick="window.location.href='<?= $newUrl.'&dia=2'; ?>'">
+                        <i class="ri-calendar-2-line me-2"></i>
+                        <?= \App\Core\Language::get('ultimos_6_meses'); ?>
                     </button>
                     <button type="button" class="btn <?= $botaoStyleDeactiveHoje ?> btn-sm w-100 w-md-auto" 
                             onclick="window.location.href='<?= $newUrl.'&dia=1'; ?>'">
                         <i class="ri-calendar-2-line me-2"></i>
                         <?= \App\Core\Language::get('hoje'); ?>
                     </button>
-                    <button type="button" class="btn <?= $botaoStyleDeactiveAmanha ?> btn-sm w-100 w-md-auto" 
-                            onclick="window.location.href='<?= $newUrl.'&dia=2'; ?>'">
-                        <i class="ri-calendar-2-line me-2"></i>
-                        <?= \App\Core\Language::get('amanha'); ?>
-                    </button>
-                    <button type="button" class="btn <?= $botaoStyleDeactiveTodos ?> btn-sm w-100 w-md-auto" 
-                            onclick="window.location.href='<?= $newUrl.'&dia=4'; ?>'">
+                    <button type="button" class="btn <?= $botaoStyleDeactiveProximos6Meses ?> btn-sm w-100 w-md-auto" 
+                            onclick="window.location.href='<?= $newUrl.'&dia=3'; ?>'">
                             <i class="ri-checkbox-multiple-line me-2"></i>
-                        <?= \App\Core\Language::get('todas'); ?>
+                        <?= \App\Core\Language::get('proximos_6_meses'); ?>
                     </button>
                     <!-- Botão afastado com responsividade -->
                     <button type="button" class="btn btn-sm w-100 w-md-auto ms-md-5 mt-2 mt-md-0" style="background-color: #0cadc2ff; color: white; border-color: #135fd1ff;" data-bs-toggle="modal" data-bs-target="#novaConsulta-modal">
@@ -291,44 +282,49 @@ function buildPageUrl($pagina) {
             <div class="card-header bg-light-lighten border-top border-bottom border-light py-1 text-center">
                 <p class="m-0"><b><?= $confirmadas; ?></b> <?= \App\Core\Language::get('consultas'); ?> <?= \App\Core\Language::get('confirmadas'); ?> <?= \App\Core\Language::get('de'); ?> <?= $totalConsultas; ?></p>
             </div>
-            <div class="card-header bg-light-lighten border-top border-bottom border-light py-1 text-center">
-                <form class="row gy-2 gx-2 align-items-center justify-content-xl-start justify-content-between">
-                    <div class="col-auto">
-                        <label for="searchField" class="visually-hidden"><?= \App\Core\Language::get('procurar_campo'); ?></label>
-                        <input type="search" class="form-control" id="searchField" placeholder="<?= \App\Core\Language::get('procurar_placeholder'); ?>"> 
-                    </div>
-                </form>
-            </div>
             <div class="card-body pt-2">
                 <div class="table-responsive">
-                    <table class="table table-centered table-nowrap table-hover mb-0" id="tabela-consultas">
+                    <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th><?= \App\Core\Language::get('nome_completo'); ?></th>
+                                <th><?= \App\Core\Language::get('data_consulta'); ?></th>
+                                <th><?= \App\Core\Language::get('status'); ?></th>
+                                <th><?= \App\Core\Language::get('telefone'); ?></th>
+                                <th><?= \App\Core\Language::get('profissional'); ?></th>
+                                <th><?= \App\Core\Language::get('especialidade'); ?></th> 
+                                <th><?= \App\Core\Language::get('plano_saude_odonto'); ?></th>
+                                <th></th>
+                            </tr>
+                        </thead>
                         <tbody>
-                            <?php foreach ($consultasPaginadas as $index => $consulta): ?>
+                            <?php foreach ($consultasHoje as $index => $consulta): ?>
                                 <?php
                                     if ($consulta['CON_ENSTATUS'] == "CONCLUIDA") {
                                         $imgIcon = "uil uil-award-alt font-16";
                                         $classIcon = "avatar-title bg-secondary-lighten rounded-circle text-secondary";
-                                        $iconStyle = "border: 2px solid #a7a6a5ff;";
+                                        $iconStyle = "border: 1px solid #a7a6a5ff;";
                                         $classeBadge = "secondary";
                                     } elseif ($consulta['CON_ENSTATUS'] == "CANCELADA") {
                                         $imgIcon = "uil uil-stopwatch-slash font-16";
                                         $classIcon = "avatar-title bg-warning-lighten rounded-circle text-warning";
-                                        $iconStyle = "border: 2px solid #ce7d04ff;";
+                                        $iconStyle = "border: 1px solid #ce7d04ff;";
                                         $classeBadge = "warning";
                                     } elseif ($consulta['CON_ENSTATUS'] == "AGENDADA") {
                                         $imgIcon = "uil  uil-clock font-16";
                                         $classIcon = "avatar-title bg-primary-lighten rounded-circle text-primary";
-                                        $iconStyle = "border: 2px solid #4d55c5ff;";
+                                        $iconStyle = "border: 1px solid #4d55c5ff;";
                                         $classeBadge = "primary";
                                     } elseif ($consulta['CON_ENSTATUS'] == "FALTA") {
                                         $imgIcon = "uil uil-asterisk font-16";
                                         $classIcon = "avatar-title bg-danger-lighten rounded-circle text-danger";
-                                        $iconStyle = "border: 2px solid #811818ff;";
+                                        $iconStyle = "border: 1px solid #811818ff;";
                                         $classeBadge = "danger";
                                     } elseif ($consulta['CON_ENSTATUS'] == "CONFIRMADA") {
-                                        $imgIcon = "uil uil-check font-16"; // corrigido aqui
+                                        $imgIcon = "uil uil-check font-16"; 
                                         $classIcon = "avatar-title bg-success-lighten rounded-circle text-success";
-                                        $iconStyle = "border: 2px solid #3dbd4eff;";
+                                        $iconStyle = "border: 1px solid #3dbd4eff;";
                                         $classeBadge = "success";
                                     }
 
@@ -360,68 +356,68 @@ function buildPageUrl($pagina) {
                                         $obs = htmlspecialchars($consulta["CON_DCOBSERVACOES"], ENT_QUOTES, 'UTF-8');
                                         $showMaisInfo = "
                                         <a style='margin-left:5px; font-size:0.9rem; color: #ff4444ff;'
-                                           title='Mais informações'
-                                           data-bs-toggle='modal'
-                                           data-bs-target='#info-alert-modal'
-                                           data-observacoes=\"$obs\">
+                                            title='Mais informações'
+                                            data-bs-toggle='modal'
+                                            data-bs-target='#info-alert-modal'
+                                            data-observacoes=\"$obs\">
                                             <i class='ri-information-line'></i>
                                         </a>";
                                     }
                                     
                                 ?> 
-                            <tr> <!-- TR com chamada para edição de consulta via Modal -->
+                            <tr>
                                 <td>
-                                    <div class="avatar-sm d-table">
+                                    <div class="avatar-xs d-table">
                                         <span class="<?= $classIcon; ?>" style="<?= $iconStyle; ?>">
                                             <i class='<?= $imgIcon; ?>'></i>
                                         </span>
                                     </div>
+                                </td>                          
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= $showMaisInfo ?> <?= htmlspecialchars(ucwords(strtolower((string)$consulta['PAC_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
-                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                    <h5 class="font-14 my-1"><a href="javascript:void(0);" class="text-body"> 
-                                        <?= $showMaisInfo ?>    
-                                        <?= htmlspecialchars((string)$consulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?></a></h5>
-                                    <span class="text-muted font-13"><?= htmlspecialchars((string)$dataConsulta, ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars((string)$consultaHoraIni, ENT_QUOTES, 'UTF-8') ?> <?= \App\Core\Language::get('as'); ?> <?= htmlspecialchars((string)$consultaHoraFim, ENT_QUOTES, 'UTF-8') ?></span>
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <span style="display:none;">
+                                        <?= date(
+                                            'Y-m-d H:i',
+                                            strtotime($dataConsulta . ' ' . str_replace(['h','ás'], ['',''], $consultaHoraIni))
+                                        ) ?>
+                                    </span>
+                                    <?= htmlspecialchars($dataConsulta, ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars($consultaHoraIni, ENT_QUOTES, 'UTF-8') ?> <?= \App\Core\Language::get('as'); ?> <?= htmlspecialchars($consultaHoraFim, ENT_QUOTES, 'UTF-8') ?>
                                 </td>
-                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                    <span class="text-muted font-13"><?= \App\Core\Language::get('status'); ?></span> <br />
-                                    <span class="badge badge-<?= $classeBadge; ?>-lighten"><?= htmlspecialchars((string)$consulta['CON_ENSTATUS'], ENT_QUOTES, 'UTF-8') ?></span>
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <span class="badge badge-<?= $classeBadge; ?>-lighten"><?= htmlspecialchars(ucwords(strtolower((string)$consulta['CON_ENSTATUS'])), ENT_QUOTES, 'UTF-8') ?></span>
                                 </td>
-                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                    <span class="text-muted font-13"><?= \App\Core\Language::get('telefone'); ?></span>
-                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['PAC_DCTELEFONE'], ENT_QUOTES, 'UTF-8') ?></h5>
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= htmlspecialchars((string)$consulta['PAC_DCTELEFONE'], ENT_QUOTES, 'UTF-8') ?>
                                 </td>
-                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                    <span class="text-muted font-13"><?= \App\Core\Language::get('profissional'); ?></span>
-                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['DEN_DCNOME'], ENT_QUOTES, 'UTF-8') ?></h5>
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= htmlspecialchars(ucwords(strtolower((string)$consulta['DEN_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
-                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                    <span class="text-muted font-13"><?= \App\Core\Language::get('especialidade'); ?></span>
-                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['CON_NMESPECIALIDADE'], ENT_QUOTES, 'UTF-8') ?></h5> 
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CON_NMESPECIALIDADE'])), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
-                                <td style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-                                    <span class="text-muted font-13"><?= \App\Core\Language::get('plano_saude_odonto'); ?></span>
-                                    <h5 class="font-14 mt-1 fw-normal"><?= htmlspecialchars((string)$consulta['CNV_DCCONVENIO'], ENT_QUOTES, 'UTF-8') ?></h5>
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CNV_DCCONVENIO'])), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
                                 <td class="table-action" style="width: 90px;">
                                     <a href="javascript:void(0);" 
-                                       class="action-icon" 
-                                       data-bs-toggle="modal" 
-                                       data-bs-target="#msg-modal"
-                                       data-nome="<?= htmlspecialchars($consulta['PAC_DCNOME']) ?>"
-                                       data-profissional="<?= htmlspecialchars($consulta['DEN_DCNOME']) ?>"
-                                       data-telefone="<?= htmlspecialchars($consulta['PAC_DCTELEFONE']) ?>"
-                                       data-data="<?= htmlspecialchars($dataConsulta) ?>"
-                                       data-dia="<?= htmlspecialchars($diaSemana) ?>"
-                                       data-hora="<?= htmlspecialchars($consultaHoraIni) ?>"
-                                       data-link="<?= htmlspecialchars($urlWhatsConfirmConsul) ?>">
+                                        class="action-icon" 
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#msg-modal"
+                                        data-nome="<?= htmlspecialchars($consulta['PAC_DCNOME']) ?>"
+                                        data-profissional="<?= htmlspecialchars($consulta['DEN_DCNOME']) ?>"
+                                        data-telefone="<?= htmlspecialchars($consulta['PAC_DCTELEFONE']) ?>"
+                                        data-data="<?= htmlspecialchars($dataConsulta) ?>"
+                                        data-dia="<?= htmlspecialchars($diaSemana) ?>"
+                                        data-hora="<?= htmlspecialchars($consultaHoraIni) ?>"
+                                        data-link="<?= htmlspecialchars($urlWhatsConfirmConsul) ?>">
                                         <i class="mdi mdi-send-check-outline"
-                                           data-bs-toggle="popover" 
-                                           data-bs-trigger="hover" 
-                                           data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>">
+                                            data-bs-toggle="popover" 
+                                            data-bs-trigger="hover" 
+                                            data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>">
                                         </i>
-                                    </a>
-                                    <a href="javascript: void(0);" class="action-icon"> <i class="mdi mdi-calendar-month-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('reagendar_consulra'); ?>"></i></a>                                
+                                    </a>                            
                                     <a href="javascript:void(0);"  
                                             class="action-icon"
                                             data-id="<?= htmlspecialchars((string)$consulta['CON_IDCONSULTA'], ENT_QUOTES, 'UTF-8') ?>"    
@@ -439,32 +435,14 @@ function buildPageUrl($pagina) {
                                             data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
                                             data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
                                             onclick="event.stopPropagation(); confirmDeleteAttr(this);"> <!-- Chama o método js confirmDeleteAttr com sweetalert -->
-                                            <i class="mdi mdi-delete" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_consulta'); ?>"></i>
+                                            <i class="mdi mdi-delete" style="color: #f16a6aff;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_consulta'); ?>"></i>
                                 </td>
                             </tr>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
-                    <!-- Paginação -->
-                    <!-- Paginação -->
-                    <nav aria-label="Navegação de páginas" class="my-4">
-                        <ul class="pagination mb-0 justify-content-center">
-                            <!-- Botão Previous -->
-                            <li class="page-item <?= ($paginaAtual <= 1) ? 'disabled' : '' ?>">
-                                <a class="page-link" href="<?= ($paginaAtual > 1) ? buildPageUrl($paginaAtual - 1) : '#' ?>" tabindex="-1"><?= \App\Core\Language::get('anterior'); ?></a>
-                            </li>
-                            <!-- Links das páginas -->
-                            <?php for ($i = 1; $i <= $totalPaginas; $i++): ?>
-                            <li class="page-item <?= ($i == $paginaAtual) ? 'active' : '' ?>">
-                                <a class="page-link" href="<?= buildPageUrl($i) ?>"><?= $i ?></a>
-                            </li>
-                            <?php endfor; ?>                            
-                            <!-- Botão Next --> 
-                            <li class="page-item <?= ($paginaAtual >= $totalPaginas) ? 'disabled' : '' ?>">
-                                <a class="page-link" href="<?= ($paginaAtual < $totalPaginas) ? buildPageUrl($paginaAtual + 1) : '#' ?>"><?= \App\Core\Language::get('proximo'); ?></a>
-                            </li>                        
-                        </ul>
-                    </nav>
+
+
                 </div> <!-- end table-responsive-->
             </div> <!-- end card body-->
         </div> <!-- end card -->
@@ -929,4 +907,18 @@ function buildPageUrl($pagina) {
             row.style.display = texto.includes(search) ? "" : "none";
         });
     });
+
+    
 </script>
+
+<?php if ($lang  === "pt" || empty($lang)): ?>
+    <script src="<?= ASSETS_PATH ?>utils/datatable-Init-ptbr.js"></script>
+<?php endif; ?>
+
+<?php if ($lang  === "en"): ?>
+    <script src="<?= ASSETS_PATH ?>utils/datatable-Init-en.js"></script>
+<?php endif; ?>
+
+<?php if ($lang  === "es"): ?>
+    <script src="<?= ASSETS_PATH ?>utils/datatable-Init-es.js"></script>
+<?php endif; ?>

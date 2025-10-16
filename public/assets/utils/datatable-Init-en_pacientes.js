@@ -8,7 +8,7 @@ $(document).ready(function() {
             { targets: [0, -1], orderable: false }, 
             { targets: 2, type: 'string', orderData: 2 } 
         ],
-        order: [[2, 'asc']], 
+        order: [[1, 'asc']], 
         drawCallback: function() {
             $(".dataTables_paginate > .pagination").addClass("pagination-rounded");
         },

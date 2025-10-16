@@ -31,24 +31,48 @@ class Home extends Page{
          * Comonentes/Scripts que serão carregados na view
          */
         $componentsScriptsHeader = '
-            <script src="'.ASSETS_PATH.'js/hyper-config.js"></script>
             <link href="'.ASSETS_PATH.'css/vendor.min.css" rel="stylesheet" type="text/css" />
             <link href="'.ASSETS_PATH.'css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
-            <link href="'.ASSETS_PATH.'css/icons.min.css" rel="stylesheet" type="text/css" />
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/locale/pt-br.min.js"></script>
             <link href="https://unpkg.com/vis-timeline/styles/vis-timeline-graph2d.min.css" rel="stylesheet" />
             <script src="https://unpkg.com/vis-timeline/standalone/umd/vis-timeline-graph2d.min.js"></script>
+            <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
+            <script src="'.ASSETS_PATH.'vendor/ad_sweetalert/jquery-3.7.0.min.js"></script>
+            <link href="'.ASSETS_PATH.'vendor/datatables.net-bs5/css/dataTables.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+            <link href="'.ASSETS_PATH.'vendor/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+            <link href="'.ASSETS_PATH.'vendor/datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+            <link href="'.ASSETS_PATH.'vendor/datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+            <link href="'.ASSETS_PATH.'vendor/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+            <link href="'.ASSETS_PATH.'vendor/datatables.net-select-bs5/css/select.bootstrap5.min.css" rel="stylesheet" type="text/css" />
+            <script src="'.ASSETS_PATH.'js/hyper-config.js"></script>
+            <link href="'.ASSETS_PATH.'css/vendor.min.css" rel="stylesheet" type="text/css" />
+            <link href="'.ASSETS_PATH.'css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
+            <link href="'.ASSETS_PATH.'css/icons.min.css" rel="stylesheet" type="text/css" />
             <link href="'.ASSETS_PATH.'vendor/ad_sweetalert/sweetalert2.min.css" rel="stylesheet">
             <script src="'.ASSETS_PATH.'vendor/ad_sweetalert/sweetalert2.all.min.js"></script>
-            <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/airbnb.css">
         ';
 
         $componentsScriptsFooter = '
             <script src="'.ASSETS_PATH.'js/vendor.min.js"></script>            
+            <script src="'.ASSETS_PATH.'vendor/highlightjs/highlight.pack.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/clipboard/clipboard.min.js"></script>
+            <script src="'.ASSETS_PATH.'js/hyper-syntax.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net/js/jquery.dataTables.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-bs5/js/dataTables.bootstrap5.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-fixedcolumns-bs5/js/fixedColumns.bootstrap5.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-buttons/js/buttons.html5.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-buttons/js/buttons.flash.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-buttons/js/buttons.print.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+            <script src="'.ASSETS_PATH.'vendor/datatables.net-select/js/dataTables.select.min.js"></script>
             <script src="'.ASSETS_PATH.'js/app.min.js"></script>
-            <script src="'.ASSETS_PATH.'utils/alertDelete.js"></script>
-            <script src="'.ASSETS_PATH.'utils/scrollPositionReload.js"></script>           
+            <script src="'.ASSETS_PATH.'utils/alertDelete.js"></script>      
         ';
 //<script src="'.ASSETS_PATH.'utils/simple-timepicker-pt.js"></script>
         //VIEW DA HOME
@@ -88,6 +112,13 @@ class Home extends Page{
         $objConsultas = new Consultas();
         $consultasByDayPredef = $objConsultas->getConsultasByDayPredef(TENANCY_ID, $DIA);
         return $consultasByDayPredef;
+    }
+
+    public static function getConsultasToCalendar($DEN_IDDENTISTA) {
+
+        $objConsultas = new Consultas();
+        $ConsultasToCalendar = $objConsultas->getConsultasToCalendar(TENANCY_ID, $DEN_IDDENTISTA);
+        return $ConsultasToCalendar;
     }
 }
 

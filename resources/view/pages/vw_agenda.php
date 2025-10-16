@@ -2,15 +2,54 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
+$profissionalId = $_SESSION['PROFISSIONAL_ID'] ?? 'all';
 $lang = $_SESSION['lang'] ?? 'pt';
-?>
 
+
+$consultasCalendario = \App\Controller\Pages\Home::getConsultasToCalendar($profissionalId);
+
+$events = [];
+
+foreach ($consultasCalendario as $consulta) {
+
+    $start = $consulta['CON_DTCONSULTA'] . 'T' . $consulta['CON_HORACONSULTA'];
+
+    $horaFim = date('H:i:s', strtotime($consulta['CON_HORACONSULTA'] . ' + ' . $consulta['CON_NUMDURACAO'] . ' minutes'));
+    $end = $consulta['CON_DTCONSULTA'] . 'T' . $horaFim;
+
+    $status = strtoupper($consulta['CON_ENSTATUS']);
+    switch ($status) {
+        case 'CONFIRMADA':
+            $className = 'bg-success';
+            break;
+        case 'AGENDADA':
+            $className = 'bg-info';
+            break;
+        case 'CANCELADA':
+            $className = 'bg-warning';
+            break;
+        case 'FALTA':
+            $className = 'bg-danger';
+            break;
+        default:
+            $className = 'bg-secondary';
+    }
+
+    $events[] = [
+        'title' => 'Consulta ' . $consulta['PAC_DCNOME'],
+        'start' => $start,
+        'end' => $end,
+        'className' => $className
+    ];
+}
+
+?>
 <!-- Start Content-->
-<div class="container-fluid" style="max-width:90% !important; padding-left:10px; padding-right:10px;">
+<div class="container-fluid" style="max-width:100% !important; padding-left:0px; padding-right:0px;">
     <div class="row">
-        <div class="col-12">
+        <div class="col-12" style="max-width:100% !important; padding-left:0px; padding-right:0px;">
             <!-- Seção: Anamnese Médica -->
-            <div class="card">
+            <div class="card" style="max-width:100% !important; padding-left:0px; padding-right:0px;">
                 <div class="card-body">
                     <h4 class="header-title">
                         <?= \App\Core\Language::get('agenda'); ?>
@@ -20,7 +59,7 @@ $lang = $_SESSION['lang'] ?? 'pt';
                         <?= \App\Core\Language::get('agenda_desc'); ?>
                     </p>
 
-                    <div class="tab-content">
+                    <div class="tab-content" >
                         <div class="tab-pane show active" id="input-types-preview">
                             <div class="row">
                                 <div class="col-12">
@@ -146,12 +185,7 @@ document.addEventListener('DOMContentLoaded', function() {
             var modal = new bootstrap.Modal(document.getElementById("event-modal"));
             modal.show();
         },
-        events: [
-            { title: 'Consulta João', start: '2025-09-16T19:00:00', end: '2025-09-16T19:30:00', className: 'bg-success' },
-            { title: 'Consulta João', start: '2025-09-17T16:00:00', end: '2025-09-17T16:30:00', className: 'bg-success' },
-            { title: 'Consulta João', start: '2025-09-17T17:00:00', end: '2025-09-17T17:30:00', className: 'bg-success' },
-            { title: 'Retorno Maria', start: '2025-09-18T14:00:00', end: '2025-09-18T15:30:00', className: 'bg-info' }
-        ]
+        events: <?= json_encode($events) ?>
     });
 
     calendar.render();

@@ -93,35 +93,92 @@ if (isset($_GET['profissional_id'])) {
       </div>
 
       <!-- 3 ícones -->
+<!-- NAV WRAPPER -->
+<nav class="navbar navbar-expand-lg bg-light px-3">
+  <div class="container-fluid">
+
+    <!-- LOGO (opcional) -->
+    <a class="navbar-brand fw-bold" href="#">Smilecopilot</a>
+
+    <!-- BOTÃO HAMBÚRGUER (só aparece em telas pequenas) -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasMenu" aria-controls="offcanvasMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- MENU NORMAL (aparece no desktop) -->
+    <div class="collapse navbar-collapse d-none d-lg-flex justify-content-end">
       <ul class="d-flex align-items-center gap-2 mb-0 list-unstyled">
         <li>
-          <a class="nav-link" href="/listapaciente" 
-             data-bs-toggle="popover" data-bs-placement="right" 
-             data-bs-trigger="hover"
-             data-bs-custom-class="info-popover" 
+          <a class="nav-link" href="/listapaciente" data-bs-toggle="popover" data-bs-placement="right"
+             data-bs-trigger="hover" data-bs-custom-class="info-popover"
              data-bs-content="<?= \App\Core\Language::get('acesse_a_lista_pacientes'); ?>">
-             <button type="button" class="btn btn-soft-info"><i class="ri-user-3-line me-1"></i><span><?= \App\Core\Language::get('pacientes'); ?></span></button>
+            <button type="button" class="btn btn-soft-info">
+              <i class="ri-user-3-line me-1"></i>
+              <span><?= \App\Core\Language::get('pacientes'); ?></span>
+            </button>
           </a>
         </li>
         <li>
-          <a class="nav-link" href="/cadastropaciente" 
-             data-bs-toggle="popover" data-bs-placement="right" 
-             data-bs-trigger="hover"
-             data-bs-custom-class="info-popover" 
+          <a class="nav-link" href="/cadastropaciente" data-bs-toggle="popover" data-bs-placement="right"
+             data-bs-trigger="hover" data-bs-custom-class="info-popover"
              data-bs-content="<?= \App\Core\Language::get('acompanhe_consultas_agendadas'); ?>">
-            <button type="button" class="btn btn-soft-info"><i class="ri-file-list-3-line me-1"></i><span><?= \App\Core\Language::get('consultas'); ?></span></button>
+            <button type="button" class="btn btn-soft-info">
+              <i class="ri-file-list-3-line me-1"></i>
+              <span><?= \App\Core\Language::get('consultas'); ?></span>
+            </button>
           </a>
         </li>
         <li>
-          <a class="nav-link" href="/agenda" 
-             data-bs-toggle="popover" data-bs-placement="right" 
-             data-bs-trigger="hover"
-             data-bs-custom-class="info-popover" 
+          <a class="nav-link" href="/agenda" data-bs-toggle="popover" data-bs-placement="right"
+             data-bs-trigger="hover" data-bs-custom-class="info-popover"
              data-bs-content="<?= \App\Core\Language::get('confira_agenda'); ?>">
-            <button type="button" class="btn btn-soft-info"><i class="ri-calendar-2-line me-1"></i><span><?= \App\Core\Language::get('agenda'); ?></span></button>
+            <button type="button" class="btn btn-soft-info">
+              <i class="ri-calendar-2-line me-1"></i>
+              <span><?= \App\Core\Language::get('agenda'); ?></span>
+            </button>
           </a>
         </li>
-      </ul>    
+      </ul>
+    </div>
+
+    <!-- MENU LATERAL (OFFCANVAS para mobile) -->
+    <div class="offcanvas offcanvas-start d-lg-none" tabindex="-1" id="offcanvasMenu" aria-labelledby="offcanvasMenuLabel">
+      <div class="offcanvas-header">
+        <h5 class="offcanvas-title" id="offcanvasMenuLabel">Smilecopilot</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Fechar"></button>
+      </div>
+      <div class="offcanvas-body">
+        <ul class="list-unstyled d-flex flex-column gap-2">
+          <li>
+            <a class="nav-link" href="/listapaciente">
+              <button type="button" class="btn btn-soft-info w-100 text-start">
+                <i class="ri-user-3-line me-1"></i>
+                <?= \App\Core\Language::get('pacientes'); ?>
+              </button>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="/cadastropaciente">
+              <button type="button" class="btn btn-soft-info w-100 text-start">
+                <i class="ri-file-list-3-line me-1"></i>
+                <?= \App\Core\Language::get('consultas'); ?>
+              </button>
+            </a>
+          </li>
+          <li>
+            <a class="nav-link" href="/agenda">
+              <button type="button" class="btn btn-soft-info w-100 text-start">
+                <i class="ri-calendar-2-line me-1"></i>
+                <?= \App\Core\Language::get('agenda'); ?>
+              </button>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</nav>
+
     </div>
 
     
