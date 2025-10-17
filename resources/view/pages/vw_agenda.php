@@ -67,13 +67,7 @@ foreach ($consultasCalendario as $consulta) {
                                         <div class="card-body">
 
                                             <div class="row">
-                                                <div class="col-lg-3">
-                                                    <div class="mt-4 mt-lg-0">                                                
-                                                        <div id="datepicker"></div>
-                                                    </div>
-                                                </div> <!-- end col -->
-
-                                                <div class="col-lg-9">
+                                                <div class="col-lg-12">
                                                     <div class="mt-4 mt-lg-0">                                                
                                                         <div id="calendar"></div>
                                                     </div>
@@ -144,8 +138,6 @@ foreach ($consultasCalendario as $consulta) {
 
 
 <!-- Scripts -->
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.js"></script>
 
 <script>
@@ -189,36 +181,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     calendar.render();
-
-    // Inicializa Flatpickr somente para selecionar datas (sem eventos)
-    flatpickr("#datepicker", {
-        inline: true,
-        allowInput: false,  // usuário não digita nada
-        clickOpens: false,  // não abre input
-        locale: {
-            weekdays: {
-                shorthand: ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'],
-                longhand: ['Domingo', 'Segunda-feira', 'Terça-feira', 'Quarta-feira', 'Quinta-feira', 'Sexta-feira', 'Sábado']
-            },
-            months: {
-                shorthand: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
-                longhand: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro']
-            },
-            firstDayOfWeek: 1,   // Segunda-feira como primeiro dia
-            rangeSeparator: ' até ',
-            weekAbbreviation: 'Sem',
-            scrollTitle: 'Role para mudar',
-            toggleTitle: 'Clique para alternar',
-            time_24hr: true       // hora em formato 24h
-        },
-        onChange: function(selectedDates) {
-            if (selectedDates.length > 0) {
-                // Vai para a semana do FullCalendar, mas mantém a view 'timeGridWeek'
-                calendar.gotoDate(selectedDates[0]);
-            }
-        }
-    });
-
 });
 </script>
 
@@ -230,7 +192,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* Linha lateral esquerda (coluna de horários) */
 .fc-timegrid-axis {
-    border-right: 3px solid #007bff; /* cor azul semelhante ao Google */
+    border-right: 3px solid #80b5eeff; /* cor azul semelhante ao Google */
     padding-right: 4px;
     font-weight: 500;
     font-size: 14px;

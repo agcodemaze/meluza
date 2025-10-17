@@ -123,5 +123,7 @@
     'anterior' => 'Anterior',
     'proximo' => 'Próximo',
     'data_consulta' => 'Data da Consulta',
-    
+    'ajuda' => 'Ajuda',
+    'inicio' => 'Inicio',
+
     ];
