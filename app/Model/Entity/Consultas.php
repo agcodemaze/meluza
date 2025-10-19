@@ -42,6 +42,38 @@ class Consultas extends Conn {
         } 
     }
 
+    public function getConsultasByProfissionalAndRange($TENANCY_ID, $DEN_IDDENTISTA, $CON_DTCONSULTAINI, $CON_DTCONSULTAEND) {
+        try {
+            // Monta o SQL base
+            $sql = "SELECT * FROM VW_CONSULTAS 
+                    WHERE TENANCY_ID = :TENANCY_ID
+                    AND CON_DTCONSULTA BETWEEN :CON_DTCONSULTAINI AND :CON_DTCONSULTAEND";
+    
+            // Se for diferente de 'all', adiciona o filtro de dentista
+            if ($DEN_IDDENTISTA !== "all") {
+                $sql .= " AND DEN_IDDENTISTA = :DEN_IDDENTISTA";
+            }
+        
+            $sql .= " ORDER BY CON_DTCONSULTA, CON_HORACONSULTA ASC";
+        
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
+            $stmt->bindParam(":CON_DTCONSULTAINI", $CON_DTCONSULTAINI);
+            $stmt->bindParam(":CON_DTCONSULTAEND", $CON_DTCONSULTAEND);
+        
+            // Só vincula o dentista se o filtro for usado
+            if ($DEN_IDDENTISTA !== "all") {
+                $stmt->bindParam(":DEN_IDDENTISTA", $DEN_IDDENTISTA);
+            }
+        
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        
+        } catch (PDOException $e) {
+            return ["error" => $e->getMessage()];
+        }
+    }
+
     public function getConsultasByDayProfPredef($TENANCY_ID, $DEN_IDDENTISTA, $diaSemana) {
         try {     
             $dataInicio = $dataFim = null;
@@ -59,7 +91,7 @@ class Consultas extends Conn {
                     $dataFim = date('Y-m-d', strtotime('+6 months'));
                     break;
                 case "4": // Últimos 2 anos
-                    $dataInicio = date('Y-m-d', strtotime('-2 years'));
+                    $dataInicio = date('Y-m-d', strtotime('-12 months'));
                     $dataFim = date('Y-m-d');
                     break;
                 default:

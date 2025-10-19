@@ -285,7 +285,7 @@ if (isset($_GET['profissional_id'])) {
             <i class="ri-file-list-3-line text-info"></i> <?= \App\Core\Language::get('consultas'); ?>
           </a>
           <ul class="dropdown-menu border-0 shadow-sm">
-            <li><a class="dropdown-item text-dark" href="/consultas"><i class="ri-calendar-line me-1 text-info"></i> Consultas Agendadas</a></li>
+            <li><a class="dropdown-item text-dark" href="/listaconsulta"><i class="ri-calendar-line me-1 text-info"></i> Lista de Consultas</a></li>
             <li><a class="dropdown-item text-dark" href="/historico"><i class="ri-time-line me-1 text-info"></i> Histórico</a></li>
           </ul>
         </li>
@@ -323,7 +323,7 @@ if (isset($_GET['profissional_id'])) {
 
         <!-- Sair -->
         <li class="nav-item">
-          <a class="nav-link text-dark d-flex align-items-center gap-1" href="/logout">
+          <a class="nav-link text-dark d-flex align-items-center gap-1" href="/logoff">
             <i class="ri-door-line text-info"></i> <?= \App\Core\Language::get('sair'); ?>
           </a>
         </li>
@@ -364,7 +364,7 @@ if (isset($_GET['profissional_id'])) {
               <i class="ri-file-list-3-line text-info"></i> <?= \App\Core\Language::get('consultas'); ?>
             </div>
             <ul class="list-unstyled ps-4 d-flex flex-column gap-1">
-              <li><a href="/consultas" class="text-decoration-none text-dark"><i class="ri-calendar-line me-1 text-info"></i> Consultas Agendadas</a></li>
+              <li><a href="/listaconsulta" class="text-decoration-none text-dark"><i class="ri-calendar-line me-1 text-info"></i> Lista de Consultas</a></li>
               <li><a href="/historico" class="text-decoration-none text-dark"><i class="ri-time-line me-1 text-info"></i> Histórico</a></li>
             </ul>
           </li>
@@ -402,7 +402,7 @@ if (isset($_GET['profissional_id'])) {
 
           <!-- Sair -->
           <li>
-            <a href="/logout" class="text-decoration-none text-dark d-flex align-items-center gap-1">
+            <a href="/logoff" class="text-decoration-none text-dark d-flex align-items-center gap-1">
               <i class="ri-door-line text-info"></i> <?= \App\Core\Language::get('sair'); ?>
             </a>
           </li>

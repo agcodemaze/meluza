@@ -35,6 +35,7 @@ use \App\Controller\Pages\CadPaciente;
 use \App\Controller\Pages\CadAnamnese; 
 use \App\Controller\Pages\Agenda; 
 use \App\Controller\Pages\ListPaciente; 
+use \App\Controller\Pages\ListConsulta; 
 use \App\Controller\Pages\Login; 
 use App\Core\Language;
 
@@ -75,6 +76,13 @@ $obRouter->get('/cadastropaciente',[
 $obRouter->get('/listapaciente',[
     function(){
         return new Response(200,ListPaciente::getPaciente());
+    }
+]);
+
+//ROTA LIST CONSULTAS
+$obRouter->get('/listaconsulta',[
+    function(){
+        return new Response(200,ListConsulta::getConsultas());
     }
 ]);
 

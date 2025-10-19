@@ -63,8 +63,8 @@ if(isset($_GET['dia'])) {
         $botaoStyleDeactiveUltimos6Meses = "btn btn-primary";
         $textTitulo = "ultimos_6_meses_desc";
     }elseif ($_GET['dia'] == "4") {
-        $botaoStyleDeactiveUltimos2Anos = "btn btn-primary";
-        $textTitulo = "ultimos_2_anos_desc";
+        $botaoStyleDeactiveUltimos12Meses = "btn btn-primary";
+        $textTitulo = "ultimos_12_meses_desc";
     }elseif($_GET['dia'] == "3") {
         $botaoStyleDeactiveProximos6Meses = "btn btn-primary";
         $textTitulo = "proximos_6_meses_desc";
@@ -149,20 +149,65 @@ foreach ($consultasHoje as $c) {
     cursor: not-allowed !important;
   }
 
-#alternative-page-datatable td {
-    padding-top: 4px;
-    padding-bottom: 4px;
-    vertical-align: middle; 
+    #alternative-page-datatable td {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        vertical-align: middle; 
+        }
+
+
+    .table td, .table th {
+        white-space: normal;
+        word-break: break-word;
     }
 
-
-.table td, .table th {
-    white-space: normal;
-    word-break: break-word;
-}
-
 </style>
+<style>
+    /* Avatar do usuário */
+    /* Botões de ação */
+    .action-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        margin: 0 2px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        color: #555;
+        transition: all 0.2s;
+    }
 
+    .action-icon:hover {
+        background-color: #d2d5d6ff;
+        border: 1px solid #aaa7a7ff;
+        color: #000;
+    }
+
+    /* Botão delete */
+    .action-icon i.mdi-delete {
+        color: #f16a6a;
+    }
+
+    /* Tabela responsiva com hover */
+    #alternative-page-datatable tbody tr:hover {
+        background-color: #f9f9f9;
+        cursor: pointer;
+    }
+
+    /* Truncar texto longo */
+    .text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .disabled-link {
+        pointer-events: none; 
+        opacity: 0.3;         
+        cursor: default;      
+    }
+</style>
 <!-- Start Content-->
 <div class="container-fluid" style="max-width:100% !important; padding-left:10px; padding-right:10px;">
     <!-- start page title -->
@@ -176,6 +221,7 @@ foreach ($consultasHoje as $c) {
         </div>
     </div>
     <!-- end page title -->
+     
 
     <div class="row">
         <div class="col-12">
@@ -252,7 +298,7 @@ foreach ($consultasHoje as $c) {
                 <h4 class="header-title mb-2 mb-md-0"><?= \App\Core\Language::get('agenda'); ?></h4>
                 <!-- Botões -->
                 <div class="d-flex flex-column flex-md-row gap-1 w-100 w-md-auto mt-2 mt-md-0 ms-md-5">
-                    <button type="button" class="btn <?= $botaoStyleDeactiveUltimos2Anos ?> btn-sm w-100 w-md-auto" 
+                    <button type="button" class="btn <?= $botaoStyleDeactiveUltimos12Meses ?> btn-sm w-100 w-md-auto" 
                             onclick="window.location.href='<?= $newUrl.'&dia=4'; ?>'">
                         <i class="ri-calendar-2-line me-2"></i>
                         <?= \App\Core\Language::get('ultimos_2_anos'); ?>                        
@@ -355,14 +401,17 @@ foreach ($consultasHoje as $c) {
                                     if (!empty($consulta['CON_DCOBSERVACOES'])) {
                                         $obs = htmlspecialchars($consulta["CON_DCOBSERVACOES"], ENT_QUOTES, 'UTF-8');
                                         $showMaisInfo = "
-                                        <a style='margin-left:5px; font-size:0.9rem; color: #ff4444ff;'
+                                        <a style='margin-left:5px; font-size:0.9rem; color: #04b0ffff;'
                                             title='Mais informações'
                                             data-bs-toggle='modal'
                                             data-bs-target='#info-alert-modal'
                                             data-observacoes=\"$obs\">
-                                            <i class='ri-information-line'></i>
+                                            <i class='ri-information-line' style='font-size: 18px;'></i>
                                         </a>";
                                     }
+
+                                    $whatsStatus = "disabled-link";
+                                    $whatsStatus = ($consulta['CON_ENSTATUS'] == "AGENDADA") ? "" : $whatsStatus;
                                     
                                 ?> 
                             <tr>
@@ -373,7 +422,7 @@ foreach ($consultasHoje as $c) {
                                         </span>
                                     </div>
                                 </td>                          
-                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                <td class="text-truncate" style="cursor: pointer; max-width: 180px;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                     <?= $showMaisInfo ?> <?= htmlspecialchars(ucwords(strtolower((string)$consulta['PAC_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
                                 <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
@@ -391,18 +440,19 @@ foreach ($consultasHoje as $c) {
                                 <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                     <?= htmlspecialchars((string)$consulta['PAC_DCTELEFONE'], ENT_QUOTES, 'UTF-8') ?>
                                 </td>
-                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                <td class="text-truncate" style="cursor: pointer; max-width: 150px;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                     <?= htmlspecialchars(ucwords(strtolower((string)$consulta['DEN_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
                                 <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                     <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CON_NMESPECIALIDADE'])), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
-                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                <td class="text-truncate" style="cursor: pointer; max-width: 150px;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
                                     <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CNV_DCCONVENIO'])), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
                                 <td class="table-action" style="width: 90px;">
+                                    <a href="/cadastropaciente" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-account-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i></a> 
                                     <a href="javascript:void(0);" 
-                                        class="action-icon" 
+                                        class="action-icon <?= $whatsStatus ?>" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#msg-modal"
                                         data-nome="<?= htmlspecialchars($consulta['PAC_DCNOME']) ?>"
@@ -412,9 +462,10 @@ foreach ($consultasHoje as $c) {
                                         data-dia="<?= htmlspecialchars($diaSemana) ?>"
                                         data-hora="<?= htmlspecialchars($consultaHoraIni) ?>"
                                         data-link="<?= htmlspecialchars($urlWhatsConfirmConsul) ?>">
-                                        <i class="mdi mdi-send-check-outline"
+                                        <i class="mdi mdi-whatsapp" 
                                             data-bs-toggle="popover" 
                                             data-bs-trigger="hover" 
+                                            style="color: #25D366;"
                                             data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>">
                                         </i>
                                     </a>                            
@@ -462,26 +513,25 @@ foreach ($consultasHoje as $c) {
 </style>
 
 <div id="msg-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-sm modal-right">
-        <div class="modal-content">
+    <div class="modal-dialog modal-lg modal-right"> <!-- largura maior -->
+        <div class="modal-content d-flex flex-column"> <!-- garante coluna -->
             <div class="modal-header border-0">
-                <h5 class="modal-title"><?= \App\Core\Language::get('msg_para_whatsapp'); ?> </h5>
+                <h5 class="modal-title"><?= \App\Core\Language::get('msg_para_whatsapp'); ?></h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
             </div>
-            <div class="modal-body" style="padding-top: 2rem; padding-bottom: 1rem;"> <!-- empurra só os cards -->
+            <div class="modal-body" style="padding: 1rem; overflow-y: auto; max-height: 80vh;"> 
+                <!-- empurra só os cards e permite scroll -->
 
                 <?php if (!empty($modeloMsgsWhatsapp)) : ?>
                     <?php foreach ($modeloMsgsWhatsapp as $msg) : ?>
-                        <div class="card mb-3 shadow-sm border" style="margin-top: 0.5rem;">
-                            <div class="card-body">
-                                <h6 class="card-title mb-2">
-                                    <?= htmlspecialchars($msg['WMS_DCTITULO']) ?>
-                                </h6>
+                        <div class="card mb-2 shadow-sm border">
+                            <div class="card-body p-2">
+                                <h6 class="card-title mb-1"><?= htmlspecialchars($msg['WMS_DCTITULO']) ?></h6>
                                 <p class="card-text small text-muted msg-template"
-                                   data-template="<?= htmlspecialchars($msg['WMS_DCMESSAGE_PT']) ?>">
+                                   data-template="<?= htmlspecialchars($msg['WMS_DCMESSAGE_PT']) ?>"
+                                   style="white-space: pre-wrap; margin-bottom: 0.25rem;">
                                    <!-- Texto será preenchido via JS -->
                                 </p>
-
                                 <a href="https://wa.me/12345678997?text=mensagem" 
                                    class="btn btn-sm btn-success" 
                                    target="_blank">
@@ -499,51 +549,54 @@ foreach ($consultasHoje as $c) {
             </div>
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+</div>
 
 <!-- msg modal -->
 <script>
-    var msgModal = document.getElementById('msg-modal');
+    document.addEventListener('DOMContentLoaded', function() {
+        var msgModal = document.getElementById('msg-modal');
+        if (!msgModal) return;
 
-    msgModal.addEventListener('show.bs.modal', function (event) {
-        let button = event.relatedTarget;
-        let nome = button.getAttribute('data-nome');
-        let profissional = button.getAttribute('data-profissional');
-        let data = button.getAttribute('data-data');
-        let dia = button.getAttribute('data-dia');
-        let hora = button.getAttribute('data-hora');
-        let telefone = button.getAttribute('data-telefone');
-        let linkConfirm = button.getAttribute('data-link');
+        msgModal.addEventListener('shown.bs.modal', function(event) {
+            let button = event.relatedTarget;
+            if (!button) return;
 
-    msgModal.querySelectorAll('.card').forEach(function(card) {
-        let msgEl = card.querySelector('.msg-template');
-        let template = msgEl.getAttribute('data-template');
+            let nome = button.getAttribute('data-nome');
+            let profissional = button.getAttribute('data-profissional');
+            let data = button.getAttribute('data-data');
+            let dia = button.getAttribute('data-dia');
+            let hora = button.getAttribute('data-hora');
+            let telefone = button.getAttribute('data-telefone');
+            let linkConfirm = button.getAttribute('data-link');
 
-        // Substitui placeholders
-        let msg = template
-            .replace('[Nome]', nome)
-            .replace('[profissional]', profissional)
-            .replace('[data]', data)
-            .replace('[dia]', dia)
-            .replace('[hora]', hora)
-            .replace('[link_de_confirmacao]', linkConfirm);
+            msgModal.querySelectorAll('.card').forEach(function(card) {
+                let msgEl = card.querySelector('.msg-template');
+                if (!msgEl) return;
 
-        // Converte \n do texto para quebras de linha reais
-        msg = msg.replace(/\\n/g, "\n");
+                let template = msgEl.getAttribute('data-template');
+                if (!template) return;
 
-        // Atualiza o preview no card (opcional)
-        msgEl.innerText = msg;
+                let msg = template
+                    .replace(/\[Nome\]/g, nome)
+                    .replace(/\[profissional\]/g, profissional)
+                    .replace(/\[data\]/g, data)
+                    .replace(/\[dia\]/g, dia)
+                    .replace(/\[hora\]/g, hora)
+                    .replace(/\[link_de_confirmacao\]/g, linkConfirm);
 
-        // Atualiza o link do WhatsApp
-        let a = card.querySelector('a.btn-success');
-        if(a) {
-            let empresa = "<?= $nomeEmpresa ?>";
-            let msgFinal = msg + empresa;
-            a.href = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(msgFinal);
-        }
+                msgEl.innerText = msg.replace(/\\n/g, "\n");
+
+                let a = card.querySelector('a.btn-success');
+                if(a) {
+                    let empresa = "<?= addslashes($nomeEmpresa ?? '') ?>";
+                    msg = msg.replace(/\\n/g, "\n");
+                    let msgFinal = msg + "\n\n" + empresa;
+                    a.href = "https://wa.me/" + telefone + "?text=" + encodeURIComponent(msgFinal);
+                }
+            });
+        });
     });
-    });
+
 </script>
 <!-- msg modal -->
 

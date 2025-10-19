@@ -109,10 +109,9 @@ $lang = $_SESSION['lang'] ?? 'pt';
                                                     <td><?= htmlspecialchars(ucwords(strtolower((string)$listaPaciente['PAC_DCCPF'])), ENT_QUOTES, 'UTF-8') ?></td>
                                                     <td class="text-truncate" style="max-width: 150px;">Sulamérica Odonto</td>
                                                     <td>05/08/2025</td>
-                                                    <td>   
-                                                        <a href="/cadastropaciente" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-eye-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i></a>             
+                                                    <td>  
                                                         <a href="javascript: void(0);" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-clock-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('agendar_consulta'); ?>"></i></a>
-                                                        <a href="javascript: void(0);" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-whatsapp" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('conversar_whatsapp'); ?>"></i></a>
+                                                        <a href="javascript: void(0);" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-whatsapp" style="color: #25D366;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('conversar_whatsapp'); ?>"></i></a>
                                                         <a href="/anamnese" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-clipboard-list-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
                                                         <a href="javascript:void(0);"  
                                                             class="action-icon"
