@@ -103,7 +103,7 @@ if (isset($_GET['profissional_id'])) {
                 class="form-select" 
                 style="width: 250px;" 
                 onchange="document.getElementById('formProfissional').submit()">                
-                <option value="all">-- <?= \App\Core\Language::get('selecione_todos'); ?> --</option>
+                <option value="all">-- <?= \App\Core\Language::get('escolha_dentista'); ?> --</option>
                 <?php foreach ($profissionais as $profissional): ?>
                     <option 
                         value="<?= htmlspecialchars($profissional['DEN_IDDENTISTA'], ENT_QUOTES, 'UTF-8') ?>" 

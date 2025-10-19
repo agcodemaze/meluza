@@ -129,5 +129,6 @@
     'lista_consultas' => 'Lista de Consultas',
     'dt_consulta' => 'Data',
     'reagendar_consulta' => 'Reagendar consulta',
-    'consulta_desc' => 'Aqui são listadas todas as consultas cadastradas para o profissional selecionado.', 
+    'consulta_desc' => 'Aqui são listadas todas as consultas cadastradas para o profissional selecionado.',
+    'escolha_dentista' => 'Selecione o dentista', 
     ];

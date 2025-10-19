@@ -129,6 +129,25 @@ $obRouter->post('/logincheck', [
     }
 ]);
 
+// Rota POST update agenda
+$obRouter->post('/updateagenda', [
+    function() {
+        $consultaController = new \App\Controller\Pages\ConsultasAgenda();
+        
+        $input = json_decode(file_get_contents('php://input'), true);
+        $id = $input['id'] ?? '';
+        $start = $input['start'] ?? '';
+        $end = $input['end'] ?? '';
+
+        if(empty($id) || empty($start)) {
+            return new \App\Http\Response(400, $id);
+        }
+
+        $result = $consultaController->updateConsulta($id, $start, $end);
+        return new \App\Http\Response(200, $result);
+    }
+]);
+
 //ROTA BUSCAR HORARIOS DISPONIVEIS AGENDA
 $obRouter->post('/horariosdisp', [
     function() {

@@ -27,5 +27,39 @@ class ConsultasAgenda{
             $erro = $e->getMessage();           
             return json_encode(["success" => false, "message" => "Erro no servidor. Tente novamente mais tarde."]);
         }
-    }    
+    }  
+    
+    public function updateConsulta($id, $start, $end) {
+        Auth::authCheck();
+
+        try {
+                $objConsultas = new Consultas();
+
+                $startDate = new \DateTime($start);
+                $endDate   = $end ? new \DateTime($end) : null;
+
+                $dataConsulta = $startDate->format('Y-m-d');
+
+                $horaInicio = $startDate->format('H:i:s');
+
+                $duracao = 0;
+                if ($endDate) {
+                    $intervalo = $startDate->diff($endDate);
+                    $duracao = ($intervalo->days * 24 * 60) + ($intervalo->h * 60) + $intervalo->i;
+                }
+
+                if($duracao > 60)
+                {
+                    return json_encode(["success" => false, "message" => "Consulta não pode ter duração maior que 1 hora."]);
+                }
+
+                $response = $objConsultas->updateConsultaAgenda($id, $dataConsulta, $horaInicio, $duracao, TENANCY_ID);
+
+            return json_encode(["success" => true, "message" => "Consulta atualizada com sucesso."]);
+        
+        } catch (PDOException $e) {   
+            $erro = $e->getMessage();           
+            return json_encode(["success" => false, "message" => "Erro no servidor. Tente novamente mais tarde."]);
+        }
+    } 
 }

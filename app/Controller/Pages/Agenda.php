@@ -39,9 +39,6 @@ class Agenda extends Page{
             <link href="'.ASSETS_PATH.'css/vendor.min.css" rel="stylesheet" type="text/css" />
             <link href="'.ASSETS_PATH.'css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
             <link href="'.ASSETS_PATH.'css/icons.min.css" rel="stylesheet" type="text/css" />
-            <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.css" rel="stylesheet">
-            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/index.global.min.js"></script>
-            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.11/locales/pt-br.global.min.js"></script>
         ';
 
         $componentsScriptsFooter = '
@@ -63,6 +60,5 @@ class Agenda extends Page{
         //VIEW DA PAGINA
         return self::getPage('pages/vw_agenda', $content);
     }
-
 }
 

@@ -244,6 +244,50 @@ class Consultas extends Conn {
         }
     }
 
+    public function updateConsultaAgenda($CON_IDCONSULTA, $CON_DTCONSULTA, $CON_HORACONSULTA, $CON_NUMDURACAO, $TENANCY_ID)
+    {
+    try {
+        $sql = "UPDATE CON_CONSULTAS 
+                SET 
+                    CON_DTCONSULTA = :CON_DTCONSULTA,
+                    CON_HORACONSULTA = :CON_HORACONSULTA,
+                    CON_NUMDURACAO = :CON_NUMDURACAO
+                WHERE 
+                    TENANCY_ID = :TENANCY_ID 
+                    AND CON_IDCONSULTA = :CON_IDCONSULTA";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(":CON_DTCONSULTA", $CON_DTCONSULTA);
+        $stmt->bindParam(":CON_HORACONSULTA", $CON_HORACONSULTA);
+        $stmt->bindParam(":CON_NUMDURACAO", $CON_NUMDURACAO, PDO::PARAM_INT);
+        $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
+        $stmt->bindParam(":CON_IDCONSULTA", $CON_IDCONSULTA);
+
+        $stmt->execute();
+
+        // Retorna sucesso ou falha
+        if ($stmt->rowCount() > 0) {
+            return [
+                "success" => true,
+                "message" => "Consulta atualizada com sucesso.",
+                "id" => $CON_IDCONSULTA,
+                "data" => $CON_DTCONSULTA,
+                "hora" => $CON_HORACONSULTA,
+                "duracao" => $CON_NUMDURACAO
+            ];
+        } else {
+            return [
+                "success" => false,
+                "message" => "Nenhuma linha foi atualizada (talvez os dados sejam idênticos)."
+            ];
+        }
+    } catch (PDOException $e) {
+        return ["success" => false, "message" => "Erro: " . $e->getMessage()];
+    }
+    }
+
+
+
 
 
 }
