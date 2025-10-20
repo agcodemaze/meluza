@@ -63,28 +63,25 @@
                                         <div class="card-body">
 
                                         <script>
-// Detecta se é mobile e alterna exibição (opcional se já usa classes Bootstrap)
-function ajustarAgenda() {
-    const pc = document.getElementById('agenda-pc');
-    const mobile = document.getElementById('agenda-mobile');
+                                            function ajustarAgenda() {
+                                                const pc = document.getElementById('agenda-pc');
+                                                const mobile = document.getElementById('agenda-mobile');
+                                            
+                                                if (window.innerWidth < 768) {
+                                                    // Mobile
+                                                    pc.style.display = 'none';
+                                                    mobile.style.display = 'block';
+                                                } else {
+                                                    // Desktop
+                                                    pc.style.display = 'block';
+                                                    mobile.style.display = 'none';
+                                                }
+                                            }
 
-    if (window.innerWidth < 768) {
-        // Mobile
-        pc.style.display = 'none';
-        mobile.style.display = 'block';
-    } else {
-        // Desktop
-        pc.style.display = 'block';
-        mobile.style.display = 'none';
-    }
-}
+                                            ajustarAgenda();
 
-// Executa ao carregar a página
-ajustarAgenda();
-
-// Atualiza ao redimensionar a tela
-window.addEventListener('resize', ajustarAgenda);
-</script>
+                                            window.addEventListener('resize', ajustarAgenda);
+                                        </script>
 
 
                                             <div class="row d-none d-md-block" id="agenda-pc">
@@ -100,67 +97,67 @@ window.addEventListener('resize', ajustarAgenda);
                                                 </div> <!-- end col -->
                                             </div> <!-- end row -->
 
-<!-- AGENDA MOBILE -->
-<div class="agenda-mobile d-md-none p-3" id="agenda-mobile">
-    <!-- 🔹 Controle de semana -->
-    <div class="semana-controle d-flex justify-content-between align-items-center mb-2">
-        <button id="prev-week" class="btn btn-sm btn-outline-secondary">&lt;</button>
-        <span class="fw-bold" id="semana-label"></span>
-        <button id="next-week" class="btn btn-sm btn-outline-secondary">&gt;</button>
-    </div>
+                                            <!-- AGENDA MOBILE -->
+                                            <div class="agenda-mobile d-md-none p-3" id="agenda-mobile">
+                                                <!-- 🔹 Controle de semana -->
+                                                <div class="semana-controle d-flex justify-content-between align-items-center mb-2">
+                                                    <button id="prev-week" class="btn btn-sm btn-outline-secondary">&lt;</button>
+                                                    <span class="fw-bold" id="semana-label"></span>
+                                                    <button id="next-week" class="btn btn-sm btn-outline-secondary">&gt;</button>
+                                                </div>
 
-    <!-- 🔹 Barra de dias -->
-    <div class="dias-scroll mb-3 d-flex" id="dias-scroll"></div>
+                                                <!-- 🔹 Barra de dias -->
+                                                <div class="dias-scroll mb-3 d-flex" id="dias-scroll"></div>
 
-    <!-- 🔹 Lista de eventos -->
-    <div id="eventos-container">
-    <?php
-    if (!empty($events)) {
-        foreach ($events as $e) {
-            $start = new DateTime($e['start']);
-            $end   = isset($e['end']) && $e['end'] ? new DateTime($e['end']) : null;
-
-            $horaInicio = $start->format('H:i');
-            $horaFim = $end ? $end->format('H:i') : '';
-            $dataEvento = $start->format('Y-m-d');
-
-            $nome = htmlspecialchars($e['title'] ?? 'Sem nome');
-            $status = strtolower($e['status'] ?? 'pendente');
-            $foto = !empty($e['foto']) ? htmlspecialchars($e['foto']) : '/img/avatar-default.png';
-
-            $corStatus = match($status) {
-                'confirmado', 'confirmada' => '#62db5eff',
-                'agendado', 'agendada' => '#29d2fcff',
-                'cancelada' => '#ff7707ff',
-                'falta' => '#ff0f07ff',
-                default => '#6c757d'
-            };
-
-            echo '
-            <div class="consulta-card" data-dia="'.$dataEvento.'">
-                <div class="linha-status" style="background: '.$corStatus.';"></div>
-                <div class="conteudo">
-                    <div class="info">
-                        <div class="nome">'.$nome.'</div>
-                        <div class="detalhes">
-                            <i class="bi bi-clock me-1"></i> '.$horaInicio.' - '.$horaFim.'
-                            <span class="status" style="color: '.$corStatus.';">'.ucfirst($status).'</span>
-                        </div>
-                    </div>
-                    <div class="avatar-xs d-table">
-                        <span class="avatar-title bg-info-lighten rounded-circle text-info" style="border: 1px solid #4d55c5ff;">
-                            <i class="uil uil-user font-16"></i>
-                        </span>
-                    </div>
-                </div>
-            </div>';
-        }
-    } else {
-        echo '<p class="text-muted text-center">Nenhuma consulta encontrada.</p>';
-    }
-    ?>
-    </div>
-</div>
+                                                <!-- 🔹 Lista de eventos -->
+                                                <div id="eventos-container">
+                                                <?php
+                                                if (!empty($events)) {
+                                                    foreach ($events as $e) {
+                                                        $start = new DateTime($e['start']);
+                                                        $end   = isset($e['end']) && $e['end'] ? new DateTime($e['end']) : null;
+                                                    
+                                                        $horaInicio = $start->format('H:i');
+                                                        $horaFim = $end ? $end->format('H:i') : '';
+                                                        $dataEvento = $start->format('Y-m-d');
+                                                    
+                                                        $nome = htmlspecialchars($e['title'] ?? 'Sem nome');
+                                                        $status = strtolower($e['status'] ?? 'pendente');
+                                                        $foto = !empty($e['foto']) ? htmlspecialchars($e['foto']) : '/img/avatar-default.png';
+                                                    
+                                                        $corStatus = match($status) {
+                                                            'confirmado', 'confirmada' => '#62db5eff',
+                                                            'agendado', 'agendada' => '#29d2fcff',
+                                                            'cancelada' => '#ff7707ff',
+                                                            'falta' => '#ff0f07ff',
+                                                            default => '#6c757d'
+                                                        };
+                                                    
+                                                        echo '
+                                                        <div class="consulta-card" data-dia="'.$dataEvento.'">
+                                                            <div class="linha-status" style="background: '.$corStatus.';"></div>
+                                                            <div class="conteudo">
+                                                                <div class="info">
+                                                                    <div class="nome">'.$nome.'</div>
+                                                                    <div class="detalhes">
+                                                                        <i class="bi bi-clock me-1"></i> '.$horaInicio.' - '.$horaFim.'
+                                                                        <span class="status" style="color: '.$corStatus.';">'.ucfirst($status).'</span>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="avatar-xs d-table">
+                                                                    <span class="avatar-title bg-info-lighten rounded-circle text-info" style="border: 1px solid #4d55c5ff;">
+                                                                        <i class="uil uil-user font-16"></i>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>';
+                                                    }
+                                                } else {
+                                                    echo '<p class="text-muted text-center">Nenhuma consulta encontrada.</p>';
+                                                }
+                                                ?>
+                                                </div>
+                                            </div>
 
 <style>
     .semana-controle button {
@@ -207,6 +204,14 @@ window.addEventListener('resize', ajustarAgenda);
 <script>
     let weekOffset = 0; // semanas em relação a hoje
 
+    // Função para formatar data no padrão YYYY-MM-DD local
+    function formatDateLocal(dia) {
+        const yyyy = dia.getFullYear();
+        const mm = String(dia.getMonth() + 1).padStart(2, '0'); // meses começam em 0
+        const dd = String(dia.getDate()).padStart(2, '0');
+        return `${yyyy}-${mm}-${dd}`;
+    }
+
     function gerarDias() {
         const diasScroll = document.getElementById('dias-scroll');
         const semanaLabel = document.getElementById('semana-label');
@@ -215,22 +220,23 @@ window.addEventListener('resize', ajustarAgenda);
         const hoje = new Date();
         hoje.setDate(hoje.getDate() + weekOffset * 7);
 
-        // data inicial e final da semana
+        // Calcula a segunda-feira da semana
         const inicioSemana = new Date(hoje);
-        inicioSemana.setDate(hoje.getDate() - hoje.getDay() + 1); // segunda-feira
+        inicioSemana.setDate(hoje.getDate() - (hoje.getDay() === 0 ? 6 : hoje.getDay() - 1)); // segunda-feira
         const fimSemana = new Date(inicioSemana);
-        fimSemana.setDate(inicioSemana.getDate() + 6);
+        fimSemana.setDate(inicioSemana.getDate() + 6); // domingo
 
-        semanaLabel.textContent = `${inicioSemana.toLocaleDateString()} - ${fimSemana.toLocaleDateString()}`;
+        // Atualiza label da semana
+        semanaLabel.textContent = `${inicioSemana.toLocaleDateString('pt-BR')} - ${fimSemana.toLocaleDateString('pt-BR')}`;
 
-        for (let i=0; i<7; i++) {
+        for (let i = 0; i < 7; i++) {
             const dia = new Date(inicioSemana);
             dia.setDate(inicioSemana.getDate() + i);
 
             const nomeDia = dia.toLocaleDateString('pt-BR', { weekday: 'short' });
             const numeroDia = dia.getDate();
             const mes = dia.toLocaleDateString('pt-BR', { month: 'short' });
-            const dataFull = dia.toISOString().split('T')[0];
+            const dataFull = formatDateLocal(dia);
 
             const div = document.createElement('div');
             div.className = 'dia';
@@ -238,21 +244,36 @@ window.addEventListener('resize', ajustarAgenda);
             div.innerHTML = `<div class="nome-dia">${nomeDia}</div>
                              <div class="numero-dia">${numeroDia}</div>
                              <div class="mes">${mes}</div>`;
+
             div.addEventListener('click', () => {
-                // opcional: filtrar eventos pelo dia
+                // Remove destaque dos dias anteriores
+                document.querySelectorAll('.dia').forEach(d => d.classList.remove('dia-selecionado'));
+                div.classList.add('dia-selecionado');
+
+                // Filtra eventos pelo dia selecionado
                 document.querySelectorAll('.consulta-card').forEach(card => {
                     card.style.display = card.dataset.dia === dataFull ? 'flex' : 'none';
                 });
             });
+
             diasScroll.appendChild(div);
         }
     }
 
-    document.getElementById('prev-week').addEventListener('click', () => { weekOffset--; gerarDias(); });
-    document.getElementById('next-week').addEventListener('click', () => { weekOffset++; gerarDias(); });
+    // Navegação entre semanas
+    document.getElementById('prev-week').addEventListener('click', () => { 
+        weekOffset--; 
+        gerarDias(); 
+    });
+    document.getElementById('next-week').addEventListener('click', () => { 
+        weekOffset++; 
+        gerarDias(); 
+    });
 
+    // Gera dias ao carregar
     gerarDias();
-</script>
+                                            </script>
+
 
 
 
