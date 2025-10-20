@@ -12,13 +12,13 @@
     <meta property="og:url" content="https://www.smilecopilot.com">
     <meta property="og:title" content="SmileCopilot - Gestão inteligente para clínicas odontológicas">
     <meta property="og:description" content="Otimize a gestão da sua clínica odontológica com SmileCopilot: agenda, pacientes, prescrições digitais e relatórios completos em um só lugar.">
-    <meta property="og:image" content="https://www.smilecopilot.com/public/images/img_meta.jpg">
+    <meta property="og:image" content="https://www.smilecopilot.com/public/assets/images/img_meta.jpg">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="SmileCopilot - Gestão inteligente para clínicas odontológicas">
     <meta name="twitter:description" content="Otimize a gestão da sua clínica odontológica com SmileCopilot: agenda, pacientes, prescrições digitais e relatórios completos em um só lugar.">
-    <meta name="twitter:image" content="https://www.smilecopilot.com/public/images/img_meta.jpg">
+    <meta name="twitter:image" content="https://www.smilecopilot.com/public/assets/images/img_meta.jpg">
 
     <link rel="shortcut icon" href="/public/assets/images/favicon.ico">  
 
