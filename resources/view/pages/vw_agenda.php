@@ -37,6 +37,7 @@
 
         $events[] = [
             'title' => $consulta['PAC_DCNOME'],
+            'status' => $consulta['CON_ENSTATUS'],
             'start' => $start,
             'end' => $end,
             'id' => $consulta['CON_IDCONSULTA'],
@@ -128,9 +129,10 @@ window.addEventListener('resize', ajustarAgenda);
             $foto = !empty($e['foto']) ? htmlspecialchars($e['foto']) : '/img/avatar-default.png';
 
             $corStatus = match($status) {
-                'confirmado', 'confirmada' => '#28a745',
-                'cancelado', 'cancelada' => '#dc3545',
-                'pendente' => '#ffc107',
+                'confirmado', 'confirmada' => '#62db5eff',
+                'agendado', 'agendada' => '#29d2fcff',
+                'cancelada' => '#ff7707ff',
+                'falta' => '#ff0f07ff',
                 default => '#6c757d'
             };
 
