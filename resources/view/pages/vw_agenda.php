@@ -521,6 +521,27 @@
     .fc-col-header-cell-cushion {
         font-size: 16px;
     }
+    
 
 </style>
 
+<style>
+    #calendar .fc-button {
+        background-color: #17a2b8 !important; 
+        border-color: #17a2b8 !important;
+        color: #fff !important;
+    }
+    
+    #calendar .fc-button:hover,
+    #calendar .fc-button:focus {
+        background-color: #138496 !important;
+        border-color: #117a8b !important;
+        color: #fff !important;
+    }
+    
+    #calendar .fc-button.fc-button-active {
+        background-color: #138496 !important;
+        border-color: #117a8b !important;
+        color: #fff !important;
+    }
+</style>

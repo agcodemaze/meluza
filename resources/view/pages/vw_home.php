@@ -270,7 +270,7 @@ foreach ($consultasHoje as $c) {
         </div> <!-- end col-->
     </div>
     <!-- end row-->
-
+<?php if ($profissionalId != "all"): ?> 
 <div class="row">        
     <div class="col-lg-12">
         <div class="card">
@@ -281,7 +281,7 @@ foreach ($consultasHoje as $c) {
                 <span id="relogio" class="fw-bold text-muted"></span>
             </div>
             <?php if ($totalConsultas > 0): ?>
-            <div id="timeline" style="height: 250px; overflow-y: auto; border: 0px solid #ccc; padding: 0 15px;"></div>
+            <div id="timeline" style="height: 200px; overflow-y: auto; border: 0px solid #ccc; padding: 0 15px;"></div>
             <?php endif; ?>
             <?php if ($totalConsultas == 0): ?>
                 <div style="height: 50px; overflow-y: auto; align-items: center; justify-content: center;  border: 0px solid #ccc; padding: 0 15px;">Não há consultas agendadas</div>                
@@ -289,6 +289,7 @@ foreach ($consultasHoje as $c) {
         </div>
     </div><!-- end col-->    
 </div>
+<?php endif; ?>
 <!-- end row-->
     
 <div class="row">
@@ -318,11 +319,13 @@ foreach ($consultasHoje as $c) {
                             <i class="ri-checkbox-multiple-line me-2"></i>
                         <?= \App\Core\Language::get('proximos_6_meses'); ?>
                     </button>
+                    <?php if ($profissionalId != "all"): ?> 
                     <!-- Botão afastado com responsividade -->
                     <button type="button" class="btn btn-sm w-100 w-md-auto ms-md-5 mt-2 mt-md-0" style="background-color: #0cadc2ff; color: white; border-color: #135fd1ff;" data-bs-toggle="modal" data-bs-target="#novaConsulta-modal">
                         <i class="ri-user-3-line me-2"></i>
                         <?= \App\Core\Language::get('cadastrar_consulta_ini'); ?>
                     </button>
+                    <?php endif; ?>
                 </div>
             </div>
             <div class="card-header bg-light-lighten border-top border-bottom border-light py-1 text-center">
