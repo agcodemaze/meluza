@@ -56,6 +56,9 @@
     <link href="/public/assets/css/icons.min.css" rel="stylesheet" type="text/css" />
 
     <script src="/public/assets/utils/languageDetector.js"></script>
+    <script src="/public/assets/js/serviceworkerpwa.js"></script>
+
+
 </head>
 
 <body class="authentication-bg position-relative">

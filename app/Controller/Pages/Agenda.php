@@ -46,6 +46,7 @@ class Agenda extends Page{
             <script src="'.ASSETS_PATH.'vendor/fullcalendar/index.global.min.js"></script>                   
             <script src="'.ASSETS_PATH.'js/app.min.js"></script>
             <script src="'.ASSETS_PATH.'vendor/jquery-mask-plugin/jquery.mask.min.js"></script>
+            <script src="'.ASSETS_PATH.'js/serviceworkerpwa.js"></script>
         ';
 
         //VIEW DA HOME
