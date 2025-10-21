@@ -49,7 +49,6 @@ class Page {
     */
 
     public static function getPage($vwPage, $content) {
-
         //$objProfissionais = new Profissionais();
         //$profissionais = $objProfissionais->getProfissionais(TENANCY_ID);
 
