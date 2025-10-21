@@ -44,6 +44,7 @@ class EditPaciente extends Page{
             <link href="'.ASSETS_PATH.'css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
             <link href="'.ASSETS_PATH.'css/icons.min.css" rel="stylesheet" type="text/css" />
             <script src="'.ASSETS_PATH.'js/serviceworkerpwa.js"></script>
+            <link rel="manifest" href="/manifest.json">
         ';
 
         $componentsScriptsFooter = '

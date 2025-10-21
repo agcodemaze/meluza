@@ -39,6 +39,7 @@ class Agenda extends Page{
             <link href="'.ASSETS_PATH.'css/vendor.min.css" rel="stylesheet" type="text/css" />
             <link href="'.ASSETS_PATH.'css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
             <link href="'.ASSETS_PATH.'css/icons.min.css" rel="stylesheet" type="text/css" />
+            <link rel="manifest" href="/manifest.json">
         ';
 
         $componentsScriptsFooter = '

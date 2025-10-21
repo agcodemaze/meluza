@@ -58,6 +58,7 @@ class ListConsulta extends Page{
             <link href="'.ASSETS_PATH.'vendor/ad_sweetalert/sweetalert2.min.css" rel="stylesheet">
             <script src="'.ASSETS_PATH.'vendor/ad_sweetalert/sweetalert2.all.min.js"></script>
             <script src="'.ASSETS_PATH.'js/serviceworkerpwa.js"></script>
+            <link rel="manifest" href="/manifest.json">
         ';
 
         $componentsScriptsFooter = '
