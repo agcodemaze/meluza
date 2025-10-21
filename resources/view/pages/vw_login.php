@@ -57,6 +57,7 @@
 
     <script src="/public/assets/utils/languageDetector.js"></script>
     <script src="/public/assets/js/serviceworkerpwa.js"></script>
+    <link rel="manifest" href="/manifest.json">
 
 
 </head>
