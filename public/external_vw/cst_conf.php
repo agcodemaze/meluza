@@ -20,7 +20,7 @@
     <meta name="twitter:description" content="Otimize a gestão da sua clínica odontológica com SmileCopilot: agenda, pacientes, prescrições digitais e relatórios completos em um só lugar.">
     <meta name="twitter:image" content="https://www.smilecopilot.com/public/assets/images/img_meta.jpg">
 
-    <link rel="shortcut icon" href="/public/assets/images/favicon.ico">
+    <link rel="shortcut icon" href="/public/assets/images/favicon.ico">  
 
     <link href="/public/assets/css/app-saas.min.css" rel="stylesheet" type="text/css" id="app-style" />
     <script src="/public/assets/vendor/ad_sweetalert/jquery-3.7.0.min.js"></script>

@@ -41,7 +41,7 @@
     <meta property="twitter:image" content="https://d19jtskssuoraj.cloudfront.net/assets/banner.min-eff05d8611814ee06c7d5723aa6aa185d8db4ef1.jpg">
 
     <!-- App favicon -->
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <link rel="shortcut icon" href="/public/assets/images/favicon.ico">  
 
     <!-- Theme Config Js -->
     <script src="/public/assets/js/hyper-config.js"></script>
