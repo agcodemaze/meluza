@@ -31,14 +31,14 @@
     <meta property="og:url" content="<?= $site; ?>/login">
     <meta property="og:title" content="<?= $title; ?>">
     <meta property="og:description" content="<?= $description; ?>">
-    <meta property="og:image" content="https://d19jtskssuoraj.cloudfront.net/assets/banner.min-eff05d8611814ee06c7d5723aa6aa185d8db4ef1.jpg">
+    <meta property="og:image" content="https://app.smilecopilot.com/public/assets/images/img_meta.jpg">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="<?= $site; ?>/login">
     <meta property="twitter:title" content="<?= $title; ?>">
     <meta property="twitter:description" content="<?= $description; ?>">
-    <meta property="twitter:image" content="https://d19jtskssuoraj.cloudfront.net/assets/banner.min-eff05d8611814ee06c7d5723aa6aa185d8db4ef1.jpg">
+    <meta property="twitter:image" content="https://app.smilecopilot.com/public/assets/images/img_meta.jpg">
 
     <!-- App favicon -->
     <link rel="shortcut icon" href="/public/assets/images/favicon.ico">  
