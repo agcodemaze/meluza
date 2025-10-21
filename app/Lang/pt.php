@@ -19,6 +19,7 @@
     'ultimos_2_anos' => 'Últimos 12 Meses',
     'status' => 'Status',
     'telefone' => 'Telefone',
+    'telefone_whatsapp' => 'Telefone (Whatsapp)',
     'profissional' => 'Profissional',
     'especialidade' => 'Especialidade',
     'plano' => 'Plano',
@@ -46,6 +47,8 @@
     'cpfrg' => 'CPF',
     'informacoes_administrativas' => 'Informações Administrativas',
     'descricao_administrativas' => 'Preencha os dados administrativos para o paciente, incluindo plano, número da carteirinha e etc.',
+    'informacoes_endereco' => 'Endereço',
+    'descricao_informacoes_endereco' => 'Preencha os dados de endereço do paciente.',
     'nome_convenio' => 'Convênio',
     'cliente_desde' => 'Cliente Desde',
     'plano_produto' => 'Plano/Produto',    
@@ -131,4 +134,5 @@
     'reagendar_consulta' => 'Reagendar consulta',
     'consulta_desc' => 'Aqui são listadas todas as consultas cadastradas para o profissional selecionado.',
     'escolha_dentista' => 'Selecione o dentista', 
+    'nenhuma_obs' => 'Nenhuma observação foi informada.',
     ];

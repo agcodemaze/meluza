@@ -96,7 +96,7 @@ $lang = $_SESSION['lang'] ?? 'pt';
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($listaPacientes as $listaPaciente): ?>
-                                                <tr style="cursor: pointer;" onclick="if(event.target.closest('td.dtr-control')) return false; window.location='/cadastropaciente';">
+                                                <tr style="cursor: pointer;" onclick="if(event.target.closest('td.dtr-control')) return false; window.location='/editarpaciente';">
                                                     <td>
                                                         <div class="avatar-xs d-table">
                                                             <span class="avatar-title bg-info-lighten rounded-circle text-info" style="border: 1px solid #4d55c5ff;">

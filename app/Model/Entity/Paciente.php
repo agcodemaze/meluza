@@ -45,6 +45,32 @@ class Paciente extends Conn {
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
         } 
+    } 
+
+    public function getPacientesById($TENANCY_ID, $PAC_IDPACIENTE) {
+        try{           
+            $sql = "SELECT * FROM PAC_PACIENTES WHERE TENANCY_ID = :TENANCY_ID AND PAC_IDPACIENTE = :PAC_IDPACIENTE ORDER BY PAC_DCNOME ASC";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
+            $stmt->bindParam(":PAC_IDPACIENTE", $PAC_IDPACIENTE);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return ["error" => $e->getMessage()];
+        } 
+    }
+
+    public function getTimelinePacientesConsultasById($TENANCY_ID, $PAC_IDPACIENTE) {
+        try{           
+            $sql = "SELECT * FROM VW_CONSULTAS WHERE CON_DTCONSULTA <= CURDATE() AND TENANCY_ID = :TENANCY_ID AND PAC_IDPACIENTE = :PAC_IDPACIENTE ORDER BY CON_DTCONSULTA DESC";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
+            $stmt->bindParam(":PAC_IDPACIENTE", $PAC_IDPACIENTE);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return ["error" => $e->getMessage()];
+        } 
     }
 
 }

@@ -31,7 +31,7 @@ session_start();
 use \App\Http\Router;
 use \App\Http\Response;
 use \App\Controller\Pages\Home; 
-use \App\Controller\Pages\CadPaciente; 
+use \App\Controller\Pages\EditPaciente; 
 use \App\Controller\Pages\CadAnamnese; 
 use \App\Controller\Pages\Agenda; 
 use \App\Controller\Pages\ListPaciente; 
@@ -66,9 +66,10 @@ $obRouter->get('/inicial',[
 ]);
 
 //ROTA CAD PACIENTES
-$obRouter->get('/cadastropaciente',[
+$obRouter->get('/editarpaciente',[
     function(){
-        return new Response(200,CadPaciente::putCadPaciente());
+        $id = $_GET['id'] ?? null; 
+        return new Response(200,EditPaciente::editCadPaciente($id));
     }
 ]);
 

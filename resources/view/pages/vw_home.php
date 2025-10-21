@@ -3,7 +3,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
-$urlWhatsConfirmConsul = "https://cliente.meluza.com.br"; //deverá ser alterado
+$urlWhatsConfirmConsul = "https://app.smilecopilot.com"; 
 
 //logica para horarios disponiveis
 $horarios = [];
@@ -453,7 +453,7 @@ foreach ($consultasHoje as $c) {
                                     <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CNV_DCCONVENIO'])), ENT_QUOTES, 'UTF-8') ?>
                                 </td>
                                 <td class="table-action" style="width: 90px;">
-                                    <a href="/cadastropaciente" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-account-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i></a> 
+                                    <a href="/editarpaciente?id=<?= htmlspecialchars($consulta['PAC_IDPACIENTE']) ?>" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-account-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i></a> 
                                     <a href="javascript:void(0);" 
                                         class="action-icon <?= $whatsStatus ?>" 
                                         data-bs-toggle="modal" 

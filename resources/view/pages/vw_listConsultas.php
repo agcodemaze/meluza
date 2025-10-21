@@ -239,6 +239,7 @@
                                                         $numeroDia = (int) date('w', strtotime($listaConsulta['CON_DTCONSULTA']));
                                                         $diaSemana = $semana[$numeroDia];
 
+                                                        $showMaisInfo = "";
                                                         if (!empty($listaConsulta['CON_DCOBSERVACOES'])) {
                                                             $obs = htmlspecialchars($listaConsulta["CON_DCOBSERVACOES"], ENT_QUOTES, 'UTF-8');
                                                             $showMaisInfo = "
@@ -285,7 +286,7 @@
                                                     <td class="text-truncate" style="max-width: 150px;"><?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['DEN_DCNOME'])), ENT_QUOTES, 'UTF-8') ?></td>
                                                     
                                                     <td onclick="event.stopPropagation();">   
-                                                        <a href="/cadastropaciente" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-account-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i></a>             
+                                                        <a href="/editarpaciente?id=<?= htmlspecialchars($listaConsulta['PAC_IDPACIENTE']) ?>" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-account-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i></a>             
                                                         <a href="javascript: void(0);" class="action-icon <?= $reagendamentoStatus ?>" onclick="event.stopPropagation();"> <i class="mdi mdi-clock-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('reagendar_consulta'); ?>"></i></a>
                                                         
                                                         <a href="javascript: void(0);" 

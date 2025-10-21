@@ -7,19 +7,22 @@ use \App\Utils\Auth;
 use \App\Model\Entity\Organization;
 use \App\Model\Entity\Paciente;
 
-class CadPaciente extends Page{
+class EditPaciente extends Page{
     /**
     * Metodo responsavel por retornar o conteúdo da Home
     * @return string
     */
 
-    public static function putCadPaciente() {
+    public static function editCadPaciente($id) {
 
         Auth::authCheck(); //verifica se já tem login válido (jwt)
         $objOrganization = new Organization();
 
-        $listaConvenios = new Paciente();
-        $convenios = $listaConvenios->getConvenios();
+        $pacientesObj = new Paciente();
+        $convenios = $pacientesObj->getConvenios(); 
+
+        $pacienteInfo = $pacientesObj->getPacientesById(TENANCY_ID, $id); 
+        $pacienteInfoConsultas = $pacientesObj->getTimelinePacientesConsultasById(TENANCY_ID, $id);
         
         
         /*
@@ -55,11 +58,13 @@ class CadPaciente extends Page{
             'site' => $objOrganization->site,
             'componentsScriptsHeader' => $componentsScriptsHeader,
             'componentsScriptsFooter' => $componentsScriptsFooter,
-            'convenios' => $convenios
+            'convenios' => $convenios,
+            'pacienteInfo' => $pacienteInfo,
+            'pacienteInfoConsultas' => $pacienteInfoConsultas
         ]); 
 
         //VIEW DA PAGINA
-        return self::getPage('pages/vw_cadpaciente', $content);
+        return self::getPage('pages/vw_editpaciente', $content);
     }
 
 }

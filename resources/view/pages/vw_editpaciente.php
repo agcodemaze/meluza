@@ -2,6 +2,10 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
+//var_dump($pacienteInfo);
+//var_dump($pacienteInfoConsultas);
+//die();
+
 ?>
 
 <!-- Start Content-->
@@ -66,6 +70,12 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
             </a>
         </li>
         <li class="nav-item">
+            <a href="#evolucao" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
+                <i class="mdi mdi-rocket-launch-outline d-md-none d-block"></i>
+                <span class="d-none d-md-block">Evolução Consultas</span>
+            </a>
+        </li>
+        <li class="nav-item">
             <a href="#prontuario" data-bs-toggle="tab" aria-expanded="true" class="nav-link">
                 <i class="mdi mdi-account-circle d-md-none d-block"></i>
                 <span class="d-none d-md-block">Prontuário</span>
@@ -97,7 +107,7 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
                                         <div class="col-lg-4">
                                             <div class="mb-3">
                                                 <label for="nome" class="form-label"><?= \App\Core\Language::get('nome_completo'); ?></label>
-                                                <input type="text" id="nome" name="nome" class="form-control" style="text-transform: uppercase;">
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCNOME']) ?>" type="text" id="nome" name="nome" class="form-control" style="text-transform: uppercase;">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="sexo" class="form-label"><?= \App\Core\Language::get('sexo'); ?></label>                                         
@@ -110,22 +120,22 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
                                         </div> <!-- end col -->
                                         <div class="col-lg-4">
                                             <div class="mb-3">
-                                                <label for="telefone" class="form-label"><?= \App\Core\Language::get('telefone'); ?></label>
-                                                <input type="text" id="telefone" name="nomtelefonee" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
+                                                <label for="telefone" class="form-label"><?= \App\Core\Language::get('telefone_whatsapp'); ?></label>
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCTELEFONE']) ?>" type="text" id="telefone" name="nomtelefonee" class="form-control" data-toggle="input-mask" data-mask-format="(00) 00000-0000">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="dtnascimento" class="form-label"><?= \App\Core\Language::get('data_nascimento'); ?></label> 
-                                                <input type="text" id="dtnascimento" name="dtnascimento" class="form-control" data-toggle="input-mask" data-mask-format="00/00/0000">
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DTDATANASC']) ?>" type="text" id="dtnascimento" name="dtnascimento" class="form-control" data-toggle="input-mask" data-mask-format="00/00/0000">
                                             </div>
                                         </div> <!-- end col -->
                                         <div class="col-lg-4">
                                             <div class="mb-3">
                                                 <label for="email" class="form-label"><?= \App\Core\Language::get('email'); ?></label>
-                                                <input type="text" id="email" name="email" class="form-control" style="text-transform: uppercase;">
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCEMAIL']) ?>" type="text" id="email" name="email" class="form-control" style="text-transform: uppercase;">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="documento" class="form-label"><?= \App\Core\Language::get('cpfrg'); ?></label></label>
-                                                <input type="text" id="documento" name="documento" class="form-control" style="text-transform: uppercase;">
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCCPF']) ?>" type="text" id="documento" name="documento" class="form-control" style="text-transform: uppercase;">
                                             </div>
                                         </div> <!-- end col -->
                                     </div>
@@ -134,6 +144,53 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
                             </div> <!-- end tab-content-->
                         </div> <!-- end card-body -->
                     </div> <!-- end card -->
+
+                    <div class="card">
+                        <div class="card-body">
+                            <h4 class="header-title"><?= \App\Core\Language::get('informacoes_endereco'); ?> </h4> 
+                            <p class="text-muted font-14"> 
+                                <?= \App\Core\Language::get('descricao_informacoes_endereco'); ?>
+                            </p>
+                            <div class="tab-content">
+                                <div class="tab-pane show active" id="input-types-preview">
+                                    <div class="row">
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="cep" class="form-label">CEP <a class="small-text" href="https://buscacepinter.correios.com.br/app/localidade_logradouro/index.php" target="_blank"> [não sei informar]</a></label>
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCENDERECO_CEP']) ?>" type="text" id="cep" name="cep" class="form-control" data-toggle="input-mask" data-mask-format="00000-000" placeholder="Digite o CEP" maxlength="9" onblur="buscarEndereco()">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="endereco" class="form-label">Endereço</label>
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCENDERECO_RUA']) ?>" type="text" id="endereco" name="endereco" class="form-control" style="text-transform: uppercase;" placeholder="" readonly>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="numero" class="form-label">Número</label>
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCENDERECO_NUMERO']) ?>" type="text" id="numero" name="numero" class="form-control" style="text-transform: uppercase;" placeholder="Digite o número">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="bairro" class="form-label">Bairro</label>
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCENDERECO_BAIRRO']) ?>" type="text" id="bairro" name="bairro" class="form-control" style="text-transform: uppercase;" placeholder="" readonly>
+                                            </div>
+                                        </div> <!-- end col -->
+                                        <div class="col-lg-4">
+                                            <div class="mb-3">
+                                                <label for="cidade" class="form-label">Cidade</label>
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCENDERECO_CIDADE']) ?>" type="text" id="cidade" name="cidade" class="form-control" style="text-transform: uppercase;" placeholder="" readonly>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="estado" class="form-label">Estado</label>
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DCENDERECO_ESTADO']) ?>" type="text" id="estado" name="estado" class="form-control" style="text-transform: uppercase;" placeholder="" readonly>
+                                            </div>
+                                        </div> <!-- end col -->
+                                    </div>
+                                    <!-- end row-->
+                                </div> <!-- end preview-->
+                            </div> <!-- end tab-content-->
+                        </div> <!-- end card-body -->
+                    </div> <!-- end card -->
+                    
                     <div class="card">
                         <div class="card-body">
                             <h4 class="header-title"><?= \App\Core\Language::get('informacoes_administrativas'); ?> </h4> 
@@ -157,13 +214,13 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
                                             </div>
                                             <div class="mb-3">
                                                 <label for="dtcadastro" class="form-label"><?= \App\Core\Language::get('cliente_desde'); ?></label>
-                                                <input type="text" id="dtcadastro" name="dtcadastro" class="form-control">
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['PAC_DTCADASTRO']) ?>" type="text" id="dtcadastro" name="dtcadastro" class="form-control">
                                             </div>
                                         </div> <!-- end col -->
                                         <div class="col-lg-4">
                                             <div class="mb-3">
                                                 <label for="plano" class="form-label"><?= \App\Core\Language::get('plano_produto'); ?></label>
-                                                <input type="text" id="plano" name="plano" class="form-control" style="text-transform: uppercase;">
+                                                <input value="<?= htmlspecialchars($pacienteInfo[0]['CNV_IDCONVENIO']) ?>" type="text" id="plano" name="plano" class="form-control" style="text-transform: uppercase;">
                                             </div>
                                             <div class="mb-3">
                                                 <label for="comoconheceu" class="form-label"><?= \App\Core\Language::get('como_nos_conheceu'); ?></label>                                         
@@ -195,6 +252,7 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
                             </div> <!-- end tab-content-->
                         </div> <!-- end card-body -->
                     </div> <!-- end card -->
+
                     <div class="tab-content">
                         <div class="tab-pane show active" id="input-types-preview">
                             <div class="row">
@@ -210,6 +268,92 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
             </div><!-- end row -->
         </div>
         <!-- ------- ABA INFO BASIC -------- --> 
+
+        <!-- ------- ABA EVOLUÇÃO CONSULTA -------- -->                                                 
+        <div class="tab-pane" id="evolucao">
+            <div class="row">
+                        <div class="col-12">
+                            <div class="timeline" dir="ltr">
+                            <?php $ballonDirect = "left"; ?>
+                            <?php foreach ($pacienteInfoConsultas as $consultas): ?>
+
+                                <?php                                    
+                                    $dataFormatada = "";
+                                    $consultaData = $consultas["CON_DTCONSULTA"];
+                                    $data = new DateTime($consultaData);
+                                    $meses = [
+                                        1 => 'janeiro',
+                                        2 => 'fevereiro',
+                                        3 => 'março',
+                                        4 => 'abril',
+                                        5 => 'maio',
+                                        6 => 'junho',
+                                        7 => 'julho',
+                                        8 => 'agosto',
+                                        9 => 'setembro',
+                                        10 => 'outubro',
+                                        11 => 'novembro',
+                                        12 => 'dezembro'
+                                    ];
+
+                                    $dia = $data->format('d');
+                                    $mes = $meses[(int)$data->format('m')]; 
+                                    $ano = $data->format('Y');
+
+                                    $dataFormatada = "$dia de $mes, $ano";
+                                    $dataFormatadaCenter = $data->format('d/m/Y');
+
+                                    if(empty($consultas["CON_DCOBSERVACOES"])) {
+                                        $consultas["CON_DCOBSERVACOES"] = \App\Core\Language::get('nenhuma_obs');
+                                    }
+
+                                    if ($consultas['CON_ENSTATUS'] == "CONCLUIDA") {
+                                        $classeBadge = "secondary";
+                                    } elseif ($consultas['CON_ENSTATUS'] == "CANCELADA") {
+                                        $classeBadge = "warning";
+                                    } elseif ($consultas['CON_ENSTATUS'] == "AGENDADA") {
+                                        $classeBadge = "primary";
+                                    } elseif ($consultas['CON_ENSTATUS'] == "FALTA") {
+                                        $classeBadge = "danger";
+                                    } elseif ($consultas['CON_ENSTATUS'] == "CONFIRMADA") {
+                                        $classeBadge = "success";
+                                    }
+
+                                ?>
+                                <div class="timeline-show my-3 text-center">
+                                    <h5 class="m-0 time-show-name"><?= htmlspecialchars($dataFormatadaCenter) ?></h5>
+                                </div>
+
+                                <div class="timeline-lg-item timeline-item-<?= htmlspecialchars($ballonDirect) ?>">
+                                    <div class="timeline-desk">
+                                        <div class="timeline-box">
+                                            <span class="arrow-alt"></span>
+                                            <span class="timeline-icon"><i class="mdi mdi-adjust"></i></span>
+
+                                            <p class="text-muted"><small><?= htmlspecialchars($dataFormatada) ?></small></p>
+                                            <p><?= htmlspecialchars($consultas["CON_DCOBSERVACOES"]) ?></p>
+                                            <div class="d-flex">                                               
+                                                <div>
+                                                    <h5 class="mt-1 font-14 mb-0">
+                                                        Dentista: <small> <?= htmlspecialchars($consultas["DEN_DCNOME"]) ?></small> 
+                                                    </h5>
+                                                </div>
+                                            </div>
+                                            <span class="badge badge-<?= $classeBadge; ?>-lighten"><?= htmlspecialchars(ucwords(strtolower((string)$consultas['CON_ENSTATUS'])), ENT_QUOTES, 'UTF-8') ?></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php $ballonDirect = ($ballonDirect === "left") ? "right" : "left"; ?>
+                            <?php endforeach; ?>
+
+
+
+                            </div>
+                            <!-- end timeline -->
+                        </div> <!-- end col -->
+            </div><!-- end row -->
+        </div>
+         <!-- ------- ABA EVOLUÇÃO CONSULTA -------- -->     
 
         <!-- ------- ABA PRONTUÁRIO -------- -->                                                 
         <div class="tab-pane" id="prontuario">
@@ -389,4 +533,30 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 </div> <!-- close fluid -->   
 <br>
 
-
+    <script>
+        function buscarEndereco() {
+            var cep = document.getElementById('cep').value.replace(/\D/g, '');
+        
+            if (cep.length !== 8) {
+                alert('CEP inválido!');
+                return;
+            }
+        
+            fetch('https://viacep.com.br/ws/' + cep + '/json/')
+            .then(response => response.json())
+            .then(data => {
+                if (data.erro) {
+                    alert('CEP não encontrado!');
+                } else {
+                    document.getElementById('endereco').value = data.logradouro;
+                    document.getElementById('bairro').value = data.bairro;
+                    document.getElementById('cidade').value = data.localidade;
+                    document.getElementById('estado').value = data.uf;
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao buscar o CEP:', error);
+                alert('Erro ao buscar o CEP!');
+            });
+        }
+    </script>
