@@ -59,8 +59,6 @@ class ListConsulta extends Page{
             <script src="'.ASSETS_PATH.'vendor/ad_sweetalert/sweetalert2.all.min.js"></script>
             <script src="'.ASSETS_PATH.'js/serviceworkerpwa.js"></script>
             <link rel="manifest" href="/manifest.json">
-            <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-            <script src="'.ASSETS_PATH.'js/onesignalload.js"></script>
         ';
 
         $componentsScriptsFooter = '

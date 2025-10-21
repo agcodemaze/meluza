@@ -38,8 +38,7 @@ class CadAnamnese extends Page{
             <link href="'.ASSETS_PATH.'css/icons.min.css" rel="stylesheet" type="text/css" />
             <script src="'.ASSETS_PATH.'js/serviceworkerpwa.js"></script>   
             <link rel="manifest" href="/manifest.json">  
-            <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
-            <script src="'.ASSETS_PATH.'js/onesignalload.js"></script>       
+                
         ';
 
         $componentsScriptsFooter = '

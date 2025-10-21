@@ -24,6 +24,9 @@
 
     <?= $componentsScriptsHeader ?>
     <script src="/public/assets/utils/languageDetector.js"></script>
+
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script src="/public/assets/js/onesignalload.js"></script>
 </head>
 
 <style>
