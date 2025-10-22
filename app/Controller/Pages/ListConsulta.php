@@ -31,10 +31,10 @@ class ListConsulta extends Page{
         
         $updateSucess =  $updateConfirmacaoPresencaByHashUser->updateConfirmacaoPresencaByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
 
-        if($updateSucess > 0 && $updateSucess != "Status inválido") {
-            $insertEventos->insertEvento("CONSULTA", $CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
-        }
-
+        //if($updateSucess > 0 && $updateSucess != "Status inválido") {
+            $eventoRtr = $insertEventos->insertEvento("CONSULTA", $CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
+        //}
+        var_dump($eventoRtr);
         return $updateSucess;
 
     }
