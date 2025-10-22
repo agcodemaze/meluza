@@ -39,7 +39,7 @@
 
     <!-- <script src="/public/assets/js/onesignalload.js"></script> -->
 </head>
-
+<?php \App\Utils\Push::sendPushEncomendaByUserId("Teste Titulo","Teste mensagem","teste Botao","1-1"); ?>
 <style>
 .navbar-slim {
     background-color: #f5f5f5ff;
@@ -58,7 +58,7 @@
     padding: 2px 8px;
 }
 </style>
-<?php \App\Utils\Push::sendPushEncomendaByUserId("Teste Titulo","Teste mensagem","teste Botao","1-1"); ?>
+
 <body>
     <!-- Begin page -->
     <div class="wrapper">

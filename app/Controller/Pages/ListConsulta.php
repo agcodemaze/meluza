@@ -19,6 +19,16 @@ class ListConsulta extends Page{
         return $consultasByRange->getConsultasByProfissionalAndRange(TENANCY_ID, $_SESSION['PROFISSIONAL_ID'], $CON_DTCONSULTAINI, $CON_DTCONSULTAEND);
     }
 
+    public static function getConsultasByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA) {
+        $getConsultasByHashMet = new Consultas();
+        return $getConsultasByHashMet->getConsultasByHash($CON_DCHASH_CONFIRMACAO_PRESENCA);
+    }
+
+    public static function updateConfirmacaoPresencaByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA) {
+        $updateConfirmacaoPresencaByHashUser = new Consultas();
+        return $updateConfirmacaoPresencaByHashUser->updateConfirmacaoPresencaByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
+    }
+
     public static function getConsultas() {
 
         Auth::authCheck(); //verifica se já tem login válido (jwt)

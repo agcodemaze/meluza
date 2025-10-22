@@ -1,3 +1,89 @@
+<?php
+require_once __DIR__ . '/../../vendor/autoload.php';
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../'); // pasta raiz do projeto
+$dotenv->safeLoad();
+
+use \App\Model\Entity\Conn;
+use \App\Controller\Pages\ListConsulta; 
+use \App\Utils\Push; 
+
+$con = new Conn();
+
+  if (!isset($_GET['id'])) {
+    header('Content-Type: application/json; charset=utf-8');
+    http_response_code(403); // Retorna status HTTP 403
+    echo json_encode([
+        'status' => 'error',
+        'code' => 403,
+        'message' => 'Requisição inválida.'
+    ]);
+    exit;
+  }
+
+  $consulta = \App\Controller\Pages\ListConsulta::getConsultasByHashUser($_GET['id']);
+
+  if(empty($consulta["CON_STCONFIRMACAO_PRESENCA"]) && isset($_GET['opcao'])) {
+    $updateStatusConfirmacao = \App\Controller\Pages\ListConsulta::updateConfirmacaoPresencaByHashUser($_GET['id'], $_GET['opcao']);
+    $msgErr = "1";
+
+    $nomePacientePush = $consulta["PAC_DCNOME"];
+    $dataConsultaPush = $consulta["CON_DTCONSULTA"];
+    $horaConsultaPush = $consulta["CON_HORACONSULTA"];
+    $msgPush = "Paciente $nomePacientePush - Consulta dia $dataConsultaPush ás  $horaConsultaPush";
+    $idDestinoPush = "1-1";
+
+    if($_GET['opcao'] == "0") {
+       \App\Utils\Push::sendPushEncomendaByUserId("Consulta CANCELADA","$msgPush","Ver Mais","$idDestinoPush");
+    }
+    if($_GET['opcao'] == "1") {
+       \App\Utils\Push::sendPushEncomendaByUserId("Consulta CONFIRMADA","$msgPush","Ver Mais","$idDestinoPush");
+    }
+  }
+
+  $consulta = \App\Controller\Pages\ListConsulta::getConsultasByHashUser($_GET['id']);
+
+
+  $msg="";
+  $msgErr="";
+
+  if (empty($consulta)) {
+    $msg = "Atenção: este link de confirmação já expirou.";
+    $msgErr = "1";
+  }elseif ($consulta["CON_STCONFIRMACAO_PRESENCA"] == "1") {
+    $msg = "Confirmação de presença CONFIRMADA com sucesso!";
+    $msgErr = "1";
+  }elseif($consulta["CON_STCONFIRMACAO_PRESENCA"] == "0") {
+    $msg = "A confirmação de presença foi CANCELADA.";
+    $msgErr = "1";
+  }
+
+
+  $clinicaNome="";
+  $horaFormatada="";
+  $dataBr="";
+  $diaSemana="";
+  $dentista="";
+
+  if(!empty($consulta) && $consulta["CON_STCONFIRMACAO_PRESENCA"] != "0" && $consulta["CON_STCONFIRMACAO_PRESENCA"] != "1") {
+    $clinicaNome = $consulta["CFG_DCNOME_CLINICA"];
+    $dentista = $consulta["DEN_DCNOME"];
+    $hora = $consulta["CON_HORACONSULTA"];
+    $horaFormatada = substr($hora, 0, 5); 
+    $horaFormatada = str_replace(":", "h", $horaFormatada); 
+
+    $dataAmericana = $consulta["CON_DTCONSULTA"]; 
+    $dt = new DateTime($dataAmericana);
+    $dataBr = $dt->format('d/m/Y'); 
+
+    $diasSemana = [
+        'domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'
+    ];
+    $numeroDia = (int)$dt->format('w'); // 0 (domingo) a 6 (sábado)
+    $diaSemana = $diasSemana[$numeroDia];
+  } 
+?>
+
+
 <!DOCTYPE html>
 <html lang="en" data-layout="topnav">
 <head>
@@ -217,49 +303,77 @@
                       
 
 
-
- <div class="confirm-card">
+<?php if (!empty($consulta) && $msgErr != "1") : ?>
+  <div class="confirm-card">
     <div class="d-flex align-items-center gap-3 mb-3">
       
       <div>
         <div class="title">Confirmação de Consulta</div>
-        <div class="meta">Consulta agendada · Hoje · Clínica SmileCopilot</div>
+        <div class="meta">Nome da Clínica: <?= $clinicaNome ?></div>
       </div>
     </div>
 
     <div class="py-2">
       <p class="lead-text mb-3">
-        Você tem uma consulta às <strong>20h30</strong> com a doutora <strong>Patrícia Bueno</strong>.
+        Você tem uma consulta dia <strong><?= $dataBr ?> (<?= $diaSemana ?>) </strong> às <strong><?= $horaFormatada ?></strong> com o(a) doutor(a) <strong><?= $dentista ?></strong>.
       </p>
-
       <p class="lead-text mb-4">Você deseja confirmar esta consulta?</p>
-
       <div class="d-flex actions">
-        <button id="btn-sim" class="btn btn-info btn-wide shadow-sm">
+        <button id="btn-nao" class="btn btn-danger btn-wide shadow-sm">
+          <svg width="16" height="16" viewBox="0 0 16 16" class="me-2" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle">
+            <path d="M8 1.333c3.681 0 6.667 2.986 6.667 6.667S11.681 14.667 8 14.667 1.333 11.681 1.333 8 4.319 1.333 8 1.333zm0 2.334a.667.667 0 00-.667.667v4a.667.667 0 101.334 0v-4A.667.667 0 008 3.667zm0 7.333a.833.833 0 110-1.666.833.833 0 010 1.666z" fill="white"/>
+          </svg>
+          NÃO
+        </button>
+
+          <button id="btn-sim" class="btn btn-info btn-wide shadow-sm">
           <!-- ícone simples -->
           <svg width="16" height="16" viewBox="0 0 16 16" class="me-2" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle">
             <path d="M6 10.5L3.5 8L2.75 8.75L6 12L14 4L13.25 3.25L6 10.5Z" fill="white"/>
           </svg>
           SIM
         </button>
-
-        <button id="btn-nao" class="btn btn-warning btn-wide shadow-sm">
-          <svg width="16" height="16" viewBox="0 0 16 16" class="me-2" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle">
-            <path d="M8 1.333c3.681 0 6.667 2.986 6.667 6.667S11.681 14.667 8 14.667 1.333 11.681 1.333 8 4.319 1.333 8 1.333zm0 2.334a.667.667 0 00-.667.667v4a.667.667 0 101.334 0v-4A.667.667 0 008 3.667zm0 7.333a.833.833 0 110-1.666.833.833 0 010 1.666z" fill="white"/>
-          </svg>
-          NÃO
-        </button>
-      </div>
-
-      <div id="feedback" class="mt-4 alert d-inline-flex align-items-center p-2"></div>
+      </div>      
     </div>
   </div>
+<?php endif; ?>
 
+<?php if (empty($consulta) || $msgErr == "1") : ?>
+  <div class="confirm-card">
+    <div class="d-flex align-items-center gap-3 mb-3">
+      
+      <div>
+        <div class="title">Confirmação de consulta</div>
+      </div>
+    </div>
+
+    <div class="py-2">
+      <p class="lead-text mb-3">
+        <?= $msg ?>
+      </p>
+    </div>
+  </div>
+<?php endif; ?>
 
 
 
                     </div>
                 </div>
             </div>
+
+<script>
+  document.getElementById('btn-sim').addEventListener('click', function() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('opcao', '1');
+    window.location.href = url.toString();
+  });
+</script>
+<script>
+  document.getElementById('btn-nao').addEventListener('click', function() {
+    const url = new URL(window.location.href);
+    url.searchParams.set('opcao', '0');
+    window.location.href = url.toString();
+  });
+</script>
 </body>
 </html>
