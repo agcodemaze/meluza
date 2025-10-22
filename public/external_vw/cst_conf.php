@@ -26,9 +26,16 @@ $con = new Conn();
     $updateStatusConfirmacao = \App\Controller\Pages\ListConsulta::updateConfirmacaoPresencaByHashUser($_GET['id'], $_GET['opcao']);
     $msgErr = "1";
 
+    $hora = $consulta["CON_HORACONSULTA"];
+    $horaFormatada = substr($hora, 0, 5); 
+    $horaFormatada = str_replace(":", "h", $horaFormatada); 
+    $dataAmericana = $consulta["CON_DTCONSULTA"]; 
+    $dt = new DateTime($dataAmericana);
+    $dataBr = $dt->format('d/m/Y'); 
+
     $nomePacientePush = $consulta["PAC_DCNOME"];
-    $dataConsultaPush = $consulta["CON_DTCONSULTA"];
-    $horaConsultaPush = $consulta["CON_HORACONSULTA"];
+    $dataConsultaPush = $dataBr;
+    $horaConsultaPush = $horaFormatada ;
     $msgPush = "Paciente $nomePacientePush - Consulta dia $dataConsultaPush ás  $horaConsultaPush";
     $idDestinoPush = "1-1";
 
