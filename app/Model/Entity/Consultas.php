@@ -63,7 +63,7 @@ class Consultas extends Conn {
             $stmt->bindParam(":CON_ENSTATUS", $CON_ENSTATUS);
             $stmt->execute();
         
-            return ['updated_rows' => $stmt->rowCount()];
+            return $stmt->rowCount();
         
         } catch (\PDOException $e) {
             return ["error" => $e->getMessage()];

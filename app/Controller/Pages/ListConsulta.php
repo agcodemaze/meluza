@@ -7,6 +7,7 @@ use \App\Utils\Auth;
 use \App\Model\Entity\Organization;
 use \App\Model\Entity\Consultas;
 use \App\Model\Entity\Whatsapp;
+use \App\Model\Entity\Eventos;
 
 class ListConsulta extends Page{
     /**
@@ -26,7 +27,16 @@ class ListConsulta extends Page{
 
     public static function updateConfirmacaoPresencaByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA) {
         $updateConfirmacaoPresencaByHashUser = new Consultas();
-        return $updateConfirmacaoPresencaByHashUser->updateConfirmacaoPresencaByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
+        $insertEventos = new Eventos();
+        
+        $updateSucess =  $updateConfirmacaoPresencaByHashUser->updateConfirmacaoPresencaByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
+
+        if($updateSucess > 0 && $updateSucess != "Status inválido") {
+            $insertEventos->insertEvento(TENANCY_ID, "CONSULTA", $CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
+        }
+
+        return $updateSucess;
+
     }
 
     public static function getConsultas() {
