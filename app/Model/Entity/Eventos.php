@@ -11,15 +11,14 @@ use PDOException;
 class Eventos extends Conn { 
 
 
-    public function insertEvento($TENANCY_ID, $EVE_DCTIPO, $EVE_ID, $EVE_DCVALOR) {
+    public function insertEvento($EVE_DCTIPO, $EVE_ID, $EVE_DCVALOR) {
         try {   
             $EVE_DTEVENTO = date('Y-m-d H:i:s');
 
-            $sql = "INSERT INTO EVE_EVENTOS (TENANCY_ID, EVE_DCTIPO, EVE_ID, EVE_DCVALOR, EVE_DTEVENTO) 
-                    VALUES (:TENANCY_ID, :EVE_DCTIPO, :EVE_ID, :EVE_DCVALOR, :EVE_DTEVENTO)";
+            $sql = "INSERT INTO EVE_EVENTOS (EVE_DCTIPO, EVE_ID, EVE_DCVALOR, EVE_DTEVENTO) 
+                    VALUES (:EVE_DCTIPO, :EVE_ID, :EVE_DCVALOR, :EVE_DTEVENTO)";
             
             $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
             $stmt->bindParam(":EVE_DCTIPO", $EVE_DCTIPO);
             $stmt->bindParam(":EVE_ID", $EVE_ID);
             $stmt->bindParam(":EVE_DCVALOR", $EVE_DCVALOR);

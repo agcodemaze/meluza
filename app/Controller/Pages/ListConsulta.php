@@ -32,7 +32,7 @@ class ListConsulta extends Page{
         $updateSucess =  $updateConfirmacaoPresencaByHashUser->updateConfirmacaoPresencaByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
 
         if($updateSucess > 0 && $updateSucess != "Status inválido") {
-            $insertEventos->insertEvento(TENANCY_ID, "CONSULTA", $CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
+            $insertEventos->insertEvento("CONSULTA", $CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA);
         }
 
         return $updateSucess;
