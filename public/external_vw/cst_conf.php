@@ -11,7 +11,7 @@ $con = new Conn();
 
   if (!isset($_GET['id'])) {
     header('Content-Type: application/json; charset=utf-8');
-    http_response_code(403); // Retorna status HTTP 403
+    http_response_code(403); 
     echo json_encode([
         'status' => 'error',
         'code' => 403,
@@ -24,6 +24,18 @@ $con = new Conn();
 
   if(empty($consulta["CON_STCONFIRMACAO_PRESENCA"]) && isset($_GET['opcao'])) {
     $updateStatusConfirmacao = \App\Controller\Pages\ListConsulta::updateConfirmacaoPresencaByHashUser($_GET['id'], $_GET['opcao']);
+    
+    if($updateStatusConfirmacao == "Status inválido") {
+      header('Content-Type: application/json; charset=utf-8');
+      http_response_code(403); 
+      echo json_encode([
+          'status' => 'error',
+          'code' => 403,
+          'message' => 'Requisição inválida. Status inválido.'
+      ]);
+      exit;
+    }
+  
     $msgErr = "1";
 
     $hora = $consulta["CON_HORACONSULTA"];
@@ -57,7 +69,7 @@ $con = new Conn();
     $msg = "Atenção: este link de confirmação já expirou.";
     $msgErr = "1";
   }elseif ($consulta["CON_STCONFIRMACAO_PRESENCA"] == "1") {
-    $msg = "Confirmação de presença CONFIRMADA com sucesso!";
+    $msg = "A Presença na consulta CONFIRMADA com sucesso!";
     $msgErr = "1";
   }elseif($consulta["CON_STCONFIRMACAO_PRESENCA"] == "0") {
     $msg = "A confirmação de presença foi CANCELADA.";

@@ -41,15 +41,26 @@ class Consultas extends Conn {
     }
 
     public function updateConfirmacaoPresencaByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA) {
+        
+        if($CON_STCONFIRMACAO_PRESENCA == 1) {
+            $CON_ENSTATUS = "CONFIRMADA";
+        }elseif($CON_STCONFIRMACAO_PRESENCA == 0) {
+            $CON_ENSTATUS = "CANCELADA";
+        }else {
+            return "Status inválido";
+        }
+
         try {
             $sql = "UPDATE CON_CONSULTAS 
-                    SET CON_STCONFIRMACAO_PRESENCA = :CON_STCONFIRMACAO_PRESENCA 
+                    SET 
+                    CON_STCONFIRMACAO_PRESENCA = :CON_STCONFIRMACAO_PRESENCA,
+                    CON_ENSTATUS = :CON_ENSTATUS 
                     WHERE CON_DCHASH_CONFIRMACAO_PRESENCA = :CON_DCHASH_CONFIRMACAO_PRESENCA";
             
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(":CON_STCONFIRMACAO_PRESENCA", $CON_STCONFIRMACAO_PRESENCA);
             $stmt->bindParam(":CON_DCHASH_CONFIRMACAO_PRESENCA", $CON_DCHASH_CONFIRMACAO_PRESENCA);
-        
+            $stmt->bindParam(":CON_ENSTATUS", $CON_ENSTATUS);
             $stmt->execute();
         
             return ['updated_rows' => $stmt->rowCount()];
