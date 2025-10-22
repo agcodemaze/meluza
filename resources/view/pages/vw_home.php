@@ -3,8 +3,6 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
-$urlWhatsConfirmConsul = "https://app.smilecopilot.com"; 
-
 //logica para horarios disponiveis
 $horarios = [];
 $inicio = $configuracoes[0]["CFG_DCHORA_EXPEDIENTE_INI"];
@@ -416,6 +414,8 @@ foreach ($consultasHoje as $c) {
                                     $whatsStatus = "disabled-link";
                                     $whatsStatus = ($consulta['CON_ENSTATUS'] == "AGENDADA") ? "" : $whatsStatus;
                                     
+                                    $idhash = $consulta['CON_DCHASH_CONFIRMACAO_PRESENCA'];
+                                    $urlWhatsConfirmConsul = "https://app.smilecopilot.com/public/external_vw/cst_conf.php?id=$idhash";
                                 ?> 
                             <tr>
                                 <td>

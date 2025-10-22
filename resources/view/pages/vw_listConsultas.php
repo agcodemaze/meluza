@@ -2,8 +2,6 @@
     date_default_timezone_set('America/Sao_Paulo');
     $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
-    $urlWhatsConfirmConsul = "https://cliente.meluza.com.br";
-
     $_SESSION['PROFISSIONAL_ID'] = $_SESSION['PROFISSIONAL_ID'] ?? 'all';
 
     $lang = $_SESSION['lang'] ?? 'pt';
@@ -257,6 +255,9 @@
                                                         $reagendamentoStatus = "";
                                                         $whatsStatus = ($listaConsulta['CON_ENSTATUS'] == "AGENDADA") ? "" : $whatsStatus;
                                                         $reagendamentoStatus = ($listaConsulta['CON_ENSTATUS'] == "CONCLUIDA") ? "disabled-link" : $reagendamentoStatus;
+                                                        
+                                                        $idhash = $listaConsulta['CON_DCHASH_CONFIRMACAO_PRESENCA'];
+                                                        $urlWhatsConfirmConsul = "https://app.smilecopilot.com/public/external_vw/cst_conf.php?id=$idhash";
 
                                                     ?>
                                                 <tr style="cursor: pointer;" onclick="if(event.target.closest('td.dtr-control')) return false; window.location='/cadastropaciente';">
