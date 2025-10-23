@@ -31,4 +31,18 @@ class Eventos extends Conn {
             return ["error" => $e->getMessage()];
         } 
     }
+
+    public function getEventsStream($ultimoId = 0)
+    {
+        try {
+            $sql = "SELECT * FROM EVE_EVENTOS 
+                WHERE EVE_IDEVENTOS > ? AND EVE_DCTIPO = 'CONSULTA' 
+                ORDER BY EVE_IDEVENTOS ASC";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->execute([$ultimoId]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return [["error" => $e->getMessage()]];
+        }
+    }
 }

@@ -37,6 +37,7 @@ use \App\Controller\Pages\Agenda;
 use \App\Controller\Pages\ListPaciente; 
 use \App\Controller\Pages\ListConsulta; 
 use \App\Controller\Pages\Login; 
+use \App\Controller\Pages\StreamEvents; 
 use App\Core\Language;
 
 // Inicia sistema de idiomas
@@ -160,6 +161,15 @@ $obRouter->post('/horariosdisp', [
         $result = $consultaController->getHorariosDisp($data, $duracao);
 
         return new \App\Http\Response(200, json_encode($result), 'application/json');
+    }
+]);
+
+//ROTA STREAM DE EVENTOS (CONFIRMAÇÃO DE CONSULTAS, ETC...)
+$obRouter->get('/streamevents',[
+    function(){
+        $eventsStream = new StreamEvents();
+        $eventsStream->streamConsultaEventos();
+        //return new Response(200,StreamEvents::streamConsultaEventos());
     }
 ]);
 
