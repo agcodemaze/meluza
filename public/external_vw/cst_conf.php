@@ -68,10 +68,10 @@ $con = new Conn();
   if (empty($consulta)) {
     $msg = "Atenção: este link de confirmação já expirou.";
     $msgErr = "1";
-  }elseif ($consulta["CON_STCONFIRMACAO_PRESENCA"] == "1") {
+  }elseif ($consulta["CON_STCONFIRMACAO_PRESENCA"] == "CONFIRMADA") {
     $msg = "A Presença na consulta CONFIRMADA com sucesso!";
     $msgErr = "1";
-  }elseif($consulta["CON_STCONFIRMACAO_PRESENCA"] == "0") {
+  }elseif($consulta["CON_STCONFIRMACAO_PRESENCA"] == "CANCELADA") {
     $msg = "A confirmação de presença foi CANCELADA.";
     $msgErr = "1";
   }
@@ -83,7 +83,7 @@ $con = new Conn();
   $diaSemana="";
   $dentista="";
 
-  if(!empty($consulta) && $consulta["CON_STCONFIRMACAO_PRESENCA"] != "0" && $consulta["CON_STCONFIRMACAO_PRESENCA"] != "1") {
+  if(!empty($consulta) && $consulta["CON_STCONFIRMACAO_PRESENCA"] != "CANCELADA" && $consulta["CON_STCONFIRMACAO_PRESENCA"] != "CONFIRMADA") {
     $clinicaNome = $consulta["CFG_DCNOME_CLINICA"];
     $dentista = $consulta["DEN_DCNOME"];
     $hora = $consulta["CON_HORACONSULTA"];
@@ -95,7 +95,7 @@ $con = new Conn();
     $dataBr = $dt->format('d/m/Y'); 
 
     $diasSemana = [
-        'domingo', 'segunda', 'terça', 'quarta', 'quinta', 'sexta', 'sábado'
+        'domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'
     ];
     $numeroDia = (int)$dt->format('w'); // 0 (domingo) a 6 (sábado)
     $diaSemana = $diasSemana[$numeroDia];
