@@ -69,10 +69,10 @@ $con = new Conn();
     $msg = "Atenção: este link de confirmação já expirou.";
     $msgErr = "1";
   }elseif ($consulta["CON_STCONFIRMACAO_PRESENCA"] == "CONFIRMADA") {
-    $msg = "A Presença na consulta CONFIRMADA com sucesso!";
+    $msg = "A sua presença na consulta foi CONFIRMADA com sucesso!";
     $msgErr = "1";
   }elseif($consulta["CON_STCONFIRMACAO_PRESENCA"] == "CANCELADA") {
-    $msg = "A confirmação de presença foi CANCELADA.";
+    $msg = "A sua presença na consulta foi CANCELADA.";
     $msgErr = "1";
   }
 
