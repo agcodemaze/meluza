@@ -9,47 +9,51 @@ use \App\Model\Entity\Eventos;
 
 class StreamEvents {
     
-    public function streamConsultaEventos()
-    {
-        header('Content-Type: text/event-stream; charset=utf-8');
-        header('Cache-Control: no-cache');
-        header('Connection: keep-alive');
+public function streamConsultaEventos()
+{
+    header('Content-Type: text/event-stream; charset=utf-8');
+    header('Cache-Control: no-cache');
+    header('Connection: keep-alive');
 
-        set_time_limit(0); // permite execução longa
+    set_time_limit(0);
+    while (ob_get_level() > 0) ob_end_flush();
 
-        while (ob_get_level() > 0) ob_end_flush(); // limpa buffers abertos
+    $ultimoId = 0;
+    $eventosStream = new Eventos();
+    $inicio = time();
 
-        $ultimoId = 0;
-        $eventosStream = new Eventos();
-        $inicio = time();
+    while (true) {
+        if (connection_aborted()) break;
 
-        while (true) {
+        if (time() - $inicio > 300) {
+            echo "event: close\n";
+            echo "data: Conexão encerrada\n\n";
+            ob_flush();
+            flush();
+            break;
+        }
 
-            if (connection_aborted()) break; // sai se cliente fechou
+        $eventos = $eventosStream->getEventsStream($ultimoId);
 
-            if (time() - $inicio > 300) { // encerra após 5 min
-                echo "event: close\n";
-                echo "data: Conexão encerrada\n\n";
+        if (!empty($eventos)) {
+            foreach ($eventos as $evento) {
+                echo "event: statusUpdate\n";
+                echo "data: " . json_encode($evento) . "\n\n";
                 ob_flush();
                 flush();
-                break;
+                $ultimoId = $evento['EVE_IDEVENTOS'];
             }
-
-            $eventos = $eventosStream->getEventsStream($ultimoId);
-
-            if (!empty($eventos)) {
-                foreach ($eventos as $evento) {
-                    echo "event: statusUpdate\n";
-                    echo "data: " . json_encode($evento) . "\n\n";
-                    ob_flush();
-                    flush();
-                    $ultimoId = $evento['EVE_IDEVENTOS'];
-                }
-            }
-
-            sleep(2); // evita loop muito rápido
+        } else {
+            // envia ping para o cliente não travar
+            echo "event: ping\n";
+            echo "data: {}\n\n";
+            ob_flush();
+            flush();
         }
+
+        sleep(2); // evita loop muito pesado
     }
+}
 
 }
 
