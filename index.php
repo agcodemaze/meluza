@@ -165,11 +165,14 @@ $obRouter->post('/horariosdisp', [
 ]);
 
 //ROTA STREAM DE EVENTOS (CONFIRMAÇÃO DE CONSULTAS, ETC...)
-$obRouter->get('/streamevents',[
-    function(){
-        $eventsStream = new StreamEvents();
-        $eventsStream->streamConsultaEventos();
-        //return new Response(200,StreamEvents::streamConsultaEventos());
+$obRouter->get('/streamevents', [
+    function() {
+        $ultimoId = isset($_GET['ultimoId']) ? (int)$_GET['ultimoId'] : 0;
+        $eventos = (new \App\Controller\Pages\StreamEvents())->getNovosEventos($ultimoId);
+
+        header('Content-Type: application/json');
+        echo json_encode($eventos);
+        exit;
     }
 ]);
 

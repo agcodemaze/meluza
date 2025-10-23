@@ -42,9 +42,9 @@ class Consultas extends Conn {
 
     public function updateConfirmacaoPresencaByHashUser($CON_DCHASH_CONFIRMACAO_PRESENCA, $CON_STCONFIRMACAO_PRESENCA) {
         
-        if($CON_STCONFIRMACAO_PRESENCA == "1") {
+        if($CON_STCONFIRMACAO_PRESENCA == "CONFIRMADA") {
             $CON_ENSTATUS = "CONFIRMADA";
-        }elseif($CON_STCONFIRMACAO_PRESENCA == "0") {
+        }elseif($CON_STCONFIRMACAO_PRESENCA == "CANCELADA") {
             $CON_ENSTATUS = "CANCELADA";
         }else {
             return "Status inválido";

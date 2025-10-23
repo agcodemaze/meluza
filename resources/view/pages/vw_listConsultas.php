@@ -172,7 +172,7 @@
                                         <table id="alternative-page-datatable" class="table dt-responsive nowrap w-100">
                                             <thead>
                                                 <tr>
-                                                    <th></th>
+                                                    <th>ID</th>
                                                     <th><?= \App\Core\Language::get('nome_completo'); ?></th>
                                                     <th><?= \App\Core\Language::get('dt_consulta'); ?></th> 
                                                     <th><?= \App\Core\Language::get('status'); ?></th>                                                   
@@ -260,106 +260,99 @@
                                                         $urlWhatsConfirmConsul = "https://app.smilecopilot.com/public/external_vw/cst_conf.php?id=$idhash";
 
                                                     ?>
-<tr data-consulta-id="<?= htmlspecialchars($listaConsulta['CON_IDCONSULTA']) ?>" 
-    data-consulta-hash="<?= htmlspecialchars($listaConsulta['CON_DCHASH_CONFIRMACAO_PRESENCA']); ?>"
-    style="cursor: pointer;" 
-    onclick="if(event.target.closest('td.dtr-control')) return false; window.location='/cadastropaciente';">
+                                                    <tr data-consulta-id="<?= htmlspecialchars($listaConsulta['CON_IDCONSULTA']) ?>" 
+                                                        data-consulta-hash="<?= htmlspecialchars($listaConsulta['CON_DCHASH_CONFIRMACAO_PRESENCA']); ?>"
+                                                        style="cursor: pointer;" 
+                                                        onclick="if(event.target.closest('td.dtr-control')) return false; window.location='/cadastropaciente';">
 
-    <td>
-        <div class="avatar-xs d-table">
-            <span class="<?= $classIcon; ?>" style="<?= $iconStyle; ?>">
-                <i class='<?= $imgIcon; ?>'></i>
-            </span>
-        </div>
-    </td> 
+                                                        <td><?= htmlspecialchars($listaConsulta['CON_IDCONSULTA']) ?></td>
+                                                        <td class="text-truncate" style="max-width: 180px;">        
+                                                            <?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['PAC_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
+                                                            <?= $showMaisInfo ?> 
+                                                        </td>
 
-    <td class="text-truncate" style="max-width: 180px;">
-        <?= $showMaisInfo ?> 
-        <?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['PAC_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
-    </td>
-
-    <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-        <span style="display:none;">
-            <?= date(
-                'Y-m-d H:i',
-                strtotime($dataConsulta . ' ' . str_replace(['h','ás'], ['',''], $consultaHoraIni))
-            ) ?>
-        </span>
-        <?= htmlspecialchars($dataConsulta, ENT_QUOTES, 'UTF-8') ?>
-        <?= htmlspecialchars($consultaHoraIni, ENT_QUOTES, 'UTF-8') ?>
-        <?= \App\Core\Language::get('as'); ?>
-        <?= htmlspecialchars($consultaHoraFim, ENT_QUOTES, 'UTF-8') ?>
-    </td>    
-
-    <!-- 🔹 Aqui adicionamos a classe 'status' para o JS atualizar -->
-    <td class="text-truncate status" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-        <span class="badge badge-<?= $classeBadge; ?>-lighten">
-            <?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['CON_ENSTATUS'])), ENT_QUOTES, 'UTF-8') ?>
-        </span>
-    </td>                                                
-
-    <td><?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['PAC_DCTELEFONE'])), ENT_QUOTES, 'UTF-8') ?></td>
-    <td><?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['PAC_DCCPF'])), ENT_QUOTES, 'UTF-8') ?></td>
-    <td class="text-truncate" style="max-width: 150px;">
-        <?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['CNV_DCCONVENIO'])), ENT_QUOTES, 'UTF-8') ?>
-    </td>
-    <td class="text-truncate" style="max-width: 150px;">
-        <?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['DEN_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
-    </td>
-    
-    <td onclick="event.stopPropagation();">   
-        <a href="/editarpaciente?id=<?= htmlspecialchars($listaConsulta['PAC_IDPACIENTE']) ?>" class="action-icon" onclick="event.stopPropagation();"> 
-            <i class="mdi mdi-account-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i>
-        </a>             
-
-        <a href="javascript: void(0);" class="action-icon <?= $reagendamentoStatus ?>" onclick="event.stopPropagation();"> 
-            <i class="mdi mdi-clock-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('reagendar_consulta'); ?>"></i>
-        </a>
-        
-        <a href="javascript: void(0);" 
-            class="action-icon <?= $whatsStatus ?>" 
-            data-bs-toggle="modal" 
-            data-bs-target="#msg-modal"
-            data-nome="<?= htmlspecialchars($listaConsulta['PAC_DCNOME']) ?>"
-            data-profissional="<?= htmlspecialchars($listaConsulta['DEN_DCNOME']) ?>"
-            data-telefone="<?= htmlspecialchars($listaConsulta['PAC_DCTELEFONE']) ?>"
-            data-data="<?= htmlspecialchars($dataConsulta) ?>"
-            data-dia="<?= htmlspecialchars($diaSemana) ?>"
-            data-hora="<?= htmlspecialchars($consultaHoraIni) ?>"
-            data-link="<?= htmlspecialchars($urlWhatsConfirmConsul) ?>"> 
-            <i class="mdi mdi-whatsapp" 
-                data-bs-toggle="popover" 
-                data-bs-trigger="hover" 
-                style="color: #25D366;"
-                data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>">
-            </i>
-        </a>
-        
-        <a href="/anamnese" class="action-icon" onclick="event.stopPropagation();"> 
-            <i class="mdi mdi-clipboard-list-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i>
-        </a> 
-
-        <a href="javascript:void(0);"  
-            class="action-icon"
-            data-id="<?= htmlspecialchars((string)$listaConsulta['PAC_IDPACIENTE'], ENT_QUOTES, 'UTF-8') ?>"    
-            data-dialogTitle="<?= \App\Core\Language::get('lista_pacientes'); ?>"    
-            data-dialogMessage="<?= \App\Core\Language::get('tem_certeza_excluir_paciente'); ?> <?= htmlspecialchars((string)$listaConsulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?>?"   
-            data-dialogUriToProcess="/deleteTaskProc"   
-            data-dialogUriToRedirect="/listapaciente"   
-            data-dialogConfirmButton="<?= \App\Core\Language::get('confirmar'); ?>"
-            data-dialogCancelButton="<?= \App\Core\Language::get('cancelar'); ?>" 
-            data-dialogErrorMessage="<?= \App\Core\Language::get('erro_ao_excluir'); ?>"
-            data-dialogErrorTitle="<?= \App\Core\Language::get('erro'); ?>"    
-            data-dialogCancelTitle="<?= \App\Core\Language::get('Cancelado'); ?>"                                                          
-            data-dialogCancelMessage="<?= \App\Core\Language::get('cancelado_nenhuma_alteracao'); ?>"     
-            data-dialogSuccessTitle="<?= \App\Core\Language::get('sucesso'); ?>"                                                             
-            data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
-            data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
-            onclick="event.stopPropagation(); confirmDeleteAttr(this);">
-            <i class="mdi mdi-delete" data-bs-toggle="popover" style="color: #f16a6aff;" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_paciente'); ?>"></i>
-        </a>
-    </td>
-</tr>
+                                                        <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                                            <span style="display:none;">
+                                                                <?= date(
+                                                                    'Y-m-d H:i',
+                                                                    strtotime($dataConsulta . ' ' . str_replace(['h','ás'], ['',''], $consultaHoraIni))
+                                                                ) ?>
+                                                            </span>
+                                                            <?= htmlspecialchars($dataConsulta, ENT_QUOTES, 'UTF-8') ?>
+                                                            <?= htmlspecialchars($consultaHoraIni, ENT_QUOTES, 'UTF-8') ?>
+                                                            <?= \App\Core\Language::get('as'); ?>
+                                                            <?= htmlspecialchars($consultaHoraFim, ENT_QUOTES, 'UTF-8') ?>
+                                                        </td>    
+                                                                
+                                                        <!-- 🔹 Aqui adicionamos a classe 'status' para o JS atualizar -->
+                                                        <td class="text-truncate status" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                                            <span class="badge badge-<?= $classeBadge; ?>-lighten">
+                                                                <?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['CON_ENSTATUS'])), ENT_QUOTES, 'UTF-8') ?>
+                                                            </span>
+                                                        </td>                                                
+                                                                
+                                                        <td><?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['PAC_DCTELEFONE'])), ENT_QUOTES, 'UTF-8') ?></td>
+                                                        <td><?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['PAC_DCCPF'])), ENT_QUOTES, 'UTF-8') ?></td>
+                                                        <td class="text-truncate" style="max-width: 150px;">
+                                                            <?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['CNV_DCCONVENIO'])), ENT_QUOTES, 'UTF-8') ?>
+                                                        </td>
+                                                        <td class="text-truncate" style="max-width: 150px;">
+                                                            <?= htmlspecialchars(ucwords(strtolower((string)$listaConsulta['DEN_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
+                                                        </td>
+                                                                
+                                                        <td onclick="event.stopPropagation();">   
+                                                            <a href="/editarpaciente?id=<?= htmlspecialchars($listaConsulta['PAC_IDPACIENTE']) ?>" class="action-icon" onclick="event.stopPropagation();"> 
+                                                                <i class="mdi mdi-account-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i>
+                                                            </a>             
+                                                                
+                                                            <a href="javascript: void(0);" class="action-icon <?= $reagendamentoStatus ?>" onclick="event.stopPropagation();"> 
+                                                                <i class="mdi mdi-clock-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('reagendar_consulta'); ?>"></i>
+                                                            </a>
+                                                                
+                                                            <a href="javascript: void(0);" 
+                                                                class="action-icon <?= $whatsStatus ?>" 
+                                                                data-bs-toggle="modal" 
+                                                                data-bs-target="#msg-modal"
+                                                                data-nome="<?= htmlspecialchars($listaConsulta['PAC_DCNOME']) ?>"
+                                                                data-profissional="<?= htmlspecialchars($listaConsulta['DEN_DCNOME']) ?>"
+                                                                data-telefone="<?= htmlspecialchars($listaConsulta['PAC_DCTELEFONE']) ?>"
+                                                                data-data="<?= htmlspecialchars($dataConsulta) ?>"
+                                                                data-dia="<?= htmlspecialchars($diaSemana) ?>"
+                                                                data-hora="<?= htmlspecialchars($consultaHoraIni) ?>"
+                                                                data-link="<?= htmlspecialchars($urlWhatsConfirmConsul) ?>"> 
+                                                                <i class="mdi mdi-whatsapp" 
+                                                                    data-bs-toggle="popover" 
+                                                                    data-bs-trigger="hover" 
+                                                                    style="color: #25D366;"
+                                                                    data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>">
+                                                                </i>
+                                                            </a>
+                                                                
+                                                            <a href="/anamnese" class="action-icon" onclick="event.stopPropagation();"> 
+                                                                <i class="mdi mdi-clipboard-list-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i>
+                                                            </a> 
+                                                                
+                                                            <a href="javascript:void(0);"  
+                                                                class="action-icon"
+                                                                data-id="<?= htmlspecialchars((string)$listaConsulta['PAC_IDPACIENTE'], ENT_QUOTES, 'UTF-8') ?>"    
+                                                                data-dialogTitle="<?= \App\Core\Language::get('lista_pacientes'); ?>"    
+                                                                data-dialogMessage="<?= \App\Core\Language::get('tem_certeza_excluir_paciente'); ?> <?= htmlspecialchars((string)$listaConsulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?>?"   
+                                                                data-dialogUriToProcess="/deleteTaskProc"   
+                                                                data-dialogUriToRedirect="/listapaciente"   
+                                                                data-dialogConfirmButton="<?= \App\Core\Language::get('confirmar'); ?>"
+                                                                data-dialogCancelButton="<?= \App\Core\Language::get('cancelar'); ?>" 
+                                                                data-dialogErrorMessage="<?= \App\Core\Language::get('erro_ao_excluir'); ?>"
+                                                                data-dialogErrorTitle="<?= \App\Core\Language::get('erro'); ?>"    
+                                                                data-dialogCancelTitle="<?= \App\Core\Language::get('Cancelado'); ?>"                                                          
+                                                                data-dialogCancelMessage="<?= \App\Core\Language::get('cancelado_nenhuma_alteracao'); ?>"     
+                                                                data-dialogSuccessTitle="<?= \App\Core\Language::get('sucesso'); ?>"                                                             
+                                                                data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
+                                                                data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
+                                                                onclick="event.stopPropagation(); confirmDeleteAttr(this);">
+                                                                <i class="mdi mdi-delete" data-bs-toggle="popover" style="color: #f16a6aff;" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_paciente'); ?>"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
 
                                                 <?php endforeach; ?>
                                             </tbody>
@@ -507,59 +500,63 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
 
-      // 🔹 Cria a conexão SSE com a rota do seu controller PHP
-      const eventSource = new EventSource('/streamevents'); 
-      // Ajuste o caminho conforme sua rota MVC (ex: /pages/streamConsultaEventos)
+    let ultimoId = 0; // último evento processado
 
-      eventSource.onopen = () => {
-        console.log('✅ Conectado ao stream de eventos');
-      };
+    // 🔹 Função para buscar novos eventos
+    async function buscarEventos() {
+        try {
+            const response = await fetch(`/streamevents?ultimoId=${ultimoId}`);
+            if (!response.ok) throw new Error('Erro ao buscar eventos');
 
-      // 🔹 Quando receber um evento do tipo "statusUpdate"
-        eventSource.addEventListener('statusUpdate', (event) => {
-            const data = JSON.parse(event.data);
-            const consultaId = data.EVE_ID;       // CON_IDCONSULTA
-            const novoStatus = data.EVE_DCVALOR;  // novo status
-        
-            const hashConsulta = consultaId;
-            const linha = document.querySelector(`[data-consulta-hash="${hashConsulta}"]`);
-            if(linha){
-                const statusCell = linha.querySelector('.status span');
-                if(statusCell){
-                    statusCell.textContent = (novoStatus == 1) ? 'Confirmada' : 'Pendente';
-                    statusCell.className = (novoStatus == 1) ? 'badge badge-success-lighten' : 'badge badge-danger-lighten';
-                    mostrarAlerta(`Consulta #${linha.dataset.consultaId} foi atualizada para "${statusCell.textContent}"`);
-                }
+            const eventos = await response.json();
+
+            if (eventos.length > 0) {
+                eventos.forEach(evento => {
+                    const consultaHash = evento.EVE_ID;  // CON_DCHASH_CONFIRMACAO_PRESENCA
+                    const novoStatus = evento.EVE_DCVALOR; // 1 ou 0
+
+                    const linha = document.querySelector(`[data-consulta-hash="${consultaHash}"]`);
+                    if (linha) {
+                        const statusCell = linha.querySelector('.status span');
+                        if (statusCell) {
+                            statusCell.textContent = (novoStatus == 1) ? 'Confirmada' : 'Cancelada';
+                            statusCell.className = (novoStatus == 1) ? 'badge badge-success-lighten' : 'badge badge-danger-lighten';
+                            mostrarAlerta(`Consulta #${linha.dataset.consultaId} foi atualizada para "${statusCell.textContent}"`);
+                        }
+                    }
+
+                    if (evento.EVE_IDEVENTOS > ultimoId) {
+                        ultimoId = evento.EVE_IDEVENTOS;
+                    }
+                });
             }
-        });
+        } catch (err) {
+            console.error('🚨 Erro no polling de eventos:', err);
+        } finally {
+            setTimeout(buscarEventos, 2000);
+        }
+    }
 
-      // 🔹 Quando a conexão for encerrada pelo servidor (após 5 min)
-      eventSource.addEventListener('close', (event) => {
-        console.log('⚠️ Conexão encerrada pelo servidor. Reabrindo...');
-        setTimeout(() => {
-          location.reload(); // ou reabrir EventSource manualmente
-        }, 2000);
-      });
+    // 🔹 Inicializa o polling
+    buscarEventos();
 
-      // 🔹 Tratamento de erro
-      eventSource.onerror = (err) => {
-        console.error('🚨 Erro no stream:', err);
-      };
-
-      // 🔔 Função para exibir alerta bonito
-      function mostrarAlerta(mensagem) {
+    // 🔔 Função para exibir alerta bonito e tocar som
+    function mostrarAlerta(mensagem) {
+        // alerta visual
         const alerta = document.createElement('div');
         alerta.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3';
         alerta.style.zIndex = '9999';
         alerta.textContent = mensagem;
         document.body.appendChild(alerta);
+        setTimeout(() => alerta.remove(), 6000);
 
-        setTimeout(() => alerta.remove(), 4000);
-      }
+        // 🔊 tocar som
+        const audio = new Audio('/public/assets/som/notificacao.mp3'); // ajuste o caminho do som
+        audio.play().catch(err => console.warn('Não foi possível tocar o som:', err));
+    }
 
     });
 </script>
-
 <!-- stream eventos consultas -->
 
 <?php if ($lang  === "pt" || empty($lang)): ?>

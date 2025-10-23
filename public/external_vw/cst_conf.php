@@ -383,14 +383,14 @@ $con = new Conn();
 <script>
   document.getElementById('btn-sim').addEventListener('click', function() {
     const url = new URL(window.location.href);
-    url.searchParams.set('opcao', '1');
+    url.searchParams.set('opcao', 'CONFIRMADA');
     window.location.href = url.toString();
   });
 </script>
 <script>
   document.getElementById('btn-nao').addEventListener('click', function() {
     const url = new URL(window.location.href);
-    url.searchParams.set('opcao', '0');
+    url.searchParams.set('opcao', 'CANCELADA');
     window.location.href = url.toString();
   });
 </script>
