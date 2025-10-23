@@ -51,10 +51,10 @@ $con = new Conn();
     $msgPush = "Paciente $nomePacientePush - Consulta dia $dataConsultaPush ás  $horaConsultaPush";
     $idDestinoPush = "1-1";
 
-    if($_GET['opcao'] == "0") {
+    if($_GET['opcao'] == "CANCELADA") {
        \App\Utils\Push::sendPushEncomendaByUserId("Consulta CANCELADA","$msgPush","Ver Mais","$idDestinoPush");
     }
-    if($_GET['opcao'] == "1") {
+    if($_GET['opcao'] == "CONFIRMADA") {
        \App\Utils\Push::sendPushEncomendaByUserId("Consulta CONFIRMADA","$msgPush","Ver Mais","$idDestinoPush");
     }
   }
