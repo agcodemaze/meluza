@@ -519,9 +519,30 @@
                     if (linha) {
                         const statusCell = linha.querySelector('.status span');
                         if (statusCell) {
-                            statusCell.textContent = (novoStatus == 1) ? 'Confirmada' : 'Cancelada';
-                            statusCell.className = (novoStatus == 1) ? 'badge badge-success-lighten' : 'badge badge-danger-lighten';
-                            mostrarAlerta(`Consulta #${linha.dataset.consultaId} foi atualizada para "${statusCell.textContent}"`);
+                            let texto = '';
+                            let classe = '';
+                        
+                            if (novoStatus === 'CONFIRMADA') {
+                                texto = 'Confirmada';
+                                classe = 'badge badge-success-lighten';
+                            } else if (novoStatus === 'CANCELADA') {
+                                texto = 'Cancelada';
+                                classe = 'badge badge-warning-lighten';
+                            } else if (novoStatus === 'AGENDADA') {
+                                texto = 'Agendada';
+                                classe = 'badge badge-primary-lighten';
+                            } else if (novoStatus === 'CONCLUIDA') {
+                                texto = 'Concluída';
+                                classe = 'badge badge-secondary-lighten';
+                            } else if (novoStatus === 'FALTA') {
+                                texto = 'Falta';
+                                classe = 'badge badge-danger-lighten';
+                            }
+                        
+                            statusCell.textContent = texto;
+                            statusCell.className = classe;
+                        
+                            mostrarAlerta(`Consulta #${linha.dataset.consultaId} foi atualizada para "${texto}"`);
                         }
                     }
 
