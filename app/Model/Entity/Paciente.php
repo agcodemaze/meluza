@@ -73,4 +73,22 @@ class Paciente extends Conn {
         } 
     }
 
+    public function getAnamnesesRespostaModeloByIdPaciente($TENANCY_ID, $PAC_IDPACIENTE) {
+        try{  
+
+            $sql = " SELECT r.ANR_IDANAMNESE_RESPOSTA, r.ANR_JSON_RESPOSTAS, m.ANM_JSON_MODELO
+            FROM ANR_ANAMNESE_RESPOSTA r
+            INNER JOIN ANM_ANAMNESE_MODELO m ON (m.ANM_IDANAMNESE_MODELO = r.ANM_IDANAMNESE_MODELO)
+            WHERE r.PAC_IDPACIENTE = :PAC_IDPACIENTE AND r.TENANCY_ID = :TENANCY_ID";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
+            $stmt->bindParam(":PAC_IDPACIENTE", $PAC_IDPACIENTE);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return ["error" => $e->getMessage()];
+        } 
+    }
+
 }

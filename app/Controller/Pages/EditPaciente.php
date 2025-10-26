@@ -23,6 +23,8 @@ class EditPaciente extends Page{
 
         $pacienteInfo = $pacientesObj->getPacientesById(TENANCY_ID, $id); 
         $pacienteInfoConsultas = $pacientesObj->getTimelinePacientesConsultasById(TENANCY_ID, $id);
+
+        $anamneses = $pacientesObj->getAnamnesesRespostaModeloByIdPaciente(TENANCY_ID,$id);
         
         
         /*
@@ -64,7 +66,8 @@ class EditPaciente extends Page{
             'componentsScriptsFooter' => $componentsScriptsFooter,
             'convenios' => $convenios,
             'pacienteInfo' => $pacienteInfo,
-            'pacienteInfoConsultas' => $pacienteInfoConsultas
+            'pacienteInfoConsultas' => $pacienteInfoConsultas,
+            'anamneses' => $anamneses
         ]); 
 
         //VIEW DA PAGINA
