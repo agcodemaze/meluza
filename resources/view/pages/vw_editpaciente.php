@@ -2,71 +2,7 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
-$modelo = json_decode($anamneses["ANM_JSON_MODELO"], true);
-$respostas = json_decode($anamneses["ANR_JSON_RESPOSTAS"], true);
 
-// Junta todas as perguntas em um array único
-$todas_perguntas = [];
-foreach ($modelo['secoes'] as $secao) {
-    $todas_perguntas = array_merge($todas_perguntas, $secao['perguntas']);
-}
-
-use Dompdf\Dompdf;
-
-// Monta o HTML do PDF
-$html = '
-<html>
-<head>
-<style>
-body { font-family: Arial, sans-serif; color: #333; }
-h2 { background-color: #73e9ff; padding: 10px; color: #fff; border-radius: 5px; }
-.card { border: 1px solid #ddd; border-radius: 5px; padding: 15px; margin-bottom: 15px; }
-.label { font-weight: bold; display: block; margin-bottom: 3px; }
-.value { margin-bottom: 10px; }
-.row { display: flex; flex-wrap: wrap; }
-.col { flex: 1; padding: 5px; min-width: 250px; }
-</style>
-</head>
-<body>
-<h2>Anamnese Completa</h2>
-<div class="card">
-    <div class="card-body">
-        <p>Responda às perguntas abaixo sobre seu histórico de saúde geral e bucal.</p>
-        <div class="row">
-';
-
-// Divide perguntas em 2 colunas
-$metade = ceil(count($todas_perguntas) / 2);
-$colunas = array_chunk($todas_perguntas, $metade);
-
-foreach ($colunas as $col) {
-    $html .= '<div class="col">';
-    foreach ($col as $p) {
-        $id = $p['id'];
-        $resposta = $respostas[$id] ?? 'Não informado';
-        $html .= '<span class="label">' . htmlspecialchars($p['pergunta']) . '</span>';
-        $html .= '<span class="value">' . htmlspecialchars($resposta) . '</span>';
-    }
-    $html .= '</div>';
-}
-
-$html .= '
-        </div>
-    </div>
-</div>
-</body>
-</html>
-';
-
-// Gera o PDF
-$dompdf = new Dompdf();
-$dompdf->loadHtml($html);
-$dompdf->setPaper('A4', 'portrait');
-$dompdf->render();
-
-// Envia o PDF para o navegador
-$dompdf->stream("anamnese_paciente.pdf", ["Attachment" => false]);
-exit;
 ?>
 
 
@@ -431,13 +367,6 @@ exit;
                 
 <form class="needs-validation" id="form" name="form" role="form" method="POST" enctype="multipart/form-data" novalidate>
 
-<?php
-// Junte todas as perguntas em um array único
-$todas_perguntas = [];
-foreach ($modelo['secoes'] as $secao) {
-    $todas_perguntas = array_merge($todas_perguntas, $secao['perguntas']);
-}
-?>
 <div class="card">
     <div class="card-body">
         <h4 class="header-title">Anamnese Completa</h4>
@@ -446,53 +375,7 @@ foreach ($modelo['secoes'] as $secao) {
         <div class="tab-content">
             <div class="tab-pane show active" id="input-types-preview">
                 <div class="row">
-                    <?php
-                    $metade = ceil(count($todas_perguntas) / 2);
-                    $colunas = array_chunk($todas_perguntas, $metade);
-
-                    foreach ($colunas as $col):
-                    ?>
-                        <div class="col-lg-6">
-                            <?php foreach ($col as $p): ?>
-                                <div class="mb-3">
-                                    <label class="form-label d-block"><?= htmlspecialchars($p['pergunta']) ?></label>
-
-                                    <?php
-                                    $id = htmlspecialchars($p['id']);
-                                    $tipo = $p['tipo'];
-                                    $valor = $respostas[$id] ?? '';
-
-                                    switch ($tipo):
-                                        case 'radio':
-                                            foreach ($p['opcoes'] as $op):
-                                                $checked = ($valor === $op) ? 'checked' : '';
-                                                $lower = strtolower($op);
-                                    ?>
-                                                <div class="form-check form-check-inline">
-                                                    <input class="form-check-input" type="radio" name="<?= $id ?>" id="<?= $id . '-' . $lower ?>" value="<?= $op ?>" <?= $checked ?>>
-                                                    <label class="form-check-label" for="<?= $id . '-' . $lower ?>"><?= $op ?></label>
-                                                </div>
-                                    <?php
-                                            endforeach;
-                                            break;
-
-                                        case 'text':
-                                    ?>
-                                            <input type="text" class="form-control" name="<?= $id ?>" id="<?= $id ?>" value="<?= htmlspecialchars($valor) ?>" placeholder="<?= $p['placeholder'] ?? '' ?>">
-                                    <?php
-                                            break;
-
-                                        case 'textarea':
-                                    ?>
-                                            <textarea class="form-control" name="<?= $id ?>" id="<?= $id ?>" rows="3"><?= htmlspecialchars($valor) ?></textarea>
-                                    <?php
-                                            break;
-                                    endswitch;
-                                    ?>
-                                </div>
-                            <?php endforeach; ?>
-                        </div>
-                    <?php endforeach; ?>
+                   <iframe src="<?= $pdfPath ?>" width="100%" height="600px"></iframe>
                 </div>
             </div>
         </div>
