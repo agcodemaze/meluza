@@ -2,11 +2,6 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
-// Para dev ou prod, adiciona o domínio base dinamicamente
-$baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
-         . "://{$_SERVER['HTTP_HOST']}";
-
-$pdfUrl = $baseUrl . $pdfUrl;
 
 ?>
 

@@ -170,7 +170,7 @@ class EditPaciente extends Page {
         $pdfPath = $pdfDir . '/'.$pdfName;
         file_put_contents($pdfPath, $pdfOutput);
 
-        $pdfUrl= "/public/tmp/$pdfName ";
+        $pdfUrl= "https://app.smilecopilot.com/public/tmp/$pdfName ";
 
         // Caminho que o navegador vai acessar:
 
