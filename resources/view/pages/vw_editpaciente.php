@@ -2,6 +2,11 @@
 date_default_timezone_set('America/Sao_Paulo');
 $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
+// Para dev ou prod, adiciona o domínio base dinamicamente
+$baseUrl = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http")
+         . "://{$_SERVER['HTTP_HOST']}";
+
+$pdfUrl = $baseUrl . $pdfUrl;
 
 ?>
 
@@ -375,7 +380,7 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
         <div class="tab-content">
             <div class="tab-pane show active" id="input-types-preview">
                 <div class="row">
-                   <iframe src="<?= $pdfPath ?>" width="100%" height="600px"></iframe>
+                   <iframe src="<?= $pdfUrl ?>" width="100%" height="600px"></iframe>
                 </div>
             </div>
         </div>
@@ -391,9 +396,6 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
                 <div class="col-lg-4">
                     <button type="button" onclick="window.history.back()" class="btn btn-danger">
                         <i class="mdi mdi-keyboard-backspace me-1"></i> <span>Voltar</span>
-                    </button>
-                    <button type="submit" class="btn btn-info">
-                        <i class="mdi mdi-content-save-outline me-1"></i> <span>Salvar</span>
                     </button>
                 </div>
             </div>

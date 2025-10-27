@@ -50,7 +50,7 @@ class Organization extends Conn {
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
         } 
