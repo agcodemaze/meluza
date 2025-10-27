@@ -166,7 +166,7 @@ class EditPaciente extends Page {
             mkdir($pdfDir, 0777, true);
         }
 
-        $pdfName = 'anamnese.pdf';
+        $pdfName = TENANCY_ID."_".$anamneses["ANR_DCCOD_AUTENTICACAO"].".pdf";
         $pdfPath = $pdfDir . '/'.$pdfName;
         file_put_contents($pdfPath, $pdfOutput);
 
