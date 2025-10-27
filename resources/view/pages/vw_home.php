@@ -5,8 +5,8 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
 //logica para horarios disponiveis
 $horarios = [];
-$inicio = $configuracoes[0]["CFG_DCHORA_EXPEDIENTE_INI"];
-$fim = $configuracoes[0]["CFG_DCHORA_EXPEDIENTE_END"];
+$inicio = $configuracoes["CFG_DCHORA_EXPEDIENTE_INI"];
+$fim = $configuracoes["CFG_DCHORA_EXPEDIENTE_END"];
 $hora = new DateTime($inicio);
 $horaFim = new DateTime($fim);
 $intervalo = new DateInterval('PT30M');
