@@ -218,7 +218,7 @@ class CadAnamnese extends Page{
                     </span>
                   </div>
                   <div style="margin-top:6px; color:#777;">
-                    A validade pode em: <a href="'.$verificarUrl.'" style="color:#0d6efd; text-decoration:none;">'.$verificarUrl.'</a>
+                    A autenticidade deste documento pode ser verificada em: <a href="'.$verificarUrl.'" style="color:#0d6efd; text-decoration:none;">'.$verificarUrl.'</a>
                   </div>
                 </div>
             </body>
