@@ -78,7 +78,7 @@
     'ver_paciente' => 'Ver Paciente',
     'agendar_consulta' => 'Agendar consulta',
     'conversar_whatsapp' => 'Conversar no Whatsapp',
-    'ver_anamneses_paciente' => 'Ver anamneses do paciente', 
+    'ver_anamneses_paciente' => 'Ver anamnese do paciente', 
     'excluir_paciente' => 'Excluir paciente', 
     'lista_pacientes' => 'Lista de Pacientes',
     'tem_certeza_excluir_paciente' => 'Tem certeza que deseja excluir o paciente',
@@ -135,4 +135,8 @@
     'consulta_desc' => 'Aqui são listadas todas as consultas cadastradas para o profissional selecionado.',
     'escolha_dentista' => 'Selecione o dentista', 
     'nenhuma_obs' => 'Nenhuma observação foi informada.',
+    'idade' => 'Idade', 
+    'dados_paciente' => 'Dados do Paciente', 
+    'enviar_respostas' => 'Enviar Respostas', 
+    'enviar_anemnese' => 'Enviar formulário de anemnese para o paciente', 
     ];

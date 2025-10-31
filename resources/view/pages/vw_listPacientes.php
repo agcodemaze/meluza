@@ -4,62 +4,60 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 
 $lang = $_SESSION['lang'] ?? 'pt';
 
+use \App\Controller\Pages\EncryptDecrypt; 
+
+$key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
+
 ?>
+
 <style>
-#alternative-page-datatable td {
-    padding-top: 4px;
-    padding-bottom: 4px;
-    vertical-align: middle; 
+    #alternative-page-datatable td {
+        padding-top: 4px;
+        padding-bottom: 4px;
+        vertical-align: middle; 
+        }
+
+    .table td, .table th {
+        white-space: normal;
+        word-break: break-word;
     }
 
+    .action-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        margin: 0 2px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        color: #555;
+        transition: all 0.2s;
+    }
 
-.table td, .table th {
-    white-space: normal;
-    word-break: break-word;
-}
-</style>
+    .action-icon:hover {
+        background-color: #d2d5d6ff;
+        border: 1px solid #aaa7a7ff;
+        color: #000;
+    }
 
+    /* Botão delete */
+    .action-icon i.mdi-delete {
+        color: #f16a6a;
+    }
 
-<!-- CSS personalizado -->
-<style>
-/* Avatar do usuário */
-/* Botões de ação */
-.action-icon {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 28px;
-    height: 28px;
-    margin: 0 2px;
-    border-radius: 6px;
-    border: 1px solid #ccc;
-    color: #555;
-    transition: all 0.2s;
-}
+    /* Tabela responsiva com hover */
+    #alternative-page-datatable tbody tr:hover {
+        background-color: #f9f9f9;
+        cursor: pointer;
+    }
 
-.action-icon:hover {
-    background-color: #d2d5d6ff;
-    border: 1px solid #aaa7a7ff;
-    color: #000;
-}
-
-/* Botão delete */
-.action-icon i.mdi-delete {
-    color: #f16a6a;
-}
-
-/* Tabela responsiva com hover */
-#alternative-page-datatable tbody tr:hover {
-    background-color: #f9f9f9;
-    cursor: pointer;
-}
-
-/* Truncar texto longo */
-.text-truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
+    /* Truncar texto longo */
+    .text-truncate {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 </style>
 
 
@@ -96,6 +94,43 @@ $lang = $_SESSION['lang'] ?? 'pt';
                                             </thead>
                                             <tbody>
                                                 <?php foreach ($listaPacientes as $listaPaciente): ?>
+                                                    <?php
+
+                                                        
+                                                        $anemLink="";
+                                                        if(!empty($listaPaciente["ANR_DCCOD_AUTENTICACAO"])) {
+                                                            $file = $listaPaciente["TENANCY_ID"]."_".$listaPaciente["ANR_DCCOD_AUTENTICACAO"].".pdf";
+                                                            $TENANCY_ID = TENANCY_ID;
+                                                            $result = json_decode($s3->getDownloadLink("anamneses/clinica_$TENANCY_ID/$file"), true);
+                                                            $link = $result['link'] ?? '';
+                                                            $anemLink = "href='{$link}' target='_blank' style='cursor: pointer;'";
+                                                        }
+
+                                                        $idPacienteCrypt = EncryptDecrypt::encrypt_id_token($listaPaciente["PAC_IDPACIENTE"], $key);
+                                                        $idTenancyCrypt = EncryptDecrypt::encrypt_id_token($listaPaciente["TENANCY_ID"], $key);
+
+                                                        $anamneseDispEnv = empty($listaPaciente["ANR_DCCOD_AUTENTICACAO"]) ? true : false;
+
+$pdfUrl = "https://app.smilecopilot.com/anamnese?tid=$idTenancyCrypt&id=$idPacienteCrypt&lang=$lang";
+$telefone = $listaPaciente["PAC_DCTELEFONE"];
+$phoneDigits = preg_replace('/\D+/', '', $telefone);
+$phoneIntl = $phoneDigits; 
+$paciente = $listaPaciente["PAC_DCNOME"];
+$mensagem = "Olá {$paciente}!\n\n"
+           . "Aqui é da *Clínica Sorriso*. Pedimos que, por gentileza, preencha o forumário no link abaixo antes da sua consulta:\n\n"
+           . "{$pdfUrl}\n\n"
+           . "Agradecemos sua colaboração e estamos à disposição!";
+
+$msgEncoded = rawurlencode($mensagem);
+
+$waLink = "https://wa.me/{$phoneIntl}?text={$msgEncoded}";
+
+
+
+
+
+
+                                                    ?>
                                                 <tr style="cursor: pointer;" onclick="if(event.target.closest('td.dtr-control')) return false; window.location='/editarpaciente?id=<?= htmlspecialchars($listaPaciente['PAC_IDPACIENTE']) ?>';">
                                                     <td>
                                                         <div class="avatar-xs d-table">
@@ -111,8 +146,17 @@ $lang = $_SESSION['lang'] ?? 'pt';
                                                     <td>05/08/2025</td>
                                                     <td>  
                                                         <a href="javascript: void(0);" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-clock-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('agendar_consulta'); ?>"></i></a>
-                                                        <a href="javascript: void(0);" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-whatsapp" style="color: #25D366;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('conversar_whatsapp'); ?>"></i></a>
-                                                        <a href="/anamnese" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-clipboard-list-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
+                                                       
+                                                        
+                                                        <?php if ($anamneseDispEnv) : ?>
+                                                        <a href="<?= $waLink  ?>" target="blank" style="cursor: pointer;" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-whatsapp" style="color: #789ef1ff;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('enviar_anemnese'); ?>"></i></a> 
+                                                        <a <?= $anemLink ?> class="action-icon" style="cursor: default; opacity: 0.4;" onclick="event.stopPropagation();"> <i class="mdi mdi-clipboard-list-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
+                                                        <?php endif; ?>
+                                                        <?php if (!$anamneseDispEnv) : ?>
+                                                        <a href="javascript: void(0);" style="cursor: default; opacity: 0.4;" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-whatsapp" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('enviar_anemnese'); ?>"></i></a> 
+                                                        <a <?= $anemLink ?> class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-clipboard-list-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
+                                                        <?php endif; ?>
+
                                                         <a href="javascript:void(0);"  
                                                             class="action-icon"
                                                             data-id="<?= htmlspecialchars((string)$listaPaciente['PAC_IDPACIENTE'], ENT_QUOTES, 'UTF-8') ?>"    

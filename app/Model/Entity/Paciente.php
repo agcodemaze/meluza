@@ -37,7 +37,7 @@ class Paciente extends Conn {
      */
     public function getPacientes($TENANCY_ID) {
         try{           
-            $sql = "SELECT * FROM PAC_PACIENTES WHERE TENANCY_ID = :TENANCY_ID ORDER BY PAC_DCNOME ASC";
+            $sql = "SELECT * FROM VW_PACIENTES WHERE TENANCY_ID = :TENANCY_ID ORDER BY PAC_DCNOME ASC";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
             $stmt->execute();
@@ -54,7 +54,7 @@ class Paciente extends Conn {
             $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
             $stmt->bindParam(":PAC_IDPACIENTE", $PAC_IDPACIENTE);
             $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
             return ["error" => $e->getMessage()];
         } 
@@ -73,22 +73,6 @@ class Paciente extends Conn {
         } 
     }
 
-    public function getAnamnesesRespostaModeloByIdPaciente($TENANCY_ID, $PAC_IDPACIENTE) {
-        try{  
 
-            $sql = " SELECT r.ANR_IDANAMNESE_RESPOSTA, r.ANR_JSON_RESPOSTAS, m.ANM_JSON_MODELO, r.ANR_DCCOD_AUTENTICACAO
-            FROM ANR_ANAMNESE_RESPOSTA r
-            INNER JOIN ANM_ANAMNESE_MODELO m ON (m.ANM_IDANAMNESE_MODELO = r.ANM_IDANAMNESE_MODELO)
-            WHERE r.PAC_IDPACIENTE = :PAC_IDPACIENTE AND r.TENANCY_ID = :TENANCY_ID";
-
-            $stmt = $this->pdo->prepare($sql);
-            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID);
-            $stmt->bindParam(":PAC_IDPACIENTE", $PAC_IDPACIENTE);
-            $stmt->execute();
-            return $stmt->fetch(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            return ["error" => $e->getMessage()];
-        } 
-    }
 
 }

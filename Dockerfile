@@ -15,6 +15,10 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Copia os arquivos do projeto para a pasta do Apache
 COPY . /var/www/html/
 
+# Instala dependências do projeto e AWS SDK
+RUN composer require aws/aws-sdk-php \
+    && composer install || true
+
 # Define diretório de trabalho e instala dependências do projeto (php-jwt, aws-sdk, dompdf etc)
 WORKDIR /var/www/html
 RUN composer install || true

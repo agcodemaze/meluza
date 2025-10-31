@@ -375,7 +375,8 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
         <div class="tab-content">
             <div class="tab-pane show active" id="input-types-preview">
                 <div class="row">
-                   <iframe src="<?= $pdfUrl ?>" width="100%" height="600px"></iframe>
+                    <a href="<?= $pdfUrl ?>" target="_blank">download amneses</a>
+                   
                 </div>
             </div>
         </div>

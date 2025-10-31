@@ -38,6 +38,8 @@ use \App\Controller\Pages\ListPaciente;
 use \App\Controller\Pages\ListConsulta; 
 use \App\Controller\Pages\Login; 
 use \App\Controller\Pages\StreamEvents; 
+use \App\Controller\Pages\S3Controller; 
+use \App\Controller\Pages\EncryptDecrypt; 
 use App\Core\Language;
 
 // Inicia sistema de idiomas
@@ -176,9 +178,69 @@ $obRouter->get('/streamevents', [
     }
 ]);
 
+//ROTA S3 DOWNLOAD
+$obRouter->get('/s3download', [
+    function() {
+
+        $input = json_decode(file_get_contents('php://input'), true);
+        $file = $input['file'] ?? '';
+
+        $controller = new S3Controller();
+        return new Response(200, $controller->getDownloadLink($file));
+    }
+]);
+
+//ROTA S3 UPLOAD
+$obRouter->get('/s3upload', [
+    function() {
+
+        $input = json_decode(file_get_contents('php://input'), true);
+        $file = $input['file'] ?? '';
+
+        $controller = new S3Controller();
+        return new Response(200, $controller->uploadFile($file));
+    }
+]);
+
+//RORA ANAMNESE DIRETA SEM CONTROLLER
+$obRouter->get('/anamnese', function() {
+    $_GET['tid'] = $_GET['tid'] ?? '';
+    $_GET['id']  = $_GET['id'] ?? ''; 
+    $_GET['lang']  = $_GET['lang'] ?? '';
+
+    ob_start();
+    include __DIR__ . '/public/external_vw/anm_anamnese.php';
+    $html = ob_get_clean();
+
+    return new \App\Http\Response(200, $html);
+});
+
+//RORA ANAMNESE PROCESSA INPUT
+$obRouter->post('/anamneseProc', [
+    function() {
+        $data = json_decode(file_get_contents('php://input'), true);
+        $key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
+
+        $paciente_id = $data['paciente_id'] ?? null;
+        $tenancy_id  = $data['tenancy_id'] ?? null;
+        $modelo_id   = $data['modelo_id'] ?? null;
+        $respostas   = $data['respostas'] ?? [];
+
+        //decript ids
+        $tid = EncryptDecrypt::decrypt_id_token($tenancy_id, $key);
+        $id = EncryptDecrypt::decrypt_id_token($paciente_id, $key);
+
+        $controller = new CadAnamnese();
+        return new Response(200, $controller->insertAnamneserespostas($tid, $id, $modelo_id, $respostas));
+    }
+]);
+
+
 //IMPRIME RESPONSE NA PÁGINA
 $obRouter->run()
             ->sendResponse();
+
+
 
 
 

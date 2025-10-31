@@ -30,7 +30,7 @@ class Organization extends Conn {
      * Site da Organização
      * @var string
      */
-    public $site = "https://merluza.com.br";
+    public $site = "https://app.smilecopilot.com";
 
     /**
      * Descricao da Organização

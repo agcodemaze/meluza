@@ -143,24 +143,42 @@ class Router {
      * @return Response
      */
     public function run() {
-        try{            
-            //OBTEM A ROTA ATUAL
+        try {
+            // OBTÉM A ROTA ATUAL
             $route = $this->getRoute();
-
-            //VERIFICA O CONTROLADOR
-            if(!isset($route['controller'])){
-                throw new Exception('A URL não pôde ser processada', 500);
+        
+            // REQUEST ATUAL
+            $request = $this->request;
+        
+            // PEGA A QUERY STRING (ex: ?id=10&acao=ver)
+            $queryParams = $request->getQueryParams(); // método que já deve existir na sua classe Request
+        
+            // SE A ROTA FOR UMA CLOSURE DIRETA (função anônima)
+            if ($route instanceof \Closure) {
+                return call_user_func($route, $request, $queryParams);
             }
-
-            //ARGUMENTOS DA FUNÇÃO
+        
+            // SE A ROTA FOR UM ARRAY COM CLOSURE
+            if (isset($route['controller']) && $route['controller'] instanceof \Closure) {
+                return call_user_func($route['controller'], $request, $queryParams);
+            }
+        
+            // CASO NÃO TENHA CONTROLLER DEFINIDO
+            if (!isset($route['controller'])) {
+                throw new \Exception('A URL não pôde ser processada', 500);
+            }
+        
+            // ARGUMENTOS PADRÃO (se precisar adicionar parâmetros futuros)
             $args = [];
-
-            //RETORNA A EXECUÇÃO DA FUNÇÃO
+        
+            // EXECUTA CONTROLLER PADRÃO
             return call_user_func_array($route['controller'], $args);
-
-        } catch(Exception $e){
+        
+        } catch (\Exception $e) {
             return new Response($e->getCode(), $e->getMessage());
         }
     }
+
+
 
 }

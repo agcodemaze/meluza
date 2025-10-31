@@ -6,6 +6,7 @@ use \App\Utils\View;
 use \App\Utils\Auth;
 use \App\Model\Entity\Organization;
 use \App\Model\Entity\Paciente;
+use \App\Controller\Pages\S3Controller;
 
 class ListPaciente extends Page{
     /**
@@ -20,19 +21,8 @@ class ListPaciente extends Page{
         $objOrganization = new Organization();
         $paciente = new Paciente();
         $listaPacientes = $paciente->getPacientes(TENANCY_ID);
+        $s3 = new S3Controller();
         
-        
-        
-        /*
-        //debug --------
-        echo "<pre>";   
-        print_r($convenios);
-        echo "<pre>"; 
-        exit;
-        //debug --------
-        */
-
-
         /**
          * Comonentes/Scripts que serão carregados na view
          */
@@ -83,7 +73,8 @@ class ListPaciente extends Page{
             'site' => $objOrganization->site,
             'componentsScriptsHeader' => $componentsScriptsHeader,
             'componentsScriptsFooter' => $componentsScriptsFooter,
-            'listaPacientes' => $listaPacientes
+            'listaPacientes' => $listaPacientes,
+            's3' => $s3,
         ]); 
 
         //VIEW DA PAGINA
