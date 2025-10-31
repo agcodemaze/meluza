@@ -235,6 +235,17 @@ $obRouter->post('/anamneseProc', [
     }
 ]);
 
+//RORA ANAMNESE VERIFICAR AUTENTICIDADE
+$obRouter->get('/verificar', function() {
+    $_GET['c'] = $_GET['c'] ?? '';
+
+
+    ob_start();
+    include __DIR__ . '/public/external_vw/anm_verificar.php';
+    $html = ob_get_clean();
+
+    return new \App\Http\Response(200, $html);
+});
 
 //IMPRIME RESPONSE NA PÁGINA
 $obRouter->run()

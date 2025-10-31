@@ -115,8 +115,7 @@ class CadAnamnese extends Page{
 
         // Rodapé com infos da assinatura eletrônica
         $assinaturaData = date('d/m/Y \à\s H:i'); 
-        $codigoAuth = strtoupper(substr(bin2hex(random_bytes(6)),0,12)); 
-        $codigoFormatado = preg_replace('/(.{4})(?!$)/', '$1-', strtoupper($codigoAuth));
+        $codigoFormatado = $pacienteInfo['ANR_DCCOD_AUTENTICACAO'];
         $verificarUrl = 'https://app.smilecopilot.com/verificar?c=' . urlencode($codigoFormatado);
 
         //cabecalho informações
@@ -255,6 +254,13 @@ class CadAnamnese extends Page{
             return json_encode(['error' => $result['error'] ?? 'Erro desconhecido']);
         }
 
+    }
+
+    public static function getAnamneseByCodAuth($ANR_DCCOD_AUTENTICACAO) {
+
+        $anamneseModel = new Anamnese();
+        $check = $anamneseModel->getAnamneseCheckByCodAuth($ANR_DCCOD_AUTENTICACAO);
+        return $check;
     }
 }
 

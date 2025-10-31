@@ -5,6 +5,12 @@ $dataHoraServidor = date('Y-m-d H:i:s'); // hora atual do servidor
 $lang = $_SESSION['lang'] ?? 'pt';
 
 use \App\Controller\Pages\EncryptDecrypt; 
+use \App\Model\Entity\Organization;
+
+$objOrganization = new Organization();
+$configuracoes = $objOrganization->getConfiguracoes(TENANCY_ID);
+
+$nomeClinica = mb_convert_case(mb_strtolower($configuracoes["CFG_DCNOME_CLINICA"]), MB_CASE_TITLE, "UTF-8");
 
 $key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
 
@@ -111,24 +117,20 @@ $key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
 
                                                         $anamneseDispEnv = empty($listaPaciente["ANR_DCCOD_AUTENTICACAO"]) ? true : false;
 
-$pdfUrl = "https://app.smilecopilot.com/anamnese?tid=$idTenancyCrypt&id=$idPacienteCrypt&lang=$lang";
-$telefone = $listaPaciente["PAC_DCTELEFONE"];
-$phoneDigits = preg_replace('/\D+/', '', $telefone);
-$phoneIntl = $phoneDigits; 
-$paciente = $listaPaciente["PAC_DCNOME"];
-$mensagem = "Olá {$paciente}!\n\n"
-           . "Aqui é da *Clínica Sorriso*. Pedimos que, por gentileza, preencha o forumário no link abaixo antes da sua consulta:\n\n"
-           . "{$pdfUrl}\n\n"
-           . "Agradecemos sua colaboração e estamos à disposição!";
+                                                        $pdfUrl = "https://app.smilecopilot.com/anamnese?tid=$idTenancyCrypt&id=$idPacienteCrypt&lang=$lang";
+                                                        $telefone = $listaPaciente["PAC_DCTELEFONE"];
+                                                        $phoneDigits = preg_replace('/\D+/', '', $telefone);
+                                                        $phoneIntl = $phoneDigits; 
+                                                        $paciente = $listaPaciente["PAC_DCNOME"];
+                                                        $mensagem = "*$nomeClinica*\n\n"
+                                                                   ."Olá {$paciente}!\n\n"
+                                                                   . "Pedimos que, por gentileza, preencha o forumário no *link* abaixo antes da sua consulta:\n\n"
+                                                                   . "{$pdfUrl}\n\n"
+                                                                   . "Agradecemos sua colaboração e estamos à disposição!";
 
-$msgEncoded = rawurlencode($mensagem);
+                                                        $msgEncoded = rawurlencode($mensagem);
 
-$waLink = "https://wa.me/{$phoneIntl}?text={$msgEncoded}";
-
-
-
-
-
+                                                        $waLink = "https://wa.me/{$phoneIntl}?text={$msgEncoded}";
 
                                                     ?>
                                                 <tr style="cursor: pointer;" onclick="if(event.target.closest('td.dtr-control')) return false; window.location='/editarpaciente?id=<?= htmlspecialchars($listaPaciente['PAC_IDPACIENTE']) ?>';">

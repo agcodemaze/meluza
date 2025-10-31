@@ -21,6 +21,18 @@ class Anamnese extends Conn {
         } 
     }
 
+    public function getAnamneseCheckByCodAuth($ANR_DCCOD_AUTENTICACAO) {
+        try{           
+            $sql = "SELECT * FROM VW_PACIENTES WHERE ANR_DCCOD_AUTENTICACAO = :ANR_DCCOD_AUTENTICACAO";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":ANR_DCCOD_AUTENTICACAO", $ANR_DCCOD_AUTENTICACAO);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return ["error" => $e->getMessage()];
+        } 
+    }
+
     public function getAnamneseRespostaByPacienteId($TENANCY_ID, $PAC_IDPACIENTE) {
         try{           
             $sql = "SELECT * FROM ANR_ANAMNESE_RESPOSTA WHERE PAC_IDPACIENTE = :PAC_IDPACIENTE AND TENANCY_ID = :TENANCY_ID";
