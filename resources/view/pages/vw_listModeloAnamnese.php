@@ -74,10 +74,15 @@ $key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
             <!-- Seção: Anamnese Médica -->
             <div class="card">
         <div class="card-body">
-            <h4 class="header-title"><?= \App\Core\Language::get('lista_pacientes'); ?></h4> 
-            <p class="text-muted font-14">  
-                <?= \App\Core\Language::get('paciente_desc'); ?>
+            <h4 class="header-title"><?= \App\Core\Language::get('lista_modelo_de_anamnese'); ?></h4>
+            <p class="text-muted font-14">
+                <?= \App\Core\Language::get('lista_modelo_de_anamnese_descricao'); ?>
             </p>
+            <div class="text-end mb-3"> <!-- <== margem inferior adicionada -->
+                <a href="/cadmodeloanamnese" class="btn btn-info">
+                    <?= \App\Core\Language::get('criar_novo_modelo'); ?>
+                </a>
+            </div>
 
             <div class="tab-content">
                 <div class="tab-pane show active" id="input-types-preview">
@@ -90,80 +95,36 @@ $key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
                                             <thead>
                                                 <tr>
                                                     <th></th>
-                                                    <th><?= \App\Core\Language::get('nome_completo'); ?></th>
-                                                    <th><?= \App\Core\Language::get('telefone'); ?></th>
-                                                    <th><?= \App\Core\Language::get('cpfrg'); ?></th>
-                                                    <th><?= \App\Core\Language::get('nome_convenio'); ?></th>
-                                                    <th><?= \App\Core\Language::get('ultima_consulta'); ?></th> 
+                                                    <th><?= \App\Core\Language::get('titulo'); ?></th>
+                                                    <th><?= \App\Core\Language::get('descricao'); ?></th>
+                                                    <th><?= \App\Core\Language::get('criado_em'); ?></th>
+                                                    <th><?= \App\Core\Language::get('status'); ?></th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <?php foreach ($listaPacientes as $listaPaciente): ?>
-                                                    <?php
+                                                <?php foreach ($listaAnamnese as $anamnese): ?>
 
-                                                        
-                                                        $anemLink="";
-                                                        if(!empty($listaPaciente["ANR_DCCOD_AUTENTICACAO"])) {
-                                                            $file = $listaPaciente["TENANCY_ID"]."_".$listaPaciente["ANR_DCCOD_AUTENTICACAO"].".pdf";
-                                                            $TENANCY_ID = TENANCY_ID;
-                                                            $result = json_decode($s3->getDownloadLink("anamneses/clinica_$TENANCY_ID/$file"), true);
-                                                            $link = $result['link'] ?? '';
-                                                            $anemLink = "href='{$link}' target='_blank' style='cursor: pointer;'";
-                                                        }
-
-                                                        $idPacienteCrypt = EncryptDecrypt::encrypt_id_token($listaPaciente["PAC_IDPACIENTE"], $key);
-                                                        $idTenancyCrypt = EncryptDecrypt::encrypt_id_token($listaPaciente["TENANCY_ID"], $key);
-
-                                                        $anamneseDispEnv = empty($listaPaciente["ANR_DCCOD_AUTENTICACAO"]) ? true : false;
-
-                                                        $pdfUrl = "https://app.smilecopilot.com/anamnese?tid=$idTenancyCrypt&id=$idPacienteCrypt&lang=$lang";
-                                                        $telefone = $listaPaciente["PAC_DCTELEFONE"];
-                                                        $phoneDigits = preg_replace('/\D+/', '', $telefone);
-                                                        $phoneIntl = $phoneDigits; 
-                                                        $paciente = $listaPaciente["PAC_DCNOME"];
-                                                        $mensagem = "*$nomeClinica*\n\n"
-                                                                   ."Olá {$paciente}!\n\n"
-                                                                   . "Pedimos que, por gentileza, preencha o forumário no *link* abaixo antes da sua consulta:\n\n"
-                                                                   . "{$pdfUrl}\n\n"
-                                                                   . "Agradecemos sua colaboração e estamos à disposição!";
-
-                                                        $msgEncoded = rawurlencode($mensagem);
-
-                                                        $waLink = "https://wa.me/{$phoneIntl}?text={$msgEncoded}";
-
-                                                    ?>
                                                 <tr style="cursor: pointer;" onclick="if(event.target.closest('td.dtr-control')) return false; window.location='/editarpaciente?id=<?= htmlspecialchars($listaPaciente['PAC_IDPACIENTE']) ?>';">
                                                     <td>
                                                         <div class="avatar-xs d-table">
                                                             <span class="avatar-title bg-info-lighten rounded-circle text-info" style="border: 1px solid #4d55c5ff;">
-                                                                <i class='uil uil-user font-16'></i>
+                                                                <i class='uil-clipboard-notes font-16'></i>
                                                             </span>
                                                         </div>
                                                     </td> 
-                                                    <td class="text-truncate" style="max-width: 250px;"><?= htmlspecialchars(ucwords(strtolower((string)$listaPaciente['PAC_DCNOME'])), ENT_QUOTES, 'UTF-8') ?></td>
-                                                    <td><?= htmlspecialchars(ucwords(strtolower((string)$listaPaciente['PAC_DCTELEFONE'])), ENT_QUOTES, 'UTF-8') ?></td>
-                                                    <td><?= htmlspecialchars(ucwords(strtolower((string)$listaPaciente['PAC_DCCPF'])), ENT_QUOTES, 'UTF-8') ?></td>
-                                                    <td class="text-truncate" style="max-width: 150px;">Sulamérica Odonto</td>
-                                                    <td>05/08/2025</td>
+                                                    <td class="text-truncate" style="max-width: 250px;"><?= htmlspecialchars(ucwords(strtolower((string)$anamnese['ANM_DCTITULO'])), ENT_QUOTES, 'UTF-8') ?></td>
+                                                    <td class="text-truncate" style="max-width: 250px;"><?= htmlspecialchars(ucwords(strtolower((string)$anamnese['ANM_DCDESCRICAO'])), ENT_QUOTES, 'UTF-8') ?></td>
+                                                    <td><?= htmlspecialchars($anamnese['ANM_DTCREATE_AT']) ?></td>
+                                                    <td><?= htmlspecialchars($anamnese['ANM_STSTATUS']) ?></td>
                                                     <td>  
                                                         <a href="javascript: void(0);" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-clock-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('agendar_consulta'); ?>"></i></a>
-                                                       
-                                                        
-                                                        <?php if ($anamneseDispEnv) : ?>
-                                                        <a href="<?= $waLink  ?>" target="blank" style="cursor: pointer;" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-whatsapp" style="color: #789ef1ff;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('enviar_anemnese'); ?>"></i></a> 
-                                                        <a <?= $anemLink ?> class="action-icon" style="cursor: default; opacity: 0.4;" onclick="event.stopPropagation();"> <i class="ri-file-list-3-line" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
-                                                        <?php endif; ?>
-                                                        <?php if (!$anamneseDispEnv) : ?>
-                                                        <a href="javascript: void(0);" style="cursor: default; opacity: 0.4;" class="action-icon" onclick="event.stopPropagation();"> <i class="mdi mdi-whatsapp" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('enviar_anemnese'); ?>"></i></a> 
-                                                        <a <?= $anemLink ?> class="action-icon" onclick="event.stopPropagation();"> <i class="ri-file-list-3-line" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
-                                                        <?php endif; ?>
 
                                                         <a href="javascript:void(0);"  
                                                             class="action-icon"
-                                                            data-id="<?= htmlspecialchars((string)$listaPaciente['PAC_IDPACIENTE'], ENT_QUOTES, 'UTF-8') ?>"    
-                                                            data-dialogTitle="<?= \App\Core\Language::get('lista_pacientes'); ?>"    
-                                                            data-dialogMessage="<?= \App\Core\Language::get('tem_certeza_excluir_paciente'); ?> <?= htmlspecialchars((string)$listaPaciente['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?>?"   
+                                                            data-id="<?= htmlspecialchars((string)$listaPaciente['ANM_IDANAMNESE_MODELO'], ENT_QUOTES, 'UTF-8') ?>"    
+                                                            data-dialogTitle="<?= \App\Core\Language::get('lista_modelo_de_anamnese'); ?>"    
+                                                            data-dialogMessage="<?= \App\Core\Language::get('tem_certeza_excluir_anamnese'); ?> <?= htmlspecialchars((string)$anamnese['ANM_DCTITULO'], ENT_QUOTES, 'UTF-8') ?>?"   
                                                             data-dialogUriToProcess="/deleteTaskProc"   
                                                             data-dialogUriToRedirect="/listapaciente"   
                                                             data-dialogConfirmButton="<?= \App\Core\Language::get('confirmar'); ?>"
@@ -176,7 +137,7 @@ $key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
                                                             data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
                                                             data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
                                                             onclick="event.stopPropagation(); confirmDeleteAttr(this);"> <!-- Chama o método js confirmDeleteAttr com sweetalert -->
-                                                            <i class="mdi mdi-delete" data-bs-toggle="popover" style="color: #f16a6aff;" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_paciente'); ?>"></i>
+                                                            <i class="mdi mdi-delete" data-bs-toggle="popover" style="color: #f16a6aff;" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_anamnese'); ?>"></i>
                                                         </a>
                                                     </td>
                                                 </tr>

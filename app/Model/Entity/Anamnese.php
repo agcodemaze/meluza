@@ -28,6 +28,21 @@ class Anamnese extends Conn {
         } 
     }
 
+    public function getAllAnamneseModel($TENANCY_ID) {
+        try{           
+            $sql = "SELECT * FROM ANM_ANAMNESE_MODELO WHERE TENANCY_ID = :TENANCY_ID";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return json_encode([
+                "success" => false,
+                "message" => "Erro ao consultar dados. Tente novamente."
+            ]);
+        } 
+    }
+
     /**
      * Consulta um paciente com base no código de autenticação da anamnese.
      *
@@ -153,4 +168,82 @@ class Anamnese extends Conn {
             ]);
         } 
     }
+
+
+    /**
+     * Recupera um modelo de anamnese pelo título e TENANCY_ID.
+     *
+     * @param int $TENANCY_ID ID da clínica ou tenant.
+     * @param string $ANM_DCTITULO Título do modelo de anamnese.
+     * @return array|string Retorna um array associativo com os dados do modelo, ou JSON com erro em caso de exceção.
+     */
+    public function getModeloAnamneseModelByTitle($TENANCY_ID, $ANM_DCTITULO) {
+        try{           
+            $sql = "SELECT * FROM ANM_ANAMNESE_MODELO WHERE ANM_DCTITULO = :ANM_DCTITULO AND TENANCY_ID = :TENANCY_ID";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID, PDO::PARAM_INT);
+            $stmt->bindParam(":ANM_DCTITULO", $ANM_DCTITULO, PDO::PARAM_STR);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return json_encode([
+                "success" => false,
+                "message" => "Erro ao consultar dados. Tente novamente."
+            ]);
+        } 
+    }
+    
+    /**
+     * Insere um novo modelo de anamnese no banco de dados.
+     *
+     * Antes de inserir, verifica se já existe um modelo com o mesmo título para o TENANCY_ID informado.
+     *
+     * @param array $ANM_JSON_MODELO Array com a estrutura do modelo de anamnese.
+     * @param string $ANM_DCTITULO Título do modelo.
+     * @param string $ANM_DCIDIOMA Código do idioma do modelo (ex: 'pt').
+     * @param int $TENANCY_ID ID da clínica ou tenant.
+     * @return string JSON com sucesso ou erro da operação.
+     */
+    public function insertModeloAnemnese($ANM_JSON_MODELO, $ANM_DCTITULO, $ANM_DCIDIOMA, $TENANCY_ID) {
+        
+        
+        $jaExisteModeloAnanmese = $this->getModeloAnamneseModelByTitle($TENANCY_ID, $ANM_DCTITULO);
+        if(!empty($jaExisteModeloAnanmese["ANM_IDANAMNESE_MODELO"])) {
+            return json_encode([
+                "success" => false,
+                "message" => "Já existe um modelo de anamnese com este título."
+            ]);
+        }
+        
+    
+        $ANM_STSTATUS = "INATIVO";
+        $ANM_DCDESCRICAO = "Modelo de anamnese criado pelo construtor.";
+        $ANM_JSON_MODELO = json_encode($ANM_JSON_MODELO, JSON_UNESCAPED_UNICODE);
+    
+        try {
+            $sql = "INSERT INTO ANM_ANAMNESE_MODELO (TENANCY_ID, ANM_DCDESCRICAO, ANM_STSTATUS, ANM_JSON_MODELO, ANM_DCTITULO, ANM_DTCREATE_AT, ANM_DTUPDATE_AT, ANM_DCIDIOMA) 
+                    VALUES (:TENANCY_ID, :ANM_DCDESCRICAO, :ANM_STSTATUS, :ANM_JSON_MODELO, :ANM_DCTITULO, NOW(), NOW(), :ANM_DCIDIOMA)";
+    
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID, PDO::PARAM_INT);
+            $stmt->bindParam(":ANM_JSON_MODELO", $ANM_JSON_MODELO, PDO::PARAM_STR);
+            $stmt->bindParam(":ANM_DCTITULO", $ANM_DCTITULO, PDO::PARAM_STR); 
+            $stmt->bindParam(":ANM_DCIDIOMA", $ANM_DCIDIOMA, PDO::PARAM_STR); 
+            $stmt->bindParam(":ANM_STSTATUS", $ANM_STSTATUS, PDO::PARAM_STR);
+            $stmt->bindParam(":ANM_DCDESCRICAO", $ANM_DCDESCRICAO, PDO::PARAM_STR);
+        
+            $stmt->execute();
+        
+            return json_encode([
+                "success" => true,
+                "message" => "Modelo cadastrado com sucesso"
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        } 
+    }
+
 }

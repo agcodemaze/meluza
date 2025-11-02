@@ -318,6 +318,7 @@ if (isset($_GET['profissional_id'])) {
           </a>
           <ul class="dropdown-menu border-0 shadow-sm">
             <li><a class="dropdown-item text-dark" href="#"><i class="ri-computer-line me-1 text-info"></i> Sistema</a></li>
+            <li><a class="dropdown-item text-dark" href="/listmodeloanamnese"><i class="ri-file-list-3-line me-1 text-info"></i> <?= \App\Core\Language::get('modelo_anamnese'); ?>'s</a></li>
           </ul>
         </li>
 
@@ -397,6 +398,7 @@ if (isset($_GET['profissional_id'])) {
             </div>
             <ul class="list-unstyled ps-4 d-flex flex-column gap-1">
               <li><a href="#" class="text-decoration-none text-dark"><i class="ri-computer-line me-1 text-info"></i> Sistema</a></li>
+              <li><a href="/listmodeloanamnese" class="text-decoration-none text-dark"><i class="ri-file-list-3-line me-1 text-info"></i> <?= \App\Core\Language::get('modelo_anamnese'); ?>'s</a></li>
             </ul>
           </li>
 

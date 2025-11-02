@@ -156,7 +156,16 @@
     'insert_anamnese_sucesso' => 'Inseridas no banco de dados as respostas da anamnese do(a) paciente',
     'obrigado_informacoes' => 'Obrigado por compartilhar suas informações.',
     'questionario_ja_respondido' => 'Este questionário já foi respondido.',
-
+    'anamnese' => 'Anamnese', 
+    'modelo_anamnese' => 'Modelos Anamnese', 
+    'titulo' => 'Título', 
+    'descricao' => 'Descrição',
+    'criado_em' => 'Criando em', 
+    'lista_modelo_de_anamnese' => 'Lista de Modelos de Anamnese', 
+    'lista_modelo_de_anamnese_descricao' => 'Nesta seção, você encontra todos os modelos de anamnese cadastrados no sistema. Cada modelo contém perguntas personalizadas que podem ser aplicadas aos pacientes para coleta de informações médicas e odontológicas. Aqui é possível visualizar, editar ou criar novos modelos conforme a necessidade do consultório.', 
+    'criar_novo_modelo' => 'Criar Novo Modelo', 
+    'tem_certeza_excluir_anamnese' => 'Tem certeza que deseja excluir o modelo',
+    'excluir_anamnese' => 'Excluir Anamnese', 
     ];
 
     

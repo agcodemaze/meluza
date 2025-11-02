@@ -40,6 +40,8 @@ use \App\Controller\Pages\Login;
 use \App\Controller\Pages\StreamEvents; 
 use \App\Controller\Pages\S3Controller; 
 use \App\Controller\Pages\EncryptDecrypt; 
+use \App\Controller\Pages\ListModeloAnamnese; 
+use \App\Controller\Pages\CadModeloAnamnese; 
 use App\Core\Language;
 
 // Inicia sistema de idiomas
@@ -80,6 +82,35 @@ $obRouter->get('/editarpaciente',[
 $obRouter->get('/listapaciente',[
     function(){
         return new Response(200,ListPaciente::getPaciente());
+    }
+]);
+
+//ROTA LIST MODELO ANAMNESE
+$obRouter->get('/listmodeloanamnese',[
+    function(){
+        return new Response(200,ListModeloAnamnese::getModeloAnamnese());
+    }
+]);
+
+//ROTA CAD MODELO ANAMNESE
+$obRouter->get('/cadmodeloanamnese',[
+    function(){
+        return new Response(200,CadModeloAnamnese::getModeloAnamnese());
+    }
+]);
+
+//ROTA PROCESSA CAD MODELO ANAMNESE
+$obRouter->post('/cadmodeloanamneseProc', [
+    function() {
+        header('Content-Type: application/json');
+        $dados = json_decode(file_get_contents('php://input'), true);
+
+        $titulo = $dados['titulo'] ?? '';
+        $modelo = $dados['modelo'] ?? null;
+        $idioma = $dados['idioma'] ?? 'pt';
+
+        $controller = new CadModeloAnamnese();
+        return new Response(200, $controller->cadModeloAnemnese($modelo, $titulo, $idioma));
     }
 ]);
 
@@ -202,7 +233,7 @@ $obRouter->get('/s3upload', [
     }
 ]);
 
-//RORA ANAMNESE DIRETA SEM CONTROLLER
+//ROTA ANAMNESE DIRETA SEM CONTROLLER
 $obRouter->get('/anamnese', function() {
     $_GET['tid'] = $_GET['tid'] ?? '';
     $_GET['id']  = $_GET['id'] ?? ''; 
@@ -215,7 +246,7 @@ $obRouter->get('/anamnese', function() {
     return new \App\Http\Response(200, $html);
 });
 
-//RORA ANAMNESE PROCESSA INPUT
+//ROTA ANAMNESE PROCESSA INPUT
 $obRouter->post('/anamneseProc', [
     function() {
         $data = json_decode(file_get_contents('php://input'), true);
