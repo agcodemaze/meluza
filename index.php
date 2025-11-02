@@ -225,6 +225,13 @@ $obRouter->post('/anamneseProc', [
         $tenancy_id  = $data['tenancy_id'] ?? null;
         $modelo_id   = $data['modelo_id'] ?? null;
         $respostas   = $data['respostas'] ?? [];
+        $modelo_id   = $data['modelo_id'] ?? null;
+        $token   = $data['csrf_token'] ?? null;
+
+        if (!hash_equals($_SESSION['csrf_token'] ?? '', $token)) {
+            http_response_code(403);
+            die('Ação não autorizada. Token CSRF inválido.');
+        }
 
         //decript ids
         $tid = EncryptDecrypt::decrypt_id_token($tenancy_id, $key);
@@ -235,13 +242,22 @@ $obRouter->post('/anamneseProc', [
     }
 ]);
 
-//RORA ANAMNESE VERIFICAR AUTENTICIDADE
+//ROTA ANAMNESE VERIFICAR AUTENTICIDADE
 $obRouter->get('/verificar', function() {
     $_GET['c'] = $_GET['c'] ?? '';
 
-
     ob_start();
     include __DIR__ . '/public/external_vw/anm_verificar.php';
+    $html = ob_get_clean();
+
+    return new \App\Http\Response(200, $html);
+});
+
+//ROTA ANAMNESE AGRADECIMENTO
+$obRouter->get('/anamneseFinal', function() {
+    $_GET['target'] = $_GET['target'] ?? '';
+    ob_start();
+    include __DIR__ . '/public/external_vw/anm_anamnese_final.php';
     $html = ob_get_clean();
 
     return new \App\Http\Response(200, $html);

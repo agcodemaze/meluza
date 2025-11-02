@@ -8,11 +8,18 @@ use \App\Model\Entity\Organization;
 use \App\Model\Entity\Anamnese;
 use \App\Model\Entity\Paciente;
 use \App\Controller\Pages\S3Controller;
+use \App\Controller\Pages\LogSistema;
 use Dompdf\Dompdf;
+use App\Core\Language;
 
 class CadAnamnese extends Page{
 
-    //verificar se pode deletar esta funcao
+    /**
+     * Retorna a view da página de Anamnese.
+     * Carrega scripts, estilos e informações da organização.
+     *
+     * @return string HTML renderizado da página
+     */
     public static function getAnamnese () {
 
         Auth::authCheck(); //verifica se já tem login válido (jwt)
@@ -61,6 +68,12 @@ class CadAnamnese extends Page{
         return self::getPage('pages/vw_anamnese', $content);
     }
 
+    /**
+     * Retorna o modelo de Anamnese de uma clínica pelo TENANCY_ID.
+     *
+     * @param int|string $TENANCY_ID Identificador da clínica
+     * @return array Modelo de Anamnese
+     */
     public static function getAnamneseModel ($TENANCY_ID) {
 
         $anamneseModel = new Anamnese();
@@ -68,24 +81,67 @@ class CadAnamnese extends Page{
         return $model;
     }
 
+    /**
+     * Insere as respostas de uma Anamnese e gera o PDF.
+     *
+     * @param int|string $tid Identificador da clínica (TENANCY_ID)
+     * @param int|string $id Identificador do paciente
+     * @param int|string $modelo_id Identificador do modelo de Anamnese
+     * @param array $respostas Array com respostas do paciente
+     * @return string JSON com sucesso e link do PDF ou erro
+     */
     public static function insertAnamneserespostas ($tid, $id, $modelo_id, $respostas) {
+
+        // Inicia sistema de idiomas
+        Language::init();
 
         $anamneseRespostas = new Anamnese();
         $respostas = $anamneseRespostas->insertAnamneseRespostas($tid, $id, $modelo_id, $respostas);
-
+        $pacientesObj = new Paciente();
+        $pacienteInfo = $pacientesObj->getPacientesById($tid, $id); 
+        $objOrganization = new Organization();
+        $clinicaInfo = $objOrganization->getConfiguracoes($tid);
+        
         /**
          * Abaixo verifica se deu erro ao inserir. Caso sim, ele retorna o erro ao frontend
          */
         $returninsert = json_decode($respostas, true);
         if($returninsert['success'] != true){
+
+             //log sistema ----------------------------//
+            LogSistema::insertLog(
+                $clinicaInfo["CFG_DCNOME_CLINICA"], 
+                'ERROR', 
+                Language::get('erro_insert_anamnese_erro').' '.$pacienteInfo['PAC_DCNOME'].' e:'.$returninsert['message']
+            );
+            //----------------------------------------//
+            
             return $respostas;
         }
         
+        //log sistema ----------------------------//
+        LogSistema::insertLog(
+            $clinicaInfo["CFG_DCNOME_CLINICA"], 
+            'INFO', 
+            Language::get('insert_anamnese_sucesso').' '.$pacienteInfo['PAC_DCNOME']
+        );
+        //----------------------------------------//
+
         $pdfResponse = self::createAnamnesePdf($tid,$id);
         return $pdfResponse;
     }
 
+    /**
+     * Gera o PDF da Anamnese respondida pelo paciente.
+     *
+     * @param int|string $tid Identificador da clínica (TENANCY_ID)
+     * @param int|string $id Identificador do paciente
+     * @return string JSON com sucesso e link do PDF ou erro
+     */
     public static function createAnamnesePdf ($tid,$id) {
+
+        // Inicia sistema de idiomas
+        Language::init();
 
         $objOrganization = new Organization();
         $clinicaInfo = $objOrganization->getConfiguracoes($tid);
@@ -249,13 +305,35 @@ class CadAnamnese extends Page{
 
         if (isset($result['success'])) {
             unlink($pdfPath);
+
+            //log sistema ----------------------------//
+            LogSistema::insertLog(
+                $clinicaInfo["CFG_DCNOME_CLINICA"], 
+                'INFO', 
+                Language::get('nova_anamnese_respondida_criado_pdf').' '.$pacienteInfo['PAC_DCNOME']
+            );
+            //----------------------------------------//
+
             return json_encode(['success' => true, 'link' => $result['link']]);
         } else {
+            //log sistema ----------------------------//
+            LogSistema::insertLog(
+                $clinicaInfo["CFG_DCNOME_CLINICA"], 
+                'ERROR', 
+                Language::get('erro_cadastro_anamnese_criado_pdf').' '.$pacienteInfo['PAC_DCNOME'].' err: '.$result['error']
+            );
+            //----------------------------------------//
             return json_encode(['error' => $result['error'] ?? 'Erro desconhecido']);
         }
 
     }
 
+    /**
+     * Retorna uma Anamnese pelo código de autenticação.
+     *
+     * @param string $ANR_DCCOD_AUTENTICACAO Código de autenticação da Anamnese
+     * @return array Dados da Anamnese ou vazio se não encontrado
+     */
     public static function getAnamneseByCodAuth($ANR_DCCOD_AUTENTICACAO) {
 
         $anamneseModel = new Anamnese();

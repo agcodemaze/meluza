@@ -38,7 +38,7 @@ class Language {
         }
 
         // Define constante global
-        define('APP_LANG', $lang);
+       // define('APP_LANG', $lang);
     }
 
     public static function get($key) {

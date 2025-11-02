@@ -56,7 +56,7 @@ class S3Controller
     public function getDownloadLink(string $key)
     {
         try {
-            $link = $this->s3->getPresignedUrl($key, '+30 minutes');
+            $link = $this->s3->getPresignedUrl($key, '+5 days');
             return json_encode(['success' => true, 'link' => $link]);
         } catch (\Exception $e) {
             return json_encode(['error' => $e->getMessage()]);

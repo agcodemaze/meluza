@@ -1,74 +1,17 @@
 <?php
-header('X-Frame-Options: DENY');
-header('X-Content-Type-Options: nosniff');
-header('Referrer-Policy: strict-origin-when-cross-origin');
-header("Content-Security-Policy: default-src 'self' https:; script-src 'self' 'unsafe-inline' https:; style-src 'self' 'unsafe-inline' https:; img-src 'self' data: https:;");
+  require_once __DIR__ . '/../../vendor/autoload.php';
+  $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../'); 
+  $dotenv->safeLoad();
 
-require_once __DIR__ . '/../../vendor/autoload.php';
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../'); 
-$dotenv->safeLoad();
+  use App\Core\Language;
+  Language::init();
 
-use \App\Model\Entity\Conn;
-use \App\Controller\Pages\CadAnamnese; 
-use \App\Utils\Push; 
-use \App\Controller\Pages\EncryptDecrypt; 
-use \App\Model\Entity\Paciente;
-use \App\Model\Entity\Organization;
-use \App\Model\Entity\Anamnese;
-
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
+if($_GET['target'] == "agradecimento") {
+  $msg = Language::get('obrigado_informacoes'); 
 }
-if (empty($_SESSION['csrf_token'])) { //protecao CSRF
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+if($_GET['target'] == "jarespondida") {
+  $msg = Language::get('questionario_ja_respondido'); 
 }
-
-$key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
-
-$con = new Conn();
-$pacientesObj = new Paciente();
-$objOrganization = new Organization();
-$AnamneseObj = new Anamnese();
-
-  if (!isset($_GET['id']) || !isset($_GET['tid'])) {
-    header('Content-Type: application/json; charset=utf-8');
-    http_response_code(403); 
-    echo json_encode([
-        'status' => 'error',
-        'code' => 403,
-        'message' => 'Requisição inválida.'
-    ]);
-    exit;
-  }
-
-  $lang = $_GET['lang'] ?? 'pt';
-
-  //decript ids
-  $tid = EncryptDecrypt::decrypt_id_token($_GET['tid'], $key);
-  $id = EncryptDecrypt::decrypt_id_token($_GET['id'], $key);
-
-  $jaExisteAnanmese = $AnamneseObj->getAnamneseRespostaByPacienteId($tid, $id);
-  if(!empty($jaExisteAnanmese["ANR_IDANAMNESE_RESPOSTA"])) {
-    header("Location: /anamneseFinal?target=jarespondida");
-    exit;
-  }
-
-
-  
-  $pacienteInfo = $pacientesObj->getPacientesById($tid, $id);
-  $AnmModel = \App\Controller\Pages\CadAnamnese::getAnamneseModel($tid);
-  $configuracoes = $objOrganization->getConfiguracoes($tid);
-
-  empty($AnmModel) ? die() : null;
-
-  $formData = json_decode($AnmModel["ANM_JSON_MODELO"], true);
-
-  $email = $pacienteInfo["PAC_DCEMAIL"] ?? '';
-  if ($email) {
-      [$user, $domain] = explode('@', $email);
-      $mascarado = substr($user, 0, 3) . str_repeat('*', max(0, strlen($user) - 3)) . '@' . $domain;
-  }
-
 ?>
 
 
@@ -398,108 +341,17 @@ $AnamneseObj = new Anamnese();
 
       <!-- Dados do Paciente -->
       <section class="patient-info card shadow-sm border-0 mb-4">
-        <h4 style="
-            font-family:'Poppins',sans-serif;
-            font-weight:600;
-            color:#1e88e5;
-            border-bottom:3px solid #5eacf0ff;
-            display:inline-block;
-            padding:6px 20px 6px 20px; /* topo, direita, baixo, esquerda */
-            margin:0 15px 1rem 15px; /* espaçamento lateral + inferior */
-            text-align:center;
-          ">
-          <i class="mdi mdi-hospital-building me-1"></i> <?= mb_convert_case(mb_strtolower($configuracoes["CFG_DCNOME_CLINICA"]), MB_CASE_TITLE, "UTF-8") ?>
-        </h4>
         <div class="card-body">
-          <h4 class="section-title mb-3">
-            <i class="mdi mdi-account-circle-outline me-1"></i> <?= \App\Core\Language::get('dados_paciente'); ?> 
-          </h4>
           <div class="row gy-3 gx-4">
-            <div class="col-md-6 col-lg-4"><p><strong><?= \App\Core\Language::get('nome_completo'); ?>:</strong><br><span><?= $pacienteInfo["PAC_DCNOME"] ?></span></p></div>
-            <div class="col-md-6 col-lg-4"><p><strong><?= \App\Core\Language::get('idade'); ?>:</strong><br><span><?= $pacienteInfo["PAC_IDADE"] ?> <?= \App\Core\Language::get('anos'); ?></span></p></div>
-            <div class="col-md-6 col-lg-4"><p><strong><?= \App\Core\Language::get('plano_saude_odonto'); ?>:</strong><br><span><?= $pacienteInfo["CNV_DCCONVENIO"] ?></span></p></div>
-            <div class="col-md-6 col-lg-4"><p><strong><?= \App\Core\Language::get('email'); ?>:</strong><br><span><?= $mascarado ?></span></p></div>
-            <div class="col-md-6 col-lg-4"><p><strong><?= \App\Core\Language::get('cpfrg'); ?>:</strong><br><span><?= substr($pacienteInfo["PAC_DCCPF"], 0, 3) . '***.***-**' ?></span></p></div>
-            <div class="col-md-6 col-lg-4"><p><strong><?= \App\Core\Language::get('telefone'); ?>:</strong><br><span><?= $pacienteInfo["PAC_DCTELEFONE"] ?></span></p></div>
+            <div class="col-md-6 col-lg-4"><p><strong><?= $msg ?></strong></div>
           </div>
         </div>
       </section>
-
-      <!-- Formulário -->
-      <form id="questionarioForm">
-        <?php foreach ($formData['secoes'] as $secao): ?>
-          <section class="secao mb-4 p-4 rounded shadow-sm">
-            <div class="section-header mb-3">
-              <div class="bar"></div>
-              <h5 class="fw-semibold mb-1 text-primary"><?php echo htmlspecialchars($secao['titulo']); ?></h5>
-              <p class="text-muted small mb-0"><?php echo htmlspecialchars($secao['descricao']); ?></p>
-            </div>
-        
-            <?php foreach ($secao['perguntas'] as $pergunta): ?>
-              <div class="mb-3 pergunta">
-                <label class="form-label fw-semibold mb-1">
-                  <?php echo htmlspecialchars($pergunta['pergunta']); ?>
-                  <?php if (!empty($pergunta['obrigatorio'])) echo ' <span class="text-danger">*</span>'; ?>
-                </label>
-
-                <?php if ($pergunta['tipo'] === 'text'): ?>
-                  <input type="text" 
-                        class="form-control"
-                        name="<?php echo htmlspecialchars($pergunta['id']); ?>" 
-                        placeholder="Digite aqui"
-                        <?php if (!empty($pergunta['obrigatorio'])) echo 'required'; ?>>
-
-                <?php elseif ($pergunta['tipo'] === 'textarea'): ?>
-                  <textarea name="<?php echo htmlspecialchars($pergunta['id']); ?>" 
-                            class="form-control"
-                            rows="3"
-                            placeholder="Digite aqui..."
-                            <?php if (!empty($pergunta['obrigatorio'])) echo 'required'; ?>></textarea>
-
-                <?php elseif ($pergunta['tipo'] === 'radio'): ?>
-                  <div class="mt-1">
-                    <?php foreach ($pergunta['opcoes'] as $opcao): ?>
-                      <div class="form-check form-check-inline">
-                        <input type="radio" 
-                              class="form-check-input"
-                              name="<?php echo htmlspecialchars($pergunta['id']); ?>" 
-                              value="<?php echo htmlspecialchars($opcao); ?>"
-                              <?php if (!empty($pergunta['obrigatorio'])) echo 'required'; ?>>
-                        <label class="form-check-label"><?php echo htmlspecialchars($opcao); ?></label>
-                      </div>
-                    <?php endforeach; ?>
-                  </div>
-                <?php endif; ?>
-              </div>
-            <?php endforeach; ?>
-          </section>
-        <?php endforeach; ?>
-
-        <button type="submit" 
-                id="btnEnviar" 
-                style="
-                  display: block;
-                  margin: 2rem auto 2rem auto; /* espaçamento acima e abaixo */
-                  padding: 10px 24px;
-                  min-width: 160px;
-                  background-color: #1e88e5;
-                  color: #fff;
-                  border: none;
-                  border-radius: 6px;
-                  font-weight: 600;
-                  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-                  cursor: pointer;
-                  transition: background 0.3s;
-                "
-                onmouseover="this.style.background='#5eacf0ff'"
-                onmouseout="this.style.background='#1e88e5'">
-          <?= \App\Core\Language::get('enviar_respostas'); ?>
-        </button>
-      </form>
     </main>
   </div>
 </div>
 
+<!-- Estilo aprimorado -->
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap');
 
@@ -597,85 +449,6 @@ $AnamneseObj = new Anamnese();
     }
   }
 </style>
-
-<script>
-  document.getElementById('questionarioForm').addEventListener('submit', async function(event) {
-      event.preventDefault(); 
-
-      const form = event.target;
-      const inputs = form.querySelectorAll('input, textarea');
-      const respostas = {}; 
-
-      // Monta o JSON das respostas
-      inputs.forEach(el => {
-          if (el.type === 'radio') {
-              if (el.checked) respostas[el.name] = el.value;
-              else if (!respostas[el.name]) respostas[el.name] = '';
-          } else {
-              respostas[el.name] = el.value.trim();
-          }
-      });
-
-      const paciente_id = "<?php echo $_GET['id']; ?>";
-      const tenancy_id = "<?php echo $_GET['tid']; ?>";
-      const modelo_id = "<?php echo $AnmModel["ANM_IDANAMNESE_MODELO"]; ?>";
-      const csrf_token = "<?= htmlspecialchars($_SESSION['csrf_token']) ?>";
-
-      const payload = {
-          paciente_id,
-          tenancy_id,
-          modelo_id,
-          respostas,
-          csrf_token
-      };
-
-      const { isConfirmed } = await Swal.fire({
-          title: '<?= \App\Core\Language::get('confirma_envio'); ?>', 
-          text: "<?= \App\Core\Language::get('deseja_enviar_formulario'); ?>",
-          icon: 'question',
-          showCancelButton: true,
-          confirmButtonText: '<?= \App\Core\Language::get('sim_enviar'); ?>', 
-          cancelButtonText: '<?= \App\Core\Language::get('cancelar'); ?>'
-      });
-
-      if (!isConfirmed) return;
-
-      try {
-          const resposta = await fetch('/anamneseProc?lang=<?= $lang ?>', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(payload)
-          });
-
-          const resultado = await resposta.json(); 
-
-          if (resultado.success) {
-              Swal.fire({
-                  icon: 'success',
-                  title: '<?= \App\Core\Language::get('enviado!'); ?>',
-                  text: resultado.message || '<?= \App\Core\Language::get('formulario_enviado_sucesso'); ?>',
-                  confirmButtonText: 'OK'
-              }).then(() => {
-                  window.location.href = '/anamneseFinal?target=agradecimento';
-              });
-          } else {
-              Swal.fire({
-                  icon: 'error',
-                  title: '<?= \App\Core\Language::get('erro!'); ?>',
-                  text: resultado.message || '<?= \App\Core\Language::get('ocorreu_erro_envio_formulario'); ?>'
-              });
-          }
-      } catch (erro) {
-          console.error('<?= \App\Core\Language::get('erro_envio_formulario_detalhes'); ?>', erro);
-          Swal.fire({
-              icon: 'error',
-              title: '<?= \App\Core\Language::get('erro!'); ?>',
-              text: '<?= \App\Core\Language::get('instabilidade_servidor'); ?>'
-          });
-      }
-  });
-</script>
-
 
 </body>
 </html>

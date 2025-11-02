@@ -118,8 +118,6 @@
     'enviar' => 'Enviar', 
     'nenhuma_mensagem' => 'Nenhuma mensagem cadastrada.', 
     'msg_para_whatsapp' => 'Mensagens para Whatsapp', 
-
-    //------------- CONTINUA DAQUI PARA TRADUZIR DEMAIS IDIOMAS 
     'adicionar_paciente' => 'Clique aqui para cadastrar um novo paciente.',
     'procurar_campo' => 'Procurar',
     'procurar_placeholder' => 'Procurar...',
@@ -139,4 +137,26 @@
     'dados_paciente' => 'Dados do Paciente', 
     'enviar_respostas' => 'Enviar Respostas', 
     'enviar_anemnese' => 'Enviar formulário de anemnese para o paciente', 
+    'confirma_envio' => 'Confirma envio?', 
+    'deseja_enviar_formulario' => 'Deseja enviar o formulario?', 
+    'sim_enviar' => 'Sim, enviar',
+    'formulario_enviado_sucesso' => 'Formulario enviado com sucesso!', 
+    'ocorreu_erro_envio_formulario' => 'Ocorreu um erro ao enviar o formulário.', 
+    'erro_envio_formulario_detalhes' => 'Erro ao enviar formulário:',
+    'instabilidade_servidor' => 'Houve uma instabilidade de comunicação com o servidor.', 
+    'erro!' => 'Erro!',
+    'enviado!' => 'Enviado!',
+    'anos' => 'anos', 
+    'nova_anamnese_respondida_criado_pdf' => 'Uma nova anamnese foi respondida pelo(a) paciente e criado o pdf',
+
+    //------------- CONTINUA DAQUI PARA TRADUZIR DEMAIS IDIOMAS 
+
+    'erro_cadastro_anamnese_criado_pdf' => 'Houve um erro ao criar o pdf de anamnese do(a) paciente', 
+    'erro_insert_anamnese_erro' => 'Houve um erro ao inserir no banco de dados as respostas da anamnese do(a) paciente',
+    'insert_anamnese_sucesso' => 'Inseridas no banco de dados as respostas da anamnese do(a) paciente',
+    'obrigado_informacoes' => 'Obrigado por compartilhar suas informações.',
+    'questionario_ja_respondido' => 'Este questionário já foi respondido.',
+
     ];
+
+    
