@@ -4,6 +4,7 @@ namespace App\Model\Entity;
 use \App\Model\Entity\Conn;
 use PDO;
 use PDOException;
+use \App\Controller\Pages\LogSistema;
 
 class Anamnese extends Conn { 
 
@@ -30,7 +31,7 @@ class Anamnese extends Conn {
 
     public function getAllAnamneseModel($TENANCY_ID) {
         try{           
-            $sql = "SELECT * FROM ANM_ANAMNESE_MODELO WHERE TENANCY_ID = :TENANCY_ID";
+            $sql = "SELECT * FROM ANM_ANAMNESE_MODELO WHERE (DELETADO != '1' OR DELETADO IS NULL) AND TENANCY_ID = :TENANCY_ID";
             $stmt = $this->pdo->prepare($sql);
             $stmt->bindParam(":TENANCY_ID", $TENANCY_ID, PDO::PARAM_INT);
             $stmt->execute();
@@ -169,7 +170,6 @@ class Anamnese extends Conn {
         } 
     }
 
-
     /**
      * Recupera um modelo de anamnese pelo título e TENANCY_ID.
      *
@@ -219,6 +219,7 @@ class Anamnese extends Conn {
         $ANM_STSTATUS = "INATIVO";
         $ANM_DCDESCRICAO = "Modelo de anamnese criado pelo construtor.";
         $ANM_JSON_MODELO = json_encode($ANM_JSON_MODELO, JSON_UNESCAPED_UNICODE);
+        $ANM_DCTITULO = ucwords(strtolower($ANM_DCTITULO));
     
         try {
             $sql = "INSERT INTO ANM_ANAMNESE_MODELO (TENANCY_ID, ANM_DCDESCRICAO, ANM_STSTATUS, ANM_JSON_MODELO, ANM_DCTITULO, ANM_DTCREATE_AT, ANM_DTUPDATE_AT, ANM_DCIDIOMA) 
@@ -245,5 +246,121 @@ class Anamnese extends Conn {
             ]);
         } 
     }
+
+    /**
+     * Recupera um modelo de anamnese pelo id e TENANCY_ID.
+     *
+     * @param int $TENANCY_ID ID da clínica ou tenant.
+     * @param int $ANM_IDANAMNESE_MODELO Título do modelo de anamnese.
+     * @return array|string Retorna um array associativo com os dados do modelo, ou JSON com erro em caso de exceção.
+     */
+    public function getModeloAnamneseModelById($TENANCY_ID, $ANM_IDANAMNESE_MODELO) {
+        try{           
+            $sql = "SELECT * FROM ANM_ANAMNESE_MODELO WHERE ANM_IDANAMNESE_MODELO = :ANM_IDANAMNESE_MODELO AND TENANCY_ID = :TENANCY_ID";
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID, PDO::PARAM_INT);
+            $stmt->bindParam(":ANM_IDANAMNESE_MODELO", $ANM_IDANAMNESE_MODELO, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            return json_encode([
+                "success" => false,
+                "message" => "Erro ao consultar dados. Tente novamente."
+            ]);
+        } 
+    }
+
+    /**
+     * update de modelo de anamnese no banco de dados.
+     *
+     * Antes de atualizar, verifica se já existe um modelo com o mesmo título para o TENANCY_ID informado.
+     *
+     * @param array $ANM_JSON_MODELO Array com a estrutura do modelo de anamnese.
+     * @param string $ANM_DCTITULO Título do modelo.
+     * @param string $ANM_DCIDIOMA Código do idioma do modelo (ex: 'pt').
+     * @param int $TENANCY_ID ID da clínica ou tenant.
+     * @return string JSON com sucesso ou erro da operação.
+     */
+    public function updateModeloAnamneseById($ANM_IDANAMNESE_MODELO, $ANM_JSON_MODELO, $ANM_DCTITULO, $ANM_DCIDIOMA, $TENANCY_ID) {
+
+        // Normaliza o título
+        $ANM_DCTITULO = ucwords(strtolower(trim($ANM_DCTITULO)));
+        $ANM_DCDESCRICAO = "Modelo de anamnese criado pelo construtor.";
+        $ANM_JSON_MODELO = json_encode($ANM_JSON_MODELO, JSON_UNESCAPED_UNICODE);
+
+        try {
+            $sql = "UPDATE ANM_ANAMNESE_MODELO
+                    SET ANM_JSON_MODELO = :ANM_JSON_MODELO,
+                        ANM_DCTITULO = :ANM_DCTITULO,
+                        ANM_DCDESCRICAO = :ANM_DCDESCRICAO,
+                        ANM_DCIDIOMA = :ANM_DCIDIOMA,
+                        ANM_DTUPDATE_AT = NOW()
+                    WHERE ANM_IDANAMNESE_MODELO = :ANM_IDANAMNESE_MODELO
+                      AND TENANCY_ID = :TENANCY_ID";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":ANM_JSON_MODELO", $ANM_JSON_MODELO, PDO::PARAM_STR);
+            $stmt->bindParam(":ANM_DCTITULO", $ANM_DCTITULO, PDO::PARAM_STR);
+            $stmt->bindParam(":ANM_DCDESCRICAO", $ANM_DCDESCRICAO, PDO::PARAM_STR);
+            $stmt->bindParam(":ANM_DCIDIOMA", $ANM_DCIDIOMA, PDO::PARAM_STR);
+            $stmt->bindParam(":ANM_IDANAMNESE_MODELO", $ANM_IDANAMNESE_MODELO, PDO::PARAM_INT);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return json_encode([
+                "success" => true,
+                "message" => "Modelo atualizado com sucesso."
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+
+    /**
+     * Realiza a exclusão lógica (soft delete) de um modelo de anamnese.
+     * 
+     * Esta função atualiza o registro na tabela ANM_ANAMNESE_MODELO definindo a coluna
+     * DELETADO como '1' e atualizando a data de atualização (ANM_DTUPDATE_AT) para o momento atual.
+     * Não remove fisicamente o registro do banco de dados.
+     *
+     * @param int $ANM_IDANAMNESE_MODELO ID do modelo de anamnese que será deletado.
+     * @param int $TENANCY_ID ID da tenancy/organização para validar a permissão do registro.
+     * 
+     * @return string JSON contendo o resultado da operação:
+     *                - success (bool): true se o registro foi marcado como deletado, false caso contrário.
+     *                - message (string): mensagem informativa sobre o resultado.
+     */
+    public function deleteModeloAnamneseById($ANM_IDANAMNESE_MODELO, $TENANCY_ID) {
+        try {
+            $sql = "UPDATE ANM_ANAMNESE_MODELO
+                    SET DELETADO = '1',
+                        ANM_DTUPDATE_AT = NOW()
+                    WHERE ANM_IDANAMNESE_MODELO = :ANM_IDANAMNESE_MODELO
+                      AND TENANCY_ID = :TENANCY_ID";
+
+            $stmt = $this->pdo->prepare($sql);
+            $stmt->bindParam(":ANM_IDANAMNESE_MODELO", $ANM_IDANAMNESE_MODELO, PDO::PARAM_INT);
+            $stmt->bindParam(":TENANCY_ID", $TENANCY_ID, PDO::PARAM_INT);
+
+            $stmt->execute();
+
+            return json_encode([
+                "success" => true,
+                "message" => "Modelo deletado com sucesso."
+            ]);
+        } catch (PDOException $e) {
+            return json_encode([
+                "success" => false,
+                "message" => $e->getMessage()
+            ]);
+        }
+    }
+
+
+
 
 }

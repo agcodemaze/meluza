@@ -49,23 +49,35 @@ $key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
                                         <div class="row">
                                             <div class="col-md-3">
                                             <h5>Tipos de Campo</h5>
-                                            <div id="field-types" class="d-flex flex-column gap-2">
-                                                <button class="btn btn-outline-info" data-type="text">Campo de Texto</button>
-                                                <button class="btn btn-outline-info" data-type="textarea">Área de Texto</button>
-                                                <button class="btn btn-outline-info" data-type="radio">Uma Escolha</button>
-                                                <button class="btn btn-outline-info" data-type="checkbox">Múltipla escolha</button>
+                                            <div id="field-types" class="d-flex flex-column gap-2" style="max-width: 280px;">
+                                              <button class="btn btn-info text-white w-100 d-flex align-items-center justify-content-center" data-type="text">
+                                                <i class="ri-text me-2"></i> Campo de Texto
+                                              </button>
+
+                                              <button class="btn btn-info text-white w-100 d-flex align-items-center justify-content-center" data-type="textarea">
+                                                <i class="ri-file-text-line me-2"></i> Área de Texto
+                                              </button>
+
+                                              <button class="btn btn-info text-white w-100 d-flex align-items-center justify-content-center" data-type="radio">
+                                                <i class="ri-list-radio me-2"></i> Múltiplas Opções
+                                              </button>
                                             </div>
                                             </div>
                                             <div class="col-md-9">
                                             <h5>Monte seu Modelo de Anamnese</h5>
                                             <div id="builder" class="builder-area"></div>
-                                            <button id="exportar" class="btn btn-success mt-3">Salvar</button>
+                                            <div class="d-flex justify-content-between mt-3">
+                                              <button type="button" class="btn btn-secondary" onclick="history.back()">
+                                                <i class="bi bi-arrow-left"></i> Voltar
+                                              </button>
+
+                                              <button id="exportar" class="btn btn-info">
+                                                <i class="bi bi-save"></i> Salvar Modelo
+                                              </button>
+                                            </div>
                                             
                                             </div>
                                         </div>
-
-
-
                                     </div> <!-- end row -->
                                 </div> <!-- end card body-->
                             </div> <!-- end card -->
@@ -85,6 +97,13 @@ $key = $_ENV['ENV_SECRET_KEY'] ?? getenv('ENV_SECRET_KEY') ?? '';
 <script>
 const builder = document.getElementById("builder");
 
+// 🗂️ Tradução dos tipos para nomes amigáveis
+const tipoLabels = {
+  text: "CAIXA DE TEXTO",
+  textarea: "CAIXA DE TEXTO LONGA",
+  radio: "MULTIPLAS OPÇÕES"
+};
+
 // Função que gera um ID limpo a partir da pergunta
 function gerarId(pergunta) {
   return pergunta
@@ -98,12 +117,13 @@ function gerarId(pergunta) {
 
 // Adiciona um novo campo
 function addField(tipo, dados = {}) {
+  const labelTipo = tipoLabels[tipo] || tipo; 
   const div = document.createElement("div");
   div.className = "field-item";
   div.innerHTML = `
     <div class="d-flex justify-content-between align-items-center">
-      <strong>${tipo.toUpperCase()}</strong>
-      <button class="btn btn-sm btn-danger remove">X</button>
+      <strong>${labelTipo}</strong>
+      <button class="btn btn-sm btn-secondary remove">X</button>
     </div>
     <div class="mt-2">
       <label>Pergunta:</label>
@@ -111,7 +131,7 @@ function addField(tipo, dados = {}) {
       <div class="id-preview"></div>
     </div>
     <div class="mt-2">
-      <label><input type="checkbox" class="obrigatorio" ${dados.obrigatorio ? 'checked' : ''}> Marque se o campo for de preenchimento obrigatório.</label>
+      <label><input type="checkbox" class="obrigatorio" ${dados.obrigatorio ? 'checked' : ''}> Obrigatório.</label>
     </div>
     <div class="mt-2 tipo-extra"></div>
     <input type="hidden" class="tipo" value="${tipo}">
@@ -119,7 +139,7 @@ function addField(tipo, dados = {}) {
   `;
 
   const extra = div.querySelector(".tipo-extra");
-  if (tipo === "radio" || tipo === "checkbox") {
+  if (tipo === "radio" || tipo === "checkbox" || tipo === "select") {
     extra.innerHTML = `
       <label>Opções (separadas por vírgula):</label>
       <input type="text" class="form-control opcoes" value="${(dados.opcoes || []).join(', ')}">
@@ -190,10 +210,8 @@ document.getElementById("exportar").addEventListener("click", async () => {
   };
 
   const idioma = "<?= $lang ?>";
-    // Monta objeto a enviar
   const payload = { titulo, modelo, idioma };
 
-  // Mostra loading
   Swal.fire({
     title: 'Salvando...',
     allowOutsideClick: false,
@@ -206,10 +224,14 @@ document.getElementById("exportar").addEventListener("click", async () => {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+
     const result = await response.json();
 
     if (result.success) {
-      Swal.fire('Sucesso', 'Modelo de anamnese salvo com sucesso!', 'success');      
+      Swal.fire('Sucesso', 'Modelo de anamnese salvo com sucesso!', 'success').then(() => {
+          window.location.href = '/listmodeloanamnese';
+        });
+      
     } else {
       Swal.fire('Erro', result.message || 'Ocorreu um erro ao salvar.', 'error');
     }
@@ -219,5 +241,4 @@ document.getElementById("exportar").addEventListener("click", async () => {
   }
 });
 </script>
-
 

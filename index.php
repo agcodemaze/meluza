@@ -42,6 +42,7 @@ use \App\Controller\Pages\S3Controller;
 use \App\Controller\Pages\EncryptDecrypt; 
 use \App\Controller\Pages\ListModeloAnamnese; 
 use \App\Controller\Pages\CadModeloAnamnese; 
+use \App\Controller\Pages\EditModeloAnamnese; 
 use App\Core\Language;
 
 // Inicia sistema de idiomas
@@ -99,7 +100,7 @@ $obRouter->get('/cadmodeloanamnese',[
     }
 ]);
 
-//ROTA PROCESSA CAD MODELO ANAMNESE
+//ROTA PROCESSA INSERT MODELO ANAMNESE
 $obRouter->post('/cadmodeloanamneseProc', [
     function() {
         header('Content-Type: application/json');
@@ -111,6 +112,39 @@ $obRouter->post('/cadmodeloanamneseProc', [
 
         $controller = new CadModeloAnamnese();
         return new Response(200, $controller->cadModeloAnemnese($modelo, $titulo, $idioma));
+    }
+]);
+
+//ROTA PROCESSA UPDATE MODELO ANAMNESE
+$obRouter->post('/updatemodeloanamneseProc', [
+    function() {
+        header('Content-Type: application/json');
+        $dados = json_decode(file_get_contents('php://input'), true);
+
+        $titulo = $dados['titulo'] ?? '';
+        $modelo = $dados['modelo'] ?? null;
+        $idioma = $dados['idioma'] ?? 'pt';
+        $id = $dados['id'] ?? '';
+
+        $controller = new EditModeloAnamnese();
+        return new Response(200, $controller->updateModeloAnemnese($modelo, $titulo, $idioma, $id));
+    }
+]);
+
+//ROTA DELETE MODELO ANAMNESE
+$obRouter->post('/deletemodeloanamnese',[
+    function(){
+        header('Content-Type: application/json');
+        $id = $_POST['id'];
+        return new Response(200,EditModeloAnamnese::deleteModeloAnemnese($id));
+    }
+]);
+
+//ROTA UPDATE MODELO ANAMNESE
+$obRouter->get('/editmodeloanamnese',[
+    function(){
+        $id = $_GET['id'] ?? null; 
+        return new Response(200,EditModeloAnamnese::getModeloAnamnese($id));
     }
 ]);
 
