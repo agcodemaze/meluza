@@ -8,6 +8,7 @@ use \App\Model\Entity\Organization;
 use \App\Model\Entity\Consultas;
 use \App\Model\Entity\Whatsapp;
 use \App\Model\Entity\Eventos;
+use \App\Controller\Pages\S3Controller;
 
 class ListConsulta extends Page{
     /**
@@ -45,6 +46,7 @@ class ListConsulta extends Page{
         $objOrganization = new Organization();
         $objWhatsapp = new Whatsapp();
         $consulta = new Consultas();
+        $s3 = new S3Controller();
         $listaConsultas = $consulta->getConsultasByProfissional(TENANCY_ID, $_SESSION['PROFISSIONAL_ID']);
         $getModeloMsgsWhatsapp = $objWhatsapp->getModelosMsgWhatsapp(TENANCY_ID); 
         
@@ -114,7 +116,8 @@ class ListConsulta extends Page{
             'componentsScriptsHeader' => $componentsScriptsHeader,
             'componentsScriptsFooter' => $componentsScriptsFooter,
             'listaConsultas' => $listaConsultas, 
-            'modeloMsgsWhatsapp' => $getModeloMsgsWhatsapp
+            'modeloMsgsWhatsapp' => $getModeloMsgsWhatsapp,
+            's3' => $s3
         ]); 
 
         //VIEW DA PAGINA

@@ -416,96 +416,113 @@ foreach ($consultasHoje as $c) {
                                     
                                     $idhash = $consulta['CON_DCHASH_CONFIRMACAO_PRESENCA'];
                                     $urlWhatsConfirmConsul = "https://app.smilecopilot.com/public/external_vw/cst_conf.php?id=$idhash";
+
+                                    $anemLink="";
+                                    if(!empty($consulta["ANR_DCCOD_AUTENTICACAO"])) {
+                                        $file = $consulta["TENANCY_ID"]."_".$consulta["ANR_DCCOD_AUTENTICACAO"].".pdf";
+                                        $TENANCY_ID = TENANCY_ID;
+                                        $result = json_decode($s3->getDownloadLink("anamneses/clinica_$TENANCY_ID/$file"), true);
+                                        $link = $result['link'] ?? '';
+                                        $anemLink = "href='{$link}' target='_blank' style='cursor: pointer;'";
+                                    }
+                                    
+                                    $anamneseDispEnv = empty($consulta["ANR_DCCOD_AUTENTICACAO"]) ? true : false;
                                 ?> 
-<tr 
-    data-consulta-id="<?= htmlspecialchars($consulta['CON_IDCONSULTA']) ?>" 
-    data-consulta-hash="<?= htmlspecialchars($consulta['CON_DCHASH_CONFIRMACAO_PRESENCA']); ?>"
->
-    <td>
-        <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CON_IDCONSULTA'])), ENT_QUOTES, 'UTF-8') ?>
-    </td>                          
+                            <tr 
+                                data-consulta-id="<?= htmlspecialchars($consulta['CON_IDCONSULTA']) ?>" 
+                                data-consulta-hash="<?= htmlspecialchars($consulta['CON_DCHASH_CONFIRMACAO_PRESENCA']); ?>"
+                            >
+                                <td>
+                                    <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CON_IDCONSULTA'])), ENT_QUOTES, 'UTF-8') ?>
+                                </td>                          
 
-    <td class="text-truncate" style="cursor: pointer; max-width: 180px;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-        <?= htmlspecialchars(ucwords(strtolower((string)$consulta['PAC_DCNOME'])), ENT_QUOTES, 'UTF-8') ?> <?= $showMaisInfo ?>
-    </td>
+                                <td class="text-truncate" style="cursor: pointer; max-width: 180px;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= htmlspecialchars(ucwords(strtolower((string)$consulta['PAC_DCNOME'])), ENT_QUOTES, 'UTF-8') ?> <?= $showMaisInfo ?>
+                                </td>
 
-    <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-        <span style="display:none;">
-            <?= date(
-                'Y-m-d H:i',
-                strtotime($dataConsulta . ' ' . str_replace(['h','ás'], ['',''], $consultaHoraIni))
-            ) ?>
-        </span>
-        <?= htmlspecialchars($dataConsulta, ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars($consultaHoraIni, ENT_QUOTES, 'UTF-8') ?> <?= \App\Core\Language::get('as'); ?> <?= htmlspecialchars($consultaHoraFim, ENT_QUOTES, 'UTF-8') ?>
-    </td>
-
-    <td class="text-truncate status" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-        <span class="badge badge-<?= $classeBadge; ?>-lighten">
-            <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CON_ENSTATUS'])), ENT_QUOTES, 'UTF-8') ?>
-        </span>
-    </td>
-
-    <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-        <?= htmlspecialchars((string)$consulta['PAC_DCTELEFONE'], ENT_QUOTES, 'UTF-8') ?>
-    </td>
-
-    <td class="text-truncate" style="cursor: pointer; max-width: 150px;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-        <?= htmlspecialchars(ucwords(strtolower((string)$consulta['DEN_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
-    </td>
-
-    <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-        <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CON_NMESPECIALIDADE'])), ENT_QUOTES, 'UTF-8') ?>
-    </td>
-
-    <td class="text-truncate" style="cursor: pointer; max-width: 150px;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
-        <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CNV_DCCONVENIO'])), ENT_QUOTES, 'UTF-8') ?>
-    </td>
-
-    <td class="table-action" style="width: 90px;">
-        <a href="/editarpaciente?id=<?= htmlspecialchars($consulta['PAC_IDPACIENTE']) ?>" class="action-icon" onclick="event.stopPropagation();"> 
-            <i class="mdi mdi-account-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i>
-        </a> 
-
-        <a href="javascript:void(0);" 
-           class="action-icon <?= $whatsStatus ?>" 
-           data-bs-toggle="modal" 
-           data-bs-target="#msg-modal"
-           data-nome="<?= htmlspecialchars($consulta['PAC_DCNOME']) ?>"
-           data-profissional="<?= htmlspecialchars($consulta['DEN_DCNOME']) ?>"
-           data-telefone="<?= htmlspecialchars($consulta['PAC_DCTELEFONE']) ?>"
-           data-data="<?= htmlspecialchars($dataConsulta) ?>"
-           data-dia="<?= htmlspecialchars($diaSemana) ?>"
-           data-hora="<?= htmlspecialchars($consultaHoraIni) ?>"
-           data-link="<?= htmlspecialchars($urlWhatsConfirmConsul) ?>">
-           <i class="mdi mdi-whatsapp" 
-               data-bs-toggle="popover" 
-               data-bs-trigger="hover" 
-               style="color: #25D366;"
-               data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>">
-           </i>
-        </a>                            
-
-        <a href="javascript:void(0);"  
-           class="action-icon"
-           data-id="<?= htmlspecialchars((string)$consulta['CON_IDCONSULTA'], ENT_QUOTES, 'UTF-8') ?>"    
-           data-dialogTitle="<?= \App\Core\Language::get('consultas_lista'); ?>"    
-           data-dialogMessage="<?= \App\Core\Language::get('tem_certeza_excluir_consulta'); ?> <?= htmlspecialchars((string)$consulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?>?"   
-           data-dialogUriToProcess="/deleteTaskProc"   
-           data-dialogUriToRedirect="/inicial"   
-           data-dialogConfirmButton="<?= \App\Core\Language::get('confirmar'); ?>"
-           data-dialogCancelButton="<?= \App\Core\Language::get('cancelar'); ?>" 
-           data-dialogErrorMessage="<?= \App\Core\Language::get('erro_ao_excluir'); ?>"
-           data-dialogErrorTitle="<?= \App\Core\Language::get('erro'); ?>"    
-           data-dialogCancelTitle="<?= \App\Core\Language::get('Cancelado'); ?>"                                                          
-           data-dialogCancelMessage="<?= \App\Core\Language::get('cancelado_nenhuma_alteracao'); ?>"     
-           data-dialogSuccessTitle="<?= \App\Core\Language::get('sucesso'); ?>"                                                             
-           data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
-           data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
-           onclick="event.stopPropagation(); confirmDeleteAttr(this);">
-           <i class="mdi mdi-delete" style="color: #f16a6aff;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_consulta'); ?>"></i>
-        </a>
-    </td>
-</tr>
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <span style="display:none;">
+                                        <?= date(
+                                            'Y-m-d H:i',
+                                            strtotime($dataConsulta . ' ' . str_replace(['h','ás'], ['',''], $consultaHoraIni))
+                                        ) ?>
+                                    </span>
+                                    <?= htmlspecialchars($dataConsulta, ENT_QUOTES, 'UTF-8') ?> <?= htmlspecialchars($consultaHoraIni, ENT_QUOTES, 'UTF-8') ?> <?= \App\Core\Language::get('as'); ?> <?= htmlspecialchars($consultaHoraFim, ENT_QUOTES, 'UTF-8') ?>
+                                </td>
+                                        
+                                <td class="text-truncate status" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <span class="badge badge-<?= $classeBadge; ?>-lighten">
+                                        <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CON_ENSTATUS'])), ENT_QUOTES, 'UTF-8') ?>
+                                    </span>
+                                </td>
+                                        
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= htmlspecialchars((string)$consulta['PAC_DCTELEFONE'], ENT_QUOTES, 'UTF-8') ?>
+                                </td>
+                                        
+                                <td class="text-truncate" style="cursor: pointer; max-width: 150px;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= htmlspecialchars(ucwords(strtolower((string)$consulta['DEN_DCNOME'])), ENT_QUOTES, 'UTF-8') ?>
+                                </td>
+                                        
+                                <td class="text-truncate" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CON_NMESPECIALIDADE'])), ENT_QUOTES, 'UTF-8') ?>
+                                </td>
+                                        
+                                <td class="text-truncate" style="cursor: pointer; max-width: 150px;" data-bs-toggle="modal" data-bs-target="#editarConsulta-modal">
+                                    <?= htmlspecialchars(ucwords(strtolower((string)$consulta['CNV_DCCONVENIO'])), ENT_QUOTES, 'UTF-8') ?>
+                                </td>
+                                        
+                                <td class="table-action" style="width: 90px;">
+                                    <a href="/editarpaciente?id=<?= htmlspecialchars($consulta['PAC_IDPACIENTE']) ?>" class="action-icon" onclick="event.stopPropagation();"> 
+                                        <i class="mdi mdi-account-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_paciente'); ?>"></i>
+                                    </a> 
+                                    <?php if ($anamneseDispEnv) : ?> 
+                                    <a <?= $anemLink ?> class="action-icon" style="cursor: default; opacity: 0.4;" onclick="event.stopPropagation();"> <i class="ri-file-list-3-line" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
+                                    <?php endif; ?>
+                                    <?php if (!$anamneseDispEnv) : ?>
+                                    <a <?= $anemLink ?> class="action-icon" onclick="event.stopPropagation();"> <i class="ri-file-list-3-line" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
+                                    <?php endif; ?>
+                                    
+                                    <a href="javascript:void(0);" 
+                                       class="action-icon <?= $whatsStatus ?>" 
+                                       data-bs-toggle="modal" 
+                                       data-bs-target="#msg-modal"
+                                       data-nome="<?= htmlspecialchars($consulta['PAC_DCNOME']) ?>"
+                                       data-profissional="<?= htmlspecialchars($consulta['DEN_DCNOME']) ?>"
+                                       data-telefone="<?= htmlspecialchars($consulta['PAC_DCTELEFONE']) ?>"
+                                       data-data="<?= htmlspecialchars($dataConsulta) ?>"
+                                       data-dia="<?= htmlspecialchars($diaSemana) ?>"
+                                       data-hora="<?= htmlspecialchars($consultaHoraIni) ?>"
+                                       data-link="<?= htmlspecialchars($urlWhatsConfirmConsul) ?>">
+                                       <i class="mdi mdi-whatsapp" 
+                                           data-bs-toggle="popover" 
+                                           data-bs-trigger="hover" 
+                                           style="color: #25D366;"
+                                           data-bs-content="<?= \App\Core\Language::get('pedir_confirmacao_whats_botao'); ?>">
+                                       </i>
+                                    </a>                            
+                                    
+                                    <a href="javascript:void(0);"  
+                                       class="action-icon"
+                                       data-id="<?= htmlspecialchars((string)$consulta['CON_IDCONSULTA'], ENT_QUOTES, 'UTF-8') ?>"    
+                                       data-dialogTitle="<?= \App\Core\Language::get('consultas_lista'); ?>"    
+                                       data-dialogMessage="<?= \App\Core\Language::get('tem_certeza_excluir_consulta'); ?> <?= htmlspecialchars((string)$consulta['PAC_DCNOME'], ENT_QUOTES, 'UTF-8') ?>?"   
+                                       data-dialogUriToProcess="/deleteTaskProc"   
+                                       data-dialogUriToRedirect="/inicial"   
+                                       data-dialogConfirmButton="<?= \App\Core\Language::get('confirmar'); ?>"
+                                       data-dialogCancelButton="<?= \App\Core\Language::get('cancelar'); ?>" 
+                                       data-dialogErrorMessage="<?= \App\Core\Language::get('erro_ao_excluir'); ?>"
+                                       data-dialogErrorTitle="<?= \App\Core\Language::get('erro'); ?>"    
+                                       data-dialogCancelTitle="<?= \App\Core\Language::get('Cancelado'); ?>"                                                          
+                                       data-dialogCancelMessage="<?= \App\Core\Language::get('cancelado_nenhuma_alteracao'); ?>"     
+                                       data-dialogSuccessTitle="<?= \App\Core\Language::get('sucesso'); ?>"                                                             
+                                       data-dialogProcessTitle="<?= \App\Core\Language::get('aguarde'); ?>" 
+                                       data-dialogProcessMessage="<?= \App\Core\Language::get('processando_solicitacao'); ?>"                                                             
+                                       onclick="event.stopPropagation(); confirmDeleteAttr(this);">
+                                       <i class="mdi mdi-delete" style="color: #f16a6aff;" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('excluir_consulta'); ?>"></i>
+                                    </a>
+                                </td>
+                            </tr>
 
                             <?php endforeach; ?>
                         </tbody>
@@ -1044,12 +1061,9 @@ foreach ($consultasHoje as $c) {
         }
     }
 
-    // 🔹 Inicializa o polling
     buscarEventos();
 
-    // 🔔 Função para exibir alerta bonito e tocar som
     function mostrarAlerta(mensagem) {
-        // alerta visual
         const alerta = document.createElement('div');
         alerta.className = 'alert alert-success position-fixed top-0 start-50 translate-middle-x mt-3';
         alerta.style.zIndex = '9999';
@@ -1057,7 +1071,6 @@ foreach ($consultasHoje as $c) {
         document.body.appendChild(alerta);
         setTimeout(() => alerta.remove(), 6000);
 
-        // 🔊 tocar som
         const audio = new Audio('/public/assets/som/notificacao.mp3'); // ajuste o caminho do som
         audio.play().catch(err => console.warn('Não foi possível tocar o som:', err));
     }
@@ -1065,6 +1078,7 @@ foreach ($consultasHoje as $c) {
     });
 </script>
 <!-- stream eventos consultas -->
+ 
 
 <?php if ($lang  === "pt" || empty($lang)): ?>
     <script src="<?= ASSETS_PATH ?>utils/datatable-Init-ptbr.js"></script>

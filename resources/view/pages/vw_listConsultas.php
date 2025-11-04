@@ -259,6 +259,17 @@
                                                         $idhash = $listaConsulta['CON_DCHASH_CONFIRMACAO_PRESENCA'];
                                                         $urlWhatsConfirmConsul = "https://app.smilecopilot.com/public/external_vw/cst_conf.php?id=$idhash";
 
+                                                        $anemLink="";
+                                                        if(!empty($listaConsulta["ANR_DCCOD_AUTENTICACAO"])) {
+                                                            $file = $listaConsulta["TENANCY_ID"]."_".$listaConsulta["ANR_DCCOD_AUTENTICACAO"].".pdf";
+                                                            $TENANCY_ID = TENANCY_ID;
+                                                            $result = json_decode($s3->getDownloadLink("anamneses/clinica_$TENANCY_ID/$file"), true);
+                                                            $link = $result['link'] ?? '';
+                                                            $anemLink = "href='{$link}' target='_blank' style='cursor: pointer;'";
+                                                        }
+
+                                                        $anamneseDispEnv = empty($listaConsulta["ANR_DCCOD_AUTENTICACAO"]) ? true : false;
+
                                                     ?>
                                                     <tr data-consulta-id="<?= htmlspecialchars($listaConsulta['CON_IDCONSULTA']) ?>" 
                                                         data-consulta-hash="<?= htmlspecialchars($listaConsulta['CON_DCHASH_CONFIRMACAO_PRESENCA']); ?>"
@@ -328,9 +339,12 @@
                                                                 </i>
                                                             </a>
                                                                 
-                                                            <a href="/anamnese" class="action-icon" onclick="event.stopPropagation();"> 
-                                                                <i class="mdi mdi-clipboard-list-outline" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i>
-                                                            </a> 
+                                                            <?php if ($anamneseDispEnv) : ?> 
+                                                            <a <?= $anemLink ?> class="action-icon" style="cursor: default; opacity: 0.4;" onclick="event.stopPropagation();"> <i class="ri-file-list-3-line" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
+                                                            <?php endif; ?>
+                                                            <?php if (!$anamneseDispEnv) : ?>
+                                                            <a <?= $anemLink ?> class="action-icon" onclick="event.stopPropagation();"> <i class="ri-file-list-3-line" data-bs-toggle="popover" data-bs-trigger="hover" data-bs-content="<?= \App\Core\Language::get('ver_anamneses_paciente'); ?>"></i></a> 
+                                                            <?php endif; ?>
                                                                 
                                                             <a href="javascript:void(0);"  
                                                                 class="action-icon"
@@ -371,7 +385,23 @@
     </div><!-- end row -->
 </div>
 <br>
+<button onclick="enviarWhatsApp('João Silva', '5511982734350', '10/11 14:00', 'Consulta', 'Trazer exames antigos')">
+  Enviar WhatsApp
+</button>
 
+<script>
+function enviarWhatsApp(nome, telefone, data, servico, notas) {
+  window.postMessage({
+    type: 'WPP_SHOW_SIDEBAR',
+    name: nome,
+    phone: telefone,
+    appt: data,
+    service: servico,
+    notes: notas,
+    message: `Olá ${nome}, sua consulta está confirmada para ${data}.`
+  }, '*');
+}
+</script>
 <!-- msg modal -->
 <div id="msg-modal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-right"> <!-- largura maior -->

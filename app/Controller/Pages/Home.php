@@ -8,6 +8,7 @@ use \App\Model\Entity\Organization;
 use \App\Model\Entity\Consultas;
 use \App\Model\Entity\Whatsapp;
 use \App\Model\Entity\Paciente;
+use \App\Controller\Pages\S3Controller;
 
 class Home extends Page{
     /**
@@ -21,6 +22,7 @@ class Home extends Page{
         $objConsultas = new Consultas();
         $objWhatsapp = new Whatsapp();
         $objPaciente= new Paciente();
+        $s3 = new S3Controller();
 
         $consultasHoje = $objConsultas->getConsultasHoje(TENANCY_ID);
         $getModeloMsgsWhatsapp = $objWhatsapp->getModelosMsgWhatsapp(TENANCY_ID); 
@@ -89,7 +91,8 @@ class Home extends Page{
             'site' => $objOrganization->site,
             'consultasHoje' => $consultasHoje,
             'componentsScriptsHeader' => $componentsScriptsHeader,
-            'componentsScriptsFooter' => $componentsScriptsFooter
+            'componentsScriptsFooter' => $componentsScriptsFooter,
+            's3' => $s3
         ]); 
 
         //VIEW DA PAGINA
