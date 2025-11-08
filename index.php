@@ -3,7 +3,8 @@
 require __DIR__.'/vendor/autoload.php';
 
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__); //para ler o .env
+//$dotenv = Dotenv\Dotenv::createImmutable(__DIR__); //para ler o .env
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // Tempo de vida da sessão e do JWT (180 dias)
