@@ -98,7 +98,7 @@ $obRouter->get('/cadmodeloanamnese',[
     function(){
         return new Response(200,CadModeloAnamnese::getModeloAnamnese());
     }
-]);
+]); 
 
 //ROTA PROCESSA INSERT MODELO ANAMNESE
 $obRouter->post('/cadmodeloanamneseProc', [
